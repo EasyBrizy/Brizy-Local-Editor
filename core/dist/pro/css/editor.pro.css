@@ -402,3 +402,4 @@ input.brz-mm-check:checked:before{opacity:1}
 .brz-ed .brz-mm-menu__item-dropdown .brz-mega-menu__mmenu,.brz-ed .brz-mm-menu__item-empty .brz-mm-btn,.brz-ed .brz-mm-menu__item-mega-menu .brz-mm-menu__sub-menu{display:none}
 .brz-ed.brz-ed--desktop .brz-mm-menu--desktop{position:fixed}
 .brz-ed.brz-ed--tablet .brz-mm-menu--tablet{position:fixed}
+.brz-ed .brz-mega-menu__portal--mobile,.brz-ed .brz-mega-menu__portal--tablet{padding-left:15px!important;padding-right:15px!important}
