@@ -1011,6 +1011,18 @@
             target: "@builder",
             data: JSON.stringify({
               type: "update",
+              data: {
+                configData: {
+                  urls: {
+                    assets: "./core/dist/free",
+                  },
+                  pro: {
+                    urls: {
+                      assets: "./core/dist/pro",
+                    },
+                  },
+                },
+              },
             }),
           });
         });
