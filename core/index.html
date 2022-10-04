@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="./dist/free/editor/css/editor.css" rel="stylesheet" />
+    <link href="/core/dist/free/editor/css/editor.css" rel="stylesheet" />
     <title>Brizy</title>
 
     <script>
@@ -14,10 +14,10 @@
         page: { provider: "collections" },
         user: { role: "admin", isApproved: true },
         urls: {
-          assets: "./dist/free",
+          assets: "/core/dist/free",
           image: "https://beta1.brizy.cloud/media",
-          worker: "./dist/free/editor/js",
-          templateFonts: "./dist/free/editor/icons",
+          worker: "/core/dist/free/editor/js",
+          templateFonts: "/core/dist/free/editor/icons",
         },
         editorVersion: "no-verify",
         menuData: [],
@@ -64,6 +64,11 @@
                 break;
               }
               case "update": {
+                const configData =
+                  action.data && "configData" in action.data
+                    ? action.data.configData
+                    : {};
+
                 window.__VISUAL_CONFIG__.onUpdate((res) => {
                   event.source.postMessage({
                     target: "@builder",
@@ -72,7 +77,7 @@
                       payload: res,
                     }),
                   });
-                }, action.data.configData);
+                }, configData);
                 break;
               }
               default: {
@@ -97,8 +102,8 @@
         srcdoc="
           <html>
           <head>
-              <link href='./dist/free/editor/css/editor.css' rel='stylesheet'>
-              <link href='./dist/pro/css/editor.pro.css' rel='stylesheet'>
+              <link href='/core/dist/free/editor/css/editor.css' rel='stylesheet'>
+              <link href='/core/dist/pro/css/editor.pro.css' rel='stylesheet'>
               <script>
                   window.__VISUAL_CONFIG__ = window.parent.__VISUAL_CONFIG__;
               </script>
@@ -107,9 +112,9 @@
               <div id='brz-ed-root'></div>
               <div id='brz-popups'></div>
 
-              <script src='./dist/free/editor/js/editor.vendor.js'></script>
-              <script src='./dist/free/editor/js/editor.js'></script>
-              <script src='./dist/pro/js/editor.pro.js'></script>
+              <script src='/core/dist/free/editor/js/editor.vendor.js'></script>
+              <script src='/core/dist/free/editor/js/editor.js'></script>
+              <script src='/core/dist/pro/js/editor.pro.js'></script>
           </body>
           </html>
         "
