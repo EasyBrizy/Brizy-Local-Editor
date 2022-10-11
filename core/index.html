@@ -16,7 +16,7 @@
         urls: {
           pagePreview: "/preview",
           assets: "/core/dist/free",
-          image: "https://beta1.brizy.cloud/media",
+          getMedia: "https://beta1.brizy.cloud/media",
           worker: "/core/dist/free/editor/js",
           templateFonts: "/core/dist/free/editor/icons",
         },
@@ -28,9 +28,6 @@
           urls: {
             assets: "/core/dist/pro",
           },
-        },
-        applications: {
-          form: "/",
         },
       };
     </script>
@@ -50,6 +47,16 @@
 
             switch (action.type) {
               case "initPage": {
+                const configData =
+                  "configData" in action.data ? action.data.configData : {};
+                window.__VISUAL_CONFIG__.urls = {
+                  ...window.__VISUAL_CONFIG__.urls,
+                  ...configData.urls,
+                };
+                window.__VISUAL_CONFIG__.applications = {
+                  ...window.__VISUAL_CONFIG__.applications,
+                  ...configData.applications,
+                };
                 window.__VISUAL_CONFIG__.pageData = action.data.pageData;
                 window.__VISUAL_CONFIG__.projectData = {
                   dataVersion: 1,

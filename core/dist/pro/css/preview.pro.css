@@ -9262,6 +9262,9 @@ body.brz::before, body.brz::after {
   margin-top: 0 !important;
   padding: 0 !important;
 }
+.brz .brz-twitter.brz-twitter__embed {
+  overflow: hidden;
+}
 .brz .brz-animated {
   opacity: 0;
   -webkit-animation-fill-mode: backwards;
