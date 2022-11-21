@@ -5,7 +5,7 @@
 
 ## Installation
 
-Run `npm intall`.
+Run `npm intall`
 
 ## Usage
 See docs inside packages

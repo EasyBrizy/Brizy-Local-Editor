@@ -29,7 +29,8 @@ import "@builder/core";
 ```shell
 
 <div>
-  <iframe id="editor"></iframe>
+  # SERVER URLS when start the server via `npm run server`
+  <iframe id="editor" src="{SERVER URLS}"></iframe>
 </div>
 
 <script src="build.js"></script>
