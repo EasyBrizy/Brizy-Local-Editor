@@ -6,26 +6,29 @@
   "module": "es/index.js",
   "types": "es/index.d.ts",
   "scripts": {
-    "start": "tsc --watch",
+    "start": "concurrently --kill-others \"npm tsc --watch\" \"npm run server\"",
     "build": "npm run clean && npm run build:es && npm run build:lib",
     "build:es": "NODE_ENV=production tsc",
     "build:lib": "NODE_ENV=production npm run build:es -- --module commonjs --outDir lib",
-    "build:dist": "NODE_ENV=production gulp build",
-    "clean": "rimraf es/ lib/ dist/"
+    "server": "http-server public",
+    "clean": "rimraf es/ lib/"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "prettier": "^2.7.1",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.9.3"
-  },
+  "author": "brizy",
+  "license": "MIT",
   "files": [
     "package.json",
     "package-lock.json",
     "es",
-    "lib",
-    "dist"
-  ]
+    "lib"
+  ],
+  "dependencies": {
+    "typescript": "^4.9.3"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "http-server": "^14.1.1",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2"
+  }
 }

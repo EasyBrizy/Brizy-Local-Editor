@@ -1,5 +1,9 @@
-export interface API {
-  update: VoidFunction;
+export interface Output {
+  html: string;
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+  scripts: Array<string>;
+  styles: Array<string>;
 }
 
 export interface Config {
@@ -9,10 +13,27 @@ export interface Config {
     getMedia: string;
     setMedia: string;
     setLeads: string;
-    editorAssets: string;
   };
+  onSave?: (data: Output) => void;
+}
+
+export interface API {
+  save: VoidFunction;
 }
 
 type CB = (api: API) => void;
 
-export type Builder = (el: HTMLElement, config: Config, cb: CB) => void;
+export enum Target {
+  builder = "@builder",
+}
+
+export type ActionResolve = {
+  target: Target;
+  data: string;
+};
+
+export type Init = (el: HTMLIFrameElement, config: Config, cb: CB) => void;
+
+export type Builder = {
+  init: Init;
+};
