@@ -6,7 +6,7 @@
   "module": "es/index.js",
   "types": "es/index.d.ts",
   "scripts": {
-    "start": "concurrently --kill-others \"npm tsc --watch\" \"npm run server\"",
+    "start": "concurrently --kill-others \"npx tsc --watch\" \"npm run server\"",
     "build": "npm run clean && npm run build:es && npm run build:lib",
     "build:es": "NODE_ENV=production tsc",
     "build:lib": "NODE_ENV=production npm run build:es -- --module commonjs --outDir lib",

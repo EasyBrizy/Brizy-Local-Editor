@@ -1685,8 +1685,6 @@ input.brz-mm-toggle {
 }
 input.brz-mm-toggle:before {
   background: #f3f3f3;
-}
-input.brz-mm-toggle:before {
   content: "";
   display: block;
   width: 32px;
@@ -2024,9 +2022,6 @@ input.brz-mm-check:checked:before {
 .brz-mm-menu_position-top {
   -webkit-transform: translate3d(0, -100%, 0);
           transform: translate3d(0, -100%, 0);
-}
-
-.brz-mm-menu_position-top {
   height: 80vh;
   min-height: 140px;
   max-height: 880px;
@@ -2036,9 +2031,6 @@ input.brz-mm-check:checked:before {
   -webkit-transform: translate3d(0, 100%, 0);
           transform: translate3d(0, 100%, 0);
   top: auto;
-}
-
-.brz-mm-menu_position-bottom {
   height: 80vh;
   min-height: 140px;
   max-height: 880px;
