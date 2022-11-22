@@ -1,0 +1,28 @@
+{
+  "name": "@builder/demo",
+  "version": "1.0.0",
+  "description": "Builder Demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently --kill-others \"npm run build -- --watch\" \"npm run server\"",
+    "build": "esbuild src/index.ts --bundle --outfile=public/build/index.js",
+    "server": "http-server public",
+    "tsc": "tsc --skipLibCheck --noEmit"
+  },
+  "keywords": [
+    "demo"
+  ],
+  "author": "brizy",
+  "license": "MIT",
+  "dependencies": {
+    "@builder/core": "*",
+    "typescript": "^4.9.3"
+  },
+  "devDependencies": {
+    "concurrently": "^7.5.0",
+    "esbuild": "^0.15.14",
+    "http-server": "^14.1.1",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2"
+  }
+}

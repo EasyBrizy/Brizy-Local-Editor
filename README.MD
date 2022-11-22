@@ -1,14 +1,11 @@
-#### Running on-demand with node:
+## Requirements
 
-Using `http-server` you can run the editor:
+- node >= 16
+- npm >= 7
 
-```shell
-npx http-server ./
-```
+## Installation
 
-#### Running on-demand with docker:
-```shell
-docker run --rm -v "$PWD":/usr/local/apache2/htdocs/ -p 8080:80  httpd:2.4
-```
+Run `npm intall`
 
-*Now you can visit the builder on http://localhost:8080 and http://localhost:8080/preview for compiled page*
+## Usage
+See docs inside packages

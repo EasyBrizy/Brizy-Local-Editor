@@ -4,8 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="/core/dist/free/editor/css/editor.css" rel="stylesheet" />
-    <title>Brizy</title>
+    <link href="dist/free/editor/css/editor.css" rel="stylesheet" />
 
     <script>
       window.__VISUAL_CONFIG__ = {
@@ -15,10 +14,10 @@
         user: { role: "admin", isApproved: true },
         urls: {
           pagePreview: "/preview",
-          assets: "/core/dist/free",
+          assets: "dist/free",
           getMedia: "https://beta1.brizy.cloud/media",
-          worker: "/core/dist/free/editor/js",
-          templateFonts: "/core/dist/free/editor/icons",
+          worker: "dist/free/editor/js",
+          templateFonts: "dist/free/editor/icons",
         },
         editorVersion: "no-verify",
         menuData: [],
@@ -26,7 +25,7 @@
         cms: {},
         pro: {
           urls: {
-            assets: "/core/dist/pro",
+            assets: "dist/pro",
           },
         },
       };
@@ -47,8 +46,7 @@
 
             switch (action.type) {
               case "initPage": {
-                const configData =
-                  "configData" in action.data ? action.data.configData : {};
+                const configData = "configData" in action.data ? action.data.configData : {};
                 window.__VISUAL_CONFIG__.urls = {
                   ...window.__VISUAL_CONFIG__.urls,
                   ...configData.urls,
@@ -72,19 +70,19 @@
                 break;
               }
               case "update": {
-                const configData =
-                  action.data && "configData" in action.data
-                    ? action.data.configData
-                    : {};
+                const configData = action.data && "configData" in action.data ? action.data.configData : {};
 
                 window.__VISUAL_CONFIG__.onUpdate((res) => {
-                  event.source.postMessage({
-                    target: "@builder",
-                    data: JSON.stringify({
-                      type: "update",
-                      payload: res,
-                    }),
-                  });
+                  event.source.postMessage(
+                    {
+                      target: "@builder",
+                      data: JSON.stringify({
+                        type: "save",
+                        payload: res,
+                      }),
+                    },
+                    event.origin,
+                  );
                 }, configData);
                 break;
               }
@@ -93,10 +91,10 @@
               }
             }
           } catch (e) {
-            console.error("Invalid JSON");
+            console.error("Invalid JSON", e);
           }
         },
-        false
+        false,
       );
     </script>
 
@@ -110,8 +108,8 @@
         srcdoc="
           <html>
           <head>
-              <link href='/core/dist/free/editor/css/editor.css' rel='stylesheet'>
-              <link href='/core/dist/pro/css/editor.pro.css' rel='stylesheet'>
+              <link href='dist/free/editor/css/editor.css' rel='stylesheet'>
+              <link href='dist/pro/css/editor.pro.css' rel='stylesheet'>
               <script>
                   window.__VISUAL_CONFIG__ = window.parent.__VISUAL_CONFIG__;
               </script>
@@ -120,9 +118,9 @@
               <div id='brz-ed-root'></div>
               <div id='brz-popups'></div>
 
-              <script src='/core/dist/free/editor/js/editor.vendor.js'></script>
-              <script src='/core/dist/free/editor/js/editor.js'></script>
-              <script src='/core/dist/pro/js/editor.pro.js'></script>
+              <script src='dist/free/editor/js/editor.vendor.js'></script>
+              <script src='dist/free/editor/js/editor.js'></script>
+              <script src='dist/pro/js/editor.pro.js'></script>
           </body>
           </html>
         "
