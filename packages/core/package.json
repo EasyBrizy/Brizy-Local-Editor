@@ -1,0 +1,35 @@
+{
+  "name": "@builder/core",
+  "version": "1.0.0",
+  "description": "Builder core",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "scripts": {
+    "start": "concurrently --kill-others \"npm tsc --watch\" \"npm run server\"",
+    "build": "npm run clean && npm run build:es && npm run build:lib",
+    "build:es": "NODE_ENV=production tsc",
+    "build:lib": "NODE_ENV=production npm run build:es -- --module commonjs --outDir lib",
+    "server": "http-server public",
+    "clean": "rimraf es/ lib/",
+    "tsc": "tsc --skipLibCheck --noEmit"
+  },
+  "keywords": [],
+  "author": "brizy",
+  "license": "MIT",
+  "files": [
+    "package.json",
+    "package-lock.json",
+    "es",
+    "lib"
+  ],
+  "dependencies": {
+    "typescript": "^4.9.3"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "http-server": "^14.1.1",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2"
+  }
+}
