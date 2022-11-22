@@ -6,7 +6,8 @@
   "scripts": {
     "start": "concurrently --kill-others \"npm run build -- --watch\" \"npm run server\"",
     "build": "esbuild src/index.ts --bundle --outfile=public/build/index.js",
-    "server": "http-server public"
+    "server": "http-server public",
+    "tsc": "tsc --skipLibCheck --noEmit"
   },
   "keywords": [
     "demo"

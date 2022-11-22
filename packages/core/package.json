@@ -11,7 +11,8 @@
     "build:es": "NODE_ENV=production tsc",
     "build:lib": "NODE_ENV=production npm run build:es -- --module commonjs --outDir lib",
     "server": "http-server public",
-    "clean": "rimraf es/ lib/"
+    "clean": "rimraf es/ lib/",
+    "tsc": "tsc --skipLibCheck --noEmit"
   },
   "keywords": [],
   "author": "brizy",

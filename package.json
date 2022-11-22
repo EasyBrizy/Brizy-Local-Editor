@@ -2,7 +2,10 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "postinstall": "lerna bootstrap"
+    "postinstall": "lerna bootstrap",
+    "tsc": "npm run tsc:core && npm run tsc:demo",
+    "tsc:core": "lerna --scope @builder/core run tsc --stream",
+    "tsc:demo": "lerna --scope @builder/demo run tsc --stream"
   },
   "workspaces": [
     "packages/*"
