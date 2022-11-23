@@ -16,7 +16,8 @@
     "lib": ["dom", "es2017"],
     "skipLibCheck": true,
     "outDir": "public/es",
-    "declaration": true
+    "declaration": true,
+    "module": "ESNext"
   },
   "include": ["src"],
   "exclude": ["node_modules", "public"]

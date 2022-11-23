@@ -62,7 +62,6 @@
         id="editor"
         width="100%"
         height="100%"
-        src="http://localhost:8080"
       ></iframe>
 
       <div class="container__output">
@@ -1000,11 +999,10 @@
             },
           },
         },
-        urls: {
-          getMedia: "https://beta1.brizy.cloud/media",
-          setMedia: "",
-          setLeads: "",
-        },
+        getMedia: "https://beta1.brizy.cloud/media",
+        setMedia: "https://reqbin.com/sample/post/json",
+        setLeads: "https://reqbin.com/sample/post/json",
+
         onSave(data) {
           const output = document.querySelector("#output");
 

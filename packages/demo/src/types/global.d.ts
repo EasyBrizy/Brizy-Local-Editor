@@ -4,4 +4,11 @@ declare global {
   interface Window {
     Builder: Builder;
   }
+
+  interface ImportMeta {
+    env: {
+      NODE_ENV: "development" | "production";
+      CORE_HOST: string;
+    };
+  }
 }
