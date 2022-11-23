@@ -9,11 +9,14 @@ export interface Output {
 export interface Config {
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
-  urls: {
-    getMedia: string;
-    setMedia: string;
-    setLeads: string;
-  };
+
+  // urls
+  getMedia: string;
+  setMedia: string;
+  setLeads: string;
+  assets?: string;
+
+  // events
   onSave?: (data: Output) => void;
 }
 
