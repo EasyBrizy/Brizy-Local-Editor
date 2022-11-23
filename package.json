@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
+    "build": "npm run build:core && npm run build:demo",
     "build:core": "lerna --scope @builder/core run build",
     "build:demo": "lerna --scope @builder/demo run build",
     "tsc": "npm run tsc:core && npm run tsc:demo",
