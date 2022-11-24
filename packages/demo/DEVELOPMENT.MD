@@ -32,13 +32,7 @@ npm start
 
 ### After that build and start demo dev server
 1. Go to packages/demo
-2. Build package
-
-```shell
-npm run build
-```
-
-3. Start dev server
+2. Start dev server
 ```shell
 npm run server
 ```
