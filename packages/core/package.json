@@ -12,7 +12,7 @@
     "build:es": "tsc",
     "build:lib": "node bin/build.js",
     "server": "POST=8080 http-server public",
-    "clean": "rimraf public/es/ public/lib/ public/index.js",
+    "clean": "rimraf public/es/ public/lib/ public/index.js public/index.js.map",
     "tsc": "tsc --skipLibCheck --noEmit"
   },
   "keywords": [],
