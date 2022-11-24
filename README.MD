@@ -8,4 +8,4 @@
 Run `npm intall`
 
 ## Usage
-See docs inside packages
+See docs inside packages++
