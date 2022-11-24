@@ -59,15 +59,20 @@ import "@builder/core";
 
 Config can be passed object when you initialize builder from script.
 
+| Name        | Description                                            |
+|:------------|:-------------------------------------------------------|
+| pageData    | (object) page JSON data structure of elements          |
+| projectData | (object) project JSON data Global Styles, Global Fonts |
+| getMedia    | (string) where to GET image by UID                     |
+| setMedia    | (string) where to POST image                           |
+| setLeads    | (string) where to send forms leads                     |
+
+### Config Events
+
+Config can be passed object when you initialize builder from script.
+
 | Name          | Description                                            |
 |:--------------|:-------------------------------------------------------|
-| pageData      | (object) page JSON data structure of elements          |
-| projectData   | (object) project JSON data Global Styles, Global Fonts |
-| urls          | (object)                                               |
-| urls.getMedia | (string) where to GET image by UID                     |
-| urls.setMedia | (string) where to POST image                           |
-| urls.setLeads | (string) where to send forms leads                     |
-| Events        |                                                        |
 | onSave        | (optional) Called when builder are saved               |
 
-See more details in TS [see below](https://github.com/bagrinsergiu/demo-editor-partners/packages/core/src/types/types.ts)
+See more details in TS [see below](https://github.com/bagrinsergiu/demo-editor-partners/blob/master/packages/core/src/types/types.ts)

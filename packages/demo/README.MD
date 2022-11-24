@@ -13,9 +13,6 @@ Run `npm intall` inside root folder.
 # Build and start the server
 npm start
 
-# Only build
-npm run build
-
 # Only server
 npm run server
 ```

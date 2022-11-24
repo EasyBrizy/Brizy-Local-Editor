@@ -20,7 +20,7 @@
         justify-content: center;
         flex-direction: column;
       }
-      .editor-iframe {
+      .container__editor {
         width: 80%;
         height: 80vh;
         border: 4px solid #141923;
@@ -57,13 +57,7 @@
   </head>
   <body>
     <div class="container">
-      <iframe
-        class="editor-iframe"
-        id="editor"
-        width="100%"
-        height="100%"
-        src="http://localhost:8080"
-      ></iframe>
+      <div id="editor" class="container__editor"></div>
 
       <div class="container__output">
         <button class="btn" id="update">Update</button>
@@ -71,7 +65,7 @@
       </div>
     </div>
 
-    <script src="build/index.js"></script>
+    <script src="http://localhost:8080/index.js"></script>
 
     <script>
       const config = {
@@ -1000,11 +994,11 @@
             },
           },
         },
-        urls: {
-          getMedia: "https://beta1.brizy.cloud/media",
-          setMedia: "",
-          setLeads: "",
-        },
+        getMedia: "https://beta1.brizy.cloud/media",
+        setMedia: "https://reqbin.com/sample/post/json",
+        setLeads: "https://reqbin.com/sample/post/json",
+        pagePreview: "http://localhost:8080/preview",
+
         onSave(data) {
           const output = document.querySelector("#output");
 
@@ -1013,14 +1007,14 @@
           }
         },
       };
-      const iframe = document.querySelector("#editor");
+      const editor = document.querySelector("#editor");
       const update = document.querySelector("#update");
 
-      if (iframe) {
+      if (editor) {
         const Builder = window.Builder;
         let builderAPI;
 
-        Builder.init(iframe, config, (api) => {
+        Builder.init(editor, config, (api) => {
           builderAPI = api;
         });
 
