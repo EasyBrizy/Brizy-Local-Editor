@@ -9,11 +9,15 @@ export interface Output {
 export interface Config {
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
-  urls: {
-    getMedia: string;
-    setMedia: string;
-    setLeads: string;
-  };
+
+  // urls
+  getMedia: string;
+  setMedia: string;
+  setLeads: string;
+  assets?: string;
+  pagePreview?: string;
+
+  // events
   onSave?: (data: Output) => void;
 }
 
@@ -32,7 +36,7 @@ export type ActionResolve = {
   data: string;
 };
 
-export type Init = (el: HTMLIFrameElement, config: Config, cb: CB) => void;
+export type Init = (el: HTMLElement, config: Config, cb: CB) => void;
 
 export type Builder = {
   init: Init;

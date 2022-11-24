@@ -1,3 +1,7 @@
 /node_modules/
-/es/
-/lib/
+**/es/
+**/lib/
+/public/
+!/public/dist
+!/public/index.html
+.env

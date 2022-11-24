@@ -6,13 +6,19 @@ const actions = {
   save: save,
 };
 
-export const Core: Init = (iframe, config, cb) => {
-  if (!(iframe instanceof HTMLIFrameElement)) {
-    console.error("The element must be a valid iframe");
+export const Core: Init = (container, config, cb) => {
+  if (!(container instanceof HTMLElement)) {
+    console.error("The element must be a valid HTMLElement");
     return;
   }
 
-  const _window = iframe.ownerDocument.defaultView ?? window;
+  const _window = container.ownerDocument.defaultView ?? window;
+  const iframe = document.createElement("iframe");
+
+  iframe.setAttribute("src", import.meta.env.PUBLIC_HOST);
+  iframe.width = "100%";
+  iframe.height = "100%";
+  iframe.frameBorder = "0";
 
   iframe.addEventListener("load", (e) => {
     const iframeWindow = iframe.contentWindow;
@@ -60,4 +66,6 @@ export const Core: Init = (iframe, config, cb) => {
 
     cb(api);
   });
+
+  container.appendChild(iframe);
 };

@@ -7,9 +7,10 @@ export const init = (config: Config): ActionResolve => ({
     data: {
       pageData: config.pageData,
       projectData: config.projectData,
-      configData: {
-        urls: config.urls,
-      },
+      getMedia: config.getMedia,
+      setMedia: config.setMedia,
+      setLeads: config.setLeads,
+      pagePreview: config.pagePreview,
     },
   }),
 });

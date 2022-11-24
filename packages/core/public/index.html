@@ -7,17 +7,21 @@
     <link href="dist/free/editor/css/editor.css" rel="stylesheet" />
 
     <script>
+      const origin = window.location.origin;
       window.__VISUAL_CONFIG__ = {
         project: { id: 1 },
         mode: "page",
         page: { provider: "collections" },
         user: { role: "admin", isApproved: true },
         urls: {
-          pagePreview: "/preview",
-          assets: "dist/free",
-          getMedia: "https://beta1.brizy.cloud/media",
-          worker: "dist/free/editor/js",
-          templateFonts: "dist/free/editor/icons",
+          assets: origin + "/dist/free",
+          worker: origin + "/dist/free/editor/js",
+          templateFonts: origin + "/dist/free/editor/icons",
+          api2: {
+            getMedia: "",
+            setMedia: "",
+            setLeads: "",
+          },
         },
         editorVersion: "no-verify",
         menuData: [],
@@ -25,7 +29,7 @@
         cms: {},
         pro: {
           urls: {
-            assets: "dist/pro",
+            assets: origin + "/dist/pro",
           },
         },
       };
@@ -46,14 +50,33 @@
 
             switch (action.type) {
               case "initPage": {
-                const configData = "configData" in action.data ? action.data.configData : {};
+                const urls = window.__VISUAL_CONFIG__.urls;
+                const pro = window.__VISUAL_CONFIG__.pro;
+                const configData = action.data ? action.data : {};
+                const getMedia = configData.getMedia ?? urls.api2.getMedia;
+                const setMedia = configData.setMedia ?? urls.api2.setMedia;
+                const setLeads = configData.setLeads ?? urls.api2.setLeads;
+                const configAssets = configData.assets;
+                const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
+                const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
+
                 window.__VISUAL_CONFIG__.urls = {
-                  ...window.__VISUAL_CONFIG__.urls,
-                  ...configData.urls,
+                  ...urls,
+                  assets: freeAssets,
+                  pagePreview: configData.pagePreview,
+                  api2: {
+                    ...urls.api2,
+                    getMedia,
+                    setMedia,
+                    setLeads,
+                  },
                 };
-                window.__VISUAL_CONFIG__.applications = {
-                  ...window.__VISUAL_CONFIG__.applications,
-                  ...configData.applications,
+                window.__VISUAL_CONFIG__.pro = {
+                  ...pro,
+                  urls: {
+                    ...pro.urls,
+                    assets: proAssets,
+                  },
                 };
                 window.__VISUAL_CONFIG__.pageData = action.data.pageData;
                 window.__VISUAL_CONFIG__.projectData = {
@@ -69,8 +92,8 @@
                 }
                 break;
               }
-              case "update": {
-                const configData = action.data && "configData" in action.data ? action.data.configData : {};
+              case "save": {
+                const configData = action.data && "configData" in action.data ? action.data : {};
 
                 window.__VISUAL_CONFIG__.onUpdate((res) => {
                   event.source.postMessage(
