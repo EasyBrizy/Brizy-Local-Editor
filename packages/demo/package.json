@@ -2,28 +2,17 @@
   "name": "@builder/demo",
   "version": "1.0.0",
   "description": "Builder Demo",
-  "main": "index.js",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run build -- --watch\" \"npm run server\"",
-    "build": "node bin/build.js",
-    "server": "http-server public",
-    "tsc": "tsc --skipLibCheck --noEmit"
+    "start": "npm run server",
+    "server": "http-server public"
   },
   "keywords": [
     "demo"
   ],
   "author": "brizy",
   "license": "MIT",
-  "dependencies": {
-    "@builder/core": "*",
-    "typescript": "^4.9.3"
-  },
   "devDependencies": {
-    "concurrently": "^7.5.0",
-    "dotenv": "^16.0.3",
-    "esbuild": "^0.15.14",
     "http-server": "^14.1.1",
-    "prettier": "^2.7.1",
-    "rimraf": "^3.0.2"
+    "prettier": "^2.8.0"
   }
 }
