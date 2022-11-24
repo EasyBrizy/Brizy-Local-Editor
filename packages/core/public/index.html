@@ -14,7 +14,6 @@
         page: { provider: "collections" },
         user: { role: "admin", isApproved: true },
         urls: {
-          pagePreview: "/preview",
           assets: origin + "/dist/free",
           worker: origin + "/dist/free/editor/js",
           templateFonts: origin + "/dist/free/editor/icons",
@@ -64,6 +63,7 @@
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
                   assets: freeAssets,
+                  pagePreview: configData.pagePreview,
                   api2: {
                     ...urls.api2,
                     getMedia,
@@ -77,10 +77,6 @@
                     ...pro.urls,
                     assets: proAssets,
                   },
-                };
-                window.__VISUAL_CONFIG__.applications = {
-                  ...window.__VISUAL_CONFIG__.applications,
-                  ...configData.applications,
                 };
                 window.__VISUAL_CONFIG__.pageData = action.data.pageData;
                 window.__VISUAL_CONFIG__.projectData = {

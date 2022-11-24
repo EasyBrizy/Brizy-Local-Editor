@@ -15,6 +15,7 @@ export interface Config {
   setMedia: string;
   setLeads: string;
   assets?: string;
+  pagePreview?: string;
 
   // events
   onSave?: (data: Output) => void;
