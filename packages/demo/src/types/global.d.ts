@@ -1,4 +1,4 @@
-import type { Builder } from "@builder/core/es/types/types";
+import type { Builder } from "@builder/core/public/es/types/types";
 
 declare global {
   interface Window {

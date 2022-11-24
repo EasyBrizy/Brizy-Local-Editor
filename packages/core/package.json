@@ -2,16 +2,16 @@
   "name": "@builder/core",
   "version": "1.0.0",
   "description": "Builder core",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
+  "main": "public/lib/index.js",
+  "module": "public/es/index.js",
+  "types": "public/es/index.d.ts",
   "scripts": {
-    "start": "concurrently --kill-others \"npx tsc --watch\" \"npm run server\"",
+    "start": "concurrently --kill-others \"npx tsc --outDir public/es --watch\" \"npm run server\"",
     "build": "npm run clean && npm run build:es && npm run build:lib",
-    "build:es": "NODE_ENV=production tsc",
-    "build:lib": "NODE_ENV=production npm run build:es -- --module commonjs --outDir lib",
+    "build:es": "NODE_ENV=production tsc --outDir public/es",
+    "build:lib": "NODE_ENV=production npm run build:es -- --module commonjs --outDir public/lib",
     "server": "http-server public",
-    "clean": "rimraf es/ lib/",
+    "clean": "rimraf public/es/ public/lib/",
     "tsc": "tsc --skipLibCheck --noEmit"
   },
   "keywords": [],
@@ -20,8 +20,8 @@
   "files": [
     "package.json",
     "package-lock.json",
-    "es",
-    "lib"
+    "public/es",
+    "public/lib"
   ],
   "dependencies": {
     "typescript": "^4.9.3"
