@@ -35,7 +35,7 @@ export type ActionResolve = {
   data: string;
 };
 
-export type Init = (el: HTMLIFrameElement, config: Config, cb: CB) => void;
+export type Init = (el: HTMLElement, config: Config, cb: CB) => void;
 
 export type Builder = {
   init: Init;
