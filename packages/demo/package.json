@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Builder Demo",
   "scripts": {
-    "start": "npm run server",
-    "server": "http-server public",
+    "server": "http-server public -p 9001",
     "build:prod": "echo \"done\""
   },
   "keywords": [
