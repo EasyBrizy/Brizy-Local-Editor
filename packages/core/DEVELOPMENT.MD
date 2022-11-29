@@ -6,15 +6,29 @@
 
 ## Installation
 
+Copy / Paste .env.sample
+
+```shell
+cp .env.example .env
+```
+
+Install | Build
+
 ```shell
 npm install
 
 # Start dev server and build --watch
 npm start
 
-# Only dev server
+# Or only dev server
 npm run server
 
-# Only build
+# Or only build
 npm run build
+
+# Checks
+npm run tsc
 ```
+
+## Deploy
+Deployment is configured via GitHub actions

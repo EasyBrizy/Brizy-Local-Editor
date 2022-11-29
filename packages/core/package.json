@@ -11,7 +11,7 @@
     "build:prod": "npm run clean && NODE_ENV=production npm run build:es && NODE_ENV=production npm run build:lib --",
     "build:es": "tsc",
     "build:lib": "webpack",
-    "server": "POST=8080 http-server build",
+    "server": "PORT=8001 http-server build",
     "clean": "rimraf build",
     "tsc": "tsc --skipLibCheck --noEmit"
   },

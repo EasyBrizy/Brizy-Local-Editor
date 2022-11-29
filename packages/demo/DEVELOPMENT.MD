@@ -36,9 +36,3 @@ npm start
 ```shell
 npm run server
 ```
-
-#### Watch mode
-```shell
-# Start dev server and build --watch
-npm start
-```
