@@ -34,7 +34,7 @@ AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KE
 
 ```shell
 # Builder Container
-<div id="editor"></div>
+<div id="editor" style="height: 85vh; width: 100vw"></div>
 
 # Update button
 <button id="update">Update</button>
