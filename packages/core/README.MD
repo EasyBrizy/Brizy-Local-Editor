@@ -1,3 +1,9 @@
+## Editor
+We have 3 different mode in editor:
+- Story on branch `story`
+- Popup on branch `popup`
+- Page on branch `pages`
+
 ## Requirements
 
 - node >= 16
@@ -9,39 +15,45 @@ Run `npm install` inside root folder.
 
 ## Usage
 
+### 1. Build core
 ```shell
-# Build and start the server with watch
-npm start
+# Build core
+# npm run build:prod -- --env PUBLIC_HOST=`host where the build will be hosted`
 
-# Only build
-npm run build
+# Example on S3
+npm run build:prod -- --env PUBLIC_HOST=https://s3.amazonaws.com/${AWS_BUCKET}/build
+```
 
-# Only server
-npm run server
+### 2. Store `build` folder on AWS S3
+
+```shell
+AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} aws s3 cp build s3://${AWS_BUCKET}/build --recursive
 ```
 
 ## Initialize Editor
 
 ```shell
-# Were editor render
-<div id="editor"></div>
+# Builder Container
+<div id="editor" style="height: 85vh; width: 100vw"></div>
 
 # Update button
 <button id="update">Update</button>
 
-# SERVER URLS when start the server via `npm run server`
-<script src="http://localhost:8001/index.js"></script>
+# S3
+<script src="https://s3.amazonaws.com/${AWS_BUCKET}/build/index.js"></script>
 
 <script>
-  # config
-  const config = {};
-  const iframe = document.querySelector("#editor");
+  # Story Config Example [here](https://github.com/bagrinsergiu/demo-editor-partners/blob/story/packages/demo/public/index.html)
+  # Popup Config Example [here](https://github.com/bagrinsergiu/demo-editor-partners/blob/popup/packages/demo/public/index.html)
+  # Pages Config Example [here](https://github.com/bagrinsergiu/demo-editor-partners/blob/pages/packages/demo/public/index.html)
+  const config = {...};
+  const editor = document.querySelector("#editor");
   const update = document.querySelector("#update");
 
   const Builder = window.Builder;
   let builderAPI;
 
-  Builder.init(iframe, config, (api) => {
+  Builder.init(editor, config, (api) => {
     builderAPI = api;
   });
 
