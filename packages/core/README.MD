@@ -5,12 +5,12 @@
 
 ## Installation
 
-Run `npm intall` inside root folder.
+Run `npm install` inside root folder.
 
 ## Usage
 
 ```shell
-# Build and start the server
+# Build and start the server with watch
 npm start
 
 # Only build
@@ -23,17 +23,14 @@ npm run server
 ## Initialize Editor
 
 ```shell
-import "@builder/core";
-```
+# Were editor render
+<div id="editor"></div>
 
-```shell
+# Update button
+<button id="update">Update</button>
 
-<div>
-  # SERVER URLS when start the server via `npm run server`
-  <iframe id="editor" src="{SERVER URLS}"></iframe>
-</div>
-
-<script src="build.js"></script>
+# SERVER URLS when start the server via `npm run server`
+<script src="http://localhost:8001/index.js"></script>
 
 <script>
   # config
