@@ -12,8 +12,15 @@ We have 3 different mode in editor:
 
 > For more information on how you can use the Editor see in README `packages/core` or see a demo in `packages/demo`
 
+Live demo
+- Story http://story.demo.brizylocal.com
+- Popup http://popup.demo.brizylocal.com
+- Pages http://pages.demo.brizylocal.com
+
 ## Self Hosted build
 For those who want to store build on itself see below
+
+First of all, you need to clone this repository
 
 ## Requirements
 
