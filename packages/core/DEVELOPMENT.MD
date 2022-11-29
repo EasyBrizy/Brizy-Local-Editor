@@ -32,3 +32,11 @@ npm run tsc
 
 ## Deploy
 Deployment is configured via GitHub actions
+
+![ci cd](./docs/ci-cd.png)
+
+Keys
+- Mode: builder mode story, pages, popup
+- Branch name: create deploy for specific branch
+- Version: indicate next builder version, version need contain only number `2.0.1`
+- CDN Domain name: currently we use bunny cdn for S3 bucket
