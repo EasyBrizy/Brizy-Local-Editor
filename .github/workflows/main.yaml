@@ -21,6 +21,7 @@ on:
       version:
         description: "Version"
         required: true
+        default: "2.0.1"
         type: string
 
       public_host:
