@@ -73,3 +73,40 @@ Config can be passed object when you initialize builder from script.
 | onSave        | (optional) Called when builder are saved               |
 
 See more details in TS [see below](https://github.com/bagrinsergiu/demo-editor-partners/blob/master/packages/core/src/types/types.ts)
+
+## Self-hosted build
+For those who want to store build on itself see below
+
+## Usage
+
+```shell
+# Build core
+# npm run build:prod -- --env PUBLIC_HOST=`host where the build will be hosted`
+
+# Example on S3
+npm run build:prod -- --env PUBLIC_HOST=https://s3.amazonaws.com/${AWS_BUCKET}/build
+```
+
+After this command you can see `build` folder, copy/paste this folder on your local server or
+store them on AWS S3
+
+Upload to S3
+```shell
+aws s3 cp build s3://${{ secrets.AWS_BUCKET }}/build --recursive
+```
+
+The `PUBLIC_HOST` env argument is required, and it's used to indicate host from where it would be accessible
+
+Example to use editor
+
+```shell
+<body>
+  <div id="editor"></div>
+
+  # After build
+  <script src="https://s3.amazonaws.com/${AWS_BUCKET}/build/index.js">
+
+  # Initialize Builder
+  # See bellow on Initialize Editor
+</body>
+```
