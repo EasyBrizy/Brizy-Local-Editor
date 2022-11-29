@@ -1,11 +1,11 @@
 
-## Editor build version
+## Editor Mode
 We have 3 different mode in editor:
 - Story mode on branch `story`
 - Popup mode on branch `popup`
 - Page mode on branch `pages`
 
-## You can use a builder from the CDN version
+## You can use a builder from the CDN
 - Story from https://cdn.brizylocal.com/pages/2.0.0/index.js
 - Popup from https://cdn.brizylocal.com/story/2.0.0/index.js
 - Pages from https://cdn.brizylocal.com/popup/2.0.0/index.js
@@ -13,9 +13,9 @@ We have 3 different mode in editor:
 > For more information on how you can use the Editor see in README `packages/core` or see a demo in `packages/demo`
 
 Live demo
-- Story http://story.demo.brizylocal.com
-- Popup http://popup.demo.brizylocal.com
-- Pages http://pages.demo.brizylocal.com
+- Story https://story.demo.brizylocal.com
+- Popup https://popup.demo.brizylocal.com
+- Pages https://pages.demo.brizylocal.com
 
 ## Self Hosted build
 For those who want to store build on itself see below
