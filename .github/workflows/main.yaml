@@ -74,7 +74,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy to AWS S3
         if: success()
@@ -85,4 +85,4 @@ jobs:
         if: success()
         run: |
           git tag v${{ inputs.version }}-${{ inputs.mode }}
-          git pus origin --tags
+          git push origin --tags
