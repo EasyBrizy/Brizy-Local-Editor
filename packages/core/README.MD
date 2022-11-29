@@ -27,7 +27,7 @@ npm run build:prod -- --env PUBLIC_HOST=https://s3.amazonaws.com/${AWS_BUCKET}/b
 ### 2. Store `build` folder on AWS S3
 
 ```shell
-aws s3 cp build s3://${{ secrets.AWS_BUCKET }}/build --recursive
+AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} aws s3 cp build s3://${AWS_BUCKET}/build --recursive
 ```
 
 ## Initialize Editor
