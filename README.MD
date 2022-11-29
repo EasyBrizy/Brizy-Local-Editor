@@ -1,5 +1,5 @@
 
-## Editor Mode
+## Editor
 We have 3 different mode in editor:
 - Story mode on branch `story`
 - Popup mode on branch `popup`
