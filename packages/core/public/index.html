@@ -4,10 +4,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="dist/free/editor/css/editor.css" rel="stylesheet" />
+    <link href="<%= host %>/dist/free/editor/css/editor.css" rel="stylesheet" />
 
     <script>
-      const origin = window.location.origin;
+      const origin = "<%= host %>";
       window.__VISUAL_CONFIG__ = {
         project: { id: 1 },
         mode: "external_story",
@@ -131,8 +131,8 @@
         srcdoc="
           <html>
           <head>
-              <link href='dist/free/editor/css/editor.css' rel='stylesheet'>
-              <link href='dist/pro/css/editor.pro.css' rel='stylesheet'>
+              <link href='<%= host %>/dist/free/editor/css/editor.css' rel='stylesheet'>
+              <link href='<%= host %>/dist/pro/css/editor.pro.css' rel='stylesheet'>
               <script>
                   window.__VISUAL_CONFIG__ = window.parent.__VISUAL_CONFIG__;
               </script>
@@ -141,9 +141,9 @@
               <div id='brz-ed-root'></div>
               <div id='brz-popups'></div>
 
-              <script src='dist/free/editor/js/editor.vendor.js'></script>
-              <script src='dist/free/editor/js/editor.js'></script>
-              <script src='dist/pro/js/editor.pro.js'></script>
+              <script src='<%= host %>/dist/free/editor/js/editor.vendor.js'></script>
+              <script src='<%= host %>/dist/free/editor/js/editor.js'></script>
+              <script src='<%= host %>/dist/pro/js/editor.pro.js'></script>
           </body>
           </html>
         "
