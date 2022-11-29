@@ -37,6 +37,11 @@ Deployment is configured via GitHub actions
 
 Keys
 - Mode: builder mode story, pages, popup
-- Branch name: create deploy for specific branch
+- Branch name: create deploy for specific branch, branch need to be the same as mode
+
+> if you want to deploy pages the `branch name` needs to create only from the pages
+
+> Incorrect deploy if branch was created from story and mode is pages
+
 - Version: indicate next builder version, version need contain only number `2.0.1`
 - CDN Domain name: currently we use bunny cdn for S3 bucket
