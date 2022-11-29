@@ -1,10 +1,3 @@
-
-## Editor
-We have 3 different mode in editor:
-- Story on branch `story`
-- Popup on branch `popup`
-- Page on branch `pages`
-
 ## You can use a CDN builder
 - Story from https://cdn.brizylocal.com/story/2.0.0/index.js
 - Popup from https://cdn.brizylocal.com/popup/2.0.0/index.js

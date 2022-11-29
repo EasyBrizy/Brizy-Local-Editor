@@ -77,6 +77,12 @@ See more details in TS [see below](https://github.com/bagrinsergiu/demo-editor-p
 ## Self-hosted build
 For those who want to store build on itself see below
 
+### Editor
+We have 3 different mode in editor:
+- Story on branch `story`
+- Popup on branch `popup`
+- Page on branch `pages`
+
 ## Usage
 
 ```shell
