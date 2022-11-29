@@ -1,9 +1,9 @@
 
 ## Editor
 We have 3 different mode in editor:
-- Story mode on branch `story`
-- Popup mode on branch `popup`
-- Page mode on branch `pages`
+- Story on branch `story`
+- Popup on branch `popup`
+- Page on branch `pages`
 
 ## You can use a builder from the CDN
 - Story from https://cdn.brizylocal.com/pages/2.0.0/index.js
