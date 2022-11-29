@@ -43,8 +43,10 @@ AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KE
 <script src="https://s3.amazonaws.com/${AWS_BUCKET}/build/index.js"></script>
 
 <script>
-  # config
-  const config = {};
+  # Story Config Example [here](https://github.com/bagrinsergiu/demo-editor-partners/blob/story/packages/demo/public/index.html)
+  # Popup Config Example [here](https://github.com/bagrinsergiu/demo-editor-partners/blob/popup/packages/demo/public/index.html)
+  # Pages Config Example [here](https://github.com/bagrinsergiu/demo-editor-partners/blob/pages/packages/demo/public/index.html)
+  const config = {...};
   const editor = document.querySelector("#editor");
   const update = document.querySelector("#update");
 
