@@ -10,7 +10,7 @@
 - Popup https://popup.demo.brizylocal.com
 - Pages https://pages.demo.brizylocal.com
 
-## You can use a Self-Hosted build
+## You can use a Self-Hosted builder
 For those who want to store build on itself see below
 
 First of all, you need to clone this repository
