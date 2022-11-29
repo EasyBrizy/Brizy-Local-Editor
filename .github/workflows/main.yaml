@@ -59,6 +59,12 @@ jobs:
         with:
           path: ${{ inputs.branch }}
 
+      - name: LS
+        run: ls -la
+
+      - name: branch
+        run: git branch
+
       - uses: actions/setup-node@v3
         with:
           node-version: 16
