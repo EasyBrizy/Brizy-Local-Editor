@@ -1,15 +1,9 @@
 import { Builder } from "./types";
 
 declare global {
+  const PUBLIC_HOST: string;
+
   interface Window {
     Builder: Builder;
-  }
-  interface ImportMeta {
-    env: {
-      NODE_ENV: "development" | "production";
-
-      // See in .env.sample
-      PUBLIC_HOST: string;
-    };
   }
 }

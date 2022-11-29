@@ -5,3 +5,4 @@
 !/public/dist
 !/public/index.html
 .env
+/build/
