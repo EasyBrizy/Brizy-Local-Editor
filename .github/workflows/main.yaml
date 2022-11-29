@@ -21,6 +21,7 @@ on:
       version:
         description: "Version"
         required: true
+        default: "2.0.1"
         type: string
 
       public_host:
@@ -36,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: ${{ inputs.branch }}
+          ref: ${{ inputs.branch }}
 
       - uses: actions/setup-node@v3
         with:
@@ -57,30 +58,32 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: ${{ inputs.branch }}
+          ref: ${{ inputs.branch }}
 
       - uses: actions/setup-node@v3
         with:
           node-version: 16
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       - name: Create deploy
         run: npm run build:core -- -- --env PUBLIC_HOST=${{inputs.public_host}}/${{inputs.mode}}/${{inputs.version}}
 
-      - name: Deploy to S3
-        uses: shallwefootball/s3-upload-action@master
-        if: success()
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: "packages/core/build"
-          destination_dir: "${{inputs.mode}}/${{inputs.version}}"
+          aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to AWS S3
+        if: success()
+        run: |
+          aws s3 cp packages/core/build s3://${{ secrets.AWS_BUCKET }}/${{ inputs.mode }}/${{ inputs.version }} --recursive
 
       - name: Git Tags
         if: success()
         run: |
-          git tag v${{inputs.version}}-${{inputs.mode}}
-          git pus origin --tags
+          git tag v${{ inputs.version }}-${{ inputs.mode }}
+          git push origin --tags
