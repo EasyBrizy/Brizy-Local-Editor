@@ -15,7 +15,7 @@ export const Core: Init = (container, config, cb) => {
   const _window = container.ownerDocument.defaultView ?? window;
   const iframe = document.createElement("iframe");
 
-  iframe.setAttribute("src", import.meta.env.PUBLIC_HOST);
+  iframe.setAttribute("src", `${PUBLIC_HOST}/index.html`);
   iframe.width = "100%";
   iframe.height = "100%";
   iframe.frameBorder = "0";

@@ -15,10 +15,10 @@
     "target": "es6",
     "lib": ["dom", "es2017"],
     "skipLibCheck": true,
-    "outDir": "public/es",
+    "outDir": "build/es",
     "declaration": true,
     "module": "ESNext"
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "public/lib", "public/es"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "build"]
 }
