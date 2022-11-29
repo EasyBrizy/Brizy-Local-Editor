@@ -43,7 +43,7 @@ jobs:
           node-version: 16
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       - name: Typescript
         run: |
