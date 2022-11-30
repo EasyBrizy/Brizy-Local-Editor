@@ -5,8 +5,8 @@
 
 CDN version
 
-> For more information on how you can use the Editor see in README [`packages/core`](https://github.com/bagrinsergiu/demo-editor-partners/blob/master/packages/core/README.MD) or see a demo in [`packages/demo`](https://github.com/bagrinsergiu/demo-editor-partners/blob/master/packages/demo/README.MD)
+> For more information on how you can use the Editor see in README [`packages/core`](https://github.com/BrizyB/Brizy-Local/blob/master/packages/core/README.MD) or see a demo in [`packages/demo`](https://github.com/BrizyB/Brizy-Local/blob/master/packages/demo/README.MD)
 
 Self-hosted version
 
-> For more information on how you can use the Editor see in README [`packages/core`](https://github.com/bagrinsergiu/demo-editor-partners/blob/master/packages/core/README.MD) or see a demo in [`packages/demo`](https://github.com/bagrinsergiu/demo-editor-partners/blob/master/packages/demo/README.MD)
+> For more information on how you can use the Editor see in README [`packages/core`](https://github.com/BrizyB/Brizy-Local/blob/master/packages/core/README.MD) or see a demo in [`packages/demo`](https://github.com/BrizyB/Brizy-Local/blob/master/packages/demo/README.MD)

@@ -13,9 +13,9 @@
 <script src="https://cdn.brizylocal.com/pages/2.0.0/index.js"></script>
 
 <script>
-  # Story Config Example: https://github.com/bagrinsergiu/demo-editor-partners/blob/story/packages/demo/public/index.html
-  # Popup Config Example: https://github.com/bagrinsergiu/demo-editor-partners/blob/popup/packages/demo/public/index.html
-  # Pages Config Example: https://github.com/bagrinsergiu/demo-editor-partners/blob/pages/packages/demo/public/index.html
+  # Story Config Example: https://github.com/BrizyB/Brizy-Local/blob/story/packages/demo/public/index.html
+  # Popup Config Example: https://github.com/BrizyB/Brizy-Local/blob/popup/packages/demo/public/index.html
+  # Pages Config Example: https://github.com/BrizyB/Brizy-Local/blob/pages/packages/demo/public/index.html
   const config = {...};
   const editor = document.querySelector("#editor");
   const update = document.querySelector("#update");
@@ -54,4 +54,4 @@ Config can be passed object when you initialize builder from script.
 |:--------------|:-------------------------------------------------------|
 | onSave        | (optional) Called when builder are saved               |
 
-See more details in TS [see below](https://github.com/bagrinsergiu/demo-editor-partners/blob/master/packages/core/src/types/types.ts)
+See more details in TS [see below](https://github.com/BrizyB/Brizy-Local/blob/master/packages/core/src/types/types.ts)
