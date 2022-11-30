@@ -13,7 +13,9 @@ We have 3 different mode in editor:
 #### 1. Git clone
 #### 2. Change branch to [story, popup, pages]
 #### 3. Run `npm install` inside root folder.
-#### 4. Build core go to `packages/core` and run
+#### 4. Build core
+
+Inside `packages/core`
 
 ```shell
 # Build core
