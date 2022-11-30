@@ -1,4 +1,4 @@
-# Live demo
+# Live demos
 - Story https://story.demo.brizylocal.com
 - Popup https://popup.demo.brizylocal.com
 - Pages https://pages.demo.brizylocal.com
