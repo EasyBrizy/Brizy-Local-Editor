@@ -1,11 +1,7 @@
+## Usage
 
 [![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/K632pHZ66RM)
  
-
-
-
-## Usage
-
 ```shell
 # Builder Container
 <div id="editor" style="height: 85vh; width: 100vw"></div>
