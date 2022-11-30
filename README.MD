@@ -5,7 +5,7 @@
 
 CDN version
 
-> For more information on how you can use the Editor see in README.CDN.MD [`packages/core`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/README.CDN.MD)  
+> For more information on how you can use the Editor see in  [`README.CDN.MD`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/README.CDN.MD) file
 
 Self-hosted version
 
