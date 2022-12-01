@@ -1,5 +1,7 @@
 ## Usage
 
+Find out how to initialise the Editor from Brizy's CDN infrastructure from the video below:  
+
 [![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/K632pHZ66RM)
  
 ```shell
