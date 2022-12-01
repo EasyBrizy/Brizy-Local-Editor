@@ -5,6 +5,8 @@
 
 ## Installation
 
+[![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/DlFxM2WOCjQ)
+
 We have 3 different mode in editor:
 - Story on branch `story`
 - Popup on branch `popup`
