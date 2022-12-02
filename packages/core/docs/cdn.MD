@@ -46,7 +46,7 @@ Config can be passed object when you initialize builder from script.
 |:------------|:-------------|:------------------------------------------|
 | pageData    | object | Loads the JSON page specified in the pageData parameter. |
 | projectData | object | Loads the JSON project specified in the projectData parameter. |
-| getMedia    | string | asta e link catre serviciul de crop al imaginilor. Exista versiunea hostata de Brizy si exista veriunea self hosted. Pt versiunea CDN trebuie sa inlocuiasca link-ul media.brizylocal.com. Pt versiunea self hosted trebuie sa inlocuiasca link-ul cu URL-ul serviciului lui care poate fi creat conform aici <link>                 |
+| getMedia    | string | asta e link catre serviciul de crop al imaginilor. Exista versiunea hostata de Brizy si exista veriunea self hosted. Pt versiunea CDN trebuie sa inlocuiasca link-ul media.brizylocal.com. Pt versiunea self hosted trebuie sa inlocuiasca link-ul cu URL-ul serviciului lui care poate fi creat conform aici (aici)[https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer]                 |
 | setMedia    | string | ei trebuie sa inlocuyiasca cu link-ul lor unde ei vor sa stocheze imaginile la ei pe server                          |
 | setLeads    | string | ei trebuie sa inlocuiasca link-ul unde vor sa primeasca leads de la elementul forms                   |
 
