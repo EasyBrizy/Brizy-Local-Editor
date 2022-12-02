@@ -42,20 +42,20 @@ Find out how to initialise the Editor from Brizy's CDN infrastructure from the v
 
 Config can be passed object when you initialize builder from script.
 
-| Name        | Description                                            |
-|:------------|:-------------------------------------------------------|
-| pageData    | (object) page JSON data structure of elements          |
-| projectData | (object) project JSON data Global Styles, Global Fonts |
-| getMedia    | (string) where to GET image by UID                     |
-| setMedia    | (string) where to POST image                           |
-| setLeads    | (string) where to send forms leads                     |
+| Name        | Description                                   |         |
+|:------------|:----------------------------------------------|---------|
+| pageData    | (object) page JSON data structure of elements |         |
+| projectData | (object) project JSON data Global Styles, Global Fonts |   |
+| getMedia    | (string) where to GET image by UID           |          |
+| setMedia    | (string) where to POST image               |            |
+| setLeads    | (string) where to send forms leads         |            |
 
 ### Config Events
 
 Config can be passed object when you initialize builder from script.
 
-| Name          | Description                                            |
-|:--------------|:-------------------------------------------------------|
-| onSave        | (optional) Called when builder are saved               |
+| Name          | Description                                |  Returned values          |
+|:--------------|:-------------------------------------------|------------|
+| onSave        | Fired when the Save button is clicked  |             |
 
 See more details in TS [see below](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/src/types/types.ts)
