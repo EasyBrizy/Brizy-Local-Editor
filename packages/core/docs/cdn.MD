@@ -42,13 +42,13 @@ Find out how to initialise the Editor from Brizy's CDN infrastructure from the v
 
 Config can be passed object when you initialize builder from script.
 
-| Name        | Description                                            |
-|:------------|:-------------------------------------------------------|
-| pageData    | (object) Loads the JSON page specified in the pageData parameter. |
-| projectData | (object) Loads the JSON project specified in the projectData parameter. |
-| getMedia    | (string) asta e link catre serviciul de crop al imaginilor. Exista versiunea hostata de Brizy si exista veriunea self hosted. Pt versiunea CDN trebuie sa inlocuiasca link-ul media.brizylocal.com. Pt versiunea self hosted trebuie sa inlocuiasca link-ul cu URL-ul serviciului lui care poate fi creat conform aici <link>                 |
-| setMedia    | (string) ei trebuie sa inlocuyiasca cu link-ul lor unde ei vor sa stocheze imaginile la ei pe server                          |
-| setLeads    | (string) ei trebuie sa inlocuiasca link-ul unde vor sa primeasca leads de la elementul forms                   |
+| Name        | Type  | Description                                       |
+|:------------|:-------------|:------------------------------------------|
+| pageData    | object | Loads the JSON page specified in the pageData parameter. |
+| projectData | object | Loads the JSON project specified in the projectData parameter. |
+| getMedia    | string | asta e link catre serviciul de crop al imaginilor. Exista versiunea hostata de Brizy si exista veriunea self hosted. Pt versiunea CDN trebuie sa inlocuiasca link-ul media.brizylocal.com. Pt versiunea self hosted trebuie sa inlocuiasca link-ul cu URL-ul serviciului lui care poate fi creat conform aici <link>                 |
+| setMedia    | string | ei trebuie sa inlocuyiasca cu link-ul lor unde ei vor sa stocheze imaginile la ei pe server                          |
+| setLeads    | string | ei trebuie sa inlocuiasca link-ul unde vor sa primeasca leads de la elementul forms                   |
 
 ### Config Events
 
