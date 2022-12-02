@@ -47,8 +47,8 @@ Config can be passed object when you initialize builder from script.
 | pageData    | object | Loads the JSON page specified in the pageData parameter. |
 | projectData | object | Loads the JSON project specified in the projectData parameter. |
 | getMedia    | string | This is the URL for the image cropping service. There are 2 cropping service options: hosted by Brizy and self hosted. If you choose to use the Brizy hosted croppping service, you don't have to change this URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your cropping service. Setup your own cropping service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                 |
-| setMedia    | string | ei trebuie sa inlocuyiasca cu link-ul lor unde ei vor sa stocheze imaginile la ei pe server                          |
-| setLeads    | string | ei trebuie sa inlocuiasca link-ul unde vor sa primeasca leads de la elementul forms                   |
+| setMedia    | string | Replace the URL with your own. This is the server where you want to store the images. |
+| setLeads    | string | Replace the URL with your own. This is the link where we send the information from the contact form element. |
 
 ### Config Events
 
