@@ -1,0 +1,8 @@
+commonLabels:
+  project: brizy-image-resizer
+bases:
+  - ../../base
+  - ./base
+patches:
+  - deployments.patch.yaml
+  - configs.patch.yaml

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: brizy-image-resizer-config
+data:
+  symfony-env: 'prod'
+  symfony-app-secret: 'xxx'

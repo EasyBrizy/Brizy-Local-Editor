@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  image_resizer:
+    container_name: image_resizer
+    image: image_resizer:latest
+    environment:
+      APP_ENV: 'prod'

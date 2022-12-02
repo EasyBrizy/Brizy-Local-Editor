@@ -1,0 +1,5 @@
+liip_imagine:
+    driver: imagick
+    filter_sets:
+        default:
+            animated: true

@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brizy-image-resizer-deployment
+spec:
+  selector:
+    matchLabels:
+      app: &label-app brizy-image-resizer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: *label-app
+    spec:
+      containers:
+        - name: brizy-image-resizer
+          image: image-resizer:latest
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "500m"
+            limits:
+              memory: "2048Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 80
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: brizy-image-resizer-config
+                  key: symfony-env
+            - name: APP_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: brizy-image-resizer-config
+                  key: symfony-app-secret
+          livenessProbe:
+            httpGet:
+              port: 80
+              path: /
+          readinessProbe: &readiness-probe
+            httpGet:
+              port: 80
+              path: /
+          startupProbe:
+            << : *readiness-probe
+            failureThreshold: 30

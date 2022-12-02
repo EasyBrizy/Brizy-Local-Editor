@@ -1,0 +1,4 @@
+commonLabels:
+  project: brizy-image-resizer
+resources:
+  - autoscalers.yaml

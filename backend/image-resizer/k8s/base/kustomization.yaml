@@ -1,0 +1,6 @@
+commonLabels:
+  project: brizy-image-resizer
+resources:
+  - configs.yaml
+  - deployments.yaml
+  - services.yaml
