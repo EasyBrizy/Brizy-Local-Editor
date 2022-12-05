@@ -71,20 +71,20 @@ AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KE
 
 Config can be passed object when you initialize builder from script.
 
-| Name        | Description                                            |
-|:------------|:-------------------------------------------------------|
-| pageData    | (object) page JSON data structure of elements          |
-| projectData | (object) project JSON data Global Styles, Global Fonts |
-| getMedia    | (string) where to GET image by UID                     |
-| setMedia    | (string) where to POST image                           |
-| setLeads    | (string) where to send forms leads                     |
+| Name        | Type  | Description                                       |
+|:------------|:-------------|:------------------------------------------|
+| pageData    | object | Loads the JSON page specified in the pageData parameter. |
+| projectData | object | Loads the JSON project specified in the projectData parameter. |
+| getMedia    | string | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                 |
+| setMedia    | string | Replace the URL with your own. This is the server where you want to store the images. |
+| setLeads    | string | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
 
 ### Config Events
 
 Config can be passed object when you initialize builder from script.
 
-| Name          | Description                                            |
-|:--------------|:-------------------------------------------------------|
-| onSave        | (optional) Called when builder are saved               |
+| Name          | Description                                | Returned values          |
+|:--------------|:-------------------------------------------|:------------|
+| onSave        | Fired when the Save button is clicked  |   JSON and HTML documents          |
 
 See more details in TS [see below](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/src/types/types.ts)
