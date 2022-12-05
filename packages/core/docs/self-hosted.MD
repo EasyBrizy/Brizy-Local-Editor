@@ -5,7 +5,7 @@
 
 ## Installation
 
-[![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/DlFxM2WOCjQ)
+[![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/OHnr2pWWrU8)
 
 We have 3 different mode in editor:
 - Story on branch `story`
