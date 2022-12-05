@@ -1,9 +1,10 @@
 import { ActionResolve, Config, Target } from "../types/types";
+import { ActionTypes } from "./types";
 
 export const init = (config: Config): ActionResolve => ({
   target: Target.builder,
   data: JSON.stringify({
-    type: "initPage",
+    type: ActionTypes.initPage,
     data: {
       pageData: config.pageData,
       projectData: config.projectData,
