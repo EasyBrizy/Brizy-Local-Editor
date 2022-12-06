@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<% target = '@builder'; %>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -41,7 +41,7 @@
         "message",
         (event) => {
           const data = event.data;
-          if (data.target !== "@builder") {
+          if (data.target !== "<%- target %>") {
             return;
           }
 
@@ -49,7 +49,7 @@
             const action = JSON.parse(data.data);
 
             switch (action.type) {
-              case "initPage": {
+              case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
                 const pro = window.__VISUAL_CONFIG__.pro;
                 const configData = action.data ? action.data : {};
@@ -92,15 +92,15 @@
                 }
                 break;
               }
-              case "save": {
+              case "<%- target %>_save": {
                 const configData = action.data && "configData" in action.data ? action.data : {};
 
                 window.__VISUAL_CONFIG__.onUpdate((res) => {
                   event.source.postMessage(
                     {
-                      target: "@builder",
+                      target: "<%- target %>",
                       data: JSON.stringify({
-                        type: "save",
+                        type: "<%- target %>_save",
                         payload: res,
                       }),
                     },
