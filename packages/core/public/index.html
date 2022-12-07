@@ -32,6 +32,12 @@
             assets: origin + "/dist/pro",
           },
         },
+        ui: {
+          leftSidebar: {
+            cms: { enable: false },
+            collaboration: { enable: false },
+          },
+        },
       };
     </script>
   </head>
@@ -85,7 +91,10 @@
                   dataVersion: 1,
                   data: action.data.projectData,
                 };
-                window.__VISUAL_CONFIG__.ui = ui;
+                window.__VISUAL_CONFIG__.ui = {
+                  ...ui,
+                  leftSidebar: { ..._ui.leftSidebar, ...ui.leftSidebar },
+                };
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
