@@ -1,5 +1,6 @@
 import { Init, Target } from "./types/types";
 import { init, save } from "./actions";
+import { ActionTypes } from "./actions/types";
 
 const actions = {
   init: init,
@@ -40,7 +41,7 @@ export const Core: Init = (container, config, cb) => {
       try {
         const action = JSON.parse(data.data);
         const api = {
-          save: config.onSave,
+          [ActionTypes.save]: config.onSave,
         };
 
         // @ts-expect-error: temporary

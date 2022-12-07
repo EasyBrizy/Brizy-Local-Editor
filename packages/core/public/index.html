@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<% target = '@builder'; %>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -41,7 +41,7 @@
         "message",
         (event) => {
           const data = event.data;
-          if (data.target !== "@builder") {
+          if (data.target !== "<%- target %>") {
             return;
           }
 
@@ -49,9 +49,10 @@
             const action = JSON.parse(data.data);
 
             switch (action.type) {
-              case "initPage": {
+              case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
                 const pro = window.__VISUAL_CONFIG__.pro;
+                const _ui = window.__VISUAL_CONFIG__.ui;
                 const configData = action.data ? action.data : {};
                 const getMedia = configData.getMedia ?? urls.api2.getMedia;
                 const setMedia = configData.setMedia ?? urls.api2.setMedia;
@@ -59,6 +60,7 @@
                 const configAssets = configData.assets;
                 const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
                 const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
+                const ui = configData.ui ?? _ui;
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
@@ -83,6 +85,7 @@
                   dataVersion: 1,
                   data: action.data.projectData,
                 };
+                window.__VISUAL_CONFIG__.ui = ui;
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
@@ -92,15 +95,15 @@
                 }
                 break;
               }
-              case "save": {
+              case "<%- target %>_save": {
                 const configData = action.data && "configData" in action.data ? action.data : {};
 
                 window.__VISUAL_CONFIG__.onUpdate((res) => {
                   event.source.postMessage(
                     {
-                      target: "@builder",
+                      target: "<%- target %>",
                       data: JSON.stringify({
-                        type: "save",
+                        type: "<%- target %>_save",
                         payload: res,
                       }),
                     },
