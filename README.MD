@@ -13,4 +13,4 @@ The CDN version of Brizy Local is hosted on Brizy's servers. Choose this version
 
 The Self-hosted version of Brizy Local is hosted by you. Choose this version if you want to host the editor locally on your server.
 
-> For more information on how to use the Self-hosted version of the Editor check the README [`packages/core`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/self-hosted.MD) or view the demo in [`packages/demo`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/demo/README.MD).
+> For more information on how to use the Self-hosted version of the Editor check the README [`packages/core`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/self-hosted.MD) or view the demo in [`packages/demo`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/demo/README.MD)
