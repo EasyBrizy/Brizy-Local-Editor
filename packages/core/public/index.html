@@ -38,6 +38,7 @@
             collaboration: { enable: false },
           },
         },
+        workspace: {},
       };
     </script>
   </head>
@@ -59,6 +60,7 @@
                 const urls = window.__VISUAL_CONFIG__.urls;
                 const pro = window.__VISUAL_CONFIG__.pro;
                 const _ui = window.__VISUAL_CONFIG__.ui;
+                const _workspace = window.__VISUAL_CONFIG__.workspace;
                 const configData = action.data ? action.data : {};
                 const getMedia = configData.getMedia ?? urls.api2.getMedia;
                 const setMedia = configData.setMedia ?? urls.api2.setMedia;
@@ -67,6 +69,7 @@
                 const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
                 const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
                 const ui = configData.ui ?? _ui;
+                const workspace = configData.workspace ?? _workspace;
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
@@ -95,6 +98,7 @@
                   ...ui,
                   leftSidebar: { ..._ui.leftSidebar, ...ui.leftSidebar },
                 };
+                window.__VISUAL_CONFIG__.workspace = workspace;
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
