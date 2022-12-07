@@ -12,6 +12,7 @@ export const init = (config: Config): ActionResolve => ({
       setMedia: config.setMedia,
       setLeads: config.setLeads,
       pagePreview: config.pagePreview,
+      ui: config.ui,
     },
   }),
 });
