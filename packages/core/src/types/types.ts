@@ -81,6 +81,7 @@ export interface Config {
 
   // events
   onSave?: (data: Output) => void;
+  onLoad?: VoidFunction;
 }
 
 export interface API {
