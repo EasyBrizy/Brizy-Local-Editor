@@ -99,6 +99,15 @@
                   leftSidebar: { ..._ui.leftSidebar, ...ui.leftSidebar },
                 };
                 window.__VISUAL_CONFIG__.workspace = workspace;
+                window.__VISUAL_CONFIG__.onLoad = () => {
+                  event.source.postMessage(
+                    {
+                      target: "<%- target %>",
+                      data: JSON.stringify({ type: "<%- target %>_on_load" }),
+                    },
+                    event.origin,
+                  );
+                };
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");

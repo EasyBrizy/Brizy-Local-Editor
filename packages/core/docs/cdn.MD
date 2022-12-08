@@ -1,9 +1,9 @@
 ## Usage
 
-Find out how to initialise the Editor from Brizy's CDN infrastructure from the video below:  
+Find out how to initialise the Editor from Brizy's CDN infrastructure from the video below:
 
 [![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/iKaLF9N-QRg)
- 
+
 ```shell
 # Builder Container
 <div id="editor" style="height: 85vh; width: 100vw"></div>
@@ -54,8 +54,9 @@ Config can be passed object when you initialize builder from script.
 
 Config can be passed object when you initialize builder from script.
 
-| Name          | Description                                | Returned values          |
-|:--------------|:-------------------------------------------|:------------|
-| onSave        | Fired when the Save button is clicked  |   JSON and HTML documents          |
+| Name     | Description                           | Returned values         |
+|:---------|:--------------------------------------|:------------------------|
+| onSave   | Fired when the Save button is clicked | JSON and HTML documents |
+| onLoad   | Fired when the builder is loaded      | -                       |
 
 See more details in TS [see below](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/src/types/types.ts)
