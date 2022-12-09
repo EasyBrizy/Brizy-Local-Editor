@@ -6,20 +6,9 @@ export interface Output {
   styles: Array<string>;
 }
 
-interface PopupWorkspace {
-  popup: {
-    toolbar?: {
-      displayCondition?: boolean;
-      delete?: boolean;
-    };
-  };
-}
-
-type Workspace = PopupWorkspace;
-
 export enum LeftSidebarOptionsIds {
   addElements = "addElements",
-  blocks = "blocks",
+  reorderBlock = "reorderBlock",
   globalStyle = "globalStyle",
   deviceMode = "deviceMode",
   more = "more",
@@ -39,34 +28,28 @@ export interface Config {
 
   //#endregion
 
-  //#region Workspace
-
-  workspace?: Workspace;
-
-  //#endregion
-
   // ui
   ui: {
+    //#region Popup
+
+    popupSettings?: {
+      displayCondition?: boolean;
+      deletePopup?: boolean;
+    };
+
+    //#endregion
+
     //#region LeftSidebar
 
     leftSidebar?: {
       topTabsOrder?: Array<LeftSidebarOptionsIds>;
       bottomTabsOrder?: Array<LeftSidebarOptionsIds>;
 
-      [LeftSidebarOptionsIds.addElements]?: {
-        enable?: boolean;
-      };
-      [LeftSidebarOptionsIds.blocks]?: {
-        enable?: boolean;
-      };
-      [LeftSidebarOptionsIds.globalStyle]?: {
-        enable?: boolean;
-      };
-      [LeftSidebarOptionsIds.deviceMode]?: {
-        enable?: boolean;
-      };
+      [LeftSidebarOptionsIds.addElements]?: boolean;
+      [LeftSidebarOptionsIds.reorderBlock]?: boolean;
+      [LeftSidebarOptionsIds.globalStyle]?: boolean;
+      [LeftSidebarOptionsIds.deviceMode]?: boolean;
       [LeftSidebarOptionsIds.more]?: {
-        enable?: boolean;
         options?: Array<{
           type: "link";
           label: string;
@@ -81,6 +64,7 @@ export interface Config {
 
   // events
   onSave?: (data: Output) => void;
+  onLoad?: VoidFunction;
 }
 
 export interface API {
