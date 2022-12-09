@@ -47,14 +47,9 @@ type config = {
 
     getMedia: string;
     setMedia: string;
-
     setLeads: string;
-
-    assets: string;
-
     pagePreview: string;
-
-    // New key
+    
     ui: {
         popupSettings?: {
             displayCondition?: boolean;
