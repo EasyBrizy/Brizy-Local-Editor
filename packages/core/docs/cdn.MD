@@ -40,6 +40,50 @@ Find out how to initialise the Editor from Brizy's CDN infrastructure from the v
 
 ## Config
 
+```ts
+type config = {
+    pageData: Record<string, unknown>,
+    projectData: Record<string, unknown>,
+
+    getMedia: string;
+    setMedia: string;
+
+    setLeads: string;
+
+    assets: string;
+
+    pagePreview: string;
+
+    // New key
+    ui: {
+        popupSettings?: {
+            displayCondition?: boolean;
+            deletePopup?: boolean;
+        };
+        leftSidebar?: {
+            topTabsOrder?: Array<"addElements" , "reorderBlock" , "globalStyle", "deviceMode", "more">;
+            bottomTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+
+            addElements?: boolean;
+            reorderBlock?: boolean;
+            globalStyle?: boolean;
+            deviceMode?: boolean;
+            more?: {
+                options?: Array<{
+                    type: "link";
+                    label: string;
+                    link: string;
+                    linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+                }>;
+            };
+        };
+    };
+
+    onSave?: (data: Output) => void;
+    onLoad?: VoidFunction
+}
+```
+
 Config can be passed object when you initialize builder from script.
 
 | Name        | Type  | Description                                       |
