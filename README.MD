@@ -5,7 +5,7 @@ Brizy Local is embeddable and White Label ready, so it can be seamlessly integra
  https://user-images.githubusercontent.com/5760683/206673790-ad518ae3-cb9d-4e4f-b658-8109c5d0a827.mp4
 
 
-## Live demos
+## Demos
 - Story https://story.demo.brizylocal.com
 - Popup https://popup.demo.brizylocal.com
 - Pages https://pages.demo.brizylocal.com
