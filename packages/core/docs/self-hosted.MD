@@ -83,8 +83,9 @@ Config can be passed object when you initialize builder from script.
 
 Config can be passed object when you initialize builder from script.
 
-| Name          | Description                                | Returned values          |
-|:--------------|:-------------------------------------------|:------------|
-| onSave        | Fired when the Save button is clicked  |   JSON and HTML documents          |
+| Name   | Description                           | Returned values         |
+|:-------|:--------------------------------------|:------------------------|
+| onSave | Fired when the Save button is clicked | JSON and HTML documents |
+| onLoad | Fired when the builder is loaded      | -                       |
 
 See more details in TS [see below](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/src/types/types.ts)

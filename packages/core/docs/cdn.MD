@@ -1,9 +1,9 @@
 ## Usage
 
-Find out how to initialise the Editor from Brizy's CDN infrastructure from the video below:  
+Find out how to initialise the Editor from Brizy's CDN infrastructure from the video below:
 
 [![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/iKaLF9N-QRg)
- 
+
 ```shell
 # Builder Container
 <div id="editor" style="height: 85vh; width: 100vw"></div>
@@ -40,6 +40,45 @@ Find out how to initialise the Editor from Brizy's CDN infrastructure from the v
 
 ## Config
 
+```ts
+type config = {
+    pageData: Record<string, unknown>,
+    projectData: Record<string, unknown>,
+
+    getMedia: string;
+    setMedia: string;
+    setLeads: string;
+    pagePreview: string;
+    
+    ui: {
+        popupSettings?: {
+            displayCondition?: boolean;
+            deletePopup?: boolean;
+        };
+        leftSidebar?: {
+            topTabsOrder?: Array<"addElements" , "reorderBlock" , "globalStyle", "deviceMode", "more">;
+            bottomTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+
+            addElements?: boolean;
+            reorderBlock?: boolean;
+            globalStyle?: boolean;
+            deviceMode?: boolean;
+            more?: {
+                options?: Array<{
+                    type: "link";
+                    label: string;
+                    link: string;
+                    linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+                }>;
+            };
+        };
+    };
+
+    onSave?: (data: Output) => void;
+    onLoad?: VoidFunction
+}
+```
+
 Config can be passed object when you initialize builder from script.
 
 | Name        | Type  | Description                                       |
@@ -49,13 +88,28 @@ Config can be passed object when you initialize builder from script.
 | getMedia    | string | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                 |
 | setMedia    | string | Replace the URL with your own. This is the server where you want to store the images. |
 | setLeads    | string | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
+| ui.popupSettings.displayCondition | boolean |   |
+| ui.popupSettings.deletePopup | boolean |   |
+| leftSidebar.topTabsOrder | Array |   |
+| leftSidebar.bottomTabsOrder | Array |   |
+| leftSidebar.addElements | boolean |   |
+| leftSidebar.reorderBlock | boolean |   |
+| leftSidebar.globalStyle | boolean |   |
+| leftSidebar.deviceMode | boolean |   |
+| leftSidebar.more.options | Array |   |
+ 
+
+
+
+
 
 ### Config Events
 
 Config can be passed object when you initialize builder from script.
 
-| Name          | Description                                | Returned values          |
-|:--------------|:-------------------------------------------|:------------|
-| onSave        | Fired when the Save button is clicked  |   JSON and HTML documents          |
+| Name     | Description                           | Returned values         |
+|:---------|:--------------------------------------|:------------------------|
+| onSave   | Fired when the Save button is clicked | JSON and HTML documents |
+| onLoad   | Fired when the builder is loaded      | -                       |
 
 See more details in TS [see below](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/src/types/types.ts)

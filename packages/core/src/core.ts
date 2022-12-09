@@ -1,6 +1,8 @@
 import { Init, Target } from "./types/types";
 import { init, save } from "./actions";
 import { ActionTypes } from "./actions/types";
+import { loader } from "./Loader";
+import { initLoader, destroyLoader } from "./Loader/init";
 
 const actions = {
   init: init,
@@ -15,6 +17,9 @@ export const Core: Init = (container, config, cb) => {
 
   const _window = container.ownerDocument.defaultView ?? window;
   const iframe = document.createElement("iframe");
+  const spinner = loader(document);
+
+  initLoader(spinner, container);
 
   iframe.setAttribute("src", `${PUBLIC_HOST}/index.html`);
   iframe.width = "100%";
@@ -42,6 +47,10 @@ export const Core: Init = (container, config, cb) => {
         const action = JSON.parse(data.data);
         const api = {
           [ActionTypes.save]: config.onSave,
+          [ActionTypes.onLoad]: () => {
+            destroyLoader(spinner, container);
+            config.onLoad?.();
+          },
         };
 
         // @ts-expect-error: temporary
