@@ -93,6 +93,20 @@ Config can be passed object when you initialize builder from script.
 | getMedia    | string | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                 |
 | setMedia    | string | Replace the URL with your own. This is the server where you want to store the images. |
 | setLeads    | string | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
+| ui.popupSettings.displayCondition | boolean |   |
+| ui.popupSettings.deletePopup | boolean |   |
+| leftSidebar.topTabsOrder | Array |   |
+| leftSidebar.bottomTabsOrder | Array |   |
+| leftSidebar.addElements | boolean |   |
+| leftSidebar.reorderBlock | boolean |   |
+| leftSidebar.globalStyle | boolean |   |
+| leftSidebar.deviceMode | boolean |   |
+| leftSidebar.more.options | Array |   |
+ 
+
+
+
+
 
 ### Config Events
 
