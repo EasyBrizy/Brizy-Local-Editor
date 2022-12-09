@@ -1,3 +1,10 @@
+# Brizy Local - Web-content builder 
+
+Brizy Local is embeddable and White Label ready, so it can be seamlessly integrated in your existing products, ensuring optimal user experience. Being installed on-premise, with complete client control, our solution ensures that all GDPR, ISO, data security requirements are 100% met. Perfect for SaaS businesses that need a web-content builder on their own infrastructure. 
+
+ https://user-images.githubusercontent.com/5760683/206673790-ad518ae3-cb9d-4e4f-b658-8109c5d0a827.mp4
+
+
 ## Live demos
 - Story https://story.demo.brizylocal.com
 - Popup https://popup.demo.brizylocal.com
