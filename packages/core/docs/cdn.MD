@@ -90,18 +90,14 @@ Config can be passed object when you initialize builder from script.
 | setLeads    | string | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
 | ui.popupSettings.displayCondition | boolean |   |
 | ui.popupSettings.deletePopup | boolean |   |
-| leftSidebar.topTabsOrder | Array |   |
-| leftSidebar.bottomTabsOrder | Array |   |
-| leftSidebar.addElements | boolean |   |
-| leftSidebar.reorderBlock | boolean |   |
-| leftSidebar.globalStyle | boolean |   |
-| leftSidebar.deviceMode | boolean |   |
-| leftSidebar.more.options | Array |   |
+| ui.leftSidebar.topTabsOrder | Array |   |
+| ui.leftSidebar.bottomTabsOrder | Array |   |
+| ui.leftSidebar.addElements | boolean |   |
+| ui.leftSidebar.reorderBlock | boolean |   |
+| ui.leftSidebar.globalStyle | boolean |   |
+| ui.leftSidebar.deviceMode | boolean |   |
+| ui.leftSidebar.more.options | Array |   |
  
-
-
-
-
 
 ### Config Events
 
