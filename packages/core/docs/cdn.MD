@@ -88,15 +88,11 @@ Config can be passed object when you initialize builder from script.
 | getMedia    | string | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                 |
 | setMedia    | string | Replace the URL with your own. This is the server where you want to store the images. |
 | setLeads    | string | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
-| ui.popupSettings.displayCondition | boolean | on off pentru global display conditions (img demo cu display condition)  |
-| ui.popupSettings.deletePopup | boolean | on off pentru delete option from popup () |
-| ui.leftSidebar.topTabsOrder | Array | poti sa controlezi unde apar icons din left sidebar in partea de sus |
-| ui.leftSidebar.bottomTabsOrder | Array | poti sa controlezi unde apar icons din left sidebar in partea de jos  |
-| ui.leftSidebar.addElements | boolean |   |
-| ui.leftSidebar.reorderBlock | boolean |   |
-| ui.leftSidebar.globalStyle | boolean |   |
-| ui.leftSidebar.deviceMode | boolean |   |
-| ui.leftSidebar.more.options | Array |   |
+| ui.popupSettings.displayCondition | boolean | Takes true or false values and lets you turn on or off the global [display conditions](#).  |
+| ui.popupSettings.deletePopup | boolean | Takes true or false values and lets you turn on or off the [delete popup option](#). Turn off the detele option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the posibility to access the premade Brizy templates inside the editor. |
+| ui.leftSidebar.topTabsOrder | Array | Lets you control the order of icons in the left sidebar at the top. Can take the values: "addElements", "reorderBlock", "globalStyle", "deviceMode" and "more". Leave "[blank]" if you want to disable one of the icons.  |
+| ui.leftSidebar.bottomTabsOrder | Array | Lets you control the order of icons in the left sidebar at the bottom. Can take the values: "addElements", "reorderBlock", "globalStyle", "deviceMode" and "more". Leave "[blank]" if you want to disable one of the icons.  |
+| ui.leftSidebar.more.options | Array | Let's you add more links in the More dropdown in the left sidebar. |
  
 
 ### Config Events
