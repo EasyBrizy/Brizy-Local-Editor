@@ -2,7 +2,7 @@
 
 Find out how to initialise the Editor from Brizy's CDN infrastructure from the video below:
 
-[![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/iKaLF9N-QRg)
+https://user-images.githubusercontent.com/10077249/206873329-2d01ba13-faa2-420e-874e-85cb36826de7.mp4
 
 ```shell
 # Builder Container
