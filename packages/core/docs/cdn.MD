@@ -89,7 +89,7 @@ Config can be passed as an object when you initialize the editor from the script
 | setMedia    | string | Replace the URL with your own. This is the server where you want to store the images. |
 | setLeads    | string | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
 
-UI config parameters
+### UI parameters
 
 | Name        | Type  | Description                                       |
 |:------------|:-------------|:------------------------------------------|
@@ -100,7 +100,7 @@ UI config parameters
 | ui.leftSidebar.more.options | Array | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar. |
  
 
-### Config Events
+### Events
 
 Config can be passed as an object when you initialize the editor from the script.
 
