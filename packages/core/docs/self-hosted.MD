@@ -5,7 +5,7 @@
 
 ## Installation
 
-[![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/OHnr2pWWrU8)
+https://user-images.githubusercontent.com/10077249/206906566-1d2087fc-847c-4530-8760-9b169dd3ed65.mp4
 
 We have 3 different editors:
 - Story on branch `story`
