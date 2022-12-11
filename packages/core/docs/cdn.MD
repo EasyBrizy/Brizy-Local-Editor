@@ -93,7 +93,7 @@ UI config parameters
 
 | Name        | Type  | Description                                       |
 |:------------|:-------------|:------------------------------------------|
-| ui.popupSettings.displayCondition | boolean | Takes true or false values and lets you turn on or off the global [display conditions](#).  |
+| ui.popupSettings.displayCondition | boolean | Takes true or false values and lets you turn on or off the global [display conditions](https://user-images.githubusercontent.com/10077249/206892163-024f4fcd-d127-4c28-8a60-ea21e3982b3c.png) option together with the [display conditions popup](https://user-images.githubusercontent.com/10077249/206892176-23ed85ee-4f66-4c83-8ebb-a64117daa124.png).  |
 | ui.popupSettings.deletePopup | boolean | Takes true or false values and lets you turn on or off the [delete popup option](#). Turn off the detele option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the posibility to access the premade Brizy templates inside the editor. |
 | ui.leftSidebar.topTabsOrder | Array | Lets you control the order of icons in the left sidebar at the top. Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.  |
 | ui.leftSidebar.bottomTabsOrder | Array | Lets you control the order of icons in the left sidebar at the bottom. Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.  |
