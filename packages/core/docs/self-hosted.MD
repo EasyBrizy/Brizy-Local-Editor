@@ -7,7 +7,7 @@
 
 [![](https://i.imgur.com/wrO4h6S.png)](https://youtu.be/OHnr2pWWrU8)
 
-We have 3 different mode in editor:
+We have 3 different editors:
 - Story on branch `story`
 - Popup on branch `popup`
 - Page on branch `pages`
@@ -69,7 +69,7 @@ AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KE
 
 ## Config
 
-Config can be passed object when you initialize builder from script.
+Config can be passed as an object when you initialize builder from script.
 
 | Name        | Type  | Description                                       |
 |:------------|:-------------|:------------------------------------------|
