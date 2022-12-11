@@ -102,7 +102,7 @@ UI config parameters
 
 ### Config Events
 
-Config can be passed object when you initialize builder from script.
+Config can be passed as an object when you initialize builder from script.
 
 | Name     | Description                           | Returned values         |
 |:---------|:--------------------------------------|:------------------------|
