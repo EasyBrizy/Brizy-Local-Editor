@@ -45,10 +45,6 @@ export interface Config {
       topTabsOrder?: Array<LeftSidebarOptionsIds>;
       bottomTabsOrder?: Array<LeftSidebarOptionsIds>;
 
-      [LeftSidebarOptionsIds.addElements]?: boolean;
-      [LeftSidebarOptionsIds.reorderBlock]?: boolean;
-      [LeftSidebarOptionsIds.globalStyle]?: boolean;
-      [LeftSidebarOptionsIds.deviceMode]?: boolean;
       [LeftSidebarOptionsIds.more]?: {
         options?: Array<{
           type: "link";
