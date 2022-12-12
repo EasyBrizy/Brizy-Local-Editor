@@ -4793,6 +4793,28 @@ body.brz::before, body.brz::after {
 .brz.brz:not(.brz-ed) .brz-forms2__field-select {
   padding: 0;
 }
+.brz.brz:not(.brz-ed) .brz-forms2__field-select--multiple {
+  position: relative;
+}
+.brz.brz:not(.brz-ed) .brz-forms2__field-select--multiple::after {
+  content: "";
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  top: calc(50% + 9px);
+  right: 22px;
+  -webkit-transform: translateY(calc(-50% - 5px));
+          transform: translateY(calc(-50% - 5px));
+  border-style: solid;
+  border-width: 5px 4px 0 4px;
+  border-color: currentColor transparent transparent;
+  margin-left: -4px;
+  margin-top: -2px;
+}
+.brz.brz:not(.brz-ed) .brz-forms2__field-select--multiple--opened::after {
+  -webkit-transform: translateY(calc(-50% - 5px)) rotate(-180deg) !important;
+          transform: translateY(calc(-50% - 5px)) rotate(-180deg) !important;
+}
 .brz.brz:not(.brz-ed) .brz-select {
   width: 100%;
   visibility: hidden;
@@ -8695,6 +8717,29 @@ body.brz::before, body.brz::after {
 }
 .brz .brz-calendly .calendly-inline-widget iframe {
   max-height: 100% !important;
+}
+.brz .brz-ministryBrands {
+  width: 100%;
+}
+.brz .brz-ministryBrands__item--meta--links,
+.brz .brz-ministryBrands a, .brz .brz-ministryBrands > a {
+  cursor: pointer;
+  text-decoration: none;
+}
+.brz .brz-ministryBrands img,
+.brz .brz-ministryBrands iframe,
+.brz .brz-ministryBrands video {
+  width: 100%;
+  height: 100%;
+}
+.brz .brz-ministryBrands audio {
+  width: 100%;
+}
+.brz .brz-ministryBrands__pagination {
+  padding: 2rem;
+}
+.brz .brz-ministryBrands__pagination > a:not(:last-child) {
+  margin-right: 0.5rem;
 }
 .brz .brz-wp-post-content {
   width: 100%;
