@@ -69,6 +69,41 @@ AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KE
 
 ## Config
 
+```ts
+type config = {
+    pageData: Record<string, unknown>,
+    projectData: Record<string, unknown>,
+
+    getMedia: string;
+    setMedia: string;
+    setLeads: string;
+    pagePreview: string;
+
+    ui: {
+        popupSettings?: {
+            displayCondition?: boolean;
+            deletePopup?: boolean;
+        };
+        leftSidebar?: {
+            topTabsOrder?: Array<"addElements" , "reorderBlock" , "globalStyle", "deviceMode", "more">;
+            bottomTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+
+            more?: {
+                options?: Array<{
+                    type: "link";
+                    label: string;
+                    link: string;
+                    linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+                }>;
+            };
+        };
+    };
+
+    onSave?: (data: Output) => void;
+    onLoad?: VoidFunction
+}
+```
+
 Config can be passed as an object when you initialize the editor from the script.
 
 | Name        | Type  | Description                                       |
@@ -88,7 +123,7 @@ Config can be passed as an object when you initialize the editor from the script
 | ui.leftSidebar.topTabsOrder | Array | Lets you control the order and turning on or off the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.  |
 | ui.leftSidebar.bottomTabsOrder | Array | Lets you control the order and turning on or off the [icons in the left sidebar at the bottom](https://user-images.githubusercontent.com/10077249/206904746-f23a8b8d-ed58-4c20-b036-d204efc94437.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.  |
 | ui.leftSidebar.more.options | Array | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar. |
- 
+
 
 ### Events
 
