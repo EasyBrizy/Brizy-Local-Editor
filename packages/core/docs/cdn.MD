@@ -11,10 +11,10 @@ https://user-images.githubusercontent.com/10077249/206906576-cc654003-9b6d-4661-
 # Update button
 <button id="update">Update</button>
 
-# Story CDN version: <script src="https://cdn.brizylocal.com/story/2.0.0/index.js"></script>
-# Popup CDN version: <script src="https://cdn.brizylocal.com/popup/2.0.0/index.js"></script>
-# Pages CDN version: <script src="https://cdn.brizylocal.com/pages/2.0.0/index.js"></script>
-<script src="https://cdn.brizylocal.com/pages/2.0.0/index.js"></script>
+# Story CDN version: <script src="https://cdn.brizylocal.com/story/2.1.4/index.js"></script>
+# Popup CDN version: <script src="https://cdn.brizylocal.com/popup/2.1.4/index.js"></script>
+# Pages CDN version: <script src="https://cdn.brizylocal.com/pages/2.1.4/index.js"></script>
+<script src="https://cdn.brizylocal.com/pages/2.1.4/index.js"></script>
 
 <script>
   # Story Config Example: https://github.com/EasyBrizy/Brizy-Local/blob/story/packages/demo/public/index.html
