@@ -10,10 +10,8 @@ https://user-images.githubusercontent.com/5760683/206679891-8209b498-5905-42db-8
 - Pages https://pages.demo.brizylocal.com
 
 > You can test Brizy Local for Free, using the demo authorisation token included within the editor, but to be able to use the editor in a commercial to unlock requires an authorisation token 
-
-Please note that the demo token will let you output a pre determined HTML, and not what you see in the editor. Getting a 
-
-Contact us here to get a PRO token that unlocks all functionality and gives you the 
+> Please note that the demo token will let you output a pre determined HTML, and not what you see in the editor. Getting a 
+> Contact us to get a PRO token that unlocks all functionality.
 
 ## Documentation
 
