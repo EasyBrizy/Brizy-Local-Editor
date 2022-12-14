@@ -9,7 +9,7 @@ https://user-images.githubusercontent.com/5760683/206679891-8209b498-5905-42db-8
 - Popup https://popup.demo.brizylocal.com
 - Pages https://pages.demo.brizylocal.com
 
->>>
+>>> --- 
 
 ## Documentation
 
