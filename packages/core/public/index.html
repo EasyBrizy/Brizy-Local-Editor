@@ -67,6 +67,7 @@
                 const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
                 const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
                 const ui = configData.ui ?? _ui;
+                const token = configData.token;
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
@@ -95,6 +96,9 @@
                   ...ui,
                   popupSettings: { ..._ui.popupSettings, ...ui.popupSettings },
                   leftSidebar: { ..._ui.leftSidebar, ...ui.leftSidebar },
+                };
+                window.__VISUAL_CONFIG__.auth = {
+                  token: token
                 };
                 window.__VISUAL_CONFIG__.onLoad = () => {
                   event.source.postMessage(
