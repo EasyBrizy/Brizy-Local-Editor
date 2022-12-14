@@ -1,9 +1,22 @@
 export interface Output {
-  html: string;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
-  scripts: Array<string>;
-  styles: Array<string>;
+  html?: string;
+  htmlBuilder?: {
+    root: string;
+    styles: Array<string>;
+    scripts: Array<string>;
+  };
+  error?: string;
+}
+
+export interface BuilderOutput {
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+  styles?: Array<string>;
+  scripts?: Array<string>;
+  html?: string;
+  error?: string;
 }
 
 export enum LeftSidebarOptionsIds {
