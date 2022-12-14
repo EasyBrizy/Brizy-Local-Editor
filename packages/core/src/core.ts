@@ -9,7 +9,14 @@ const actions = {
   save: save,
 };
 
-export const Core: Init = (container, config, cb) => {
+export const Core: Init = (token, config, cb) => {
+  if (!token) {
+    console.error("Token is required");
+    return;
+  }
+
+  const { container } = config;
+
   if (!(container instanceof HTMLElement)) {
     console.error("The element must be a valid HTMLElement");
     return;
@@ -35,7 +42,7 @@ export const Core: Init = (container, config, cb) => {
     }
 
     // @ts-expect-error: Property 'src' does not exist on type 'EventTarget'
-    iframeWindow.postMessage(actions.init(config), e.target?.src ?? "*");
+    iframeWindow.postMessage(actions.init(config, token), e.target?.src ?? "*");
 
     _window.addEventListener("message", (event) => {
       const data = event.data;

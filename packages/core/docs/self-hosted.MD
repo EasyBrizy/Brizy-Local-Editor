@@ -55,8 +55,9 @@ AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KE
 
   const Builder = window.Builder;
   let builderAPI;
+  const token = "demo";
 
-  Builder.init(editor, config, (api) => {
+  Builder.init(token, config, (api) => {
     builderAPI = api;
   });
 
@@ -71,8 +72,9 @@ AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KE
 
 ```ts
 type config = {
-    pageData: Record<string, unknown>,
-    projectData: Record<string, unknown>,
+    container: HTMLElement;
+    pageData: Record<string, unknown>;
+    projectData: Record<string, unknown>;
 
     getMedia: string;
     setMedia: string;
@@ -100,19 +102,20 @@ type config = {
     };
 
     onSave?: (data: Output) => void;
-    onLoad?: VoidFunction
+    onLoad?: VoidFunction;
 }
 ```
 
 Config can be passed as an object when you initialize the editor from the script.
 
-| Name        | Type  | Description                                       |
-|:------------|:-------------|:------------------------------------------|
-| pageData    | object | Loads the JSON page specified in the pageData parameter. |
-| projectData | object | Loads the JSON project specified in the projectData parameter. |
-| getMedia    | string | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Here is how to [setup your own image resizer service](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer). |
-| setMedia    | string | Replace the URL with your own. This is the server where you want to store the images. |
-| setLeads    | string | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
+| Name        | Type        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|:------------|:------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| container   | HTMLElement | Brizy Plugin will load into HTML element.                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| pageData    | object      | Loads the JSON page specified in the pageData parameter.                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| projectData | object      | Loads the JSON project specified in the projectData parameter.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| getMedia    | string      | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Here is how to [setup your own image resizer service](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer). |
+| setMedia    | string      | Replace the URL with your own. This is the server where you want to store the images.                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| setLeads    | string      | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                       |
 
 ### UI parameters
 
