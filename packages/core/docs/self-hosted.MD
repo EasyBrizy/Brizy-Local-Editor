@@ -104,6 +104,25 @@ type config = {
     onSave?: (data: Output) => void;
     onLoad?: VoidFunction;
 }
+
+interface Output {
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+
+  // Full HTML with DOCTYPE, head and body
+  html?: string;
+
+  // Partial HTML, the root is a div element with all page compiled
+  // Use this case when you need to create a fully customizable preview HTML
+  htmlBuilder?: {
+    root: string;
+    styles: Array<string>;
+    scripts: Array<string>;
+  };
+
+  // Error when html and htmlBuilder will be undefined
+  error?: string;
+}
 ```
 
 Config can be passed as an object when you initialize the editor from the script.
