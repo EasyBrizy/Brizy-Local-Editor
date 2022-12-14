@@ -15,6 +15,7 @@ export enum LeftSidebarOptionsIds {
 }
 
 export interface Config {
+  container: HTMLElement;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
 
@@ -78,7 +79,7 @@ export type ActionResolve = {
   data: string;
 };
 
-export type Init = (el: HTMLElement, config: Config, cb: CB) => void;
+export type Init = (token: string, config: Config, cb: CB) => void;
 
 export type Builder = {
   init: Init;

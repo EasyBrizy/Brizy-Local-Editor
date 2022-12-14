@@ -1,7 +1,7 @@
 import { ActionResolve, Config, Target } from "../types/types";
 import { ActionTypes } from "./types";
 
-export const init = (config: Config): ActionResolve => ({
+export const init = (config: Config, token: string): ActionResolve => ({
   target: Target.builder,
   data: JSON.stringify({
     type: ActionTypes.initPage,
@@ -13,6 +13,7 @@ export const init = (config: Config): ActionResolve => ({
       setLeads: config.setLeads,
       pagePreview: config.pagePreview,
       ui: config.ui,
+      token: token,
     },
   }),
 });
