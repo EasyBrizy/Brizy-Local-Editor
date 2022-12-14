@@ -1,8 +1,9 @@
-import { Init, Target } from "./types/types";
+import { BuilderOutput, Init, Target } from "./types/types";
 import { init, save } from "./actions";
 import { ActionTypes } from "./actions/types";
 import { loader } from "./Loader";
 import { initLoader, destroyLoader } from "./Loader/init";
+import { createOutput } from "./utils/createOutput";
 
 const actions = {
   init: init,
@@ -53,7 +54,9 @@ export const Core: Init = (token, config, cb) => {
       try {
         const action = JSON.parse(data.data);
         const api = {
-          [ActionTypes.save]: config.onSave,
+          [ActionTypes.save]: (output: BuilderOutput) => {
+            config.onSave?.(createOutput(output));
+          },
           [ActionTypes.onLoad]: () => {
             destroyLoader(spinner, container);
             config.onLoad?.();
