@@ -1,7 +1,7 @@
-import { ActionResolve, Config, Target } from "../types/types";
+import { ActionResolve, Config, HtmlOutputType, Target } from "../types/types";
 import { ActionTypes } from "./types";
 
-export const init = (config: Config, token: string): ActionResolve => ({
+export const init = <T extends HtmlOutputType>(config: Config<T>, token: string): ActionResolve => ({
   target: Target.builder,
   data: JSON.stringify({
     type: ActionTypes.initPage,

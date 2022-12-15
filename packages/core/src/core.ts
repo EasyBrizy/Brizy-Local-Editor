@@ -1,4 +1,4 @@
-import { BuilderOutput, Init, Target } from "./types/types";
+import { BuilderOutput, HtmlOutputType, Init, Target } from "./types/types";
 import { init, save } from "./actions";
 import { ActionTypes } from "./actions/types";
 import { loader } from "./Loader";
@@ -10,13 +10,13 @@ const actions = {
   save: save,
 };
 
-export const Core: Init = (token, config, cb) => {
+export const Core: Init<HtmlOutputType> = (token, config, cb) => {
   if (!token) {
     console.error("Token is required");
     return;
   }
 
-  const { container } = config;
+  const { htmlOutputType = "monolith", container } = config;
 
   if (!(container instanceof HTMLElement)) {
     console.error("The element must be a valid HTMLElement");
@@ -55,7 +55,7 @@ export const Core: Init = (token, config, cb) => {
         const action = JSON.parse(data.data);
         const api = {
           [ActionTypes.save]: (output: BuilderOutput) => {
-            config.onSave?.(createOutput(output));
+            config.onSave?.(createOutput(htmlOutputType, output));
           },
           [ActionTypes.onLoad]: () => {
             destroyLoader(spinner, container);
