@@ -1,12 +1,20 @@
-export interface Output {
-  pageData: Record<string, unknown>;
-  projectData: Record<string, unknown>;
-  html?: string;
-  htmlBuilder?: {
+export type HtmlOutputType = "monolith" | "partial";
+
+export interface OutputType {
+  monolith: {
+    root: string;
+  };
+  partial: {
     root: string;
     styles: Array<string>;
     scripts: Array<string>;
   };
+}
+
+export interface Output<T extends HtmlOutputType> {
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+  html?: OutputType[T];
   error?: string;
 }
 
@@ -27,10 +35,12 @@ export enum LeftSidebarOptionsIds {
   more = "more",
 }
 
-export interface Config {
+export interface Config<T extends HtmlOutputType> {
   container: HTMLElement;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
+
+  htmlOutputType: T;
 
   //#region Urls
 
@@ -73,7 +83,7 @@ export interface Config {
   };
 
   // events
-  onSave?: (data: Output) => void;
+  onSave?: (data: Output<T>) => void;
   onLoad?: VoidFunction;
 }
 
@@ -92,8 +102,8 @@ export type ActionResolve = {
   data: string;
 };
 
-export type Init = (token: string, config: Config, cb: CB) => void;
+export type Init<T extends HtmlOutputType> = (token: string, config: Config<T>, cb: CB) => void;
 
-export type Builder = {
-  init: Init;
+export type Builder<T extends HtmlOutputType> = {
+  init: Init<T>;
 };
