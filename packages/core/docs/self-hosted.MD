@@ -154,7 +154,7 @@ Config can be passed as an object when you initialize the editor from the script
 
 ### Events
 
-Config can be passed as an object when you initialize builder from script.
+These are the callbacks that are triggered when the buttons are clicked.
 
 | Name   | Description                           | Returned values         |
 |:-------|:--------------------------------------|:------------------------|
