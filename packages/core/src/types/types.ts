@@ -53,7 +53,7 @@ export interface Config<T extends HtmlOutputType> {
   //#endregion
 
   // ui
-  ui: {
+  ui?: {
     //#region Popup
 
     popupSettings?: {
