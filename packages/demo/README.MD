@@ -16,4 +16,4 @@ npm run server
 
 > Now you can visit http://localhost:9001 to view your server
 
-For more details see [here](https://github.com/EasyBrizy/Brizy-Local/tree/story/packages/core#readme)
+For more details see [here](https://github.com/EasyBrizy/Brizy-Local/tree/master/packages/core#readme)
