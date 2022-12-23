@@ -18,8 +18,6 @@
           worker: origin + "/dist/free/editor/js",
           templateFonts: origin + "/dist/free/editor/icons",
           api2: {
-            getMedia: "",
-            setMedia: "",
             setLeads: "",
           },
         },
@@ -38,11 +36,40 @@
             bottomTabsOrder: ["deviceMode", "more"],
           },
         },
+        api: {},
       };
     </script>
   </head>
   <body class="brz brz-ed">
     <script>
+      function handleAddMedia(res, rej) {
+        return function emitter(event) {
+          const data = event.data;
+          if (data.target !== "<%- target %>") {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case "<%- target %>_add_media_res": {
+                res(action.data);
+                window.removeEventListener("message", emitter);
+                break;
+              }
+              case "<%- target %>_add_media_rej": {
+                rej(action.data);
+                window.removeEventListener("message", emitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid AddMedia JSON", e);
+          }
+        };
+      }
+
       window.addEventListener(
         "message",
         (event) => {
@@ -54,19 +81,35 @@
           try {
             const action = JSON.parse(data.data);
 
+            const addMediaHandler = function (res, rej, extra) {
+              event.source.postMessage(
+                {
+                  target: "<%- target %>",
+                  data: JSON.stringify({
+                    type: "<%- target %>_add_media",
+                    payload: extra,
+                  }),
+                },
+                event.origin,
+              );
+
+              // Listening the AddMessage
+              window.addEventListener("message", handleAddMedia(res, rej));
+            };
+
             switch (action.type) {
               case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
                 const pro = window.__VISUAL_CONFIG__.pro;
                 const _ui = window.__VISUAL_CONFIG__.ui;
+                const _api = window.__VISUAL_CONFIG__.api;
                 const configData = action.data ? action.data : {};
-                const getMedia = configData.getMedia ?? urls.api2.getMedia;
-                const setMedia = configData.setMedia ?? urls.api2.setMedia;
                 const setLeads = configData.setLeads ?? urls.api2.setLeads;
                 const configAssets = configData.assets;
                 const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
                 const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
-                const ui = configData.ui ?? _ui;
+                const ui = configData.ui ? configData.ui : _ui;
+                const api = configData.api ? configData.api : _api;
                 const token = configData.token;
 
                 window.__VISUAL_CONFIG__.urls = {
@@ -75,8 +118,6 @@
                   pagePreview: configData.pagePreview,
                   api2: {
                     ...urls.api2,
-                    getMedia,
-                    setMedia,
                     setLeads,
                   },
                 };
@@ -98,7 +139,7 @@
                   leftSidebar: { ..._ui.leftSidebar, ...ui.leftSidebar },
                 };
                 window.__VISUAL_CONFIG__.auth = {
-                  token: token
+                  token: token,
                 };
                 window.__VISUAL_CONFIG__.onLoad = () => {
                   event.source.postMessage(
@@ -108,6 +149,13 @@
                     },
                     event.origin,
                   );
+                };
+                window.__VISUAL_CONFIG__.api = {
+                  ...api,
+                  media: {
+                    ...api.media,
+                    addMedia: { handler: addMediaHandler },
+                  },
                 };
 
                 const iframe = document.querySelector("#no-script-frame");
@@ -133,6 +181,12 @@
                     event.origin,
                   );
                 }, configData);
+                break;
+              }
+              case "<%- target %>_add_media_res":
+              case "<%- target %>_add_media_rej": {
+                // Nothing to do here
+                // All Logic is inside the addImageHandler
                 break;
               }
               default: {
