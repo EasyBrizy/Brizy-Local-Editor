@@ -56,8 +56,6 @@ type config = {
     /// use this case when you need to create a fully customizable preview HTML
     htmlOutputType: "monolith" | "partial";
 
-    getMedia: string;
-    setMedia: string;
     setLeads: string;
     pagePreview: string;
 
@@ -81,6 +79,18 @@ type config = {
         };
     };
 
+    // API
+    api?: {
+        /// Media
+        media?: {
+            mediaResizeUrl?: string;
+
+            addMedia?: {
+                handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
+            };
+        };
+    };
+
     onSave?: (data: Output) => void;
     onLoad?: VoidFunction;
 }
@@ -98,6 +108,15 @@ interface Output {
   // Error when html will be undefined
   error?: string;
 }
+
+// Media
+export interface AddMediaData {
+  fileName: string;
+  uid: string;
+}
+export interface AddMediaExtra {
+  acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
+}
 ```
 
 Config can be passed as an object when you initialize the editor from the script.
@@ -108,8 +127,6 @@ Config can be passed as an object when you initialize the editor from the script
 | htmlOutputType | monolith or partial | Default "monolith"                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | pageData       | object              | Loads the JSON page specified in the pageData parameter.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | projectData    | object              | Loads the JSON project specified in the projectData parameter.                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| getMedia       | string              | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer) |
-| setMedia       | string              | Replace the URL with your own. This is the server where you want to store the images.                                                                                                                                                                                                                                                                                                                                                                                                           |
 | setLeads       | string              | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                 |
 
 ### UI parameters
@@ -122,6 +139,30 @@ Config can be passed as an object when you initialize the editor from the script
 | ui.leftSidebar.bottomTabsOrder | Array | Lets you control the order and turning on or off the [icons in the left sidebar at the bottom](https://user-images.githubusercontent.com/10077249/206904746-f23a8b8d-ed58-4c20-b036-d204efc94437.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.  |
 | ui.leftSidebar.more.options | Array | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar. |
 
+### API parameters
+
+| Name                           | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|:-------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| api.media.mediaResizeUrl       | string   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)  |
+| api.media.addMedia.handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+
+#### Example Media Handler
+
+```ts
+const config = {
+  api: {
+    media: {
+      handler(resolve, reject, extra) {
+        // extra: { acceptedExtensions: Array<string> }
+        resolve({
+          fileName: "picture.png",
+          uid: "1234abc",
+        });
+      },
+    },
+  },
+};
+```
 
 ### Events
 

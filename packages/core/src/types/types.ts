@@ -35,6 +35,17 @@ export enum LeftSidebarOptionsIds {
   more = "more",
 }
 
+export interface AddMediaData {
+  fileName: string;
+  uid: string;
+}
+
+export interface AddMediaExtra {
+  acceptedExtensions: Array<string>;
+}
+
+export type Response<R> = (r: R) => void;
+
 export interface Config<T extends HtmlOutputType> {
   container: HTMLElement;
   pageData: Record<string, unknown>;
@@ -43,9 +54,6 @@ export interface Config<T extends HtmlOutputType> {
   htmlOutputType: T;
 
   //#region Urls
-
-  getMedia: string;
-  setMedia: string;
   setLeads: string;
   assets?: string;
   pagePreview?: string;
@@ -80,6 +88,21 @@ export interface Config<T extends HtmlOutputType> {
     };
 
     //#endregion
+  };
+
+  // API
+  api?: {
+    //#region Media
+
+    media?: {
+      mediaResizeUrl?: string;
+
+      addMedia?: {
+        handler: (res: Response<AddMediaData>, rej: Response<string>, extra: AddMediaExtra) => void;
+      };
+    };
+
+    //#ednregion
   };
 
   // events
