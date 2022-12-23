@@ -1,5 +1,5 @@
-import { BuilderOutput, HtmlOutputType, Init, Target } from "./types/types";
-import { init, save } from "./actions";
+import { AddMediaData, AddMediaExtra, BuilderOutput, HtmlOutputType, Init, Target } from "./types/types";
+import { init, save, addMediaRes, addMediaRej } from "./actions";
 import { ActionTypes } from "./actions/types";
 import { loader } from "./Loader";
 import { initLoader, destroyLoader } from "./Loader/init";
@@ -8,6 +8,8 @@ import { createOutput } from "./utils/createOutput";
 const actions = {
   init: init,
   save: save,
+  addMediaRes: addMediaRes,
+  addMediaRej: addMediaRej,
 };
 
 export const Core: Init<HtmlOutputType> = (token, config, cb) => {
@@ -43,7 +45,9 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
     }
 
     // @ts-expect-error: Property 'src' does not exist on type 'EventTarget'
-    iframeWindow.postMessage(actions.init(config, token), e.target?.src ?? "*");
+    const targetOrigin = e.target?.src ?? "*";
+
+    iframeWindow.postMessage(actions.init(config, token), targetOrigin);
 
     _window.addEventListener("message", (event) => {
       const data = event.data;
@@ -61,6 +65,20 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             destroyLoader(spinner, container);
             config.onLoad?.();
           },
+          [ActionTypes.addMedia]: (extra: AddMediaExtra) => {
+            const { api = {} } = config;
+            const { media = {} } = api;
+            if (media.addMedia) {
+              const res = (r: AddMediaData) => {
+                iframeWindow.postMessage(actions.addMediaRes(r), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.addMediaRej(r), targetOrigin);
+              };
+
+              media.addMedia.handler(res, rej, extra);
+            }
+          },
         };
 
         // @ts-expect-error: temporary
@@ -76,8 +94,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
     });
 
     const save = () => {
-      // @ts-expect-error: Property 'src' does not exist on type 'EventTarget'
-      iframeWindow.postMessage(actions.save(), e.target?.src ?? "*");
+      iframeWindow.postMessage(actions.save(), targetOrigin);
     };
 
     const api = {

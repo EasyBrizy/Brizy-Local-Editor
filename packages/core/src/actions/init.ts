@@ -8,12 +8,11 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, token: string)
     data: {
       pageData: config.pageData,
       projectData: config.projectData,
-      getMedia: config.getMedia,
-      setMedia: config.setMedia,
       setLeads: config.setLeads,
       pagePreview: config.pagePreview,
       ui: config.ui,
       token: token,
+      api: config.api,
     },
   }),
 });
