@@ -4301,8 +4301,6 @@ export const demoConfig: Config<"monolith"> = {
     },
   },
   htmlOutputType: "monolith",
-  getMedia: "https://media.brizylocal.com/media",
-  setMedia: "https://reqbin.com/sample/post/json",
   setLeads: "https://reqbin.com/sample/post/json",
   pagePreview: "https://pages.demo.brizylocal.com/preview.html",
 };
