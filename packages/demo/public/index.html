@@ -67,10 +67,25 @@
 
     <!-- Editor Core -->
     <script src="https://cdn.brizylocal.com/story/2.1.8/index.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
 
     <script>
       const editor = document.querySelector("#editor");
       const update = document.querySelector("#update");
+      const bucketName = "BUCKET_NAME";
+      const bucketRegion = "REGION";
+      const IdentityPoolId = "IDENTITY_POOL_ID";
+      const AWS = window.AWS;
+
+      AWS.config.update({
+        region: bucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: IdentityPoolId,
+        }),
+      });
+      const s3 = new AWS.S3({
+        params: { Bucket: bucketName },
+      });
 
       if (editor) {
         const config = {
@@ -1071,18 +1086,35 @@
             media: {
               mediaResizeUrl: "https://media.brizylocal.com/media",
               addMedia: {
-                handler(res, rej, extra) {
-                  setTimeout(() => {
-                    res({
-                      uid: "c3d7d131eed7b1d91623a11672e909fd",
-                      fileName: "my-custom-image.png",
-                    });
-                  }, 1000);
+                handler(resolve, reject, extra) {
+                  const input = document.createElement("input");
+                  input.type = "file";
+                  input.accept = "image/*";
 
-                  // On Error
-                  //setTimeout(() => {
-                  //   rej("My custom error message");
-                  // }, 1000);
+                  input.addEventListener("change", function (e) {
+                    const { files } = e.target;
+                    if (files && files.length) {
+                      const file = files[0];
+                      const uid = crypto.randomUUID();
+                      const fileName = file.name;
+                      const filePath = `media/${uid}/${fileName}`;
+                      const s3Config = {
+                        Key: filePath,
+                        Body: file,
+                      };
+
+                      // Upload to S3
+                      s3.upload(s3Config, (err) => {
+                        if (err) {
+                          reject(`Wrong Upload to S3 ${err.message}`);
+                        } else {
+                          resolve({ fileName, uid });
+                        }
+                      });
+                    }
+                  });
+
+                  input.click();
                 },
               },
             },
