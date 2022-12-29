@@ -221,6 +221,7 @@ const config = {
     media: {
       // You need to start a Brizy Local Image Resize
       /// for more information on how you can do that see here https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#readme
+      /// ORIGIN_MEDIA_URL=https://${AWS_BUKET_NAME}/media
       mediaResizeUrl: "http://localhost:7788/media", // HOST [Brizy Local Image Resizer]
       handler(resolve, reject, extra) {
         const input = document.createElement("input");
