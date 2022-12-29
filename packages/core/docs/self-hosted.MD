@@ -193,6 +193,72 @@ const config = {
 };
 ```
 
+#### Example Media Handler with Brizy Local Image Resizer & AWS S3
+```ts
+// In HTML
+// <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
+
+const bucketName = "AWS_BUCKET_NAME";
+const bucketRegion = "AWS_REGION";
+const identityPoolId = "AWS_IDENTITY_POOL_ID";
+const AWS = window.AWS;
+
+// More details about AWS you can see here https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/welcome.html
+AWS.config.update({
+    region: bucketRegion,
+    credentials: new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: identityPoolId,
+    }),
+});
+const s3 = new AWS.S3({
+    params: {
+        Bucket: bucketName
+    },
+});
+
+const config = {
+  api: {
+    media: {
+      // You need to start a Brizy Local Image Resize
+      /// for more information on how you can do that see here https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#readme
+      mediaResizeUrl: "http://localhost:7788/media", // HOST [Brizy Local Image Resizer]
+      handler(resolve, reject, extra) {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+
+        input.addEventListener("change", function (e) {
+            const { files } = e.target;
+
+            if (files && files.length) {
+                const file = files[0];
+                const uid = crypto.randomUUID();
+                const fileName = file.name;
+                const filePath = `media/${uid}/${fileName}`;
+                const s3Config = {
+                    Key: filePath,
+                    Body: file,
+                };
+
+                // Upload to S3
+                s3.upload(s3Config, (err) => {
+                    if (err) {
+                        reject(`Wrong Upload to S3 ${err.message}`);
+                    } else {
+                        resolve({ fileName, uid });
+                    }
+                });
+            }
+        });
+
+        // Open Upload Window
+        input.click();
+      },
+    },
+  },
+};
+```
+
 ### Events
 
 These are the callbacks that are triggered when the buttons are clicked.
