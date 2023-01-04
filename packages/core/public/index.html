@@ -111,6 +111,7 @@
                 const ui = configData.ui ? configData.ui : _ui;
                 const api = configData.api ? configData.api : _api;
                 const token = configData.token;
+                const pageData = action.data.pageData ?? {};
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
@@ -128,7 +129,29 @@
                     assets: proAssets,
                   },
                 };
-                window.__VISUAL_CONFIG__.pageData = action.data.pageData;
+                const defaultPageData = {
+                  id: "1",
+                  title: "",
+                  slug: "",
+                  status: "draft",
+                  data: {
+                    items: [],
+                  },
+                  dataVersion: 0,
+                  collectionType: {
+                    id: "1",
+                    title: "Pages",
+                  },
+                  fields: [],
+                };
+                window.__VISUAL_CONFIG__.pageData = {
+                  ...defaultPageData,
+                  ...pageData,
+                  data: {
+                    ...defaultPageData.data,
+                    ...pageData.data,
+                  },
+                };
                 window.__VISUAL_CONFIG__.projectData = {
                   dataVersion: 1,
                   data: action.data.projectData,
