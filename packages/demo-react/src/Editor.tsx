@@ -17,7 +17,6 @@ export const Editor = () => {
           handler(res, rej, extra) {
             setTimeout(() => {
               res({
-                uid: "c3d7d131eed7b1d91623a11672e909fd",
                 fileName: "my-custom-image.png",
               });
             }, 1000);
