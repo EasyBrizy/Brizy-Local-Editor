@@ -4651,9 +4651,8 @@
                     const { files } = e.target;
                     if (files && files.length) {
                       const file = files[0];
-                      const uid = crypto.randomUUID();
                       const fileName = file.name;
-                      const filePath = `media/${uid}/${fileName}`;
+                      const filePath = `media/${fileName}`;
                       const s3Config = {
                         Key: filePath,
                         Body: file,
@@ -4664,7 +4663,7 @@
                         if (err) {
                           reject(`Wrong Upload to S3 ${err.message}`);
                         } else {
-                          resolve({ fileName, uid });
+                          resolve({ fileName });
                         }
                       });
                     }
