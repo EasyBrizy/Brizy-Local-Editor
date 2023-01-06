@@ -37,7 +37,6 @@ export enum LeftSidebarOptionsIds {
 
 export interface AddMediaData {
   fileName: string;
-  uid: string;
 }
 
 export interface AddMediaExtra {
