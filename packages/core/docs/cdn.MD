@@ -56,6 +56,9 @@ type config = {
     /// use this case when you need to create a fully customizable preview HTML
     htmlOutputType: "monolith" | "partial";
 
+    // Menu
+    menuData?: Array<MenuData>
+
     setLeads: string;
     pagePreview: string;
 
@@ -109,6 +112,28 @@ interface Output {
   error?: string;
 }
 
+// MenuData
+interface MenuData {
+  id: string;
+  name: string;
+  items: Array<MenuItem>
+}
+
+// MenuItem
+export interface MenuItem {
+  type: "MenuItem",
+  value: {
+    id: string;
+    title: string;
+    url: string;
+    target?: string;
+    classes?: Array<string>;
+
+    // Dropdown
+    items?: Array<MenuItem>
+  }
+}
+
 // Media
 export interface AddMediaData {
   fileName: string;
@@ -121,13 +146,14 @@ export interface AddMediaExtra {
 
 Config can be passed as an object when you initialize the editor from the script.
 
-| Name           | Type                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|:---------------|:--------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| container      | HTMLElement         | Brizy Plugin will load into HTML element.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| htmlOutputType | monolith or partial | Default "monolith"                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| pageData       | object              | Loads the JSON page specified in the pageData parameter.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| projectData    | object              | Loads the JSON project specified in the projectData parameter.                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| setLeads       | string              | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                 |
+| Name           | Type                | Description                                                                                                                                     |
+|:---------------|:--------------------|:------------------------------------------------------------------------------------------------------------------------------------------------|
+| container      | HTMLElement         | Brizy Plugin will load into HTML element.                                                                                                       |
+| htmlOutputType | monolith or partial | Default "monolith"                                                                                                                              |
+| pageData       | object              | Loads the JSON page specified in the pageData parameter.                                                                                        |
+| projectData    | object              | Loads the JSON project specified in the projectData parameter.                                                                                  |
+| setLeads       | string              | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
+| menuData       | array               | Load the array of menuData                                                                                                                      |
 
 ### UI parameters
 

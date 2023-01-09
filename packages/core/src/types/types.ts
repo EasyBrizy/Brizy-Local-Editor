@@ -27,6 +27,20 @@ export interface BuilderOutput {
   error?: string;
 }
 
+export interface MenuItem {
+  type: "MenuItem";
+  value: {
+    id: string;
+    title: string;
+    url: string;
+    target?: string;
+    classes?: Array<string>;
+
+    // For Dropdown next level
+    items?: Array<MenuItem>;
+  };
+}
+
 export enum LeftSidebarOptionsIds {
   addElements = "addElements",
   reorderBlock = "reorderBlock",
@@ -53,11 +67,19 @@ export interface Config<T extends HtmlOutputType> {
   htmlOutputType: T;
 
   //#region Urls
+
   setLeads: string;
   assets?: string;
   pagePreview?: string;
 
   //#endregion
+
+  // Menu
+  menuData?: Array<{
+    id: string;
+    name: string;
+    items: Array<MenuItem>;
+  }>;
 
   // ui
   ui?: {
