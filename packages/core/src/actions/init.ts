@@ -13,6 +13,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, token: string)
       ui: config.ui,
       token: token,
       api: config.api,
+      menuData: config.menuData,
     },
   }),
 });

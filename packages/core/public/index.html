@@ -103,6 +103,7 @@
                 const pro = window.__VISUAL_CONFIG__.pro;
                 const _ui = window.__VISUAL_CONFIG__.ui;
                 const _api = window.__VISUAL_CONFIG__.api;
+                const _menuData = window.__VISUAL_CONFIG__.menuData;
                 const configData = action.data ? action.data : {};
                 const setLeads = configData.setLeads ?? urls.api2.setLeads;
                 const configAssets = configData.assets;
@@ -112,6 +113,7 @@
                 const api = configData.api ? configData.api : _api;
                 const token = configData.token;
                 const pageData = action.data.pageData ?? {};
+                const menuData = action.data.menuData ?? _menuData;
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
@@ -156,6 +158,7 @@
                   dataVersion: 1,
                   data: action.data.projectData,
                 };
+                window.__VISUAL_CONFIG__.menuData = menuData;
                 window.__VISUAL_CONFIG__.ui = {
                   ...ui,
                   popupSettings: { ..._ui.popupSettings, ...ui.popupSettings },
