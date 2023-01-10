@@ -49,6 +49,8 @@ export enum LeftSidebarOptionsIds {
   more = "more",
 }
 
+//#region Media
+
 export interface AddMediaData {
   fileName: string;
 }
@@ -56,6 +58,17 @@ export interface AddMediaData {
 export interface AddMediaExtra {
   acceptedExtensions: Array<string>;
 }
+
+//#endregion
+
+//#region Form
+
+export interface FormFieldsOption {
+  title: string;
+  value: string;
+}
+
+//#endregion
 
 export type Response<R> = (r: R) => void;
 
@@ -68,20 +81,33 @@ export interface Config<T extends HtmlOutputType> {
 
   //#region Urls
 
-  setLeads: string;
   assets?: string;
   pagePreview?: string;
 
   //#endregion
 
   // Menu
-  menuData?: Array<{
+  menu?: Array<{
     id: string;
     name: string;
     items: Array<MenuItem>;
   }>;
 
-  // ui
+  // Integration
+  integration?: {
+    form?: {
+      action?: string;
+      recaptcha?: {
+        siteKey: string;
+      };
+      fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
+    };
+  };
+
+  // UI
   ui?: {
     //#region Popup
 

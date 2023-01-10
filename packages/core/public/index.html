@@ -43,7 +43,7 @@
   <body class="brz brz-ed">
     <script>
       function handleAddMedia(res, rej) {
-        return function emitter(event) {
+        return function mediaEmitter(event) {
           const data = event.data;
           if (data.target !== "<%- target %>") {
             return;
@@ -55,17 +55,45 @@
             switch (action.type) {
               case "<%- target %>_add_media_res": {
                 res(action.data);
-                window.removeEventListener("message", emitter);
+                window.removeEventListener("message", mediaEmitter);
                 break;
               }
               case "<%- target %>_add_media_rej": {
                 rej(action.data);
-                window.removeEventListener("message", emitter);
+                window.removeEventListener("message", mediaEmitter);
                 break;
               }
             }
           } catch (e) {
             console.error("Invalid AddMedia JSON", e);
+          }
+        };
+      }
+
+      function handleFormFields(res, rej) {
+        return function fieldsEmitter(event) {
+          const data = event.data;
+          if (data.target !== "<%- target %>") {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case "<%- target %>_form_fields_res": {
+                res(action.data);
+                window.removeEventListener("message", fieldsEmitter);
+                break;
+              }
+              case "<%- target %>_form_fields_rej": {
+                rej(action.data);
+                window.removeEventListener("message", fieldsEmitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid FormFieldsOptions JSON", e);
           }
         };
       }
@@ -97,6 +125,21 @@
               window.addEventListener("message", handleAddMedia(res, rej));
             };
 
+            const addFormFieldHandler = function (res, rej) {
+              event.source.postMessage(
+                {
+                  target: "<%- target %>",
+                  data: JSON.stringify({
+                    type: "<%- target %>_form_fields",
+                  }),
+                },
+                event.origin,
+              );
+
+              // Listening the AddMessage
+              window.addEventListener("message", handleFormFields(res, rej));
+            };
+
             switch (action.type) {
               case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
@@ -111,9 +154,24 @@
                 const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
                 const ui = configData.ui ? configData.ui : _ui;
                 const api = configData.api ? configData.api : _api;
+                const _integration = configData.integration ?? {};
                 const token = configData.token;
                 const pageData = action.data.pageData ?? {};
-                const menuData = action.data.menuData ?? _menuData;
+                const menuData = action.data.menu ?? _menuData;
+                const apiMedia = api.media ?? {};
+                const formIntegration = _integration.form ?? {};
+                const integrationFormFields = formIntegration.fields ?? {};
+
+                if (integrationFormFields && integrationFormFields.enable) {
+                  formIntegration.fields = {
+                    label: integrationFormFields.label,
+                    handler: addFormFieldHandler,
+                  };
+                }
+                const integration = {
+                  ..._integration,
+                  form: formIntegration,
+                };
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
@@ -179,10 +237,11 @@
                 window.__VISUAL_CONFIG__.api = {
                   ...api,
                   media: {
-                    ...api.media,
+                    ...apiMedia,
                     addMedia: { handler: addMediaHandler },
                   },
                 };
+                window.__VISUAL_CONFIG__.integration = integration;
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
@@ -210,9 +269,11 @@
                 break;
               }
               case "<%- target %>_add_media_res":
-              case "<%- target %>_add_media_rej": {
+              case "<%- target %>_add_media_rej":
+              case "<%- target %>_form_fields_res":
+              case "<%- target %>_form_fields_rej": {
                 // Nothing to do here
-                // All Logic is inside the addImageHandler
+                // All Logic is outside of current event
                 break;
               }
               default: {

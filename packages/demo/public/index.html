@@ -1016,6 +1016,30 @@
           },
           htmlOutputType: "monolith",
 
+          integration: {
+            form: {
+              action: "https://reqbin.com/sample/post/json",
+              fields: {
+                handler(resolve, reject) {
+                  resolve([
+                    {
+                      title: "Email",
+                      value: "Email",
+                    },
+                    {
+                      title: "Name",
+                      value: "name",
+                    },
+                    {
+                      title: "Password",
+                      value: "password",
+                    },
+                  ]);
+                },
+              },
+            },
+          },
+
           api: {
             media: {
               mediaResizeUrl: "https://media.brizylocal.com/media",
@@ -1053,7 +1077,6 @@
             },
           },
 
-          setLeads: "https://reqbin.com/sample/post/json",
           pagePreview: "http://localhost:9001/preview",
 
           onSave(data) {
