@@ -27,6 +27,20 @@ export interface BuilderOutput {
   error?: string;
 }
 
+export interface MenuItem {
+  type: "MenuItem";
+  value: {
+    id: string;
+    title: string;
+    url: string;
+    target?: string;
+    classes?: Array<string>;
+
+    // For Dropdown next level
+    items?: Array<MenuItem>;
+  };
+}
+
 export enum LeftSidebarOptionsIds {
   addElements = "addElements",
   reorderBlock = "reorderBlock",
@@ -35,6 +49,8 @@ export enum LeftSidebarOptionsIds {
   more = "more",
 }
 
+//#region Media
+
 export interface AddMediaData {
   fileName: string;
 }
@@ -42,6 +58,17 @@ export interface AddMediaData {
 export interface AddMediaExtra {
   acceptedExtensions: Array<string>;
 }
+
+//#endregion
+
+//#region Form
+
+export interface FormFieldsOption {
+  title: string;
+  value: string;
+}
+
+//#endregion
 
 export type Response<R> = (r: R) => void;
 
@@ -53,13 +80,34 @@ export interface Config<T extends HtmlOutputType> {
   htmlOutputType: T;
 
   //#region Urls
-  setLeads: string;
+
   assets?: string;
   pagePreview?: string;
 
   //#endregion
 
-  // ui
+  // Menu
+  menu?: Array<{
+    id: string;
+    name: string;
+    items: Array<MenuItem>;
+  }>;
+
+  // Integration
+  integration?: {
+    form?: {
+      action?: string;
+      recaptcha?: {
+        siteKey: string;
+      };
+      fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
+    };
+  };
+
+  // UI
   ui?: {
     //#region Popup
 
