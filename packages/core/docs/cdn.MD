@@ -57,16 +57,34 @@ type config = {
     htmlOutputType: "monolith" | "partial";
 
     // Menu
-    menuData?: Array<MenuData>
+    menu?: Array<Menu>
+
+    // Integration
+    integration?: {
+        /// Form
+        form?: {
+            action?: string;
+            recaptcha?: {
+                siteKey: string;
+            };
+            fields?: {
+                label?: string;
+                handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+            };
+        }
+    };
 
     setLeads: string;
     pagePreview: string;
 
     ui: {
+        /// Popup
         popupSettings?: {
             displayCondition?: boolean;
             deletePopup?: boolean;
         };
+
+        /// LeftSidebar
         leftSidebar?: {
             topTabsOrder?: Array<"addElements" , "reorderBlock" , "globalStyle", "deviceMode", "more">;
             bottomTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
@@ -99,48 +117,54 @@ type config = {
 }
 
 interface Output {
-  pageData: Record<string, unknown>;
-  projectData: Record<string, unknown>;
+    pageData: Record<string, unknown>;
+    projectData: Record<string, unknown>;
 
-  html?: {
-    root: string;
-    styles?: Array<string>;
-    scripts?: Array<string>;
-  };
+    html?: {
+        root: string;
+        styles?: Array<string>;
+        scripts?: Array<string>;
+    };
 
-  // Error when html will be undefined
-  error?: string;
+    // Error when html will be undefined
+    error?: string;
 }
 
-// MenuData
-interface MenuData {
-  id: string;
-  name: string;
-  items: Array<MenuItem>
+// Menu
+interface Menu {
+    id: string;
+    name: string;
+    items: Array<MenuItem>
 }
 
 // MenuItem
 export interface MenuItem {
-  type: "MenuItem",
-  value: {
-    id: string;
-    title: string;
-    url: string;
-    target?: string;
-    classes?: Array<string>;
+    type: "MenuItem",
+    value: {
+        id: string;
+        title: string;
+        url: string;
+        target?: string;
+        classes?: Array<string>;
 
-    // Dropdown
-    items?: Array<MenuItem>
-  }
+        // Dropdown
+        items?: Array<MenuItem>
+    }
+}
+
+// FormFieldsOption
+export interface FormFieldsOption {
+    title: string;
+    value: string;
 }
 
 // Media
 export interface AddMediaData {
-  fileName: string;
-  uid: string;
+    fileName: string;
+    uid?: string;
 }
 export interface AddMediaExtra {
-  acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
+    acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
 }
 ```
 
@@ -152,18 +176,26 @@ Config can be passed as an object when you initialize the editor from the script
 | htmlOutputType | monolith or partial | Default "monolith"                                                                                                                              |
 | pageData       | object              | Loads the JSON page specified in the pageData parameter.                                                                                        |
 | projectData    | object              | Loads the JSON project specified in the projectData parameter.                                                                                  |
-| setLeads       | string              | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
-| menuData       | array               | Load the array of menuData                                                                                                                      |
+| menu           | array               | Load the array of menu                                                                                                                          |
+
+### Integration parameters
+| Name                               | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|:-----------------------------------|:-----------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| integration.form.action            | string     | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                   |
+| integration.form.recaptcha.siteKey | string     | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| integration.form.fields.label      | string     | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| integration.form.fields.handler    | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.  |
+
 
 ### UI parameters
 
-| Name        | Type  | Description                                       |
-|:------------|:-------------|:------------------------------------------|
-| ui.popupSettings.displayCondition | boolean | Takes true or false values and lets you turn on or off the global [display conditions](https://user-images.githubusercontent.com/10077249/206892163-024f4fcd-d127-4c28-8a60-ea21e3982b3c.png) option together with the [display conditions popup](https://user-images.githubusercontent.com/10077249/206892176-23ed85ee-4f66-4c83-8ebb-a64117daa124.png).  |
-| ui.popupSettings.deletePopup | boolean | Takes true or false values and lets you turn on or off the [delete popup option](https://user-images.githubusercontent.com/10077249/206904265-7e79f65f-0288-4473-be14-afb5dcea6fbb.png). Turn off the detele option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the posibility to [access the premade Brizy templates](https://user-images.githubusercontent.com/10077249/206904279-f55a472a-5508-4594-b40f-6c9d20a90bd9.png) inside the editor. |
-| ui.leftSidebar.topTabsOrder | Array | Lets you control the order and turning on or off the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.  |
-| ui.leftSidebar.bottomTabsOrder | Array | Lets you control the order and turning on or off the [icons in the left sidebar at the bottom](https://user-images.githubusercontent.com/10077249/206904746-f23a8b8d-ed58-4c20-b036-d204efc94437.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.  |
-| ui.leftSidebar.more.options | Array | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar. |
+| Name                              | Type    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|:----------------------------------|:--------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ui.popupSettings.displayCondition | boolean | Takes true or false values and lets you turn on or off the global [display conditions](https://user-images.githubusercontent.com/10077249/206892163-024f4fcd-d127-4c28-8a60-ea21e3982b3c.png) option together with the [display conditions popup](https://user-images.githubusercontent.com/10077249/206892176-23ed85ee-4f66-4c83-8ebb-a64117daa124.png).                                                                                                                                                                 |
+| ui.popupSettings.deletePopup      | boolean | Takes true or false values and lets you turn on or off the [delete popup option](https://user-images.githubusercontent.com/10077249/206904265-7e79f65f-0288-4473-be14-afb5dcea6fbb.png). Turn off the detele option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the posibility to [access the premade Brizy templates](https://user-images.githubusercontent.com/10077249/206904279-f55a472a-5508-4594-b40f-6c9d20a90bd9.png) inside the editor.  |
+| ui.leftSidebar.topTabsOrder       | Array   | Lets you control the order and turning on or off the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.                                                                                                                                            |
+| ui.leftSidebar.bottomTabsOrder    | Array   | Lets you control the order and turning on or off the [icons in the left sidebar at the bottom](https://user-images.githubusercontent.com/10077249/206904746-f23a8b8d-ed58-4c20-b036-d204efc94437.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.                                                                                                                                         |
+| ui.leftSidebar.more.options       | Array   | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar.                                                                                                                                                                                                                                                                                                                                                |
 
 ### API parameters
 
