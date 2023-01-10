@@ -74,7 +74,6 @@ type config = {
         }
     };
 
-    setLeads: string;
     pagePreview: string;
 
     ui: {
