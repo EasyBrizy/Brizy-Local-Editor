@@ -187,7 +187,6 @@ export interface FormFieldsOption {
 // Media
 export interface AddMediaData {
     fileName: string; // fileName need contain .ext
-    uid?: string; // unic id
 }
 export interface AddMediaExtra {
     acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
@@ -239,8 +238,7 @@ const config = {
       handler(resolve, reject, extra) {
         // extra: { acceptedExtensions: Array<string> }
         resolve({
-          fileName: "picture.png",
-          uid: "1234abc",
+          fileName: "picture.png"
         });
       },
     },
@@ -288,9 +286,8 @@ const config = {
 
             if (files && files.length) {
                 const file = files[0];
-                const uid = crypto.randomUUID();
                 const fileName = file.name;
-                const filePath = `media/${uid}/${fileName}`;
+                const filePath = `media/${fileName}`;
                 const s3Config = {
                     Key: filePath,
                     Body: file,
@@ -301,7 +298,7 @@ const config = {
                     if (err) {
                         reject(`Wrong Upload to S3 ${err.message}`);
                     } else {
-                        resolve({ fileName, uid });
+                        resolve({ fileName });
                     }
                 });
             }
