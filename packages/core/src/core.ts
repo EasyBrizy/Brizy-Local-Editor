@@ -1,8 +1,16 @@
-import { AddMediaData, AddMediaExtra, BuilderOutput, HtmlOutputType, Init, Target } from "./types/types";
-import { init, save, addMediaRes, addMediaRej } from "./actions";
-import { ActionTypes } from "./actions/types";
 import { loader } from "./Loader";
-import { initLoader, destroyLoader } from "./Loader/init";
+import { destroyLoader, initLoader } from "./Loader/init";
+import { addMediaRej, addMediaRes, formFieldsRej, formFieldsRes, init, save } from "./actions";
+import { ActionTypes } from "./actions/types";
+import {
+  AddMediaData,
+  AddMediaExtra,
+  BuilderOutput,
+  FormFieldsOption,
+  HtmlOutputType,
+  Init,
+  Target,
+} from "./types/types";
 import { createOutput } from "./utils/createOutput";
 
 const actions = {
@@ -10,6 +18,8 @@ const actions = {
   save: save,
   addMediaRes: addMediaRes,
   addMediaRej: addMediaRej,
+  formFieldsRes: formFieldsRes,
+  formFieldsRej: formFieldsRej,
 };
 
 export const Core: Init<HtmlOutputType> = (token, config, cb) => {
@@ -68,7 +78,9 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
           [ActionTypes.addMedia]: (extra: AddMediaExtra) => {
             const { api = {} } = config;
             const { media = {} } = api;
-            if (media.addMedia) {
+            const handler = media.addMedia?.handler;
+
+            if (typeof handler === "function") {
               const res = (r: AddMediaData) => {
                 iframeWindow.postMessage(actions.addMediaRes(r), targetOrigin);
               };
@@ -76,7 +88,23 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
                 iframeWindow.postMessage(actions.addMediaRej(r), targetOrigin);
               };
 
-              media.addMedia.handler(res, rej, extra);
+              handler(res, rej, extra);
+            }
+          },
+          [ActionTypes.formFields]: () => {
+            const { integration = {} } = config;
+            const { form = {} } = integration;
+            const handler = form.fields?.handler;
+
+            if (typeof handler === "function") {
+              const res = (r: Array<FormFieldsOption>) => {
+                iframeWindow.postMessage(actions.formFieldsRes(r), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.formFieldsRej(r), targetOrigin);
+              };
+
+              handler(res, rej);
             }
           },
         };
