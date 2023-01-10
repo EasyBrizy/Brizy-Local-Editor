@@ -201,7 +201,6 @@ Config can be passed as an object when you initialize the editor from the script
 | htmlOutputType | "monolith" or "partial" | Default "monolith"                                                                                                                              |
 | pageData       | object                  | Loads the JSON page specified in the pageData parameter.                                                                                        |
 | projectData    | object                  | Loads the JSON project specified in the projectData parameter.                                                                                  |
-| setLeads       | string                  | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form. |
 | menu           | array                   | Load the array of menu                                                                                                                          |
 
 ### Integration parameters

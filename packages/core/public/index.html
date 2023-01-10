@@ -17,9 +17,6 @@
           assets: origin + "/dist/free",
           worker: origin + "/dist/free/editor/js",
           templateFonts: origin + "/dist/free/editor/icons",
-          api2: {
-            setLeads: "",
-          },
         },
         editorVersion: "no-verify",
         menuData: [],
@@ -148,7 +145,6 @@
                 const _api = window.__VISUAL_CONFIG__.api;
                 const _menuData = window.__VISUAL_CONFIG__.menuData;
                 const configData = action.data ? action.data : {};
-                const setLeads = configData.setLeads ?? urls.api2.setLeads;
                 const configAssets = configData.assets;
                 const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
                 const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
@@ -177,10 +173,6 @@
                   ...urls,
                   assets: freeAssets,
                   pagePreview: configData.pagePreview,
-                  api2: {
-                    ...urls.api2,
-                    setLeads,
-                  },
                 };
                 window.__VISUAL_CONFIG__.pro = {
                   ...pro,
