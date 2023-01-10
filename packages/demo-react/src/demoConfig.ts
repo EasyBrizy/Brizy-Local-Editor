@@ -973,6 +973,28 @@ export const demoConfig: Config<"monolith"> = {
     },
   },
   htmlOutputType: "monolith",
-  setLeads: "https://reqbin.com/sample/post/json",
+  integration: {
+    form: {
+      action: "https://reqbin.com/sample/post/json",
+      fields: {
+        handler(res) {
+          res([
+            {
+              title: "Email",
+              value: "email",
+            },
+            {
+              title: "Name",
+              value: "name",
+            },
+            {
+              title: "Password",
+              value: "password",
+            },
+          ]);
+        },
+      },
+    },
+  },
   pagePreview: "https://story.demo.brizylocal.com/preview.html",
 };
