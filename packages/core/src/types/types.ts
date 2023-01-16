@@ -70,6 +70,15 @@ export interface FormFieldsOption {
 
 //#endregion
 
+//#region DynamicContent
+
+export interface DynamicContentOption {
+  label: string;
+  placeholder: string;
+}
+
+//#endregion
+
 export type Response<R> = (r: R) => void;
 
 export interface Config<T extends HtmlOutputType> {
@@ -107,6 +116,11 @@ export interface Config<T extends HtmlOutputType> {
     };
   };
 
+  // DynamicContentOption
+  dynamicContent?: {
+    richText?: (res: Response<DynamicContentOption>, rej: Response<string>) => void;
+  };
+
   // UI
   ui?: {
     //#region Popup
@@ -114,6 +128,7 @@ export interface Config<T extends HtmlOutputType> {
     popupSettings?: {
       displayCondition?: boolean;
       deletePopup?: boolean;
+      embedded?: boolean
     };
 
     //#endregion
