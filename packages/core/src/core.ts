@@ -1,11 +1,21 @@
 import { loader } from "./Loader";
 import { destroyLoader, initLoader } from "./Loader/init";
-import { addMediaRej, addMediaRes, formFieldsRej, formFieldsRes, init, save } from "./actions";
+import {
+  addMediaRej,
+  addMediaRes,
+  dcRichTextRej,
+  dcRichTextRes,
+  formFieldsRej,
+  formFieldsRes,
+  init,
+  save,
+} from "./actions";
 import { ActionTypes } from "./actions/types";
 import {
   AddMediaData,
   AddMediaExtra,
   BuilderOutput,
+  DynamicContentOption,
   FormFieldsOption,
   HtmlOutputType,
   Init,
@@ -20,6 +30,8 @@ const actions = {
   addMediaRej: addMediaRej,
   formFieldsRes: formFieldsRes,
   formFieldsRej: formFieldsRej,
+  dcRichTextRes: dcRichTextRes,
+  dcRichTextRej: dcRichTextRej,
 };
 
 export const Core: Init<HtmlOutputType> = (token, config, cb) => {
@@ -102,6 +114,21 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               };
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.formFieldsRej(r), targetOrigin);
+              };
+
+              handler(res, rej);
+            }
+          },
+          [ActionTypes.dcRichText]: () => {
+            const { dynamicContent = {} } = config;
+            const handler = dynamicContent.richText;
+
+            if (typeof handler === "function") {
+              const res = (r: DynamicContentOption) => {
+                iframeWindow.postMessage(actions.dcRichTextRes(r), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.dcRichTextRej(r), targetOrigin);
               };
 
               handler(res, rej);
