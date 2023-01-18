@@ -10,4 +10,8 @@ export enum ActionTypes {
   formFields = "@builder_form_fields",
   formFieldsRes = "@builder_form_fields_res",
   formFieldsRej = "@builder_form_fields_rej",
+
+  dcRichText = "@builder_dc_richtext",
+  dcRichTextRes = "@builder_dc_richtext_res",
+  dcRichTextRej = "@builder_dc_richtext_rej",
 }
