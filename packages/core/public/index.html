@@ -51,7 +51,7 @@
 
             switch (action.type) {
               case "<%- target %>_add_media_res": {
-                res(action.data);
+                res({ uid: action.data.fileName });
                 window.removeEventListener("message", mediaEmitter);
                 break;
               }
