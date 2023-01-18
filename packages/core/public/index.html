@@ -51,7 +51,7 @@
 
             switch (action.type) {
               case "<%- target %>_add_media_res": {
-                res(action.data);
+                res({ uid: action.data.fileName });
                 window.removeEventListener("message", mediaEmitter);
                 break;
               }
@@ -91,6 +91,34 @@
             }
           } catch (e) {
             console.error("Invalid FormFieldsOptions JSON", e);
+          }
+        };
+      }
+
+      function handleDCRichText(res, rej) {
+        return function richTextEmitter(event) {
+          const data = event.data;
+          if (data.target !== "<%- target %>") {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case "<%- target %>_dc_richtext_res": {
+                res(action.data);
+                window.removeEventListener("message", richTextEmitter);
+                break;
+              }
+              case "<%- target %>_dc_richtext_rej": {
+                rej(action.data);
+                window.removeEventListener("message", richTextEmitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid RichTextDCOption JSON", e);
           }
         };
       }
@@ -137,6 +165,21 @@
               window.addEventListener("message", handleFormFields(res, rej));
             };
 
+            const addRichTextDCHandler = function (res, rej) {
+              event.source.postMessage(
+                {
+                  target: "<%- target %>",
+                  data: JSON.stringify({
+                    type: "<%- target %>_dc_richtext",
+                  }),
+                },
+                event.origin,
+              );
+
+              // Listening the AddMessage
+              window.addEventListener("message", handleDCRichText(res, rej));
+            };
+
             switch (action.type) {
               case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
@@ -151,12 +194,14 @@
                 const ui = configData.ui ? configData.ui : _ui;
                 const api = configData.api ? configData.api : _api;
                 const _integration = configData.integration ?? {};
+                const dynamicContentOption = configData.dynamicContent ?? {};
                 const token = configData.token;
                 const pageData = action.data.pageData ?? {};
                 const menuData = action.data.menu ?? _menuData;
                 const apiMedia = api.media ?? {};
                 const formIntegration = _integration.form ?? {};
                 const integrationFormFields = formIntegration.fields ?? {};
+                const richTextDC = dynamicContentOption.richText;
 
                 if (integrationFormFields && integrationFormFields.enable) {
                   formIntegration.fields = {
@@ -164,6 +209,11 @@
                     handler: addFormFieldHandler,
                   };
                 }
+
+                if (richTextDC && richTextDC.enable) {
+                  dynamicContentOption.richText = addRichTextDCHandler;
+                }
+
                 const integration = {
                   ..._integration,
                   form: formIntegration,
@@ -234,6 +284,7 @@
                   },
                 };
                 window.__VISUAL_CONFIG__.integration = integration;
+                window.__VISUAL_CONFIG__.dynamicContentOption = dynamicContentOption;
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
@@ -263,7 +314,9 @@
               case "<%- target %>_add_media_res":
               case "<%- target %>_add_media_rej":
               case "<%- target %>_form_fields_res":
-              case "<%- target %>_form_fields_rej": {
+              case "<%- target %>_form_fields_rej":
+              case "<%- target %>_dc_richtext_res":
+              case "<%- target %>_dc_richtext_rej": {
                 // Nothing to do here
                 // All Logic is outside of current event
                 break;

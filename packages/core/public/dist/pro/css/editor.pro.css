@@ -340,6 +340,7 @@ input.brz-mm-check:checked:before{opacity:1}
 .brz .brz-menu.brz-mm-menu .brz-mm-menu__item{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-transform:none;transform:none;padding:0;position:relative;left:auto;top:auto;visibility:visible;opacity:1;width:auto}
 .brz .brz-menu.brz-mm-menu .brz-mm-menu__item.brz-mm-listitem_vertical>.brz-mm-panel{padding:0 10px}
 .brz .brz-menu.brz-mm-menu .brz-mm-menu__item.brz-mm-menu__item-mega-menu>.brz-mm-panel{padding:0;overflow:visible}
+.brz .brz-menu.brz-mm-menu .brz-mm-menu__item.brz-mm-listitem_opened{overflow:hidden}
 .brz .brz-menu.brz-mm-menu .brz-mm-menu__item.brz-mm-listitem_opened>.brz-mm-listitem__text{position:relative}
 .brz .brz-menu.brz-mm-menu .brz-mm-menu__item.brz-mm-listitem_opened>.brz-mm-listitem__text:after{content:"";position:absolute;display:block;left:0;right:0;bottom:0;border-bottom:1px solid;border-color:inherit}
 .brz .brz-menu.brz-mm-menu .brz-mm-menu__item .brz-mm-listitem__text{color:inherit;font-weight:inherit;font-family:inherit;letter-spacing:inherit;line-height:inherit;font-size:inherit;border-color:inherit;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:10px 20px}
@@ -351,7 +352,7 @@ input.brz-mm-check:checked:before{opacity:1}
 .brz .brz-menu--has-dropdown.brz-mm-menu .brz-mm-navbar{padding:0}
 .brz .brz-menu--has-dropdown.brz-mm-menu .brz-mm-navbar__title{padding:12px 50px 12px 20px}
 .brz .brz-menu--has-dropdown.brz-mm-menu .brz-mm-menu__item>.brz-mm-listitem__text{padding-right:50px}
-.brz .brz-menu--has-dropdown .brz-mm-menu__item-empty .brz-mm-btn{display:block!important;opacity:0!important}
+.brz .brz-menu--has-dropdown .brz-mm-menu__item-empty .brz-mm-btn{display:block!important;opacity:0!important;visibility:hidden}
 .brz .brz-menu .brz-a{width:100%}
 .brz .brz-menu .brz-a,.brz .brz-menu .brz-mm-btn_next{-webkit-transition:color .2s linear;transition:color .2s linear}
 .brz .brz-menu .brz-a:active,.brz .brz-menu .brz-a:focus,.brz .brz-menu .brz-a:hover,.brz .brz-menu .brz-mm-btn_next:active,.brz .brz-menu .brz-mm-btn_next:focus,.brz .brz-menu .brz-mm-btn_next:hover{outline:0}

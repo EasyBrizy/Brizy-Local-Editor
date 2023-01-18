@@ -1,3 +1,6 @@
+.brz-spacer {
+    width: 100%
+}
 .brz-map-content {
     overflow: hidden;
     position: relative;
@@ -14,9 +17,6 @@
 }
 .brz-blocked {
     pointer-events: none
-}
-.brz-spacer {
-    width: 100%
 }
 .brz .brz-embed-code {
     position: relative;
@@ -47,6 +47,9 @@
 .brz .brz-embed-code .brz-embed-content {
     width: 100%;
     overflow: hidden
+}
+.brz .brz-embed-code .brz-embed-content iframe {
+    display: block
 }
 @charset "UTF-8";
 *, ::before, ::after{
@@ -3170,7 +3173,6 @@ body.brz::before, body.brz::after {
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-  z-index: 999;
   min-width: 150px;
   padding-top: 0 !important;
 }
@@ -3182,7 +3184,7 @@ body.brz::before, body.brz::after {
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 99;
+  z-index: auto;
   background: transparent;
   -o-object-fit: cover;
      object-fit: cover;
@@ -5917,13 +5919,19 @@ body.brz::before, body.brz::after {
   transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) opacity, 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) visibility, 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) z-index;
 }
 .brz .brz-popup2 {
-  position: fixed;
   width: 100% !important;
   height: 100%;
+  max-width: 100% !important;
+}
+.brz .brz-popup2--fixed {
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1060;
-  max-width: 100% !important;
+}
+.brz .brz-popup2--static {
+  position: relative;
+  overflow-y: hidden;
 }
 .brz .brz-popup2__close {
   position: absolute;
@@ -5967,7 +5975,7 @@ body.brz::before, body.brz::after {
   overflow-x: hidden;
   overflow-y: auto;
 }
-.brz .brz-popup2__preview {
+.brz .brz-popup2__preview.brz-popup2--fixed {
   z-index: -1;
   visibility: hidden;
   -webkit-transform: translate(0, -110%);
@@ -6108,6 +6116,7 @@ body.brz::before, body.brz::after {
   position: relative;
   margin-left: 4px;
   margin-right: 4px;
+  margin-bottom: 0;
 }
 .brz .brz-posts__pagination ul.page-numbers > li:first-child {
   margin-left: 0;
@@ -10131,6 +10140,9 @@ body.brz::before, body.brz::after {
   padding: 0;
   overflow: visible;
 }
+.brz .brz-menu.brz-mm-menu .brz-mm-menu__item.brz-mm-listitem_opened {
+  overflow: hidden;
+}
 .brz .brz-menu.brz-mm-menu .brz-mm-menu__item.brz-mm-listitem_opened > .brz-mm-listitem__text {
   position: relative;
 }
@@ -10203,6 +10215,7 @@ body.brz::before, body.brz::after {
 .brz .brz-menu--has-dropdown .brz-mm-menu__item-empty .brz-mm-btn {
   display: block !important;
   opacity: 0 !important;
+  visibility: hidden;
 }
 .brz .brz-menu .brz-a {
   width: 100%;

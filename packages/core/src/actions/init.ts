@@ -2,8 +2,8 @@ import { mergeIn } from "timm";
 import { ActionResolve, Config, HtmlOutputType, Target } from "../types/types";
 import { ActionTypes } from "./types";
 
+// Integration
 type IntegrationConfig = Config<HtmlOutputType>["integration"];
-
 type BuilderIntegrationConfig = IntegrationConfig & {
   form?: {
     fields?: {
@@ -23,6 +23,24 @@ const createIntegration = <T extends HtmlOutputType>(config: Config<T>): Builder
   return integration;
 };
 
+// DynamicContent
+type DCOption = Config<HtmlOutputType>["dynamicContent"];
+type BuilderDCOption = DCOption & {
+  richText?: {
+    enable?: boolean;
+  };
+};
+
+const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDCOption => {
+  const { dynamicContent = {} } = config;
+
+  if (typeof dynamicContent.richText === "function") {
+    return mergeIn(dynamicContent, ["richText"], { enable: true }) as BuilderDCOption;
+  }
+
+  return dynamicContent;
+};
+
 export const init = <T extends HtmlOutputType>(config: Config<T>, token: string): ActionResolve => ({
   target: Target.builder,
   data: JSON.stringify({
@@ -36,6 +54,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, token: string)
       api: config.api,
       menuData: config.menu,
       integration: createIntegration(config),
+      dynamicContent: createDCContent(config),
     },
   }),
 });
