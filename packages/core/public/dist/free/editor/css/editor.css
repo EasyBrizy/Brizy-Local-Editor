@@ -10888,9 +10888,9 @@ img.mfp-img{width:auto;max-width:100%;height:auto;display:block;line-height:0;-w
 .nc-glyph-zoom-split:before{content:"\f2bf"}
 .nc-glyph-zoom-triangles:before{content:"\f2c0"}
 .nc-glyph-zoom:before{content:"\f2c1"}
-.brz-spacer{width:100%}
 .brz-map-content{overflow:hidden;position:relative;height:100%;width:100%}
 .brz-map-content .brz-iframe{position:absolute;top:0;left:0;width:100%;height:100%;border-style:none}
+.brz-spacer{width:100%}
 .brz-blocked{pointer-events:none}
 .brz .brz-embed-code{position:relative;display:inline-block;width:100%;min-height:20px;height:auto}
 .brz .brz-embed-code:before{--tw-content:"";content:var(--tw-content);width:100%;height:100%;position:absolute;top:0;left:0;z-index:2;display:block;pointer-events:none;overflow:hidden}
