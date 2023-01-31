@@ -128,7 +128,9 @@ export interface Config<T extends HtmlOutputType> {
     popupSettings?: {
       displayCondition?: boolean;
       deletePopup?: boolean;
-      embedded?: boolean
+      embedded?: boolean;
+      horizontalAlign?: boolean;
+      verticalAlign?: boolean;
     };
 
     //#endregion
