@@ -8,13 +8,17 @@
 https://user-images.githubusercontent.com/10077249/206906566-1d2087fc-847c-4530-8760-9b169dd3ed65.mp4
 
 We have 3 different editors:
+
 - Story on branch `story`
 - Popup on branch `popup`
 - Page on branch `pages`
 
 #### 1. Git clone
+
 #### 2. Change branch to [story, popup, pages]
+
 #### 3. Run `npm install` inside root folder.
+
 #### 4. Build core
 
 Inside `packages/core`
@@ -76,77 +80,79 @@ AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KE
 
 ```ts
 type config = {
-    container: HTMLElement;
-    pageData: Record<string, unknown>;
-    projectData: Record<string, unknown>;
+  container: HTMLElement;
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
 
-    // Monolith: Full HTML with DOCTYPE, head and body
-    // Partial: the root is a div element with all page compiled,
-    /// use this case when you need to create a fully customizable preview HTML
-    htmlOutputType: "monolith" | "partial";
+  // Monolith: Full HTML with DOCTYPE, head and body
+  // Partial: the root is a div element with all page compiled,
+  /// use this case when you need to create a fully customizable preview HTML
+  htmlOutputType: "monolith" | "partial";
 
-    // Menu
-    menu?: Array<Menu>
+  // Menu
+  menu?: Array<Menu>;
 
-    // Integration
-    integration?: {
-        /// Form
-        form?: {
-            action?: string;
-            recaptcha?: {
-                siteKey: string;
-            };
-            fields?: {
-                label?: string;
-                handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
-            };
-        }
+  // Integration
+  integration?: {
+    /// Form
+    form?: {
+      action?: string;
+      recaptcha?: {
+        siteKey: string;
+      };
+      fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
     };
+  };
 
-    // DynamicContent
-    dynamincContent?: {
-        richText?: (res: Response<DynamicContentOption>, rej: Response<string>) => void;
+  // DynamicContent
+  dynamincContent?: {
+    richText?: (res: Response<DynamicContentOption>, rej: Response<string>) => void;
+  };
+
+  pagePreview: string;
+
+  // UI
+  ui: {
+    popupSettings?: {
+      displayCondition?: boolean;
+      deletePopup?: boolean;
+      embedded?: boolean;
+      horizontalAlign?: boolean;
+      verticalAlign?: boolean;
     };
+    leftSidebar?: {
+      topTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+      bottomTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
 
-    pagePreview: string;
-
-    // UI
-    ui: {
-        popupSettings?: {
-            displayCondition?: boolean;
-            deletePopup?: boolean;
-            embedded?: boolean;
-        };
-        leftSidebar?: {
-            topTabsOrder?: Array<"addElements" , "reorderBlock" , "globalStyle", "deviceMode", "more">;
-            bottomTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
-
-            more?: {
-                options?: Array<{
-                    type: "link";
-                    label: string;
-                    link: string;
-                    linkTarget?: "_blank" | "_self" | "_parent" | "_top";
-                }>;
-            };
-        };
+      more?: {
+        options?: Array<{
+          type: "link";
+          label: string;
+          link: string;
+          linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+        }>;
+      };
     };
+  };
 
-    // API
-    api?: {
-        /// Media
-        media?: {
-            mediaResizeUrl?: string;
+  // API
+  api?: {
+    /// Media
+    media?: {
+      mediaResizeUrl?: string;
 
-            addMedia?: {
-                handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
-            };
-        };
+      addMedia?: {
+        handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
+      };
     };
+  };
 
-    onSave?: (data: Output) => void;
-    onLoad?: VoidFunction;
-}
+  onSave?: (data: Output) => void;
+  onLoad?: VoidFunction;
+};
 
 interface Output {
   pageData: Record<string, unknown>;
@@ -166,72 +172,74 @@ interface Output {
 interface Menu {
   id: string;
   name: string;
-  items: Array<MenuItem>
+  items: Array<MenuItem>;
 }
 
 // MenuItem
 export interface MenuItem {
-    type: "MenuItem",
-    value: {
-        id: string;
-        title: string;
-        url: string;
-        target?: string;
-        classes?: Array<string>;
+  type: "MenuItem";
+  value: {
+    id: string;
+    title: string;
+    url: string;
+    target?: string;
+    classes?: Array<string>;
 
-        // Dropdown
-        items?: Array<MenuItem>
-    }
+    // Dropdown
+    items?: Array<MenuItem>;
+  };
 }
 
 // FormFieldsOption
 export interface FormFieldsOption {
-    title: string;
-    value: string;
+  title: string;
+  value: string;
 }
 
 // DynamicContent Option
 export interface DynamicContentOption {
-    label: string;
-    placeholder: string; // {{ syntax }}
+  label: string;
+  placeholder: string; // {{ syntax }}
 }
 
 // Media
 export interface AddMediaData {
-    fileName: string; // fileName need contain .ext
+  fileName: string; // fileName need contain .ext
 }
 export interface AddMediaExtra {
-    acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
+  acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
 }
 ```
 
 Config can be passed as an object when you initialize the editor from the script.
 
-| Name           | Type                    | Description                                                                                                                                     |
-|:---------------|:------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------|
-| container      | HTMLElement             | Brizy Plugin will load into HTML element.                                                                                                       |
-| htmlOutputType | "monolith" or "partial" | Default "monolith"                                                                                                                              |
-| pageData       | object                  | Loads the JSON page specified in the pageData parameter.                                                                                        |
-| projectData    | object                  | Loads the JSON project specified in the projectData parameter.                                                                                  |
-| menu           | array                   | Load the array of menu                                                                                                                          |
+| Name           | Type                    | Description                                                    |
+| :------------- | :---------------------- | :------------------------------------------------------------- |
+| container      | HTMLElement             | Brizy Plugin will load into HTML element.                      |
+| htmlOutputType | "monolith" or "partial" | Default "monolith"                                             |
+| pageData       | object                  | Loads the JSON page specified in the pageData parameter.       |
+| projectData    | object                  | Loads the JSON project specified in the projectData parameter. |
+| menu           | array                   | Load the array of menu                                         |
 
 ### Integration parameters
-| Name                               | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-|:-----------------------------------|:-----------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| integration.form.action            | string     | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                   |
-| integration.form.recaptcha.siteKey | string     | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| integration.form.fields.label      | string     | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| integration.form.fields.handler    | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.  |
+
+| Name                               | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| :--------------------------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| integration.form.action            | string   | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                  |
+| integration.form.recaptcha.siteKey | string   | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| integration.form.fields.label      | string   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| integration.form.fields.handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 ### DynamicContent parameters
-| Name                      | Type      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|:--------------------------|:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| dynamicContent.richText   | function  | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+
+| Name                    | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| :---------------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dynamicContent.richText | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 ### UI parameters
 
 | Name                              | Type    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|:----------------------------------|:--------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :-------------------------------- | :------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | ui.popupSettings.displayCondition | boolean | Takes true or false values and lets you turn on or off the global [display conditions](https://user-images.githubusercontent.com/10077249/206892163-024f4fcd-d127-4c28-8a60-ea21e3982b3c.png) option together with the [display conditions popup](https://user-images.githubusercontent.com/10077249/206892176-23ed85ee-4f66-4c83-8ebb-a64117daa124.png).                                                                                                                                                                 |
 | ui.popupSettings.deletePopup      | boolean | Takes true or false values and lets you turn on or off the [delete popup option](https://user-images.githubusercontent.com/10077249/206904265-7e79f65f-0288-4473-be14-afb5dcea6fbb.png). Turn off the delete option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the possibility to [access the premade Brizy templates](https://user-images.githubusercontent.com/10077249/206904279-f55a472a-5508-4594-b40f-6c9d20a90bd9.png) inside the editor. |
 | ui.popupSettings.embedded         | boolean | Takes true of false values and lets you turn on or off [all](https://user-images.githubusercontent.com/18303258/212686108-a43883df-574f-4b30-b795-5d48e93b3d08.png).                                                                                                                                                                                                                                                                                                                                                      |
@@ -241,10 +249,10 @@ Config can be passed as an object when you initialize the editor from the script
 
 ### API parameters
 
-| Name                           | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|:-------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| api.media.mediaResizeUrl       | string   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)  |
-| api.media.addMedia.handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| Name                       | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| :------------------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| api.media.mediaResizeUrl   | string   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)  |
+| api.media.addMedia.handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 #### Example Media Handler
 
@@ -255,7 +263,7 @@ const config = {
       handler(resolve, reject, extra) {
         // extra: { acceptedExtensions: Array<string> }
         resolve({
-          fileName: "picture.png"
+          fileName: "picture.png",
         });
       },
     },
@@ -264,6 +272,7 @@ const config = {
 ```
 
 #### Example Media Handler with Brizy Local Image Resizer & AWS S3
+
 ```ts
 // In HTML
 // <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
@@ -275,15 +284,15 @@ const AWS = window.AWS;
 
 // More details about AWS you can see here https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/welcome.html
 AWS.config.update({
-    region: bucketRegion,
-    credentials: new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: identityPoolId,
-    }),
+  region: bucketRegion,
+  credentials: new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: identityPoolId,
+  }),
 });
 const s3 = new AWS.S3({
-    params: {
-        Bucket: bucketName
-    },
+  params: {
+    Bucket: bucketName,
+  },
 });
 
 const config = {
@@ -299,26 +308,26 @@ const config = {
         input.accept = "image/*";
 
         input.addEventListener("change", function (e) {
-            const { files } = e.target;
+          const { files } = e.target;
 
-            if (files && files.length) {
-                const file = files[0];
-                const fileName = file.name;
-                const filePath = `media/${fileName}`;
-                const s3Config = {
-                    Key: filePath,
-                    Body: file,
-                };
+          if (files && files.length) {
+            const file = files[0];
+            const fileName = file.name;
+            const filePath = `media/${fileName}`;
+            const s3Config = {
+              Key: filePath,
+              Body: file,
+            };
 
-                // Upload to S3
-                s3.upload(s3Config, (err) => {
-                    if (err) {
-                        reject(`Wrong Upload to S3 ${err.message}`);
-                    } else {
-                        resolve({ fileName });
-                    }
-                });
-            }
+            // Upload to S3
+            s3.upload(s3Config, (err) => {
+              if (err) {
+                reject(`Wrong Upload to S3 ${err.message}`);
+              } else {
+                resolve({ fileName });
+              }
+            });
+          }
         });
 
         // Open Upload Window
@@ -334,7 +343,7 @@ const config = {
 These are the callbacks that are triggered when the buttons are clicked.
 
 | Name   | Description                           | Returned values         |
-|:-------|:--------------------------------------|:------------------------|
+| :----- | :------------------------------------ | :---------------------- |
 | onSave | Fired when the Save button is clicked | JSON and HTML documents |
 | onLoad | Fired when the builder is loaded      | -                       |
 
