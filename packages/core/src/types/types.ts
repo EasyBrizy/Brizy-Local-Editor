@@ -79,6 +79,15 @@ export interface DynamicContentOption {
 
 //#endregion
 
+// ThemeVaribales
+export interface ThemeVaribales {
+  "--primary-dark"?: string;
+  "--secondary-dark"?: string;
+  "--tertiary-dark"?: string;
+  "--primary-white"?: string;
+  "--active-color"?: string;
+}
+
 export type Response<R> = (r: R) => void;
 
 export interface Config<T extends HtmlOutputType> {
@@ -134,6 +143,8 @@ export interface Config<T extends HtmlOutputType> {
     };
 
     //#endregion
+    
+    themeVariables?: ThemeVaribales;
 
     //#region LeftSidebar
 
