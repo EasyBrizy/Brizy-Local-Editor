@@ -123,6 +123,9 @@ type config = {
       horizontalAlign?: boolean;
       verticalAlign?: boolean;
     };
+    
+    themeVariables?: ThemeVaribales;
+    
     leftSidebar?: {
       topTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
       bottomTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
@@ -208,6 +211,15 @@ export interface AddMediaData {
 }
 export interface AddMediaExtra {
   acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
+}
+
+// ThemeVaribales
+export interface ThemeVaribales {
+  "--primary-dark"?: string;
+  "--secondary-dark"?: string;
+  "--tertiary-dark"?: string;
+  "--primary-white"?: string;
+  "--active-color"?: string;
 }
 ```
 

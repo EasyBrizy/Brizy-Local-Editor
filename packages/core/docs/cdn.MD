@@ -91,6 +91,8 @@ type config = {
       verticalAlign?: boolean;
     };
 
+    themeVariables?: ThemeVaribales;
+
     /// LeftSidebar
     leftSidebar?: {
       topTabsOrder?: Array<"addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
@@ -178,6 +180,16 @@ export interface AddMediaData {
 export interface AddMediaExtra {
   acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
 }
+
+// Theme Variables
+export interface ThemeVaribales {
+  "--primary-dark"?: string;
+  "--secondary-dark"?: string;
+  "--tertiary-dark"?: string;
+  "--primary-white"?: string;
+  "--active-color"?: string;
+}
+
 ```
 
 Config can be passed as an object when you initialize the editor from the script.
