@@ -79,13 +79,17 @@ export interface DynamicContentOption {
 
 //#endregion
 
-// ThemeVaribales
-export interface ThemeVaribales {
-  "--primary-dark"?: string;
-  "--secondary-dark"?: string;
-  "--tertiary-dark"?: string;
-  "--primary-white"?: string;
-  "--active-color"?: string;
+// Theme
+export interface Theme {
+  colors: {
+    "--primary-dark"?: string;
+    "--primary-white"?: string;
+    "--primary-gray"?: string;
+    "--secondary-dark"?: string;
+    "--secondary-white"?: string;
+    "--tertiary-dark"?: string;
+    "--active-color"?: string;
+  };
 }
 
 export type Response<R> = (r: R) => void;
@@ -143,8 +147,8 @@ export interface Config<T extends HtmlOutputType> {
     };
 
     //#endregion
-    
-    themeVariables?: ThemeVaribales;
+
+    theme?: Theme;
 
     //#region LeftSidebar
 
