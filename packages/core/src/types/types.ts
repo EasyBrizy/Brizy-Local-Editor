@@ -118,7 +118,10 @@ export interface Config<T extends HtmlOutputType> {
   // Integration
   integration?: {
     form?: {
-      action?: string;
+      action?: {
+        url: string;
+        handler: (res: Response<{ success: string }>, rej: Response<string>) => void;
+      };
       recaptcha?: {
         siteKey: string;
       };
