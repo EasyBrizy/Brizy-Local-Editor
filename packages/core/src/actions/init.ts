@@ -1,4 +1,4 @@
-import { mergeIn } from "timm";
+import { mergeIn, setIn } from "timm";
 import { ActionResolve, Config, HtmlOutputType, Target } from "../types/types";
 import { ActionTypes } from "./types";
 
@@ -16,11 +16,21 @@ const createIntegration = <T extends HtmlOutputType>(config: Config<T>): Builder
   const { integration = {} } = config;
   const integrationForm = integration.form ?? {};
 
+  let _integration = integration;
+
   if (integrationForm.fields?.handler) {
-    return mergeIn(integration, ["form", "fields"], { enable: true }) as BuilderIntegrationConfig;
+    _integration = mergeIn(integration, ["form", "fields"], { enable: true }) as BuilderIntegrationConfig;
   }
 
-  return integration;
+  if (integrationForm.action?.handler) {
+    _integration = setIn(
+      _integration,
+      ["form", "action", "handler"],
+      String(integrationForm.action?.handler),
+    ) as BuilderIntegrationConfig;
+  }
+
+  return _integration;
 };
 
 // DynamicContent
