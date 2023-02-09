@@ -34,6 +34,8 @@ const actions = {
   dcRichTextRej: dcRichTextRej,
 };
 
+const noopFunc = () => {};
+
 export const Core: Init<HtmlOutputType> = (token, config, cb) => {
   if (!token) {
     console.error("Token is required");
@@ -148,8 +150,8 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
       }
     });
 
-    const save = () => {
-      iframeWindow.postMessage(actions.save(), targetOrigin);
+    const save = (callback?: VoidFunction) => {
+      iframeWindow.postMessage(actions.save({ callback: String(callback ?? noopFunc) }), targetOrigin);
     };
 
     const api = {

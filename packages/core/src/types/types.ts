@@ -193,7 +193,7 @@ export interface Config<T extends HtmlOutputType> {
 }
 
 export interface API {
-  save: VoidFunction;
+  save: (callback?: VoidFunction) => void;
 }
 
 type CB = (api: API) => void;
