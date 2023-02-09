@@ -1097,7 +1097,9 @@
         });
 
         update.addEventListener("click", () => {
-          builderAPI.save();
+          builderAPI.save((output) => {
+            /// at this moment you have {output} received from "Update"
+          });
         });
       }
     </script>
