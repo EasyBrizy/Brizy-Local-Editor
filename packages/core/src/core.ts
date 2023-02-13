@@ -21,6 +21,7 @@ import {
   FormFieldsOption,
   HtmlOutputType,
   Init,
+  OnSave,
   Target,
 } from "./types/types";
 import { createOutput } from "./utils/createOutput";
@@ -38,7 +39,7 @@ const actions = {
   dcRichTextRej: dcRichTextRej,
 };
 
-const noopFunc = () => {};
+const savedNodeCB = new Map<HTMLElement, OnSave>();
 
 export const Core: Init<HtmlOutputType> = (token, config, cb) => {
   if (!token) {
@@ -87,7 +88,13 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
         const action = JSON.parse(data.data);
         const api = {
           [ActionTypes.save]: (output: BuilderOutput) => {
-            config.onSave?.(createOutput(htmlOutputType, output));
+            const _output = createOutput(htmlOutputType, output);
+            config.onSave?.(_output);
+            const onSaveCallback = savedNodeCB.get(container);
+
+            if (typeof onSaveCallback === "function") {
+              onSaveCallback(_output);
+            }
           },
           [ActionTypes.onLoad]: () => {
             destroyLoader(spinner, container);
@@ -170,8 +177,11 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
       }
     });
 
-    const save = (callback?: VoidFunction) => {
-      iframeWindow.postMessage(actions.save({ callback: String(callback ?? noopFunc) }), targetOrigin);
+    const save = (cb?: OnSave) => {
+      if (typeof cb === "function") {
+        savedNodeCB.set(container, cb);
+      }
+      iframeWindow.postMessage(actions.save(), targetOrigin);
     };
 
     const api = {

@@ -97,6 +97,8 @@ export interface Theme {
 
 export type Response<R> = (r: R) => void;
 
+export type OnSave = <T extends HtmlOutputType>(output: Output<T>) => void;
+
 export interface Config<T extends HtmlOutputType> {
   container: HTMLElement;
   pageData: Record<string, unknown>;
@@ -195,12 +197,12 @@ export interface Config<T extends HtmlOutputType> {
   };
 
   // events
-  onSave?: (data: Output<T>) => void;
+  onSave?: OnSave;
   onLoad?: VoidFunction;
 }
 
 export interface API {
-  save: (callback?: VoidFunction) => void;
+  save: VoidFunction;
 }
 
 type CB = (api: API) => void;
