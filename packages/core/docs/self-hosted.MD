@@ -98,7 +98,7 @@ type config = {
     form?: {
       action?: {
         url: string;
-        handler: (res: Response<{ success: string }>, rej: Response<string>) => void;
+        handler: (res: Response<string>, rej: Response<string>) => void;
       };
       recaptcha?: {
         siteKey: string;
@@ -125,6 +125,7 @@ type config = {
       embedded?: boolean;
       horizontalAlign?: boolean;
       verticalAlign?: boolean;
+      backgroundPreviewUrl?: string;
     };
 
     theme?: Theme;
