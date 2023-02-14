@@ -1,4 +1,4 @@
-import { mergeIn, setIn } from "timm";
+import { mergeIn } from "timm";
 import { ActionResolve, Config, HtmlOutputType, Target } from "../types/types";
 import { ActionTypes } from "./types";
 
@@ -23,11 +23,7 @@ const createIntegration = <T extends HtmlOutputType>(config: Config<T>): Builder
   }
 
   if (integrationForm.action?.handler) {
-    _integration = setIn(
-      _integration,
-      ["form", "action", "handler"],
-      String(integrationForm.action?.handler),
-    ) as BuilderIntegrationConfig;
+    _integration = mergeIn(integration, ["form", "action"], { enable: true }) as BuilderIntegrationConfig;
   }
 
   return _integration;

@@ -120,7 +120,7 @@ export interface Config<T extends HtmlOutputType> {
     form?: {
       action?: {
         url: string;
-        handler: (res: Response<{ success: string }>, rej: Response<string>) => void;
+        handler: (res: Response<string>, rej: Response<string>) => void;
       };
       recaptcha?: {
         siteKey: string;
@@ -147,6 +147,7 @@ export interface Config<T extends HtmlOutputType> {
       embedded?: boolean;
       horizontalAlign?: boolean;
       verticalAlign?: boolean;
+      backgroundPreviewUrl?: string;
     };
 
     //#endregion
