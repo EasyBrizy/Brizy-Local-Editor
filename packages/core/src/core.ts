@@ -5,6 +5,8 @@ import {
   addMediaRes,
   dcRichTextRej,
   dcRichTextRes,
+  formActionRej,
+  formActionRes,
   formFieldsRej,
   formFieldsRes,
   init,
@@ -30,6 +32,8 @@ const actions = {
   addMediaRej: addMediaRej,
   formFieldsRes: formFieldsRes,
   formFieldsRej: formFieldsRej,
+  formActionRes: formActionRes,
+  formActionRej: formActionRej,
   dcRichTextRes: dcRichTextRes,
   dcRichTextRej: dcRichTextRej,
 };
@@ -116,6 +120,22 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               };
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.formFieldsRej(r), targetOrigin);
+              };
+
+              handler(res, rej);
+            }
+          },
+          [ActionTypes.formAction]: () => {
+            const { integration = {} } = config;
+            const { form = {} } = integration;
+            const handler = form.action?.handler;
+
+            if (typeof handler === "function") {
+              const res = (r: string) => {
+                iframeWindow.postMessage(actions.formActionRes(r), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.formActionRej(r), targetOrigin);
               };
 
               handler(res, rej);

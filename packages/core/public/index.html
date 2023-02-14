@@ -112,6 +112,34 @@
         };
       }
 
+      function handleFormAction(res, rej) {
+        return function actionEmitter(event) {
+          const data = event.data;
+          if (data.target !== "<%- target %>") {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case "<%- target %>_form_action_res": {
+                res(action.data);
+                window.removeEventListener("message", actionEmitter);
+                break;
+              }
+              case "<%- target %>_form_action_rej": {
+                rej(action.data);
+                window.removeEventListener("message", actionEmitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid FormaAtionOptions JSON", e);
+          }
+        };
+      }
+
       function handleDCRichText(res, rej) {
         return function richTextEmitter(event) {
           const data = event.data;
@@ -182,6 +210,21 @@
               window.addEventListener("message", handleFormFields(res, rej));
             };
 
+            const addFormActionHandler = function (res, rej) {
+              event.source.postMessage(
+                {
+                  target: "<%- target %>",
+                  data: JSON.stringify({
+                    type: "<%- target %>_form_action",
+                  }),
+                },
+                event.origin,
+              );
+
+              // Listening the AddMessage
+              window.addEventListener("message", handleFormAction(res, rej));
+            };
+
             const addRichTextDCHandler = function (res, rej) {
               event.source.postMessage(
                 {
@@ -218,12 +261,20 @@
                 const apiMedia = api.media ?? {};
                 const formIntegration = _integration.form ?? {};
                 const integrationFormFields = formIntegration.fields ?? {};
+                const integrationFormAction = formIntegration.action ?? {};
                 const richTextDC = dynamicContentOption.richText;
 
                 if (integrationFormFields && integrationFormFields.enable) {
                   formIntegration.fields = {
                     label: integrationFormFields.label,
                     handler: addFormFieldHandler,
+                  };
+                }
+
+                if (integrationFormAction && integrationFormAction.enable) {
+                  formIntegration.action = {
+                    ...integrationFormAction,
+                    handler: addFormActionHandler,
                   };
                 }
 
@@ -343,6 +394,8 @@
               case "<%- target %>_add_media_rej":
               case "<%- target %>_form_fields_res":
               case "<%- target %>_form_fields_rej":
+              case "<%- target %>_form_action_res":
+              case "<%- target %>_form_action_rej":
               case "<%- target %>_dc_richtext_res":
               case "<%- target %>_dc_richtext_rej": {
                 // Nothing to do here
