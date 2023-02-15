@@ -39,9 +39,10 @@ type BuilderDCOption = DCOption & {
 
 const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDCOption => {
   const { dynamicContent = {} } = config;
+  const handler = config?.dynamicContent?.richText?.handler;
 
-  if (typeof dynamicContent.richText === "function") {
-    return mergeIn(dynamicContent, ["richText"], { enable: true }) as BuilderDCOption;
+  if (typeof handler === "function") {
+    return mergeIn(dynamicContent, ["richText", "handler"], { enable: true }) as BuilderDCOption;
   }
 
   return dynamicContent;
