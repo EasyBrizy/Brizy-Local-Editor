@@ -143,7 +143,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
           },
           [ActionTypes.dcRichText]: () => {
             const { dynamicContent = {} } = config;
-            const handler = dynamicContent.richText;
+            const handler = dynamicContent?.richText?.handler;
 
             if (typeof handler === "function") {
               const res = (r: DynamicContentOption) => {

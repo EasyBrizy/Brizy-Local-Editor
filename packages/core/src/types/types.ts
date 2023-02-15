@@ -83,11 +83,14 @@ export interface DynamicContentOption {
 export interface Theme {
   colors: {
     "--primary-dark"?: string;
-    "--primary-white"?: string;
-    "--primary-gray"?: string;
     "--secondary-dark"?: string;
-    "--secondary-white"?: string;
     "--tertiary-dark"?: string;
+    "--primary-white"?: string;
+    "--secondary-white"?: string;
+    "--tertiary-white"?: string;
+    "--primary-gray"?: string;
+    "--secondary-gray"?: string;
+    "--tertiary-gray"?: string;
     "--active-color"?: string;
   };
 }
@@ -134,7 +137,10 @@ export interface Config<T extends HtmlOutputType> {
 
   // DynamicContentOption
   dynamicContent?: {
-    richText?: (res: Response<DynamicContentOption>, rej: Response<string>) => void;
+    richText?: {
+      useCustomPlaceholder?: boolean;
+      handler: (res: Response<DynamicContentOption>, rej: Response<string>) => void;
+    };
   };
 
   // UI
