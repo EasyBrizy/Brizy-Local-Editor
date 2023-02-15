@@ -262,7 +262,7 @@
                 const formIntegration = _integration.form ?? {};
                 const integrationFormFields = formIntegration.fields ?? {};
                 const integrationFormAction = formIntegration.action ?? {};
-                const richTextDC = dynamicContentOption.richText;
+                const richTextDC = dynamicContentOption?.richText?.handler;
 
                 if (integrationFormFields && integrationFormFields.enable) {
                   formIntegration.fields = {
@@ -279,7 +279,7 @@
                 }
 
                 if (richTextDC && richTextDC.enable) {
-                  dynamicContentOption.richText = addRichTextDCHandler;
+                  dynamicContentOption.richText.handler = addRichTextDCHandler;
                 }
 
                 const integration = {
