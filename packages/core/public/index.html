@@ -39,23 +39,6 @@
   </head>
   <body class="brz brz-ed">
     <script>
-      function parseFunctionFromString(str) {
-        var fn_body_idx = str.indexOf("{"),
-          fn_body = str.substring(fn_body_idx + 1, str.lastIndexOf("}")),
-          fn_declare = str.substring(0, fn_body_idx),
-          fn_params = fn_declare.substring(fn_declare.indexOf("(") + 1, fn_declare.lastIndexOf(")")),
-          args = fn_params.split(",");
-
-        args.push(fn_body);
-
-        function Fn() {
-          return Function.apply(this, args);
-        }
-        Fn.prototype = Function.prototype;
-
-        return new Fn();
-      }
-
       function handleAddMedia(res, rej) {
         return function mediaEmitter(event) {
           const data = event.data;
@@ -365,13 +348,6 @@
               case "<%- target %>_save": {
                 const configData = action.data && "configData" in action.data ? action.data : {};
 
-                let getOuputCallback = undefined;
-                try {
-                  getOuputCallback = parseFunctionFromString(action.data.callback);
-                } catch (e) {
-                  console.error("Could not send output", e);
-                }
-
                 window.__VISUAL_CONFIG__.onUpdate((res) => {
                   event.source.postMessage(
                     {
@@ -383,10 +359,6 @@
                     },
                     event.origin,
                   );
-
-                  if (typeof getOuputCallback === "function") {
-                    getOuputCallback(res);
-                  }
                 }, configData);
                 break;
               }
