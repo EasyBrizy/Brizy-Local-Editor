@@ -79,7 +79,8 @@ export interface DynamicContentOption {
 
 //#endregion
 
-// Theme
+//#region Theme
+
 export interface Theme {
   colors: {
     "--primary-dark"?: string;
@@ -94,6 +95,48 @@ export interface Theme {
     "--active-color"?: string;
   };
 }
+
+//#endregion
+
+//#region Elements
+
+export enum ElementTypes {
+  Row = "Row",
+  Column = "Column",
+  RichText = "RichText",
+  Button = "Button",
+  Icon = "Icon",
+  Spacer = "Spacer",
+  Line = "Line",
+  Map = "Map",
+  Embed = "Embed",
+  Form = "Form",
+  IconBox = "IconBox",
+  Counter = "Counter",
+  Countdown = "Countdown",
+  Tabs = "Tabs",
+  Progress = "Progress",
+  Accordion = "Accordion",
+  Alert = "Alert",
+  Menu = "Menu",
+  Rating = "Rating",
+  Table = "Table",
+  Timeline = "Timeline",
+  Switcher = "Switcher",
+  Lottie = "Lottie",
+  Calendly = "Calendly",
+  Image = "Image",
+  Gallery = "Gallery",
+  Audio = "Audio",
+  Carousel = "Carousel",
+  Video = "Video",
+  Playlist = "Playlist",
+  Facebook = "Facebook",
+  Twitter = "Twitter",
+  Comments = "Comments",
+}
+
+//#endregion
 
 export type Response<R> = (r: R) => void;
 
@@ -142,6 +185,18 @@ export interface Config<T extends HtmlOutputType> {
     richText?: {
       useCustomPlaceholder?: boolean;
       handler: (res: Response<DynamicContentOption>, rej: Response<string>) => void;
+    };
+  };
+
+  // Elements
+
+  elements?: {
+    options?: {
+      trigger?: {
+        type: "click";
+        handler: (res: Response<string>, rej: Response<string>, extra: { type: ElementTypes }) => void;
+        disableFor?: Array<ElementTypes>;
+      };
     };
   };
 

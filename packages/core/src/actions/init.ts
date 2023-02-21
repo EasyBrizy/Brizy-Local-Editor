@@ -2,7 +2,7 @@ import { mergeIn } from "timm";
 import { ActionResolve, Config, HtmlOutputType, Target } from "../types/types";
 import { ActionTypes } from "./types";
 
-// Integration
+//#region Integration
 type IntegrationConfig = Config<HtmlOutputType>["integration"];
 type BuilderIntegrationConfig = IntegrationConfig & {
   form?: {
@@ -29,7 +29,10 @@ const createIntegration = <T extends HtmlOutputType>(config: Config<T>): Builder
   return _integration;
 };
 
-// DynamicContent
+//#endregion
+
+//#region DynamicContent
+
 type DCOption = Config<HtmlOutputType>["dynamicContent"];
 type BuilderDCOption = DCOption & {
   richText?: {
@@ -48,6 +51,42 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
   return dynamicContent;
 };
 
+//#endregion
+
+//#region Elements
+
+type Elements = Required<Config<HtmlOutputType>>["elements"];
+type Trigger = Required<Elements>["options"]["trigger"] & {
+  enable?: boolean;
+};
+
+const createTrigger = <T extends HtmlOutputType>(config: Config<T>): Trigger | undefined => {
+  const trigger = config.elements?.options?.trigger;
+
+  if (trigger && typeof trigger.handler === "function") {
+    return {
+      ...trigger,
+      enable: true,
+    };
+  }
+};
+
+const createElements = <T extends HtmlOutputType>(config: Config<T>): Partial<Elements> => {
+  const trigger = createTrigger(config);
+  let options = config.elements?.options;
+
+  if (options && trigger) {
+    options = mergeIn(options, ["trigger"], trigger) as Elements["options"];
+  }
+
+  return {
+    ...config.elements,
+    options: options,
+  };
+};
+
+//#endregion
+
 export const init = <T extends HtmlOutputType>(config: Config<T>, token: string): ActionResolve => ({
   target: Target.builder,
   data: JSON.stringify({
@@ -62,6 +101,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, token: string)
       menuData: config.menu,
       integration: createIntegration(config),
       dynamicContent: createDCContent(config),
+      elements: createElements(config),
     },
   }),
 });
