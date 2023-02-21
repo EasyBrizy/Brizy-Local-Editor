@@ -406,6 +406,7 @@
               }
               case "<%- target %>_save": {
                 const configData = action.data && "configData" in action.data ? action.data : {};
+                const mode = window.__VISUAL_CONFIG__.mode;
 
                 window.__VISUAL_CONFIG__.onUpdate((res) => {
                   event.source.postMessage(
@@ -413,7 +414,7 @@
                       target: "<%- target %>",
                       data: JSON.stringify({
                         type: "<%- target %>_save",
-                        payload: res,
+                        payload: { mode, ...res },
                       }),
                     },
                     event.origin,

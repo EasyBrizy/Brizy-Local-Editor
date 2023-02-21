@@ -16,6 +16,16 @@ export interface Output<T extends HtmlOutputType> {
   projectData: Record<string, unknown>;
   html?: OutputType[T];
   error?: string;
+  popupSettings?: {
+    verticalAlign: "top" | "bottom" | "center";
+    horizontalAlign: "left" | "right" | "center";
+  };
+}
+
+export enum Modes {
+  popup = "external_popup",
+  page = "page",
+  story = "external_story",
 }
 
 export interface BuilderOutput {
@@ -25,6 +35,7 @@ export interface BuilderOutput {
   scripts?: Array<string>;
   html?: string;
   error?: string;
+  mode: Modes;
 }
 
 export interface MenuItem {
