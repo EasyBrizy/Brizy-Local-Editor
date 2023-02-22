@@ -1623,7 +1623,9 @@ export const demoConfig: Config<"monolith"> = {
   htmlOutputType: "monolith",
   integration: {
     form: {
-      action: "https://reqbin.com/sample/post/json",
+      action: {
+        url: "https://reqbin.com/sample/post/json",
+      },
       fields: {
         handler(res) {
           res([

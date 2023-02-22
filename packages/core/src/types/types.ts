@@ -16,6 +16,16 @@ export interface Output<T extends HtmlOutputType> {
   projectData: Record<string, unknown>;
   html?: OutputType[T];
   error?: string;
+  popupSettings?: {
+    verticalAlign: "top" | "bottom" | "center";
+    horizontalAlign: "left" | "right" | "center";
+  };
+}
+
+export enum Modes {
+  popup = "external_popup",
+  page = "page",
+  story = "external_story",
 }
 
 export interface BuilderOutput {
@@ -25,6 +35,7 @@ export interface BuilderOutput {
   scripts?: Array<string>;
   html?: string;
   error?: string;
+  mode: Modes;
 }
 
 export interface MenuItem {
@@ -79,7 +90,8 @@ export interface DynamicContentOption {
 
 //#endregion
 
-// Theme
+//#region Theme
+
 export interface Theme {
   colors: {
     "--primary-dark"?: string;
@@ -95,7 +107,51 @@ export interface Theme {
   };
 }
 
+//#endregion
+
+//#region Elements
+
+export enum ElementTypes {
+  Row = "Row",
+  Column = "Column",
+  RichText = "RichText",
+  Button = "Button",
+  Icon = "Icon",
+  Spacer = "Spacer",
+  Line = "Line",
+  Map = "Map",
+  Embed = "Embed",
+  Form = "Form",
+  IconBox = "IconBox",
+  Counter = "Counter",
+  Countdown = "Countdown",
+  Tabs = "Tabs",
+  Progress = "Progress",
+  Accordion = "Accordion",
+  Alert = "Alert",
+  Menu = "Menu",
+  Rating = "Rating",
+  Table = "Table",
+  Timeline = "Timeline",
+  Switcher = "Switcher",
+  Lottie = "Lottie",
+  Calendly = "Calendly",
+  Image = "Image",
+  Gallery = "Gallery",
+  Audio = "Audio",
+  Carousel = "Carousel",
+  Video = "Video",
+  Playlist = "Playlist",
+  Facebook = "Facebook",
+  Twitter = "Twitter",
+  Comments = "Comments",
+}
+
+//#endregion
+
 export type Response<R> = (r: R) => void;
+
+export type OnSave = <T extends HtmlOutputType>(output: Output<T>) => void;
 
 export interface Config<T extends HtmlOutputType> {
   container: HTMLElement;
@@ -140,6 +196,18 @@ export interface Config<T extends HtmlOutputType> {
     richText?: {
       useCustomPlaceholder?: boolean;
       handler: (res: Response<DynamicContentOption>, rej: Response<string>) => void;
+    };
+  };
+
+  // Elements
+
+  elements?: {
+    options?: {
+      trigger?: {
+        type: "click";
+        handler: (res: Response<string>, rej: Response<string>, extra: { type: ElementTypes }) => void;
+        disableFor?: Array<ElementTypes>;
+      };
     };
   };
 
@@ -195,12 +263,12 @@ export interface Config<T extends HtmlOutputType> {
   };
 
   // events
-  onSave?: (data: Output<T>) => void;
+  onSave?: OnSave;
   onLoad?: VoidFunction;
 }
 
 export interface API {
-  save: (callback?: VoidFunction) => void;
+  save: VoidFunction;
 }
 
 type CB = (api: API) => void;
