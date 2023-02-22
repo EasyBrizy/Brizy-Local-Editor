@@ -18,4 +18,8 @@ export enum ActionTypes {
   dcRichText = "@builder_dc_richtext",
   dcRichTextRes = "@builder_dc_richtext_res",
   dcRichTextRej = "@builder_dc_richtext_rej",
+
+  trigger = "@builder_trigger",
+  triggerRes = "@builder_trigger_res",
+  triggerRej = "@builder_trigger_rej",
 }
