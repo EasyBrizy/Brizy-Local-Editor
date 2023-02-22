@@ -184,6 +184,12 @@ interface Output {
     scripts?: Array<string>;
   };
 
+  // Only in popup mode
+  popupSettings?: {
+    verticalAlign: "top" | "bottom" | "center";
+    horizontalAlign: "left" | "right" | "center";
+  };
+
   // Error when html will be undefined
   error?: string;
 }
@@ -432,5 +438,21 @@ These are the callbacks that are triggered when the buttons are clicked.
 |:-------|:--------------------------------------|:------------------------|
 | onSave | Fired when the Save button is clicked | JSON and HTML documents |
 | onLoad | Fired when the builder is loaded      | -                       |
+
+### onSave
+
+| Name                               | Type        | Description                                                    |
+|:-----------------------------------|:------------|:---------------------------------------------------------------|
+| html                               | HTMLElement | HTML.                                                          |
+| pageData                           | object      | Loads the JSON page specified in the pageData parameter.       |
+| projectData                        | object      | Loads the JSON project specified in the projectData parameter. |
+| popupSettings (only in popup mode) | object      | Loads horizontalAlign and VerticalAlign                        |
+
+### Popup Settings
+
+| Name                          | Type                          | Description                                                                                                                                 |
+|:------------------------------|:------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
+| popupSettings.verticalAlign   | "center" or "top" or "bottom" | Default "center". [Vertical align](https://user-images.githubusercontent.com/5760683/216273483-955e0a09-5acc-4124-bc94-0a05f2bbbb58.png).   |
+| popupSettings.horizontalAlign | "center" or "right" or "left" | Default "center". [Horizontal align](https://user-images.githubusercontent.com/5760683/216273441-a50bf80e-5894-4e5f-b764-20ee1552b0f6.png). |
 
 See more details in TS [see below](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/src/types/types.ts)

@@ -1,15 +1,36 @@
-import { BuilderOutput, HtmlOutputType, Output } from "../types/types";
+import { getIn } from "timm";
+import { BuilderOutput, HtmlOutputType, Modes, Output } from "../types/types";
 
 const createDoc = (data: { html: string; styles?: string; scripts?: string }): string => {
   const { html, styles = "", scripts = "" } = data;
   return `<!DOCTYPE html><html><head>${styles}</head><body>${html}${scripts}</body></html>`;
 };
 
+const createPopupSettings = ({
+  pageData,
+  mode,
+}: {
+  pageData: BuilderOutput["pageData"];
+  mode: BuilderOutput["mode"];
+}): Output<HtmlOutputType>["popupSettings"] | undefined => {
+  if (mode !== Modes.popup) {
+    return undefined;
+  }
+
+  const verticalAlign = getIn(pageData, ["data", "items", "0", "value", "verticalAlign"]) ?? "center";
+  const horizontalAlign = getIn(pageData, ["data", "items", "0", "value", "horizontalAlign"]) ?? "center";
+
+  return { verticalAlign, horizontalAlign } as Output<HtmlOutputType>["popupSettings"];
+};
+
 export const createOutput = <T extends HtmlOutputType>(type: T, output: BuilderOutput): Output<T> => {
-  const { pageData, projectData, styles, scripts, html, error } = output;
+  const { pageData, projectData, styles, scripts, html, error, mode } = output;
+  const popupSettings = createPopupSettings({ pageData, mode });
+
   const data = {
     pageData,
     projectData,
+    ...(popupSettings && { popupSettings }),
   };
 
   if (Array.isArray(scripts) && Array.isArray(styles) && html) {
