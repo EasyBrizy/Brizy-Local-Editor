@@ -4640,7 +4640,9 @@
 
           integration: {
             form: {
-              action: "https://reqbin.com/sample/post/json",
+              action: {
+                url: "https://reqbin.com/sample/post/json"
+              },
               fields: {
                 handler(resolve, reject) {
                   resolve([
