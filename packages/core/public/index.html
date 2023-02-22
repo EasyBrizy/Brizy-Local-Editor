@@ -39,23 +39,6 @@
   </head>
   <body class="brz brz-ed">
     <script>
-      function parseFunctionFromString(str) {
-        var fn_body_idx = str.indexOf("{"),
-          fn_body = str.substring(fn_body_idx + 1, str.lastIndexOf("}")),
-          fn_declare = str.substring(0, fn_body_idx),
-          fn_params = fn_declare.substring(fn_declare.indexOf("(") + 1, fn_declare.lastIndexOf(")")),
-          args = fn_params.split(",");
-
-        args.push(fn_body);
-
-        function Fn() {
-          return Function.apply(this, args);
-        }
-        Fn.prototype = Function.prototype;
-
-        return new Fn();
-      }
-
       function handleAddMedia(res, rej) {
         return function mediaEmitter(event) {
           const data = event.data;
@@ -168,6 +151,34 @@
         };
       }
 
+      function handleTrigger(res, rej) {
+         return function triggerEmitter(event) {
+          const data = event.data;
+          if (data.target !== "<%- target %>") {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case "<%- target %>_trigger_res": {
+                res(action.data);
+                window.removeEventListener("message", triggerEmitter);
+                break;
+              }
+              case "<%- target %>_trigger_rej": {
+                rej(action.data);
+                window.removeEventListener("message", triggerEmitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid Trigger JSON", e);
+          }
+        };
+      }
+
       window.addEventListener(
         "message",
         (event) => {
@@ -240,6 +251,22 @@
               window.addEventListener("message", handleDCRichText(res, rej));
             };
 
+            const addTriggerHandler = function (res, rej, extra) {
+              event.source.postMessage(
+                {
+                  target: "<%- target %>",
+                  data: JSON.stringify({
+                    type: "<%- target %>_trigger",
+                    payload: extra
+                  }),
+                },
+                event.origin,
+              );
+
+              // Listening the AddMessage
+              window.addEventListener("message", handleTrigger(res, rej));
+            };
+
             switch (action.type) {
               case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
@@ -263,6 +290,8 @@
                 const integrationFormFields = formIntegration.fields ?? {};
                 const integrationFormAction = formIntegration.action ?? {};
                 const richTextDC = dynamicContentOption?.richText?.handler;
+                const _elements = configData.elements ?? {};
+                const _elementsOption = _elements.options ?? {};
 
                 if (integrationFormFields && integrationFormFields.enable) {
                   formIntegration.fields = {
@@ -286,6 +315,18 @@
                   ..._integration,
                   form: formIntegration,
                 };
+                const elements = {
+                  ..._elements,
+                  options: { ..._elementsOption },
+                };
+
+                if (_elementsOption.trigger?.enable) {
+                  elements.options.trigger = {
+                    type: elements.options.trigger.type ?? "click",
+                    handler: addTriggerHandler,
+                    disableFor: elements.options.trigger.disableFor ?? [],
+                  };
+                }
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
@@ -353,6 +394,7 @@
                 };
                 window.__VISUAL_CONFIG__.integration = integration;
                 window.__VISUAL_CONFIG__.dynamicContentOption = dynamicContentOption;
+                window.__VISUAL_CONFIG__.elements = elements;
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
@@ -364,13 +406,7 @@
               }
               case "<%- target %>_save": {
                 const configData = action.data && "configData" in action.data ? action.data : {};
-
-                let getOuputCallback = undefined;
-                try {
-                  getOuputCallback = parseFunctionFromString(action.data.callback);
-                } catch (e) {
-                  console.error("Could not send output", e);
-                }
+                const mode = window.__VISUAL_CONFIG__.mode;
 
                 window.__VISUAL_CONFIG__.onUpdate((res) => {
                   event.source.postMessage(
@@ -378,15 +414,11 @@
                       target: "<%- target %>",
                       data: JSON.stringify({
                         type: "<%- target %>_save",
-                        payload: res,
+                        payload: { mode, ...res },
                       }),
                     },
                     event.origin,
                   );
-
-                  if (typeof getOuputCallback === "function") {
-                    getOuputCallback(res);
-                  }
                 }, configData);
                 break;
               }
@@ -397,7 +429,9 @@
               case "<%- target %>_form_action_res":
               case "<%- target %>_form_action_rej":
               case "<%- target %>_dc_richtext_res":
-              case "<%- target %>_dc_richtext_rej": {
+              case "<%- target %>_dc_richtext_rej":
+              case "<%- target %>_trigger_res":
+              case "<%- target %>_trigger_rej":{
                 // Nothing to do here
                 // All Logic is outside of current event
                 break;

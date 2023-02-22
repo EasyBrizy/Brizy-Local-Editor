@@ -11,6 +11,8 @@ import {
   formFieldsRes,
   init,
   save,
+  triggerRej,
+  triggerRes,
 } from "./actions";
 import { ActionTypes } from "./actions/types";
 import {
@@ -18,9 +20,11 @@ import {
   AddMediaExtra,
   BuilderOutput,
   DynamicContentOption,
+  ElementTypes,
   FormFieldsOption,
   HtmlOutputType,
   Init,
+  OnSave,
   Target,
 } from "./types/types";
 import { createOutput } from "./utils/createOutput";
@@ -36,9 +40,11 @@ const actions = {
   formActionRej: formActionRej,
   dcRichTextRes: dcRichTextRes,
   dcRichTextRej: dcRichTextRej,
+  triggerRes: triggerRes,
+  triggerRej: triggerRej,
 };
 
-const noopFunc = () => {};
+const savedNodeCB = new Map<HTMLElement, OnSave>();
 
 export const Core: Init<HtmlOutputType> = (token, config, cb) => {
   if (!token) {
@@ -87,7 +93,13 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
         const action = JSON.parse(data.data);
         const api = {
           [ActionTypes.save]: (output: BuilderOutput) => {
-            config.onSave?.(createOutput(htmlOutputType, output));
+            const _output = createOutput(htmlOutputType, output);
+            config.onSave?.(_output);
+            const onSaveCallback = savedNodeCB.get(container);
+
+            if (typeof onSaveCallback === "function") {
+              onSaveCallback(_output);
+            }
           },
           [ActionTypes.onLoad]: () => {
             destroyLoader(spinner, container);
@@ -156,6 +168,21 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               handler(res, rej);
             }
           },
+          [ActionTypes.trigger]: (extra: { type: ElementTypes }) => {
+            const { elements = {} } = config;
+            const handler = elements.options?.trigger?.handler;
+
+            if (typeof handler === "function") {
+              const res = (r: string) => {
+                iframeWindow.postMessage(actions.triggerRes(r), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.triggerRej(r), targetOrigin);
+              };
+
+              handler(res, rej, extra);
+            }
+          },
         };
 
         // @ts-expect-error: temporary
@@ -170,8 +197,11 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
       }
     });
 
-    const save = (callback?: VoidFunction) => {
-      iframeWindow.postMessage(actions.save({ callback: String(callback ?? noopFunc) }), targetOrigin);
+    const save = (cb?: OnSave) => {
+      if (typeof cb === "function") {
+        savedNodeCB.set(container, cb);
+      }
+      iframeWindow.postMessage(actions.save(), targetOrigin);
     };
 
     const api = {

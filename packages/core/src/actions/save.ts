@@ -1,7 +1,7 @@
 import { ActionResolve, Target } from "../types/types";
 import { ActionTypes } from "./types";
 
-export const save = (data: { callback: string }): ActionResolve => ({
+export const save = (): ActionResolve => ({
   target: Target.builder,
-  data: JSON.stringify({ type: ActionTypes.save, data }),
+  data: JSON.stringify({ type: ActionTypes.save }),
 });
