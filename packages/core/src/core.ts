@@ -11,8 +11,6 @@ import {
   formFieldsRes,
   init,
   save,
-  triggerRej,
-  triggerRes,
 } from "./actions";
 import { ActionTypes } from "./actions/types";
 import {
@@ -20,7 +18,6 @@ import {
   AddMediaExtra,
   BuilderOutput,
   DynamicContentOption,
-  ElementTypes,
   FormFieldsOption,
   HtmlOutputType,
   Init,
@@ -40,8 +37,6 @@ const actions = {
   formActionRej: formActionRej,
   dcRichTextRes: dcRichTextRes,
   dcRichTextRej: dcRichTextRej,
-  triggerRes: triggerRes,
-  triggerRej: triggerRej,
 };
 
 const savedNodeCB = new Map<HTMLElement, OnSave>();
@@ -166,21 +161,6 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               };
 
               handler(res, rej);
-            }
-          },
-          [ActionTypes.trigger]: (extra: { type: ElementTypes }) => {
-            const { elements = {} } = config;
-            const handler = elements.options?.trigger?.handler;
-
-            if (typeof handler === "function") {
-              const res = (r: string) => {
-                iframeWindow.postMessage(actions.triggerRes(r), targetOrigin);
-              };
-              const rej = (r: string) => {
-                iframeWindow.postMessage(actions.triggerRej(r), targetOrigin);
-              };
-
-              handler(res, rej, extra);
             }
           },
         };
