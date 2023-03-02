@@ -151,34 +151,6 @@
         };
       }
 
-      function handleTrigger(res, rej) {
-         return function triggerEmitter(event) {
-          const data = event.data;
-          if (data.target !== "<%- target %>") {
-            return;
-          }
-
-          try {
-            const action = JSON.parse(data.data);
-
-            switch (action.type) {
-              case "<%- target %>_trigger_res": {
-                res(action.data);
-                window.removeEventListener("message", triggerEmitter);
-                break;
-              }
-              case "<%- target %>_trigger_rej": {
-                rej(action.data);
-                window.removeEventListener("message", triggerEmitter);
-                break;
-              }
-            }
-          } catch (e) {
-            console.error("Invalid Trigger JSON", e);
-          }
-        };
-      }
-
       window.addEventListener(
         "message",
         (event) => {
@@ -251,22 +223,6 @@
               window.addEventListener("message", handleDCRichText(res, rej));
             };
 
-            const addTriggerHandler = function (res, rej, extra) {
-              event.source.postMessage(
-                {
-                  target: "<%- target %>",
-                  data: JSON.stringify({
-                    type: "<%- target %>_trigger",
-                    payload: extra
-                  }),
-                },
-                event.origin,
-              );
-
-              // Listening the AddMessage
-              window.addEventListener("message", handleTrigger(res, rej));
-            };
-
             switch (action.type) {
               case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
@@ -290,8 +246,6 @@
                 const integrationFormFields = formIntegration.fields ?? {};
                 const integrationFormAction = formIntegration.action ?? {};
                 const richTextDC = dynamicContentOption?.richText?.handler;
-                const _elements = configData.elements ?? {};
-                const _elementsOption = _elements.options ?? {};
 
                 if (integrationFormFields && integrationFormFields.enable) {
                   formIntegration.fields = {
@@ -315,18 +269,6 @@
                   ..._integration,
                   form: formIntegration,
                 };
-                const elements = {
-                  ..._elements,
-                  options: { ..._elementsOption },
-                };
-
-                if (_elementsOption.trigger?.enable) {
-                  elements.options.trigger = {
-                    type: elements.options.trigger.type ?? "click",
-                    handler: addTriggerHandler,
-                    disableFor: elements.options.trigger.disableFor ?? [],
-                  };
-                }
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
@@ -394,7 +336,6 @@
                 };
                 window.__VISUAL_CONFIG__.integration = integration;
                 window.__VISUAL_CONFIG__.dynamicContentOption = dynamicContentOption;
-                window.__VISUAL_CONFIG__.elements = elements;
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
@@ -429,9 +370,7 @@
               case "<%- target %>_form_action_res":
               case "<%- target %>_form_action_rej":
               case "<%- target %>_dc_richtext_res":
-              case "<%- target %>_dc_richtext_rej":
-              case "<%- target %>_trigger_res":
-              case "<%- target %>_trigger_rej":{
+              case "<%- target %>_dc_richtext_rej": {
                 // Nothing to do here
                 // All Logic is outside of current event
                 break;
