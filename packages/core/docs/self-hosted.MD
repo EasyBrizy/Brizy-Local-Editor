@@ -96,9 +96,7 @@ type config = {
   integration?: {
     /// Form
     form?: {
-      action?: {
-        url: string;
-      };
+      action?: string;
       recaptcha?: {
         siteKey: string;
       };
@@ -118,17 +116,6 @@ type config = {
   };
 
   pagePreview: string;
-
-  // Elements
-  elements?: {
-    options?: {
-      trigger?: {
-        type: "click";
-        handler: (res: Response<string>, rej: Response<string>, extra: { type: ElementTypes }) => void;
-        disableFor?: Array<ElementTypes>;
-      };
-    };
-  };
 
   // UI
   ui: {
@@ -251,43 +238,6 @@ export interface Theme {
     "--active-color"?: string;
   };
 }
-
-// ElementTypes
-export enum ElementTypes {
-  Row = "Row",
-  Column = "Column",
-  RichText = "RichText",
-  Button = "Button",
-  Icon = "Icon",
-  Spacer = "Spacer",
-  Line = "Line",
-  Map = "Map",
-  Embed = "Embed",
-  Form2 = "Form2",
-  IconBox = "IconBox",
-  Counter = "Counter",
-  Countdown = "Countdown",
-  Tabs = "Tabs",
-  Progress = "Progress",
-  Accordion = "Accordion",
-  Alert = "Alert",
-  Menu = "Menu",
-  Rating = "Rating",
-  Table = "Table",
-  Timeline = "Timeline",
-  Switcher = "Switcher",
-  Lottie = "Lottie",
-  Calendly = "Calendly",
-  Image = "Image",
-  Gallery = "Gallery",
-  Audio = "Audio",
-  Carousel = "Carousel",
-  Video = "Video",
-  Playlist = "Playlist",
-  Facebook = "Facebook",
-  Twitter = "Twitter",
-  Comments = "Comments",
-}
 ```
 
 Config can be passed as an object when you initialize the editor from the script.
@@ -315,15 +265,6 @@ Config can be passed as an object when you initialize the editor from the script
 |:---------------------------------------------|:----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | dynamicContent.richText.useCustomPlaceholder | boolean   | Takes true or false values and lets you use custom placeholders                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | dynamicContent.richText.handler              | function  | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
-
-### Trigger parameters
- Makes the trigger [option](https://user-images.githubusercontent.com/18303258/220393920-9054ca88-fa7c-4196-9ee4-4a1382001ec8.png) visible for all elements on the page, it is used when you need to execute some code on the click event only in export mode
-
-| Name                                | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|:------------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| elements.options.trigger.type       | string   | "click"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| elements.options.trigger.handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
-| elements.options.trigger.disableFor | Array    | Disable trigger option for Array of Elements example: Menu, Button...                                                                                                                                                                                                                                                                                                                                                                                                                            |
 
 ### UI parameters
 
