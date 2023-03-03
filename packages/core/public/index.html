@@ -35,6 +35,7 @@
         },
         api: {},
       };
+      window.__uid__ = undefined;
     </script>
   </head>
   <body class="brz brz-ed">
@@ -42,7 +43,7 @@
       function handleAddMedia(res, rej) {
         return function mediaEmitter(event) {
           const data = event.data;
-          if (data.target !== "<%- target %>") {
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
             return;
           }
 
@@ -70,7 +71,7 @@
       function handleFormFields(res, rej) {
         return function fieldsEmitter(event) {
           const data = event.data;
-          if (data.target !== "<%- target %>") {
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
             return;
           }
 
@@ -95,38 +96,10 @@
         };
       }
 
-      function handleFormAction(res, rej) {
-        return function actionEmitter(event) {
-          const data = event.data;
-          if (data.target !== "<%- target %>") {
-            return;
-          }
-
-          try {
-            const action = JSON.parse(data.data);
-
-            switch (action.type) {
-              case "<%- target %>_form_action_res": {
-                res(action.data);
-                window.removeEventListener("message", actionEmitter);
-                break;
-              }
-              case "<%- target %>_form_action_rej": {
-                rej(action.data);
-                window.removeEventListener("message", actionEmitter);
-                break;
-              }
-            }
-          } catch (e) {
-            console.error("Invalid FormaAtionOptions JSON", e);
-          }
-        };
-      }
-
       function handleDCRichText(res, rej) {
         return function richTextEmitter(event) {
           const data = event.data;
-          if (data.target !== "<%- target %>") {
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
             return;
           }
 
@@ -155,6 +128,12 @@
         "message",
         (event) => {
           const data = event.data;
+
+          if (data.uid === undefined) {
+            console.error("Invalid/Missing the uid");
+            return;
+          }
+
           if (data.target !== "<%- target %>") {
             return;
           }
@@ -166,6 +145,7 @@
               event.source.postMessage(
                 {
                   target: "<%- target %>",
+                  uid: window.__uid__,
                   data: JSON.stringify({
                     type: "<%- target %>_add_media",
                     payload: extra,
@@ -182,6 +162,7 @@
               event.source.postMessage(
                 {
                   target: "<%- target %>",
+                  uid: window.__uid__,
                   data: JSON.stringify({
                     type: "<%- target %>_form_fields",
                   }),
@@ -193,25 +174,11 @@
               window.addEventListener("message", handleFormFields(res, rej));
             };
 
-            const addFormActionHandler = function (res, rej) {
-              event.source.postMessage(
-                {
-                  target: "<%- target %>",
-                  data: JSON.stringify({
-                    type: "<%- target %>_form_action",
-                  }),
-                },
-                event.origin,
-              );
-
-              // Listening the AddMessage
-              window.addEventListener("message", handleFormAction(res, rej));
-            };
-
             const addRichTextDCHandler = function (res, rej) {
               event.source.postMessage(
                 {
                   target: "<%- target %>",
+                  uid: window.__uid__,
                   data: JSON.stringify({
                     type: "<%- target %>_dc_richtext",
                   }),
@@ -244,20 +211,12 @@
                 const apiMedia = api.media ?? {};
                 const formIntegration = _integration.form ?? {};
                 const integrationFormFields = formIntegration.fields ?? {};
-                const integrationFormAction = formIntegration.action ?? {};
                 const richTextDC = dynamicContentOption?.richText?.handler;
 
                 if (integrationFormFields && integrationFormFields.enable) {
                   formIntegration.fields = {
                     label: integrationFormFields.label,
                     handler: addFormFieldHandler,
-                  };
-                }
-
-                if (integrationFormAction && integrationFormAction.enable) {
-                  formIntegration.action = {
-                    ...integrationFormAction,
-                    handler: addFormActionHandler,
                   };
                 }
 
@@ -322,6 +281,7 @@
                   event.source.postMessage(
                     {
                       target: "<%- target %>",
+                      uid: window.__uid__,
                       data: JSON.stringify({ type: "<%- target %>_on_load" }),
                     },
                     event.origin,
@@ -341,6 +301,7 @@
                 const root = document.querySelector("#root");
 
                 if (iframe && root) {
+                  window.__uid__ = data.uid;
                   root.innerHTML = iframe.innerHTML;
                 }
                 break;
@@ -353,6 +314,7 @@
                   event.source.postMessage(
                     {
                       target: "<%- target %>",
+                      uid: window.__uid__,
                       data: JSON.stringify({
                         type: "<%- target %>_save",
                         payload: { mode, ...res },
@@ -367,8 +329,6 @@
               case "<%- target %>_add_media_rej":
               case "<%- target %>_form_fields_res":
               case "<%- target %>_form_fields_rej":
-              case "<%- target %>_form_action_res":
-              case "<%- target %>_form_action_rej":
               case "<%- target %>_dc_richtext_res":
               case "<%- target %>_dc_richtext_rej": {
                 // Nothing to do here

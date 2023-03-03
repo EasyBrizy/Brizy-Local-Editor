@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import { loader } from "./Loader";
 import { destroyLoader, initLoader } from "./Loader/init";
 import {
@@ -5,8 +6,6 @@ import {
   addMediaRes,
   dcRichTextRej,
   dcRichTextRes,
-  formActionRej,
-  formActionRes,
   formFieldsRej,
   formFieldsRes,
   init,
@@ -33,8 +32,6 @@ const actions = {
   addMediaRej: addMediaRej,
   formFieldsRes: formFieldsRes,
   formFieldsRej: formFieldsRej,
-  formActionRes: formActionRes,
-  formActionRej: formActionRej,
   dcRichTextRes: dcRichTextRes,
   dcRichTextRej: dcRichTextRej,
 };
@@ -59,7 +56,8 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
   const spinner = loader(document);
 
   initLoader(spinner, container);
-
+  const uid = uuid();
+  container.dataset.uid = uid;
   iframe.setAttribute("src", `${PUBLIC_HOST}/index.html`);
   iframe.width = "100%";
   iframe.height = "100%";
@@ -76,11 +74,17 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
     // @ts-expect-error: Property 'src' does not exist on type 'EventTarget'
     const targetOrigin = e.target?.src ?? "*";
 
-    iframeWindow.postMessage(actions.init(config, token), targetOrigin);
+    iframeWindow.postMessage(actions.init(config, uid, token), targetOrigin);
 
     _window.addEventListener("message", (event) => {
       const data = event.data;
-      if (data.target !== Target.builder) {
+
+      if (data.uid === undefined) {
+        console.error("Missing the uid");
+        return;
+      }
+
+      if (data.target !== Target.builder || data.uid !== uid) {
         return;
       }
 
@@ -107,10 +111,10 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
 
             if (typeof handler === "function") {
               const res = (r: AddMediaData) => {
-                iframeWindow.postMessage(actions.addMediaRes(r), targetOrigin);
+                iframeWindow.postMessage(actions.addMediaRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
-                iframeWindow.postMessage(actions.addMediaRej(r), targetOrigin);
+                iframeWindow.postMessage(actions.addMediaRej(r, uid), targetOrigin);
               };
 
               handler(res, rej, extra);
@@ -123,26 +127,10 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
 
             if (typeof handler === "function") {
               const res = (r: Array<FormFieldsOption>) => {
-                iframeWindow.postMessage(actions.formFieldsRes(r), targetOrigin);
+                iframeWindow.postMessage(actions.formFieldsRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
-                iframeWindow.postMessage(actions.formFieldsRej(r), targetOrigin);
-              };
-
-              handler(res, rej);
-            }
-          },
-          [ActionTypes.formAction]: () => {
-            const { integration = {} } = config;
-            const { form = {} } = integration;
-            const handler = form.action?.handler;
-
-            if (typeof handler === "function") {
-              const res = (r: string) => {
-                iframeWindow.postMessage(actions.formActionRes(r), targetOrigin);
-              };
-              const rej = (r: string) => {
-                iframeWindow.postMessage(actions.formActionRej(r), targetOrigin);
+                iframeWindow.postMessage(actions.formFieldsRej(r, uid), targetOrigin);
               };
 
               handler(res, rej);
@@ -154,10 +142,10 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
 
             if (typeof handler === "function") {
               const res = (r: DynamicContentOption) => {
-                iframeWindow.postMessage(actions.dcRichTextRes(r), targetOrigin);
+                iframeWindow.postMessage(actions.dcRichTextRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
-                iframeWindow.postMessage(actions.dcRichTextRej(r), targetOrigin);
+                iframeWindow.postMessage(actions.dcRichTextRej(r, uid), targetOrigin);
               };
 
               handler(res, rej);
@@ -181,7 +169,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
       if (typeof cb === "function") {
         savedNodeCB.set(container, cb);
       }
-      iframeWindow.postMessage(actions.save(), targetOrigin);
+      iframeWindow.postMessage(actions.save(uid), targetOrigin);
     };
 
     const api = {

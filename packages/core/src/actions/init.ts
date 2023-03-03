@@ -22,10 +22,6 @@ const createIntegration = <T extends HtmlOutputType>(config: Config<T>): Builder
     _integration = mergeIn(integration, ["form", "fields"], { enable: true }) as BuilderIntegrationConfig;
   }
 
-  if (integrationForm.action?.handler) {
-    _integration = mergeIn(integration, ["form", "action"], { enable: true }) as BuilderIntegrationConfig;
-  }
-
   return _integration;
 };
 
@@ -53,7 +49,8 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
 
 //#endregion
 
-export const init = <T extends HtmlOutputType>(config: Config<T>, token: string): ActionResolve => ({
+export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, token: string): ActionResolve => ({
+  uid,
   target: Target.builder,
   data: JSON.stringify({
     type: ActionTypes.initPage,
