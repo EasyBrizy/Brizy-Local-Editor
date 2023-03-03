@@ -137,10 +137,7 @@ export interface Config<T extends HtmlOutputType> {
   // Integration
   integration?: {
     form?: {
-      action?: {
-        url: string;
-        handler: (res: Response<string>, rej: Response<string>) => void;
-      };
+      action?: string;
       recaptcha?: {
         siteKey: string;
       };
@@ -227,6 +224,7 @@ export enum Target {
 
 export type ActionResolve = {
   target: Target;
+  uid: string;
   data: string;
 };
 

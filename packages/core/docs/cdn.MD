@@ -63,9 +63,7 @@ type config = {
   integration?: {
     /// Form
     form?: {
-      action?: {
-        url: string;
-      };
+      action?:  string;
       recaptcha?: {
         siteKey: string;
       };
