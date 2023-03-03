@@ -453,18 +453,12 @@ export const demoConfig: Config<"monolith"> = {
               300: "http://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh7USew-FGC_p9dw.ttf",
               700: "http://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh6UVew-FGC_p9dw.ttf",
               900: "http://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh50Xew-FGC_p9dw.ttf",
-              "100italic":
-                "http://fonts.gstatic.com/s/lato/v15/S6u-w4BMUTPHjxsIPy-vNiPg7MU0.ttf",
-              "300italic":
-                "http://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI9w2PHA3s5dwt7w.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHvxk6XweuBCY.ttf",
-              italic:
-                "http://fonts.gstatic.com/s/lato/v15/S6u8w4BMUTPHjxswWyWrFCbw7A.ttf",
-              "700italic":
-                "http://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI5wqPHA3s5dwt7w.ttf",
-              "900italic":
-                "http://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI3wiPHA3s5dwt7w.ttf",
+              "100italic": "http://fonts.gstatic.com/s/lato/v15/S6u-w4BMUTPHjxsIPy-vNiPg7MU0.ttf",
+              "300italic": "http://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI9w2PHA3s5dwt7w.ttf",
+              regular: "http://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHvxk6XweuBCY.ttf",
+              italic: "http://fonts.gstatic.com/s/lato/v15/S6u8w4BMUTPHjxswWyWrFCbw7A.ttf",
+              "700italic": "http://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI5wqPHA3s5dwt7w.ttf",
+              "900italic": "http://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI3wiPHA3s5dwt7w.ttf",
             },
             brizyId: "uzrpsocdxtgrkbxjjxkchqcybpvpzsuvdlji",
           },
@@ -501,24 +495,15 @@ export const demoConfig: Config<"monolith"> = {
               700: "http://fonts.gstatic.com/s/overpass/v4/qFdA35WCmI96Ajtm81kedv7K6BsAikI7.ttf",
               800: "http://fonts.gstatic.com/s/overpass/v4/qFdA35WCmI96Ajtm81kCdf7K6BsAikI7.ttf",
               900: "http://fonts.gstatic.com/s/overpass/v4/qFdA35WCmI96Ajtm81kmdP7K6BsAikI7.ttf",
-              "100italic":
-                "http://fonts.gstatic.com/s/overpass/v4/qFdD35WCmI96Ajtm81Gga7rqwjUMg1siNQ.ttf",
-              "200italic":
-                "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81GgaxbL4h8ij1I7LLE.ttf",
-              "300italic":
-                "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81Gga3LI4h8ij1I7LLE.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/overpass/v4/qFdH35WCmI96Ajtm82GiWdrCwwcJ.ttf",
-              italic:
-                "http://fonts.gstatic.com/s/overpass/v4/qFdB35WCmI96Ajtm81GgU97gxhcJk1s.ttf",
-              "600italic":
-                "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81GgawbO4h8ij1I7LLE.ttf",
-              "700italic":
-                "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81Gga2LP4h8ij1I7LLE.ttf",
-              "800italic":
-                "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81Gga37M4h8ij1I7LLE.ttf",
-              "900italic":
-                "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81Gga1rN4h8ij1I7LLE.ttf",
+              "100italic": "http://fonts.gstatic.com/s/overpass/v4/qFdD35WCmI96Ajtm81Gga7rqwjUMg1siNQ.ttf",
+              "200italic": "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81GgaxbL4h8ij1I7LLE.ttf",
+              "300italic": "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81Gga3LI4h8ij1I7LLE.ttf",
+              regular: "http://fonts.gstatic.com/s/overpass/v4/qFdH35WCmI96Ajtm82GiWdrCwwcJ.ttf",
+              italic: "http://fonts.gstatic.com/s/overpass/v4/qFdB35WCmI96Ajtm81GgU97gxhcJk1s.ttf",
+              "600italic": "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81GgawbO4h8ij1I7LLE.ttf",
+              "700italic": "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81Gga2LP4h8ij1I7LLE.ttf",
+              "800italic": "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81Gga37M4h8ij1I7LLE.ttf",
+              "900italic": "http://fonts.gstatic.com/s/overpass/v4/qFdC35WCmI96Ajtm81Gga1rN4h8ij1I7LLE.ttf",
             },
             brizyId: "qwhwsomltrpyogspgbomkxquvqsqfdlvcnfo",
           },
@@ -526,28 +511,17 @@ export const demoConfig: Config<"monolith"> = {
             kind: "webfonts#webfont",
             family: "Red Hat Text",
             category: "sans-serif",
-            variants: [
-              "regular",
-              "italic",
-              "500",
-              "500italic",
-              "700",
-              "700italic",
-            ],
+            variants: ["regular", "italic", "500", "500italic", "700", "700italic"],
             subsets: ["latin", "latin-ext"],
             version: "v1",
             lastModified: "2019-07-26",
             files: {
               500: "http://fonts.gstatic.com/s/redhattext/v1/RrQIbohi_ic6B3yVSzGBrMxYm4QIG-eFNVmULg.ttf",
               700: "http://fonts.gstatic.com/s/redhattext/v1/RrQIbohi_ic6B3yVSzGBrMxY04IIG-eFNVmULg.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/redhattext/v1/RrQXbohi_ic6B3yVSzGBrMxgb60sE8yZPA.ttf",
-              italic:
-                "http://fonts.gstatic.com/s/redhattext/v1/RrQJbohi_ic6B3yVSzGBrMxQbacoMcmJPECN.ttf",
-              "500italic":
-                "http://fonts.gstatic.com/s/redhattext/v1/RrQKbohi_ic6B3yVSzGBrMxQbZ_cGO2BF1yELmgy.ttf",
-              "700italic":
-                "http://fonts.gstatic.com/s/redhattext/v1/RrQKbohi_ic6B3yVSzGBrMxQbZ-UHu2BF1yELmgy.ttf",
+              regular: "http://fonts.gstatic.com/s/redhattext/v1/RrQXbohi_ic6B3yVSzGBrMxgb60sE8yZPA.ttf",
+              italic: "http://fonts.gstatic.com/s/redhattext/v1/RrQJbohi_ic6B3yVSzGBrMxQbacoMcmJPECN.ttf",
+              "500italic": "http://fonts.gstatic.com/s/redhattext/v1/RrQKbohi_ic6B3yVSzGBrMxQbZ_cGO2BF1yELmgy.ttf",
+              "700italic": "http://fonts.gstatic.com/s/redhattext/v1/RrQKbohi_ic6B3yVSzGBrMxQbZ-UHu2BF1yELmgy.ttf",
             },
             brizyId: "eytgthrgfzlrrzxlhynabspndabldgdbdjnm",
           },
@@ -560,10 +534,8 @@ export const demoConfig: Config<"monolith"> = {
             version: "v3",
             lastModified: "2019-07-16",
             files: {
-              regular:
-                "http://fonts.gstatic.com/s/dmseriftext/v3/rnCu-xZa_krGokauCeNq1wWyafOPXHIJErY.ttf",
-              italic:
-                "http://fonts.gstatic.com/s/dmseriftext/v3/rnCw-xZa_krGokauCeNq1wWyWfGFWFAMArZKqQ.ttf",
+              regular: "http://fonts.gstatic.com/s/dmseriftext/v3/rnCu-xZa_krGokauCeNq1wWyafOPXHIJErY.ttf",
+              italic: "http://fonts.gstatic.com/s/dmseriftext/v3/rnCw-xZa_krGokauCeNq1wWyWfGFWFAMArZKqQ.ttf",
             },
             brizyId: "pujmflqmocbjojknwlnidilgqedjzqftpnrv",
           },
@@ -571,16 +543,7 @@ export const demoConfig: Config<"monolith"> = {
             kind: "webfonts#webfont",
             family: "Blinker",
             category: "sans-serif",
-            variants: [
-              "100",
-              "200",
-              "300",
-              "regular",
-              "600",
-              "700",
-              "800",
-              "900",
-            ],
+            variants: ["100", "200", "300", "regular", "600", "700", "800", "900"],
             subsets: ["latin", "latin-ext"],
             version: "v1",
             lastModified: "2019-07-26",
@@ -592,8 +555,7 @@ export const demoConfig: Config<"monolith"> = {
               700: "http://fonts.gstatic.com/s/blinker/v1/cIf4MaFatEE-VTaP_JWERGEsnIJkWL4.ttf",
               800: "http://fonts.gstatic.com/s/blinker/v1/cIf4MaFatEE-VTaP_ImHRGEsnIJkWL4.ttf",
               900: "http://fonts.gstatic.com/s/blinker/v1/cIf4MaFatEE-VTaP_K2GRGEsnIJkWL4.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/blinker/v1/cIf9MaFatEE-VTaPxCmrYGkHgIs.ttf",
+              regular: "http://fonts.gstatic.com/s/blinker/v1/cIf9MaFatEE-VTaPxCmrYGkHgIs.ttf",
             },
             brizyId: "yhkoopjikembswaygkzktfmiiashwjcrvbxr",
           },
@@ -601,28 +563,17 @@ export const demoConfig: Config<"monolith"> = {
             kind: "webfonts#webfont",
             family: "Aleo",
             category: "serif",
-            variants: [
-              "300",
-              "300italic",
-              "regular",
-              "italic",
-              "700",
-              "700italic",
-            ],
+            variants: ["300", "300italic", "regular", "italic", "700", "700italic"],
             subsets: ["latin", "latin-ext"],
             version: "v3",
             lastModified: "2019-07-16",
             files: {
               300: "http://fonts.gstatic.com/s/aleo/v3/c4mg1nF8G8_syKbr9DVDno985KM.ttf",
               700: "http://fonts.gstatic.com/s/aleo/v3/c4mg1nF8G8_syLbs9DVDno985KM.ttf",
-              "300italic":
-                "http://fonts.gstatic.com/s/aleo/v3/c4mi1nF8G8_swAjxeDdJmq159KOnWA.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/aleo/v3/c4mv1nF8G8_s8ArD0D1ogoY.ttf",
-              italic:
-                "http://fonts.gstatic.com/s/aleo/v3/c4mh1nF8G8_swAjJ1B9tkoZl_Q.ttf",
-              "700italic":
-                "http://fonts.gstatic.com/s/aleo/v3/c4mi1nF8G8_swAjxaDBJmq159KOnWA.ttf",
+              "300italic": "http://fonts.gstatic.com/s/aleo/v3/c4mi1nF8G8_swAjxeDdJmq159KOnWA.ttf",
+              regular: "http://fonts.gstatic.com/s/aleo/v3/c4mv1nF8G8_s8ArD0D1ogoY.ttf",
+              italic: "http://fonts.gstatic.com/s/aleo/v3/c4mh1nF8G8_swAjJ1B9tkoZl_Q.ttf",
+              "700italic": "http://fonts.gstatic.com/s/aleo/v3/c4mi1nF8G8_swAjxaDBJmq159KOnWA.ttf",
             },
             brizyId: "ucgecsrbcjkpsfctgzwsocokuydcdgiubroh",
           },
@@ -656,22 +607,14 @@ export const demoConfig: Config<"monolith"> = {
               700: "http://fonts.gstatic.com/s/nunito/v11/XRXW3I6Li01BKofAjsOkZuHJeTsfDQ.ttf",
               800: "http://fonts.gstatic.com/s/nunito/v11/XRXW3I6Li01BKofAksCkZuHJeTsfDQ.ttf",
               900: "http://fonts.gstatic.com/s/nunito/v11/XRXW3I6Li01BKofAtsGkZuHJeTsfDQ.ttf",
-              "200italic":
-                "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN5MZ-vNWz4PDWtj.ttf",
-              "300italic":
-                "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN4oZOvNWz4PDWtj.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/nunito/v11/XRXV3I6Li01BKof4MuyAbsrVcA.ttf",
-              italic:
-                "http://fonts.gstatic.com/s/nunito/v11/XRXX3I6Li01BKofIMOaETM_FcCIG.ttf",
-              "600italic":
-                "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN5cYuvNWz4PDWtj.ttf",
-              "700italic":
-                "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN44Y-vNWz4PDWtj.ttf",
-              "800italic":
-                "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN4kYOvNWz4PDWtj.ttf",
-              "900italic":
-                "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN4AYevNWz4PDWtj.ttf",
+              "200italic": "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN5MZ-vNWz4PDWtj.ttf",
+              "300italic": "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN4oZOvNWz4PDWtj.ttf",
+              regular: "http://fonts.gstatic.com/s/nunito/v11/XRXV3I6Li01BKof4MuyAbsrVcA.ttf",
+              italic: "http://fonts.gstatic.com/s/nunito/v11/XRXX3I6Li01BKofIMOaETM_FcCIG.ttf",
+              "600italic": "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN5cYuvNWz4PDWtj.ttf",
+              "700italic": "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN44Y-vNWz4PDWtj.ttf",
+              "800italic": "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN4kYOvNWz4PDWtj.ttf",
+              "900italic": "http://fonts.gstatic.com/s/nunito/v11/XRXQ3I6Li01BKofIMN4AYevNWz4PDWtj.ttf",
             },
             brizyId: "ppzycxqtiwtmjnfpbfluoynrnnfviuerjczz",
           },
@@ -684,8 +627,7 @@ export const demoConfig: Config<"monolith"> = {
             version: "v8",
             lastModified: "2019-07-16",
             files: {
-              regular:
-                "http://fonts.gstatic.com/s/knewave/v8/sykz-yx0lLcxQaSItSq9-trEvlQ.ttf",
+              regular: "http://fonts.gstatic.com/s/knewave/v8/sykz-yx0lLcxQaSItSq9-trEvlQ.ttf",
             },
             brizyId: "jojwyelvgkjknbgrosxcdphkpqfcczzdlcen",
           },
@@ -704,8 +646,7 @@ export const demoConfig: Config<"monolith"> = {
               500: "http://fonts.gstatic.com/s/palanquin/v5/9XUilJ90n1fBFg7ceXwUgnhoxJuqbi3ezg.ttf",
               600: "http://fonts.gstatic.com/s/palanquin/v5/9XUilJ90n1fBFg7ceXwUrn9oxJuqbi3ezg.ttf",
               700: "http://fonts.gstatic.com/s/palanquin/v5/9XUilJ90n1fBFg7ceXwUyn5oxJuqbi3ezg.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/palanquin/v5/9XUnlJ90n1fBFg7ceXwsdlFMzLC2Zw.ttf",
+              regular: "http://fonts.gstatic.com/s/palanquin/v5/9XUnlJ90n1fBFg7ceXwsdlFMzLC2Zw.ttf",
             },
             brizyId: "xnikbaszrjutnnfixmtprduwstoziivqiflp",
           },
@@ -721,8 +662,7 @@ export const demoConfig: Config<"monolith"> = {
               500: "http://fonts.gstatic.com/s/palanquindark/v6/xn76YHgl1nqmANMB-26xC7yuF8Z6ZW41fcvN2KT4.ttf",
               600: "http://fonts.gstatic.com/s/palanquindark/v6/xn76YHgl1nqmANMB-26xC7yuF8ZWYm41fcvN2KT4.ttf",
               700: "http://fonts.gstatic.com/s/palanquindark/v6/xn76YHgl1nqmANMB-26xC7yuF8YyY241fcvN2KT4.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/palanquindark/v6/xn75YHgl1nqmANMB-26xC7yuF_6OTEo9VtfE.ttf",
+              regular: "http://fonts.gstatic.com/s/palanquindark/v6/xn75YHgl1nqmANMB-26xC7yuF_6OTEo9VtfE.ttf",
             },
             brizyId: "gqzfchsrosvxegeymkyugyofaztsitibprrf",
           },
@@ -744,15 +684,7 @@ export const demoConfig: Config<"monolith"> = {
               "900",
               "900italic",
             ],
-            subsets: [
-              "greek-ext",
-              "latin",
-              "cyrillic-ext",
-              "vietnamese",
-              "latin-ext",
-              "greek",
-              "cyrillic",
-            ],
+            subsets: ["greek-ext", "latin", "cyrillic-ext", "vietnamese", "latin-ext", "greek", "cyrillic"],
             version: "v20",
             lastModified: "2019-07-24",
             files: {
@@ -761,20 +693,13 @@ export const demoConfig: Config<"monolith"> = {
               500: "http://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9vAx05IsDqlA.ttf",
               700: "http://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlvAx05IsDqlA.ttf",
               900: "http://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmYUtvAx05IsDqlA.ttf",
-              "100italic":
-                "http://fonts.gstatic.com/s/roboto/v20/KFOiCnqEu92Fr1Mu51QrIzcXLsnzjYk.ttf",
-              "300italic":
-                "http://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TjARc9AMX6lJBP.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf",
-              italic:
-                "http://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1Mu52xPKTM1K9nz.ttf",
-              "500italic":
-                "http://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51S7ABc9AMX6lJBP.ttf",
-              "700italic":
-                "http://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TzBhc9AMX6lJBP.ttf",
-              "900italic":
-                "http://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TLBBc9AMX6lJBP.ttf",
+              "100italic": "http://fonts.gstatic.com/s/roboto/v20/KFOiCnqEu92Fr1Mu51QrIzcXLsnzjYk.ttf",
+              "300italic": "http://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TjARc9AMX6lJBP.ttf",
+              regular: "http://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf",
+              italic: "http://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1Mu52xPKTM1K9nz.ttf",
+              "500italic": "http://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51S7ABc9AMX6lJBP.ttf",
+              "700italic": "http://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TzBhc9AMX6lJBP.ttf",
+              "900italic": "http://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TLBBc9AMX6lJBP.ttf",
             },
             brizyId: "wrqenoprsynrjiyxmfoeuwqddlnomrxemeec",
           },
@@ -783,13 +708,7 @@ export const demoConfig: Config<"monolith"> = {
             family: "Oswald",
             category: "sans-serif",
             variants: ["200", "300", "regular", "500", "600", "700"],
-            subsets: [
-              "latin",
-              "cyrillic-ext",
-              "vietnamese",
-              "latin-ext",
-              "cyrillic",
-            ],
+            subsets: ["latin", "cyrillic-ext", "vietnamese", "latin-ext", "cyrillic"],
             version: "v24",
             lastModified: "2019-07-23",
             files: {
@@ -798,8 +717,7 @@ export const demoConfig: Config<"monolith"> = {
               500: "http://fonts.gstatic.com/s/oswald/v24/TK3_WkUHHAIjg75cFRf3bXL8LICs18NvgUFoZAaRliE.ttf",
               600: "http://fonts.gstatic.com/s/oswald/v24/TK3_WkUHHAIjg75cFRf3bXL8LICs1y9ogUFoZAaRliE.ttf",
               700: "http://fonts.gstatic.com/s/oswald/v24/TK3_WkUHHAIjg75cFRf3bXL8LICs1xZogUFoZAaRliE.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/oswald/v24/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvgUFoZAaRliE.ttf",
+              regular: "http://fonts.gstatic.com/s/oswald/v24/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvgUFoZAaRliE.ttf",
             },
             brizyId: "ehiobdhupkijoltxyucnkenojglortpsupmp",
           },
@@ -814,8 +732,7 @@ export const demoConfig: Config<"monolith"> = {
             files: {
               300: "http://fonts.gstatic.com/s/oxygen/v9/2sDcZG1Wl4LcnbuCJW8Db2-4C7wFZQ.ttf",
               700: "http://fonts.gstatic.com/s/oxygen/v9/2sDcZG1Wl4LcnbuCNWgDb2-4C7wFZQ.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/oxygen/v9/2sDfZG1Wl4Lcnbu6iUcnZ0SkAg.ttf",
+              regular: "http://fonts.gstatic.com/s/oxygen/v9/2sDfZG1Wl4Lcnbu6iUcnZ0SkAg.ttf",
             },
             brizyId: "gzhhqjoyiaozuhrmbylqeknkdaqtxfdynaqt",
           },
@@ -823,24 +740,15 @@ export const demoConfig: Config<"monolith"> = {
             kind: "webfonts#webfont",
             family: "Playfair Display",
             category: "serif",
-            variants: [
-              "regular",
-              "italic",
-              "700",
-              "700italic",
-              "900",
-              "900italic",
-            ],
+            variants: ["regular", "italic", "700", "700italic", "900", "900italic"],
             subsets: ["latin", "vietnamese", "latin-ext", "cyrillic"],
             version: "v15",
             lastModified: "2019-07-22",
             files: {
               700: "http://fonts.gstatic.com/s/playfairdisplay/v15/nuFlD-vYSZviVYUb_rj3ij__anPXBYf9pWkU5xxiJKY.ttf",
               900: "http://fonts.gstatic.com/s/playfairdisplay/v15/nuFlD-vYSZviVYUb_rj3ij__anPXBb__pWkU5xxiJKY.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/playfairdisplay/v15/nuFiD-vYSZviVYUb_rj3ij__anPXPTvSgWE_-xU.ttf",
-              italic:
-                "http://fonts.gstatic.com/s/playfairdisplay/v15/nuFkD-vYSZviVYUb_rj3ij__anPXDTnYhUM66xV7PQ.ttf",
+              regular: "http://fonts.gstatic.com/s/playfairdisplay/v15/nuFiD-vYSZviVYUb_rj3ij__anPXPTvSgWE_-xU.ttf",
+              italic: "http://fonts.gstatic.com/s/playfairdisplay/v15/nuFkD-vYSZviVYUb_rj3ij__anPXDTnYhUM66xV7PQ.ttf",
               "700italic":
                 "http://fonts.gstatic.com/s/playfairdisplay/v15/nuFnD-vYSZviVYUb_rj3ij__anPXDTngOWwe4z5nNKaV_w.ttf",
               "900italic":
@@ -872,15 +780,7 @@ export const demoConfig: Config<"monolith"> = {
               "900",
               "900italic",
             ],
-            subsets: [
-              "greek-ext",
-              "latin",
-              "cyrillic-ext",
-              "vietnamese",
-              "latin-ext",
-              "greek",
-              "cyrillic",
-            ],
+            subsets: ["greek-ext", "latin", "cyrillic-ext", "vietnamese", "latin-ext", "greek", "cyrillic"],
             version: "v10",
             lastModified: "2019-07-22",
             files: {
@@ -892,26 +792,16 @@ export const demoConfig: Config<"monolith"> = {
               700: "http://fonts.gstatic.com/s/firasans/v10/va9B4kDNxMZdWfMOD5VnLK3uQR37fF3Wlg.ttf",
               800: "http://fonts.gstatic.com/s/firasans/v10/va9B4kDNxMZdWfMOD5VnMK7uQR37fF3Wlg.ttf",
               900: "http://fonts.gstatic.com/s/firasans/v10/va9B4kDNxMZdWfMOD5VnFK_uQR37fF3Wlg.ttf",
-              "100italic":
-                "http://fonts.gstatic.com/s/firasans/v10/va9A4kDNxMZdWfMOD5VvkrCqYTfVcFTPj0s.ttf",
-              "200italic":
-                "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrAGQBf_XljGllLX.ttf",
-              "300italic":
-                "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrBiQxf_XljGllLX.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/firasans/v10/va9E4kDNxMZdWfMOD5VfkILKSTbndQ.ttf",
-              italic:
-                "http://fonts.gstatic.com/s/firasans/v10/va9C4kDNxMZdWfMOD5VvkojOazP3dUTP.ttf",
-              "500italic":
-                "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrA6Qhf_XljGllLX.ttf",
-              "600italic":
-                "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrAWRRf_XljGllLX.ttf",
-              "700italic":
-                "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrByRBf_XljGllLX.ttf",
-              "800italic":
-                "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrBuRxf_XljGllLX.ttf",
-              "900italic":
-                "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrBKRhf_XljGllLX.ttf",
+              "100italic": "http://fonts.gstatic.com/s/firasans/v10/va9A4kDNxMZdWfMOD5VvkrCqYTfVcFTPj0s.ttf",
+              "200italic": "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrAGQBf_XljGllLX.ttf",
+              "300italic": "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrBiQxf_XljGllLX.ttf",
+              regular: "http://fonts.gstatic.com/s/firasans/v10/va9E4kDNxMZdWfMOD5VfkILKSTbndQ.ttf",
+              italic: "http://fonts.gstatic.com/s/firasans/v10/va9C4kDNxMZdWfMOD5VvkojOazP3dUTP.ttf",
+              "500italic": "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrA6Qhf_XljGllLX.ttf",
+              "600italic": "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrAWRRf_XljGllLX.ttf",
+              "700italic": "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrByRBf_XljGllLX.ttf",
+              "800italic": "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrBuRxf_XljGllLX.ttf",
+              "900italic": "http://fonts.gstatic.com/s/firasans/v10/va9f4kDNxMZdWfMOD5VvkrBKRhf_XljGllLX.ttf",
             },
             brizyId: "wndeuiwznzaqgsugjnojbhzjhjwtryegciis",
           },
@@ -924,8 +814,7 @@ export const demoConfig: Config<"monolith"> = {
             version: "v11",
             lastModified: "2019-07-17",
             files: {
-              regular:
-                "http://fonts.gstatic.com/s/abrilfatface/v11/zOL64pLDlL1D99S8g8PtiKchm-BsjOLhZBY.ttf",
+              regular: "http://fonts.gstatic.com/s/abrilfatface/v11/zOL64pLDlL1D99S8g8PtiKchm-BsjOLhZBY.ttf",
             },
             brizyId: "fbyhozjmiqseimmgxerwiucacmaaljqitrdc",
           },
@@ -934,14 +823,7 @@ export const demoConfig: Config<"monolith"> = {
             family: "Comfortaa",
             category: "display",
             variants: ["300", "regular", "500", "600", "700"],
-            subsets: [
-              "latin",
-              "cyrillic-ext",
-              "vietnamese",
-              "latin-ext",
-              "greek",
-              "cyrillic",
-            ],
+            subsets: ["latin", "cyrillic-ext", "vietnamese", "latin-ext", "greek", "cyrillic"],
             version: "v23",
             lastModified: "2019-07-17",
             files: {
@@ -949,8 +831,7 @@ export const demoConfig: Config<"monolith"> = {
               500: "http://fonts.gstatic.com/s/comfortaa/v23/1Pt_g8LJRfWJmhDAuUsSQamb1W0lwk4S4VrMPrQVIT9c2c8.ttf",
               600: "http://fonts.gstatic.com/s/comfortaa/v23/1Pt_g8LJRfWJmhDAuUsSQamb1W0lwk4S4bbLPrQVIT9c2c8.ttf",
               700: "http://fonts.gstatic.com/s/comfortaa/v23/1Pt_g8LJRfWJmhDAuUsSQamb1W0lwk4S4Y_LPrQVIT9c2c8.ttf",
-              regular:
-                "http://fonts.gstatic.com/s/comfortaa/v23/1Pt_g8LJRfWJmhDAuUsSQamb1W0lwk4S4WjMPrQVIT9c2c8.ttf",
+              regular: "http://fonts.gstatic.com/s/comfortaa/v23/1Pt_g8LJRfWJmhDAuUsSQamb1W0lwk4S4WjMPrQVIT9c2c8.ttf",
             },
             brizyId: "plspcdzrrelkhthvkmoocpwrtltvuzqcyraw",
           },
@@ -963,8 +844,7 @@ export const demoConfig: Config<"monolith"> = {
             version: "v8",
             lastModified: "2019-07-17",
             files: {
-              regular:
-                "http://fonts.gstatic.com/s/kaushanscript/v8/vm8vdRfvXFLG3OLnsO15WYS5DF7_ytN3M48a.ttf",
+              regular: "http://fonts.gstatic.com/s/kaushanscript/v8/vm8vdRfvXFLG3OLnsO15WYS5DF7_ytN3M48a.ttf",
             },
             brizyId: "simpmqjphttgbnwqaobwxuxoavrdlbpdjgzc",
           },
@@ -975,9 +855,7 @@ export const demoConfig: Config<"monolith"> = {
   htmlOutputType: "monolith",
   integration: {
     form: {
-      action: {
-        url: "https://reqbin.com/sample/post/json",
-      },
+      action: "https://reqbin.com/sample/post/json",
       fields: {
         handler(res) {
           res([

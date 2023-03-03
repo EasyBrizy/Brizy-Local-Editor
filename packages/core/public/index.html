@@ -35,6 +35,7 @@
         },
         api: {},
       };
+      window.__uid__ = undefined;
     </script>
   </head>
   <body class="brz brz-ed">
@@ -42,7 +43,7 @@
       function handleAddMedia(res, rej) {
         return function mediaEmitter(event) {
           const data = event.data;
-          if (data.target !== "<%- target %>") {
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
             return;
           }
 
@@ -70,7 +71,7 @@
       function handleFormFields(res, rej) {
         return function fieldsEmitter(event) {
           const data = event.data;
-          if (data.target !== "<%- target %>") {
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
             return;
           }
 
@@ -95,38 +96,10 @@
         };
       }
 
-      function handleFormAction(res, rej) {
-        return function actionEmitter(event) {
-          const data = event.data;
-          if (data.target !== "<%- target %>") {
-            return;
-          }
-
-          try {
-            const action = JSON.parse(data.data);
-
-            switch (action.type) {
-              case "<%- target %>_form_action_res": {
-                res(action.data);
-                window.removeEventListener("message", actionEmitter);
-                break;
-              }
-              case "<%- target %>_form_action_rej": {
-                rej(action.data);
-                window.removeEventListener("message", actionEmitter);
-                break;
-              }
-            }
-          } catch (e) {
-            console.error("Invalid FormaAtionOptions JSON", e);
-          }
-        };
-      }
-
       function handleDCRichText(res, rej) {
         return function richTextEmitter(event) {
           const data = event.data;
-          if (data.target !== "<%- target %>") {
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
             return;
           }
 
@@ -151,38 +124,16 @@
         };
       }
 
-      function handleTrigger(res, rej) {
-         return function triggerEmitter(event) {
-          const data = event.data;
-          if (data.target !== "<%- target %>") {
-            return;
-          }
-
-          try {
-            const action = JSON.parse(data.data);
-
-            switch (action.type) {
-              case "<%- target %>_trigger_res": {
-                res(action.data);
-                window.removeEventListener("message", triggerEmitter);
-                break;
-              }
-              case "<%- target %>_trigger_rej": {
-                rej(action.data);
-                window.removeEventListener("message", triggerEmitter);
-                break;
-              }
-            }
-          } catch (e) {
-            console.error("Invalid Trigger JSON", e);
-          }
-        };
-      }
-
       window.addEventListener(
         "message",
         (event) => {
           const data = event.data;
+
+          if (data.uid === undefined) {
+            console.error("Invalid/Missing the uid");
+            return;
+          }
+
           if (data.target !== "<%- target %>") {
             return;
           }
@@ -194,6 +145,7 @@
               event.source.postMessage(
                 {
                   target: "<%- target %>",
+                  uid: window.__uid__,
                   data: JSON.stringify({
                     type: "<%- target %>_add_media",
                     payload: extra,
@@ -210,6 +162,7 @@
               event.source.postMessage(
                 {
                   target: "<%- target %>",
+                  uid: window.__uid__,
                   data: JSON.stringify({
                     type: "<%- target %>_form_fields",
                   }),
@@ -221,25 +174,11 @@
               window.addEventListener("message", handleFormFields(res, rej));
             };
 
-            const addFormActionHandler = function (res, rej) {
-              event.source.postMessage(
-                {
-                  target: "<%- target %>",
-                  data: JSON.stringify({
-                    type: "<%- target %>_form_action",
-                  }),
-                },
-                event.origin,
-              );
-
-              // Listening the AddMessage
-              window.addEventListener("message", handleFormAction(res, rej));
-            };
-
             const addRichTextDCHandler = function (res, rej) {
               event.source.postMessage(
                 {
                   target: "<%- target %>",
+                  uid: window.__uid__,
                   data: JSON.stringify({
                     type: "<%- target %>_dc_richtext",
                   }),
@@ -249,22 +188,6 @@
 
               // Listening the AddMessage
               window.addEventListener("message", handleDCRichText(res, rej));
-            };
-
-            const addTriggerHandler = function (res, rej, extra) {
-              event.source.postMessage(
-                {
-                  target: "<%- target %>",
-                  data: JSON.stringify({
-                    type: "<%- target %>_trigger",
-                    payload: extra
-                  }),
-                },
-                event.origin,
-              );
-
-              // Listening the AddMessage
-              window.addEventListener("message", handleTrigger(res, rej));
             };
 
             switch (action.type) {
@@ -288,22 +211,12 @@
                 const apiMedia = api.media ?? {};
                 const formIntegration = _integration.form ?? {};
                 const integrationFormFields = formIntegration.fields ?? {};
-                const integrationFormAction = formIntegration.action ?? {};
                 const richTextDC = dynamicContentOption?.richText?.handler;
-                const _elements = configData.elements ?? {};
-                const _elementsOption = _elements.options ?? {};
 
                 if (integrationFormFields && integrationFormFields.enable) {
                   formIntegration.fields = {
                     label: integrationFormFields.label,
                     handler: addFormFieldHandler,
-                  };
-                }
-
-                if (integrationFormAction && integrationFormAction.enable) {
-                  formIntegration.action = {
-                    ...integrationFormAction,
-                    handler: addFormActionHandler,
                   };
                 }
 
@@ -315,18 +228,6 @@
                   ..._integration,
                   form: formIntegration,
                 };
-                const elements = {
-                  ..._elements,
-                  options: { ..._elementsOption },
-                };
-
-                if (_elementsOption.trigger?.enable) {
-                  elements.options.trigger = {
-                    type: elements.options.trigger.type ?? "click",
-                    handler: addTriggerHandler,
-                    disableFor: elements.options.trigger.disableFor ?? [],
-                  };
-                }
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
@@ -380,6 +281,7 @@
                   event.source.postMessage(
                     {
                       target: "<%- target %>",
+                      uid: window.__uid__,
                       data: JSON.stringify({ type: "<%- target %>_on_load" }),
                     },
                     event.origin,
@@ -394,12 +296,12 @@
                 };
                 window.__VISUAL_CONFIG__.integration = integration;
                 window.__VISUAL_CONFIG__.dynamicContentOption = dynamicContentOption;
-                window.__VISUAL_CONFIG__.elements = elements;
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
 
                 if (iframe && root) {
+                  window.__uid__ = data.uid;
                   root.innerHTML = iframe.innerHTML;
                 }
                 break;
@@ -412,6 +314,7 @@
                   event.source.postMessage(
                     {
                       target: "<%- target %>",
+                      uid: window.__uid__,
                       data: JSON.stringify({
                         type: "<%- target %>_save",
                         payload: { mode, ...res },
@@ -426,12 +329,8 @@
               case "<%- target %>_add_media_rej":
               case "<%- target %>_form_fields_res":
               case "<%- target %>_form_fields_rej":
-              case "<%- target %>_form_action_res":
-              case "<%- target %>_form_action_rej":
               case "<%- target %>_dc_richtext_res":
-              case "<%- target %>_dc_richtext_rej":
-              case "<%- target %>_trigger_res":
-              case "<%- target %>_trigger_rej":{
+              case "<%- target %>_dc_richtext_rej": {
                 // Nothing to do here
                 // All Logic is outside of current event
                 break;

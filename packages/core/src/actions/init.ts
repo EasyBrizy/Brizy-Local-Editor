@@ -22,10 +22,6 @@ const createIntegration = <T extends HtmlOutputType>(config: Config<T>): Builder
     _integration = mergeIn(integration, ["form", "fields"], { enable: true }) as BuilderIntegrationConfig;
   }
 
-  if (integrationForm.action?.handler) {
-    _integration = mergeIn(integration, ["form", "action"], { enable: true }) as BuilderIntegrationConfig;
-  }
-
   return _integration;
 };
 
@@ -53,41 +49,8 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
 
 //#endregion
 
-//#region Elements
-
-type Elements = Required<Config<HtmlOutputType>>["elements"];
-type Trigger = Required<Elements>["options"]["trigger"] & {
-  enable?: boolean;
-};
-
-const createTrigger = <T extends HtmlOutputType>(config: Config<T>): Trigger | undefined => {
-  const trigger = config.elements?.options?.trigger;
-
-  if (trigger && typeof trigger.handler === "function") {
-    return {
-      ...trigger,
-      enable: true,
-    };
-  }
-};
-
-const createElements = <T extends HtmlOutputType>(config: Config<T>): Partial<Elements> => {
-  const trigger = createTrigger(config);
-  let options = config.elements?.options;
-
-  if (options && trigger) {
-    options = mergeIn(options, ["trigger"], trigger) as Elements["options"];
-  }
-
-  return {
-    ...config.elements,
-    options: options,
-  };
-};
-
-//#endregion
-
-export const init = <T extends HtmlOutputType>(config: Config<T>, token: string): ActionResolve => ({
+export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, token: string): ActionResolve => ({
+  uid,
   target: Target.builder,
   data: JSON.stringify({
     type: ActionTypes.initPage,
@@ -101,7 +64,6 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, token: string)
       menuData: config.menu,
       integration: createIntegration(config),
       dynamicContent: createDCContent(config),
-      elements: createElements(config),
     },
   }),
 });
