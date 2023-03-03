@@ -109,46 +109,6 @@ export interface Theme {
 
 //#endregion
 
-//#region Elements
-
-export enum ElementTypes {
-  Row = "Row",
-  Column = "Column",
-  RichText = "RichText",
-  Button = "Button",
-  Icon = "Icon",
-  Spacer = "Spacer",
-  Line = "Line",
-  Map = "Map",
-  Embed = "Embed",
-  Form = "Form",
-  IconBox = "IconBox",
-  Counter = "Counter",
-  Countdown = "Countdown",
-  Tabs = "Tabs",
-  Progress = "Progress",
-  Accordion = "Accordion",
-  Alert = "Alert",
-  Menu = "Menu",
-  Rating = "Rating",
-  Table = "Table",
-  Timeline = "Timeline",
-  Switcher = "Switcher",
-  Lottie = "Lottie",
-  Calendly = "Calendly",
-  Image = "Image",
-  Gallery = "Gallery",
-  Audio = "Audio",
-  Carousel = "Carousel",
-  Video = "Video",
-  Playlist = "Playlist",
-  Facebook = "Facebook",
-  Twitter = "Twitter",
-  Comments = "Comments",
-}
-
-//#endregion
-
 export type Response<R> = (r: R) => void;
 
 export type OnSave = <T extends HtmlOutputType>(output: Output<T>) => void;
@@ -177,10 +137,7 @@ export interface Config<T extends HtmlOutputType> {
   // Integration
   integration?: {
     form?: {
-      action?: {
-        url: string;
-        handler: (res: Response<string>, rej: Response<string>) => void;
-      };
+      action?: string;
       recaptcha?: {
         siteKey: string;
       };
@@ -196,18 +153,6 @@ export interface Config<T extends HtmlOutputType> {
     richText?: {
       useCustomPlaceholder?: boolean;
       handler: (res: Response<DynamicContentOption>, rej: Response<string>) => void;
-    };
-  };
-
-  // Elements
-
-  elements?: {
-    options?: {
-      trigger?: {
-        type: "click";
-        handler: (res: Response<string>, rej: Response<string>, extra: { type: ElementTypes }) => void;
-        disableFor?: Array<ElementTypes>;
-      };
     };
   };
 
@@ -279,6 +224,7 @@ export enum Target {
 
 export type ActionResolve = {
   target: Target;
+  uid: string;
   data: string;
 };
 
