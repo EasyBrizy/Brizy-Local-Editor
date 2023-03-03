@@ -1,60 +1,37 @@
+import React, { useReducer, useRef } from "react";
 import { demoConfig } from "./demoConfig";
 import { useEditor } from "./hooks/useEditor";
 import { Config } from "./hooks/useEditor/types";
-import type {
-  Response,
-  DynamicContentOption,
-} from "@builder/core/build/es/types/types";
-import React, { useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import { DynamicContentModal } from "./modals/DynamicContent";
+import { reducer } from "./reducers";
+import { State } from "./reducers/types";
 
 const token = "demo";
 
-const DynamicContentModalExample = ({
-  node,
-  onClick,
-}: {
-  node: HTMLDivElement | null;
-  onClick: (value: string) => void;
-}) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+const noop = () => {};
 
-  if (!node) return null;
-
-  return ReactDOM.createPortal(
-    <div
-      className="brz-react-portal"
-      style={{
-        position: "absolute",
-        top: "38%",
-        left: "33%",
-      }}
-    >
-      <span>
-        <input type="text" ref={inputRef} placeholder="Placeholder label..." />
-      </span>
-      <span style={{ marginLeft: "10px" }}>
-        <button onClick={() => onClick(inputRef.current?.value ?? "")}>
-          Add
-        </button>
-      </span>
-    </div>,
-    node
-  );
+const initialState: State = {
+  output: "",
+  modal: {
+    opened: false,
+    resolve: noop,
+    reject: noop,
+  },
 };
 
 export const Editor = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const richTextDCCallback = useRef<Response<DynamicContentOption>>();
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const config: Config<"monolith"> = {
     ...demoConfig,
     container: containerRef.current,
 
     dynamicContent: {
-      richText(res, rej) {
-        setIsOpen(true);
-        richTextDCCallback.current = res;
+      richText: {
+        handler(res, rej) {
+          dispatch({ type: "modal", res, rej });
+        },
       },
     },
 
@@ -78,46 +55,44 @@ export const Editor = () => {
       },
     },
     onSave: (data) => {
-      setOutput(JSON.stringify(data));
+      dispatch({
+        type: "update",
+        data: JSON.stringify(data),
+      });
     },
   };
-  const [output, setOutput] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+
   const [builderState, builderInstance] = useEditor(token, config);
 
   const handleUpdate = () => {
     builderInstance?.save();
   };
 
+  const handleAdd = (value: string) => {
+    dispatch({
+      type: "resolvePlaceholder",
+      data: value,
+    });
+  };
+
+  const handleClose = () => {
+    dispatch({
+      type: "rejectPlaceholder",
+      data: "Placeholder not added",
+    });
+  };
+
   return (
     <div className="container">
-      {builderState.status === "error" ? (
-        builderState.error
-      ) : (
-        <>
-          <div className="container__editor" ref={containerRef} />
-          {isOpen && (
-            <DynamicContentModalExample
-              node={containerRef.current}
-              onClick={(value) => {
-                if (typeof richTextDCCallback.current === "function") {
-                  richTextDCCallback.current({
-                    label: value,
-                    placeholder: "{{test_placeholder}}",
-                  });
-                }
-                setIsOpen(false);
-              }}
-            />
-          )}
-        </>
-      )}
+      {builderState.status === "error" ? builderState.error : <div className="container__editor" ref={containerRef} />}
+
+      <DynamicContentModal opened={state.modal.opened} onAdd={handleAdd} onClose={handleClose} />
 
       <div className="container__output">
         <button className="btn" onClick={handleUpdate}>
           Update
         </button>
-        <textarea className="output" defaultValue={output} />
+        <textarea className="output" defaultValue={state.output} />
       </div>
     </div>
   );
