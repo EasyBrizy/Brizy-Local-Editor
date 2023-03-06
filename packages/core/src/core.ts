@@ -108,14 +108,19 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const { api = {} } = config;
             const { media = {} } = api;
             const handler = media.addMedia?.handler;
+            const _pointerEvents = container.style.pointerEvents;
 
             if (typeof handler === "function") {
               const res = (r: AddMediaData) => {
+                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addMediaRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
+                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addMediaRej(r, uid), targetOrigin);
               };
+
+              container.style.pointerEvents = "none";
 
               handler(res, rej, extra);
             }
