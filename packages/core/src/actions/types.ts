@@ -7,6 +7,10 @@ export enum ActionTypes {
   addMediaRes = "@builder_add_media_res",
   addMediaRej = "@builder_add_media_rej",
 
+  addFile = "@builder_add_file",
+  addFileRes = "@builder_add_file_res",
+  addFileRej = "@builder_add_file_rej",
+
   formFields = "@builder_form_fields",
   formFieldsRes = "@builder_form_fields_res",
   formFieldsRej = "@builder_form_fields_rej",

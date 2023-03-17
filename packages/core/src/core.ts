@@ -2,6 +2,8 @@ import { v4 as uuid } from "uuid";
 import { loader } from "./Loader";
 import { destroyLoader, initLoader } from "./Loader/init";
 import {
+  addFileRej,
+  addFileRes,
   addMediaRej,
   addMediaRes,
   dcRichTextRej,
@@ -13,6 +15,8 @@ import {
 } from "./actions";
 import { ActionTypes } from "./actions/types";
 import {
+  AddFileData,
+  AddFileExtra,
   AddMediaData,
   AddMediaExtra,
   BuilderOutput,
@@ -30,6 +34,8 @@ const actions = {
   save: save,
   addMediaRes: addMediaRes,
   addMediaRej: addMediaRej,
+  addFileRes: addFileRes,
+  addFileRej: addFileRej,
   formFieldsRes: formFieldsRes,
   formFieldsRej: formFieldsRej,
   dcRichTextRes: dcRichTextRes,
@@ -118,6 +124,27 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               const rej = (r: string) => {
                 container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addMediaRej(r, uid), targetOrigin);
+              };
+
+              container.style.pointerEvents = "none";
+
+              handler(res, rej, extra);
+            }
+          },
+          [ActionTypes.addFile]: (extra: AddFileExtra) => {
+            const { api = {} } = config;
+            const { customFile = {} } = api;
+            const handler = customFile.addFile?.handler;
+            const _pointerEvents = container.style.pointerEvents;
+
+            if (typeof handler === "function") {
+              const res = (r: AddFileData) => {
+                container.style.pointerEvents = _pointerEvents;
+                iframeWindow.postMessage(actions.addFileRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                container.style.pointerEvents = _pointerEvents;
+                iframeWindow.postMessage(actions.addFileRej(r, uid), targetOrigin);
               };
 
               container.style.pointerEvents = "none";
