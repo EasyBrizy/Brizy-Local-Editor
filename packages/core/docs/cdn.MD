@@ -123,6 +123,15 @@ type config = {
         handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
       };
     };
+
+    /// File
+    customFile?: {
+      fileUrl?: string;
+
+      addFile?: {
+        handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
+      };
+    };
   };
 
   onSave?: (data: Output) => void;
@@ -191,6 +200,17 @@ export interface AddMediaExtra {
   acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
 }
 
+// File
+export interface AddFileData {
+  filename: string;
+}
+
+export interface AddFileExtra {
+  acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .zip .txs .etc]
+}
+
+//#endregion
+
 // Theme
 export interface Theme {
   colors: {
@@ -250,10 +270,12 @@ Config can be passed as an object when you initialize the editor from the script
 
 ### API parameters
 
-| Name                       | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|:---------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| api.media.mediaResizeUrl   | string   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)  |
-| api.media.addMedia.handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| Name                           | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|:-------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| api.media.mediaResizeUrl       | string   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)  |
+| api.media.addMedia.handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| api.customFile.fileUrl         | string   | This is the URL for your resources the final URL will be `api.customFile.fileUrl/${fileName}`                                                                                                                                                                                                                                                                                                                                                                                                    |
+| api.customFile.addFile.handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 #### Example Media Handler
 
