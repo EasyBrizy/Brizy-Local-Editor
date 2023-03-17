@@ -72,6 +72,18 @@ export interface AddMediaExtra {
 
 //#endregion
 
+//#region File
+
+export interface AddFileData {
+  filename: string;
+}
+
+export interface AddFileExtra {
+  acceptedExtensions: Array<string>;
+}
+
+//#endregion
+
 //#region Form
 
 export interface FormFieldsOption {
@@ -205,6 +217,18 @@ export interface Config<T extends HtmlOutputType> {
     };
 
     //#ednregion
+
+    //#region File
+
+    customFile?: {
+      fileUrl?: string;
+
+      addFile?: {
+        handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
+      };
+    };
+
+    //#endregion
   };
 
   // events
