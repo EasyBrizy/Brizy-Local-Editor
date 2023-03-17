@@ -1649,6 +1649,46 @@
                 },
               },
             },
+            customFile: {
+              fileUrl: "http://localhost:9000/customFile",
+              addFile: {
+                handler(resolve, reject, extra) {
+                  const input = document.createElement("input");
+                  input.type = "file";
+                  input.accept = "image/*";
+
+                  const handleChange = (e) => {
+                    const { files } = e.target;
+
+                    if (files && files.length) {
+                      const file = files[0];
+                      const fileName = file.name;
+                      const filePath = `customFile/${fileName}`;
+                      const s3Config = {
+                        Key: filePath,
+                        Body: file,
+                      };
+
+                      // Upload to S3
+                      s3.upload(s3Config, (err) => {
+                        if (err) {
+                          reject(`Wrong Upload to S3 ${err.message}`);
+                        } else {
+                          resolve({ fileName });
+                        }
+                      });
+                    }
+                  };
+                  const handleCancel = () => {
+                    reject("File Uploaded canceled");
+                  };
+
+                  input.addEventListener("change", handleChange, { once: true });
+                  window.addEventListener("focus", handleCancel, { once: true });
+                  input.click();
+                },
+              },
+            },
           },
 
           pagePreview: "https://popup.demo.brizylocal.com/preview.html",

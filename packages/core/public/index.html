@@ -68,6 +68,36 @@
         };
       }
 
+      function handleAddFile(res, rej) {
+        return function fileEmitter(event) {
+          const data = event.data;
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case "<%- target %>_add_file_res": {
+                const fileName = action.data.fileName;
+                const uid = action.data.uid ?? fileName;
+                res({ uid: uid, filename: fileName });
+                window.removeEventListener("message", fileEmitter);
+                break;
+              }
+              case "<%- target %>_add_file_rej": {
+                rej(action.data);
+                window.removeEventListener("message", fileEmitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid AddFile JSON", e);
+          }
+        };
+      }
+
       function handleFormFields(res, rej) {
         return function fieldsEmitter(event) {
           const data = event.data;
@@ -158,6 +188,23 @@
               window.addEventListener("message", handleAddMedia(res, rej));
             };
 
+            const addCustomFileHandler = function (res, rej, extra) {
+              event.source.postMessage(
+                {
+                  target: "<%- target %>",
+                  uid: window.__uid__,
+                  data: JSON.stringify({
+                    type: "<%- target %>_add_file",
+                    payload: extra,
+                  }),
+                },
+                event.origin,
+              );
+
+              // Listening the AddMessage
+              window.addEventListener("message", handleAddFile(res, rej));
+            };
+
             const addFormFieldHandler = function (res, rej) {
               event.source.postMessage(
                 {
@@ -209,6 +256,7 @@
                 const pageData = action.data.pageData ?? {};
                 const menuData = action.data.menu ?? _menuData;
                 const apiMedia = api.media ?? {};
+                const apiCustomFile = api.customFile ?? {};
                 const formIntegration = _integration.form ?? {};
                 const integrationFormFields = formIntegration.fields ?? {};
                 const richTextDC = dynamicContentOption?.richText?.handler;
@@ -293,6 +341,10 @@
                     ...apiMedia,
                     addMedia: { handler: addMediaHandler },
                   },
+                  customFile: {
+                    ...apiCustomFile,
+                    addFile: { handler: addCustomFileHandler },
+                  },
                 };
                 window.__VISUAL_CONFIG__.integration = integration;
                 window.__VISUAL_CONFIG__.dynamicContentOption = dynamicContentOption;
@@ -327,6 +379,8 @@
               }
               case "<%- target %>_add_media_res":
               case "<%- target %>_add_media_rej":
+              case "<%- target %>_add_file_res":
+              case "<%- target %>_add_file_rej":
               case "<%- target %>_form_fields_res":
               case "<%- target %>_form_fields_rej":
               case "<%- target %>_dc_richtext_res":
