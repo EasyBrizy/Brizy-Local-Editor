@@ -179,6 +179,8 @@ export interface Config<T extends HtmlOutputType> {
       horizontalAlign?: boolean;
       verticalAlign?: boolean;
       backgroundPreviewUrl?: string;
+      scrollPageBehind?: boolean;
+      clickOutsideToClose?: boolean;
     };
 
     //#endregion
