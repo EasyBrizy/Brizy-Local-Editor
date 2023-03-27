@@ -114,20 +114,16 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const { api = {} } = config;
             const { media = {} } = api;
             const handler = media.addMedia?.handler;
-            const _pointerEvents = container.style.pointerEvents;
 
             if (typeof handler === "function") {
               const res = (r: AddMediaData) => {
-                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addMediaRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
-                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addMediaRej(r, uid), targetOrigin);
               };
 
-              container.style.pointerEvents = "none";
-
+              iframe.blur();
               handler(res, rej, extra);
             }
           },
@@ -135,20 +131,16 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const { api = {} } = config;
             const { customFile = {} } = api;
             const handler = customFile.addFile?.handler;
-            const _pointerEvents = container.style.pointerEvents;
 
             if (typeof handler === "function") {
               const res = (r: AddFileData) => {
-                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addFileRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
-                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addFileRej(r, uid), targetOrigin);
               };
 
-              container.style.pointerEvents = "none";
-
+              iframe.blur();
               handler(res, rej, extra);
             }
           },
