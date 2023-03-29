@@ -108,10 +108,12 @@ type config = {
   };
 
   // DynamicContent
-  dynamincContent?: {
-    richText?: {
-      useCustomPlaceholder?: boolean;
-      handler: (res: Response<DynamicContentOption>, rej: Response<string>) => void;
+  dynamicContent?: {
+    useCustomPlaceholder?: boolean;
+    groups?: {
+      [DCTypes.image]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.richText]: Array<ConfigDCItem> | DCItemHandler;
     };
   };
 
@@ -220,10 +222,25 @@ export interface FormFieldsOption {
   value: string;
 }
 
-// DynamicContent Option
-export interface DynamicContentOption {
+// DynamicContent
+export enum DCTypes {
+  image = "image",
+  link = "link",
+  richText = "richText",
+}
+interface BaseDCItem {
   label: string;
-  placeholder: string; // {{ syntax }}
+  placeholder: string;
+}
+export interface ConfigDCItem extends BaseDCItem {
+  optgroup?: ConfigDCItem[];
+}
+interface DCItemHandler {
+  handler: (
+    res: Response<BaseDCItem>,
+    rej: Response<string>,
+    extra?: { keyCode: string }
+  ) => void;
 }
 
 // Media
@@ -281,10 +298,27 @@ Config can be passed as an object when you initialize the editor from the script
 
 ### DynamicContent parameters
 
-| Name                                         | Type      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|:---------------------------------------------|:----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| dynamicContent.richText.useCustomPlaceholder | boolean   | Takes true or false values and lets you use custom placeholders                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| dynamicContent.richText.handler              | function  | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+Dynamic content can be configured in 2 ways
+
+1. Send an array of placeholder in config via:
+
+#### DynamicContent Array of choices
+
+| Name                                     | Type     | Description                                                           |
+|:-----------------------------------------|:---------|:----------------------------------------------------------------------|
+| dynamicContent.useCustomPlaceholder      | boolean  | Takes true or false values and lets you use custom placeholders       |
+| dynamicContent.groups[DCTypes.image]     | array    | Takes array of ConfigDCItem for all Element what persis ImageUpload   |
+| dynamicContent.groups[DCTypes.link]      | array    | Takes array of ConfigDCItem for all Element what persis Link          |
+| dynamicContent.groups[DCTypes.richText]  | array    | Takes array of ConfigDCItem for all Element what persis Content html  |
+
+2. Send a handler function that sends the placeholder over the response function
+#### DynamicContent Option parameters
+
+| Name                                            | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|:------------------------------------------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| dynamicContent.groups[DCTypes.image].handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| dynamicContent.groups[DCTypes.link].handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| dynamicContent.groups[DCTypes.richText].handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 ### UI parameters
 

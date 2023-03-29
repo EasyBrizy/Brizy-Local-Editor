@@ -18,4 +18,12 @@ export enum ActionTypes {
   dcRichText = "@builder_dc_richtext",
   dcRichTextRes = "@builder_dc_richtext_res",
   dcRichTextRej = "@builder_dc_richtext_rej",
+
+  dcImage = "@builder_dc_image",
+  dcImageRes = "@builder_dc_image_res",
+  dcImageRej = "@builder_dc_image_rej",
+
+  dcLink = "@builder_dc_link",
+  dcLinkRes = "@builder_dc_link_res",
+  dcLinkRej = "@builder_dc_link_rej",
 }
