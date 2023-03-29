@@ -27,6 +27,9 @@
             assets: origin + "/dist/pro",
           },
         },
+        dynamicContent: {
+          liveInBuilder: false,
+        },
         ui: {
           leftSidebar: {
             topTabsOrder: ["addElements", "reorderBlock", "globalStyle"],
@@ -154,6 +157,62 @@
         };
       }
 
+      function handleDCImage(res, rej) {
+        return function imageEmitter(event) {
+          const data = event.data;
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case "<%- target %>_dc_image_res": {
+                res(action.data);
+                window.removeEventListener("message", imageEmitter);
+                break;
+              }
+              case "<%- target %>_dc_image_rej": {
+                rej(action.data);
+                window.removeEventListener("message", imageEmitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid ImageDCOption JSON", e);
+          }
+        };
+      }
+
+      function handleDCLink(res, rej) {
+        return function linkEmitter(event) {
+          const data = event.data;
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case "<%- target %>_dc_link_res": {
+                res(action.data);
+                window.removeEventListener("message", linkEmitter);
+                break;
+              }
+              case "<%- target %>_dc_link_rej": {
+                rej(action.data);
+                window.removeEventListener("message", linkEmitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid LinkDCOption JSON", e);
+          }
+        };
+      }
+
       window.addEventListener(
         "message",
         (event) => {
@@ -221,13 +280,14 @@
               window.addEventListener("message", handleFormFields(res, rej));
             };
 
-            const addRichTextDCHandler = function (res, rej) {
+            const addRichTextDCHandler = function (res, rej, extra) {
               event.source.postMessage(
                 {
                   target: "<%- target %>",
                   uid: window.__uid__,
                   data: JSON.stringify({
                     type: "<%- target %>_dc_richtext",
+                    payload: extra
                   }),
                 },
                 event.origin,
@@ -237,6 +297,40 @@
               window.addEventListener("message", handleDCRichText(res, rej));
             };
 
+            const addImageDCHandler = function (res, rej, extra) {
+              event.source.postMessage(
+                {
+                  target: "<%- target %>",
+                  uid: window.__uid__,
+                  data: JSON.stringify({
+                    type: "<%- target %>_dc_image",
+                    payload: extra
+                  }),
+                },
+                event.origin,
+              );
+
+              // Listening the AddMessage
+              window.addEventListener("message", handleDCImage(res, rej));
+            };
+
+            const addLinkDCHandler = function (res, rej, extra) {
+              event.source.postMessage(
+                {
+                  target: "<%- target %>",
+                  uid: window.__uid__,
+                  data: JSON.stringify({
+                    type: "<%- target %>_dc_link",
+                    payload: extra
+                  }),
+                },
+                event.origin,
+              );
+
+              // Listening the AddMessage
+              window.addEventListener("message", handleDCLink(res, rej));
+            };
+
             switch (action.type) {
               case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
@@ -244,6 +338,7 @@
                 const _ui = window.__VISUAL_CONFIG__.ui;
                 const _api = window.__VISUAL_CONFIG__.api;
                 const _menuData = window.__VISUAL_CONFIG__.menuData;
+                const _dynamicContent = window.__VISUAL_CONFIG__.dynamicContent;
                 const configData = action.data ? action.data : {};
                 const configAssets = configData.assets;
                 const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
@@ -251,7 +346,7 @@
                 const ui = configData.ui ? configData.ui : _ui;
                 const api = configData.api ? configData.api : _api;
                 const _integration = configData.integration ?? {};
-                const dynamicContentOption = configData.dynamicContent ?? {};
+                let dynamicContent = { ..._dynamicContent, ...configData.dynamicContent };
                 const token = configData.token;
                 const pageData = action.data.pageData ?? {};
                 const menuData = action.data.menu ?? _menuData;
@@ -259,7 +354,9 @@
                 const apiCustomFile = api.customFile ?? {};
                 const formIntegration = _integration.form ?? {};
                 const integrationFormFields = formIntegration.fields ?? {};
-                const richTextDC = dynamicContentOption?.richText?.handler;
+                const richTextDC = dynamicContent.groups?.richText?.handler;
+                const imageDC = dynamicContent.groups?.image?.handler;
+                const linkDC = dynamicContent.groups?.link?.handler;
 
                 if (integrationFormFields && integrationFormFields.enable) {
                   formIntegration.fields = {
@@ -269,7 +366,38 @@
                 }
 
                 if (richTextDC && richTextDC.enable) {
-                  dynamicContentOption.richText.handler = addRichTextDCHandler;
+                  dynamicContent = {
+                    ...dynamicContent,
+                    groups: {
+                      richText: {
+                        handler: addRichTextDCHandler,
+                      },
+                    },
+                  };
+                }
+
+                if (imageDC && imageDC.enable) {
+                  dynamicContent = {
+                    ...dynamicContent,
+                    groups: {
+                      ...dynamicContent.groups,
+                      image: {
+                        handler: addImageDCHandler,
+                      },
+                    },
+                  };
+                }
+
+                if (linkDC && linkDC.enable) {
+                  dynamicContent = {
+                    ...dynamicContent,
+                    groups: {
+                      ...dynamicContent.groups,
+                      link: {
+                        handler: addLinkDCHandler,
+                      },
+                    },
+                  };
                 }
 
                 const integration = {
@@ -347,7 +475,7 @@
                   },
                 };
                 window.__VISUAL_CONFIG__.integration = integration;
-                window.__VISUAL_CONFIG__.dynamicContentOption = dynamicContentOption;
+                window.__VISUAL_CONFIG__.dynamicContent = dynamicContent;
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
@@ -384,7 +512,11 @@
               case "<%- target %>_form_fields_res":
               case "<%- target %>_form_fields_rej":
               case "<%- target %>_dc_richtext_res":
-              case "<%- target %>_dc_richtext_rej": {
+              case "<%- target %>_dc_richtext_rej":
+              case "<%- target %>_dc_image_res":
+              case "<%- target %>_dc_image_rej":
+              case "<%- target %>_dc_link_res":
+              case "<%- target %>_dc_link_rej": {
                 // Nothing to do here
                 // All Logic is outside of current event
                 break;

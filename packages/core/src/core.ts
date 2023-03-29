@@ -6,6 +6,10 @@ import {
   addFileRes,
   addMediaRej,
   addMediaRes,
+  dcImageRej,
+  dcImageRes,
+  dcLinkRej,
+  dcLinkRes,
   dcRichTextRej,
   dcRichTextRes,
   formFieldsRej,
@@ -19,8 +23,9 @@ import {
   AddFileExtra,
   AddMediaData,
   AddMediaExtra,
+  BaseDCItem,
   BuilderOutput,
-  DynamicContentOption,
+  DCHandlerExtra,
   FormFieldsOption,
   HtmlOutputType,
   Init,
@@ -40,6 +45,10 @@ const actions = {
   formFieldsRej: formFieldsRej,
   dcRichTextRes: dcRichTextRes,
   dcRichTextRej: dcRichTextRej,
+  dcImageRes: dcImageRes,
+  dcImageRej: dcImageRej,
+  dcLinkRes: dcLinkRes,
+  dcLinkRej: dcLinkRej,
 };
 
 const savedNodeCB = new Map<HTMLElement, OnSave>();
@@ -114,20 +123,16 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const { api = {} } = config;
             const { media = {} } = api;
             const handler = media.addMedia?.handler;
-            const _pointerEvents = container.style.pointerEvents;
 
             if (typeof handler === "function") {
               const res = (r: AddMediaData) => {
-                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addMediaRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
-                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addMediaRej(r, uid), targetOrigin);
               };
 
-              container.style.pointerEvents = "none";
-
+              iframe.blur();
               handler(res, rej, extra);
             }
           },
@@ -135,20 +140,16 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const { api = {} } = config;
             const { customFile = {} } = api;
             const handler = customFile.addFile?.handler;
-            const _pointerEvents = container.style.pointerEvents;
 
             if (typeof handler === "function") {
               const res = (r: AddFileData) => {
-                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addFileRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
-                container.style.pointerEvents = _pointerEvents;
                 iframeWindow.postMessage(actions.addFileRej(r, uid), targetOrigin);
               };
 
-              container.style.pointerEvents = "none";
-
+              iframe.blur();
               handler(res, rej, extra);
             }
           },
@@ -168,20 +169,56 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               handler(res, rej);
             }
           },
-          [ActionTypes.dcRichText]: () => {
+          [ActionTypes.dcRichText]: (extra: DCHandlerExtra) => {
             const { dynamicContent = {} } = config;
-            const handler = dynamicContent?.richText?.handler;
+            const richText = dynamicContent?.groups?.richText;
 
-            if (typeof handler === "function") {
-              const res = (r: DynamicContentOption) => {
-                iframeWindow.postMessage(actions.dcRichTextRes(r, uid), targetOrigin);
-              };
-              const rej = (r: string) => {
-                iframeWindow.postMessage(actions.dcRichTextRej(r, uid), targetOrigin);
-              };
-
-              handler(res, rej);
+            if (!richText || Array.isArray(richText)) {
+              return;
             }
+
+            const res = (r: BaseDCItem) => {
+              iframeWindow.postMessage(actions.dcRichTextRes(r, uid), targetOrigin);
+            };
+            const rej = (r: string) => {
+              iframeWindow.postMessage(actions.dcRichTextRej(r, uid), targetOrigin);
+            };
+
+            richText.handler(res, rej, extra);
+          },
+          [ActionTypes.dcImage]: (extra: DCHandlerExtra) => {
+            const { dynamicContent = {} } = config;
+            const image = dynamicContent?.groups?.image;
+
+            if (!image || Array.isArray(image)) {
+              return;
+            }
+
+            const res = (r: BaseDCItem) => {
+              iframeWindow.postMessage(actions.dcImageRes(r, uid), targetOrigin);
+            };
+            const rej = (r: string) => {
+              iframeWindow.postMessage(actions.dcImageRej(r, uid), targetOrigin);
+            };
+
+            image.handler(res, rej, extra);
+          },
+          [ActionTypes.dcLink]: (extra: DCHandlerExtra) => {
+            const { dynamicContent = {} } = config;
+            const link = dynamicContent?.groups?.link;
+
+            if (!link || Array.isArray(link)) {
+              return;
+            }
+
+            const res = (r: BaseDCItem) => {
+              iframeWindow.postMessage(actions.dcLinkRes(r, uid), targetOrigin);
+            };
+            const rej = (r: string) => {
+              iframeWindow.postMessage(actions.dcLinkRej(r, uid), targetOrigin);
+            };
+
+            link.handler(res, rej, extra);
           },
         };
 
