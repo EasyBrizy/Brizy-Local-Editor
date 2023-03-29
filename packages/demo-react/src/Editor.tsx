@@ -28,9 +28,11 @@ export const Editor = () => {
     container: containerRef.current,
 
     dynamicContent: {
-      richText: {
-        handler(res, rej) {
-          dispatch({ type: "modal", res, rej });
+      groups: {
+        richText: {
+          handler(res, rej) {
+            dispatch({ type: "modal", res, rej });
+          },
         },
       },
     },
