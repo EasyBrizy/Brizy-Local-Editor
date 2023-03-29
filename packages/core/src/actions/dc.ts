@@ -1,7 +1,7 @@
-import { ActionResolve, DynamicContentOption, Target } from "../types/types";
+import { ActionResolve, BaseDCItem, Target } from "../types/types";
 import { ActionTypes } from "./types";
 
-export const dcRichTextRes = (r: DynamicContentOption, uid: string): ActionResolve => ({
+export const dcRichTextRes = (r: BaseDCItem, uid: string): ActionResolve => ({
   uid,
   target: Target.builder,
   data: JSON.stringify({ type: ActionTypes.dcRichTextRes, data: r }),
