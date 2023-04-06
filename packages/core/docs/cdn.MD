@@ -114,6 +114,12 @@ type config = {
           linkTarget?: "_blank" | "_self" | "_parent" | "_top";
         }>;
       };
+
+      // AddElements
+      modulesGroups?: Array<{
+        label: string;
+        modulesNames: Array<BaseElementTypes | StoryElementTypes>;
+      }>;
     };
   };
 
@@ -228,7 +234,62 @@ export interface AddFileExtra {
   acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .zip .txs .etc]
 }
 
-//#endregion
+// ElementTypes
+/// Base Elements used in Page | Popup, these elements doesn't work in Story
+export enum BaseElementTypes {
+  Text = "Text",
+  Image = "Image",
+  Button = "Button",
+  Icon = "Icon",
+  Spacer = "Spacer",
+  Map = "Map",
+  Form2 = "Form2",
+  Line = "Line",
+  Menu = "Menu",
+  ImageGallery = "ImageGallery",
+  Video = "Video",
+  Audio = "Audio",
+  VideoPlaylist = "VideoPlaylist",
+  IconText = "IconText",
+  Lottie = "Lottie",
+  Embed = "Embed",
+  StarRating = "StarRating",
+  Alert = "Alert",
+  Counter = "Counter",
+  Countdown2 = "Countdown2",
+  ProgressBar = "ProgressBar",
+  Calendly = "Calendly",
+  Carousel = "Carousel",
+  Tabs = "Tabs",
+  Accordion = "Accordion",
+  Switcher = "Switcher",
+  Table = "Table",
+  Timeline = "Timeline",
+  Facebook = "Facebook",
+  Twitter = "Twitter",
+  FacebookComments = "FacebookComments",
+  Columns = "Columns",
+  Row = "Row"
+}
+
+/// Story Elements used only in Story mode, these elements doesn't work in Page, Popup
+export enum StoryElementTypes {
+  StoryButton = "StoryButton",
+  StoryIcon = "StoryIcon",
+  StoryEmbed = "StoryEmbed",
+  StoryText = "StoryText",
+  StoryMap = "StoryMap",
+  StoryProgressBar = "StoryProgressBar",
+  StoryLine = "StoryLine",
+  StoryCountdown2 = "StoryCountdown2",
+  StoryCounter = "StoryCounter",
+  StoryShape = "StoryShape",
+  StoryForm2 = "StoryForm2",
+  StoryStarRating = "StoryStarRating",
+  StoryLottie = "StoryLottie",
+  StoryImage = "StoryImage",
+  StoryVideo = "StoryVideo"
+}
 
 // Theme
 export interface Theme {
@@ -305,6 +366,7 @@ Dynamic content can be configured in 2 ways
 | ui.leftSidebar.topTabsOrder           | Array   | Lets you control the order and turning on or off the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.                                                                                                                                           |
 | ui.leftSidebar.bottomTabsOrder        | Array   | Lets you control the order and turning on or off the [icons in the left sidebar at the bottom](https://user-images.githubusercontent.com/10077249/206904746-f23a8b8d-ed58-4c20-b036-d204efc94437.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.                                                                                                                                        |
 | ui.leftSidebar.more.options           | Array   | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar.                                                                                                                                                                                                                                                                                                                                               |
+| ui.leftSidebar.modulesGroups          | Array   | Lets you control the elements and turing on or off the [icons in the addElements](https://user-images.githubusercontent.com/18303258/230393691-1f0e5198-43e7-43ee-ab06-8d8d0f5f9c03.png) in the left sidebar. The default arrangement you can see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/cdn.MD#default-modulesgroup)                                                                                                                                                     |
 
 ### API parameters
 
@@ -394,6 +456,145 @@ const config = {
         // Open Upload Window
         input.click();
       },
+    },
+  },
+};
+```
+
+#### Default ModulesGroup
+```ts
+// Popup
+const defaultConfigModulesGroupForPopup = {
+  ui: {
+    leftSidebar: {
+      modulesGroups: [
+        {
+          label: "grid",
+          modulesNames: ["Columns", "Row"],
+        },
+        {
+          label: "essentials",
+          modulesNames: [
+            "Text",
+            "Image",
+            "Button",
+            "Icon",
+            "Spacer",
+            "Map",
+            "Form2",
+            "Line",
+          ],
+        },
+        {
+          label: "media",
+          modulesNames: [
+            "ImageGallery",
+            "Video",
+            "Audio",
+            "VideoPlaylist",
+          ],
+        },
+        {
+          label: "content",
+          modulesNames: [
+            "IconText",
+            "Embed",
+            "StarRating",
+            "Alert",
+            "Counter",
+            "Countdown2",
+            "ProgressBar",
+            "Calendly",
+            "Carousel",
+            "Tabs",
+            "Accordion",
+            "Switcher",
+            "Table",
+            "Timeline",
+          ],
+        },
+        {
+          label: "social",
+          modulesNames: ["Facebook", "Twitter", "FacebookComments"],
+        },
+      ],
+    },
+  },
+};
+
+// Story
+const defaultConfigModulesGroupForStory = {
+  ui: {
+    leftSidebar: {
+      modulesGroups: [
+        {
+          label: "essentials",
+          modulesNames: [
+            "StoryButton",
+            "StoryIcon",
+            "StoryEmbed",
+            "StoryText",
+            "StoryMap",
+            "StoryProgressBar",
+            "StoryLine",
+            "StoryCountdown2",
+            "StoryCounter",
+            "StoryShape",
+            "StoryForm2",
+            "StoryStarRating",
+            "StoryLottie",
+          ],
+        },
+        {
+          label: "media",
+          modulesNames: ["StoryImage", "StoryVideo"],
+        },
+      ],
+    },
+  },
+};
+
+// Page
+const defaultConfigModulesGroupForPages = {
+  ui: {
+    leftSidebar: {
+      modulesGroups: [
+        {
+          label: "grid",
+          modulesNames: ["Columns", "Row"],
+        },
+        {
+          label: "essentials",
+          modulesNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line", "Menu"],
+        },
+        {
+          label: "media",
+          modulesNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
+        },
+        {
+          label: "content",
+          modulesNames: [
+            "IconText",
+            "Embed",
+            "StarRating",
+            "Alert",
+            "Counter",
+            "Countdown2",
+            "ProgressBar",
+            "Calendly",
+            "Carousel",
+            "Tabs",
+            "Accordion",
+            "Switcher",
+            "Table",
+            "Timeline",
+          ],
+        },
+        {
+          label: "social",
+          modulesNames: ["Facebook", "Twitter", "FacebookComments"],
+        },
+      ],
     },
   },
 };
