@@ -304,6 +304,7 @@ export interface Theme {
     "--secondary-gray"?: string;
     "--tertiary-gray"?: string;
     "--active-color"?: string;
+    "--light-gray"?: string;
   };
 }
 ```
