@@ -11,13 +11,18 @@ module.exports = (env) => {
   const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
   return {
-    entry: path.resolve(__dirname, "src/index.ts"),
+    entry: {
+      builder: path.resolve(__dirname, "src/builderProvider/index.ts"),
+      index: path.resolve(__dirname, "src/index.ts"),
+    },
     output: {
       path: path.resolve(__dirname, "build"),
-      filename: "index.js",
     },
     resolve: {
       extensions: [".ts", ".js"],
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+      },
     },
     mode: IS_PRODUCTION ? "production" : "development",
     module: {
@@ -59,6 +64,8 @@ module.exports = (env) => {
       new CopyPlugin({
         patterns: [
           {
+            // Terser skip this file for minimization
+            info: { minimized: true },
             from: path.resolve(__dirname, "public/dist"),
             to: path.resolve(__dirname, "build/dist"),
           },

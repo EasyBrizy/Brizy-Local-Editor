@@ -1,3 +1,13 @@
+import { CustomFile } from "./customFile";
+import { DynamicContent } from "./dynamicContent";
+import { Form } from "./form";
+import { LeftSidebar } from "./leftSidebar";
+import { Media } from "./media";
+import { Menu } from "./menu";
+import { Screenshots } from "./screenshots";
+import { DefaultKits, DefaultLayouts, DefaultPopups, DefaultStories } from "./templates";
+import { Theme } from "./theme";
+
 export type HtmlOutputType = "monolith" | "partial";
 
 export interface OutputType {
@@ -23,9 +33,9 @@ export interface Output<T extends HtmlOutputType> {
 }
 
 export enum Modes {
-  popup = "external_popup",
+  popup = "popup",
   page = "page",
-  story = "external_story",
+  story = "story",
 }
 
 export interface BuilderOutput {
@@ -38,176 +48,10 @@ export interface BuilderOutput {
   mode: Modes;
 }
 
-export interface MenuItem {
-  type: "MenuItem";
-  value: {
-    id: string;
-    title: string;
-    url: string;
-    target?: string;
-    classes?: Array<string>;
-
-    // For Dropdown next level
-    items?: Array<MenuItem>;
-  };
-}
-
-export enum LeftSidebarOptionsIds {
-  addElements = "addElements",
-  reorderBlock = "reorderBlock",
-  globalStyle = "globalStyle",
-  deviceMode = "deviceMode",
-  more = "more",
-}
-
-//#region Media
-
-export interface AddMediaData {
-  fileName: string;
-}
-
-export interface AddMediaExtra {
-  acceptedExtensions: Array<string>;
-}
-
-//#endregion
-
-//#region File
-
-export interface AddFileData {
-  filename: string;
-}
-
-export interface AddFileExtra {
-  acceptedExtensions: Array<string>;
-}
-
-//#endregion
-
-//#region Form
-
-export interface FormFieldsOption {
-  title: string;
-  value: string;
-}
-
-//#endregion
-
-//#region DynamicContent
-
-export enum DCTypes {
-  image = "image",
-  link = "link",
-  richText = "richText",
-}
-
-export interface BaseDCItem {
-  label: string;
-  placeholder: string;
-}
-
-export interface ConfigDCItem extends BaseDCItem {
-  optgroup?: ConfigDCItem[];
-}
-
-export interface DCHandlerExtra {
-  keyCode: string;
-}
-
-interface DCItemHandler {
-  handler: (res: Response<BaseDCItem>, rej: Response<string>, extra?: DCHandlerExtra) => void;
-}
-
-interface DCGroups {
-  [DCTypes.image]?: Array<ConfigDCItem> | DCItemHandler;
-  [DCTypes.link]?: Array<ConfigDCItem> | DCItemHandler;
-  [DCTypes.richText]?: Array<ConfigDCItem> | DCItemHandler;
-}
-
-//#endregion
-
-//#region Theme
-
-export interface Theme {
-  colors: {
-    "--primary-dark"?: string;
-    "--secondary-dark"?: string;
-    "--tertiary-dark"?: string;
-    "--primary-white"?: string;
-    "--secondary-white"?: string;
-    "--tertiary-white"?: string;
-    "--primary-gray"?: string;
-    "--secondary-gray"?: string;
-    "--tertiary-gray"?: string;
-    "--active-color"?: string;
-  };
-}
-
-//#endregion
-
-//#region ElementTypes
-
-export enum BaseElementTypes {
-  Text = "Text",
-  Image = "Image",
-  Button = "Button",
-  Icon = "Icon",
-  Spacer = "Spacer",
-  Map = "Map",
-  Form2 = "Form2",
-  Line = "Line",
-  Menu = "Menu",
-  ImageGallery = "ImageGallery",
-  Video = "Video",
-  Audio = "Audio",
-  VideoPlaylist = "VideoPlaylist",
-  IconText = "IconText",
-  Lottie = "Lottie",
-  Embed = "Embed",
-  StarRating = "StarRating",
-  Alert = "Alert",
-  Counter = "Counter",
-  Countdown2 = "Countdown2",
-  ProgressBar = "ProgressBar",
-  Calendly = "Calendly",
-  Carousel = "Carousel",
-  Tabs = "Tabs",
-  Accordion = "Accordion",
-  Switcher = "Switcher",
-  Table = "Table",
-  Timeline = "Timeline",
-  Facebook = "Facebook",
-  Twitter = "Twitter",
-  FacebookComments = "FacebookComments",
-  Columns = "Columns",
-  Row = "Row",
-}
-
-export enum StoryElementTypes {
-  StoryButton = "StoryButton",
-  StoryIcon = "StoryIcon",
-  StoryEmbed = "StoryEmbed",
-  StoryText = "StoryText",
-  StoryMap = "StoryMap",
-  StoryProgressBar = "StoryProgressBar",
-  StoryLine = "StoryLine",
-  StoryCountdown2 = "StoryCountdown2",
-  StoryCounter = "StoryCounter",
-  StoryShape = "StoryShape",
-  StoryForm2 = "StoryForm2",
-  StoryStarRating = "StoryStarRating",
-  StoryLottie = "StoryLottie",
-  StoryImage = "StoryImage",
-  StoryVideo = "StoryVideo",
-}
-
-//#endregion
-
-export type Response<R> = (r: R) => void;
-
 export type OnSave = <T extends HtmlOutputType>(output: Output<T>) => void;
 
 export interface Config<T extends HtmlOutputType> {
+  mode?: Modes;
   container: HTMLElement;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
@@ -221,37 +65,30 @@ export interface Config<T extends HtmlOutputType> {
 
   //#endregion
 
-  // Menu
-  menu?: Array<{
-    id: string;
-    name: string;
-    items: Array<MenuItem>;
-  }>;
+  //#region Menu
 
-  // Integration
+  menu?: Menu;
+
+  //#endregion
+
+  //#region Integration
+
   integration?: {
-    form?: {
-      action?: string;
-      recaptcha?: {
-        siteKey: string;
-      };
-      fields?: {
-        label?: string;
-        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
-      };
-    };
+    form?: Form;
   };
 
-  // DynamicContentOption
-  dynamicContent?: {
-    useCustomPlaceholder?: boolean;
-    groups?: DCGroups;
-  };
+  //#endregion
 
-  // UI
+  //#region DynamicContent
+
+  dynamicContent?: DynamicContent;
+
+  //#endregion
+
+  //#region UI
+
   ui?: {
-    //#region Popup
-
+    // Popup
     popupSettings?: {
       displayCondition?: boolean;
       deletePopup?: boolean;
@@ -263,64 +100,48 @@ export interface Config<T extends HtmlOutputType> {
       clickOutsideToClose?: boolean;
     };
 
-    //#endregion
-
+    // Theme
     theme?: Theme;
 
-    //#region LeftSidebar
-
-    leftSidebar?: {
-      topTabsOrder?: Array<LeftSidebarOptionsIds>;
-      bottomTabsOrder?: Array<LeftSidebarOptionsIds>;
-
-      [LeftSidebarOptionsIds.more]?: {
-        options?: Array<{
-          type: "link";
-          label: string;
-          link: string;
-          linkTarget?: "_blank" | "_self" | "_parent" | "_top";
-        }>;
-      };
-
-      modulesGroups?: Array<{
-        label: string;
-        modulesNames: Array<BaseElementTypes | StoryElementTypes>;
-      }>;
-    };
-
-    //#endregion
+    // LeftSidebar
+    leftSidebar?: LeftSidebar;
   };
 
-  // API
+  //#endregion
+
+  //#region API
+
   api?: {
-    //#region Media
+    // Media
+    media?: Media;
 
-    media?: {
-      mediaResizeUrl?: string;
+    // CustomFile
+    customFile?: CustomFile;
 
-      addMedia?: {
-        handler: (res: Response<AddMediaData>, rej: Response<string>, extra: AddMediaExtra) => void;
-      };
-    };
+    // Default Kits
+    defaultKits?: DefaultKits;
 
-    //#ednregion
+    // Default Popups
+    defaultPopups?: DefaultPopups;
 
-    //#region File
+    // Default Layouts
+    defaultLayouts?: DefaultLayouts;
 
-    customFile?: {
-      fileUrl?: string;
+    // Default Stories
+    defaultStories?: DefaultStories;
 
-      addFile?: {
-        handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
-      };
-    };
-
-    //#endregion
+    // Screenshots
+    screenshots?: Screenshots;
   };
 
-  // events
+  //#endregion
+
+  //#region Events
+
   onSave?: OnSave;
   onLoad?: VoidFunction;
+
+  //#endregion
 }
 
 export interface API {

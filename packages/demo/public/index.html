@@ -76,6 +76,7 @@
       const bucketRegion = "REGION";
       const IdentityPoolId = "IDENTITY_POOL_ID";
       const AWS = window.AWS;
+      const templates = "https://e-t-cloud.b-cdn.net/1.0.0"
 
       const createUpload = (accept) => {
         let lock = false;
@@ -138,6 +139,7 @@
 
       if (editor) {
         const config = {
+          mode: "page",
           container: editor,
           pageData: {
             id: "1",
@@ -4641,6 +4643,149 @@
                     reject("File Uploaded canceled");
                   }
                 },
+              },
+            },
+
+            defaultKits: {
+              async getMeta(res, rej) {
+                try {
+                  const kitsUrl = `${templates}/kits`;
+                  const meta = await fetch(`${kitsUrl}/meta.json`).then(
+                    (r) => r.json(),
+                  );
+
+                  const data = meta.map((kit) => ({
+                    ...kit,
+                    blocks: kit.blocks.map((item) => ({
+                      ...item,
+                      thumbnailSrc: `${kitsUrl}/thumbs/${item.id}.jpg`,
+                    })),
+                  }));
+
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load meta.json");
+                }
+              },
+              async getData(res, rej, id) {
+                const kitsUrl = `${templates}/kits`;
+                try {
+                  const data = await fetch(`${kitsUrl}/resolves/${id}.json`).then((r) =>
+                    r.json(),
+                  );
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load resolves for selected DefaultTemplate");
+                }
+              },
+            },
+            defaultPopups: {
+              async getMeta(res, rej) {
+                const popupsUrl = `${templates}/popups`;
+
+                try {
+                  const meta = await fetch(`${popupsUrl}/meta.json`).then((r) =>
+                    r.json(),
+                  );
+
+                  const data = {
+                    ...meta,
+                    blocks: meta.blocks.map((item) => ({
+                      ...item,
+                      thumbnailSrc: `${popupsUrl}/thumbs/${item.id}.jpg`,
+                    })),
+                  };
+
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load meta.json");
+                }
+              },
+              async getData(res, rej, id) {
+                const popupsUrl = `${templates}/popups`;
+                try {
+                  const data = await fetch(`${popupsUrl}/resolves/${id}.json`).then((r) =>
+                    r.json(),
+                  );
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load resolves for selected DefaultTemplate");
+                }
+              },
+            },
+            defaultLayouts: {
+              async getMeta(res, rej) {
+                const layoutsUrl = `${templates}/layouts`;
+                try {
+                  const meta = await fetch(`${layoutsUrl}/meta.json`).then((r) =>
+                    r.json(),
+                  );
+
+                  const data = {
+                    ...meta,
+                    templates: meta.templates.map((item) => ({
+                      ...item,
+                      thumbnailSrc: `${layoutsUrl}/thumbs/${item.pages[0].id}.jpg`,
+                      pages: item.pages.map((page) => ({
+                        ...page,
+                        thumbnailSrc: `${layoutsUrl}/thumbs/${page.id}.jpg`,
+                      })),
+                    })),
+                  };
+
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load meta.json");
+                }
+              },
+              async getData(res, rej, id) {
+                const layoutsUrl = `${templates}/layouts`;
+                try {
+                  const data = await fetch(`${layoutsUrl}/resolves/${id}.json`).then(
+                    (r) => r.json(),
+                  );
+
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load resolves for selected DefaultTemplate");
+                }
+              },
+            },
+            defaultStories: {
+              async getMeta(res, rej) {
+                const storiesUrl = `${templates}/stories`;
+                try {
+                  const meta = await fetch(`${storiesUrl}/meta.json`).then((r) =>
+                    r.json(),
+                  );
+
+                  const data = {
+                    ...meta,
+                    stories: meta.stories.map((story) => ({
+                      ...story,
+                      thumbnailSrc: `${storiesUrl}/thumbs/${story.pages[0].id}.jpg`,
+                      pages: story.pages.map((page) => ({
+                        ...page,
+                        thumbnailSrc: `${storiesUrl}/thumbs/${page.id}.jpg`,
+                      })),
+                    })),
+                  };
+
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load meta.json");
+                }
+              },
+              async getData(res, rej, id) {
+                const storiesUrl = `${templates}/stories`;
+                try {
+                  const data = await fetch(`${storiesUrl}/resolves/${id}.json`).then(
+                    (r) => r.json(),
+                  );
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load resolves for selected DefaultTemplate");
+                }
               },
             },
           },
