@@ -1,4 +1,5 @@
-import { ActionResolve, AddFileData, Target } from "../types/types";
+import { AddFileData } from "@/types/customFile";
+import { ActionResolve, Target } from "@/types/types";
 import { ActionTypes } from "./types";
 
 export const addFileRes = (r: AddFileData, uid: string): ActionResolve => ({

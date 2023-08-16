@@ -1,6 +1,8 @@
+import { Modes } from "@builder/core/build/es/types/types";
 import { Config } from "./hooks/useEditor/types";
 
 export const demoConfig: Config<"monolith"> = {
+  mode: Modes.popup,
   container: null,
   pageData: {
     id: "1",
@@ -349,10 +351,7 @@ export const demoConfig: Config<"monolith"> = {
                                                 type: "Email",
                                                 label: "Email",
                                                 required: "on",
-                                                options: [
-                                                  "Option 1",
-                                                  "Option 2",
-                                                ],
+                                                options: ["Option 1", "Option 2"],
                                                 _id: "pvmfxbjrnzxbccwbcqeknaptsiemoxomrmkd",
                                               },
                                             },
@@ -362,10 +361,7 @@ export const demoConfig: Config<"monolith"> = {
                                                 type: "Text",
                                                 label: "Subject",
                                                 required: "off",
-                                                options: [
-                                                  "Option 1",
-                                                  "Option 2",
-                                                ],
+                                                options: ["Option 1", "Option 2"],
                                                 placeholder: "Subject",
                                                 _id: "geuvravbggcrqdgjcaaktgtyswglthyhipev",
                                               },
@@ -376,10 +372,7 @@ export const demoConfig: Config<"monolith"> = {
                                                 type: "Paragraph",
                                                 label: "Message",
                                                 required: "off",
-                                                options: [
-                                                  "Option 1",
-                                                  "Option 2",
-                                                ],
+                                                options: ["Option 1", "Option 2"],
                                                 placeholder: "Message",
                                                 height: 90,
                                                 heightSuffix: "",
