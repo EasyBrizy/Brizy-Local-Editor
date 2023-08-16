@@ -1,3 +1,4 @@
+import { StoryTemplate } from "@builder/core/build/es/types/templates";
 import React, { useReducer, useRef } from "react";
 import { demoConfig } from "./demoConfig";
 import { useEditor } from "./hooks/useEditor";
@@ -7,6 +8,8 @@ import { reducer } from "./reducers";
 import { State } from "./reducers/types";
 
 const token = "demo";
+
+const templates = "https://e-t-cloud.b-cdn.net/1.0.0";
 
 const noop = () => {};
 
@@ -53,6 +56,40 @@ export const Editor = () => {
             //   rej("My custom error message");
             // }, 1000);
           },
+        },
+      },
+
+      defaultStories: {
+        async getMeta(res, rej) {
+          const storiesUrl = `${templates}/stories`;
+          try {
+            const meta: StoryTemplate = await fetch(`${storiesUrl}/meta.json`).then((r) => r.json());
+
+            const data = {
+              ...meta,
+              stories: meta.stories.map((story) => ({
+                ...story,
+                thumbnailSrc: `${storiesUrl}/thumbs/${story.pages[0].id}.jpg`,
+                pages: story.pages.map((page) => ({
+                  ...page,
+                  thumbnailSrc: `${storiesUrl}/thumbs/${page.id}.jpg`,
+                })),
+              })),
+            };
+
+            res(data);
+          } catch (e) {
+            rej("Failed to load meta.json");
+          }
+        },
+        async getData(res, rej, id) {
+          const storiesUrl = `${templates}/stories`;
+          try {
+            const data = await fetch(`${storiesUrl}/resolves/${id}.json`).then((r) => r.json());
+            res(data);
+          } catch (e) {
+            rej("Failed to load resolves for selected DefaultTemplate");
+          }
         },
       },
     },
