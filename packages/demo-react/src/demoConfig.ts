@@ -1,6 +1,8 @@
+import { Modes } from "@builder/core/build/es/types/types";
 import { Config } from "./hooks/useEditor/types";
 
 export const demoConfig: Config<"monolith"> = {
+  mode: Modes.page,
   container: null,
   pageData: {
     id: "1",

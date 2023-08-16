@@ -1,5 +1,5 @@
+import { BuilderOutput, HtmlOutputType, Modes, Output } from "@/types/types";
 import { getIn } from "timm";
-import { BuilderOutput, HtmlOutputType, Modes, Output } from "../types/types";
 
 const createDoc = (data: { html: string; styles?: string; scripts?: string }): string => {
   const { html, styles = "", scripts = "" } = data;

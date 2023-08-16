@@ -1,8 +1,10 @@
-import { mergeIn, setIn } from "timm";
-import { ActionResolve, Config, DCTypes, HtmlOutputType, Target } from "../types/types";
+import { DCTypes } from "@/types/dynamicContent";
+import { ActionResolve, Config, HtmlOutputType, Modes, Target } from "@/types/types";
+import { mergeIn, omit, setIn } from "timm";
 import { ActionTypes } from "./types";
 
 //#region Integration
+
 type IntegrationConfig = Config<HtmlOutputType>["integration"];
 type BuilderIntegrationConfig = IntegrationConfig & {
   form?: {
@@ -29,9 +31,16 @@ const createIntegration = <T extends HtmlOutputType>(config: Config<T>): Builder
 
 //#region DynamicContent
 
-type DCOption = Config<HtmlOutputType>["dynamicContent"];
+type DynamicContent = Config<HtmlOutputType>["dynamicContent"];
+type DCOption = Omit<DynamicContent, "makePlaceholder" | "explodePlaceholder" | "groups">;
 
 type BuilderDCOption = DCOption & {
+  makePlaceholder?: {
+    enable?: boolean;
+  };
+  explodePlaceholder?: {
+    enable?: boolean;
+  };
   groups?: {
     [DCTypes.image]?: {
       handler?: {
@@ -53,9 +62,12 @@ type BuilderDCOption = DCOption & {
 
 const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDCOption => {
   const { dynamicContent = {} } = config;
-  const richText = config?.dynamicContent?.groups?.richText;
-  const image = config?.dynamicContent?.groups?.image;
-  const link = config?.dynamicContent?.groups?.link;
+  const richText = dynamicContent?.groups?.richText;
+  const image = dynamicContent?.groups?.image;
+  const link = dynamicContent?.groups?.link;
+  const makePlaceholder = dynamicContent?.makePlaceholder;
+  const explodePlaceholder = dynamicContent?.explodePlaceholder;
+  let dc: BuilderDCOption = omit(dynamicContent, ["makePlaceholder", "explodePlaceholder", "groups"]);
   let groups = undefined;
 
   if (richText) {
@@ -82,7 +94,93 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
     }
   }
 
-  return { ...dynamicContent, groups };
+  if (typeof makePlaceholder === "function") {
+    dc = { ...dc, makePlaceholder: { enable: true } };
+  }
+
+  if (typeof explodePlaceholder === "function") {
+    dc = { ...dc, explodePlaceholder: { enable: true } };
+  }
+
+  return { ...dc, groups };
+};
+
+//#endregion
+
+//#region Modes
+
+enum BuilderModes {
+  externalPopup = "external_popup",
+  externalStory = "external_story",
+  page = "page",
+}
+
+const createModes = (modes: Modes): BuilderModes => {
+  switch (modes) {
+    case Modes.page: {
+      return BuilderModes.page;
+    }
+    case Modes.popup: {
+      return BuilderModes.externalPopup;
+    }
+    case Modes.story: {
+      return BuilderModes.externalStory;
+    }
+  }
+};
+
+//#endregion
+
+//#region API
+
+type API = Config<HtmlOutputType>["api"];
+
+type BuilderAPI = API & {
+  defaultKits?: {
+    enable?: boolean;
+  };
+  defaultPopups?: {
+    enable?: boolean;
+  };
+  defaultLayouts?: {
+    enable?: boolean;
+  };
+  defaultStories?: {
+    enable?: boolean;
+  };
+  screenshots?: {
+    enable?: boolean;
+  };
+};
+
+const createApi = <T extends HtmlOutputType>(config: Config<T>): BuilderAPI => {
+  let { api } = config;
+
+  if (!api) {
+    return {};
+  }
+
+  if (api.defaultKits) {
+    api = setIn(api, ["defaultKits"], { enable: true }) as BuilderAPI;
+  }
+
+  if (api.defaultPopups) {
+    api = setIn(api, ["defaultPopups"], { enable: true }) as BuilderAPI;
+  }
+
+  if (api.defaultLayouts) {
+    api = setIn(api, ["defaultLayouts"], { enable: true }) as BuilderAPI;
+  }
+
+  if (api.defaultStories) {
+    api = setIn(api, ["defaultStories"], { enable: true }) as BuilderAPI;
+  }
+
+  if (api.screenshots && api.screenshots.screenshotUrl) {
+    api = setIn(api, ["screenshots"], { enable: true }) as BuilderAPI;
+  }
+
+  return api;
 };
 
 //#endregion
@@ -93,13 +191,14 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, t
   data: JSON.stringify({
     type: ActionTypes.initPage,
     data: {
+      mode: createModes(config.mode ?? Modes.page),
       pageData: config.pageData,
       projectData: config.projectData,
       pagePreview: config.pagePreview,
       ui: config.ui,
       token: token,
-      api: config.api,
       menuData: config.menu,
+      api: createApi(config),
       integration: createIntegration(config),
       dynamicContent: createDCContent(config),
     },
