@@ -1,3 +1,4 @@
+import { Kit, Popup, StoryTemplate, Template } from "@builder/core/build/es/types/templates";
 import React, { useReducer, useRef } from "react";
 import { demoConfig } from "./demoConfig";
 import { useEditor } from "./hooks/useEditor";
@@ -7,6 +8,8 @@ import { reducer } from "./reducers";
 import { State } from "./reducers/types";
 
 const token = "demo";
+
+const templates = "https://e-t-cloud.b-cdn.net/1.0.0";
 
 const noop = () => {};
 
@@ -28,9 +31,11 @@ export const Editor = () => {
     container: containerRef.current,
 
     dynamicContent: {
-      richText: {
-        handler(res, rej) {
-          dispatch({ type: "modal", res, rej });
+      groups: {
+        richText: {
+          handler(res, rej) {
+            dispatch({ type: "modal", res, rej });
+          },
         },
       },
     },
@@ -51,6 +56,133 @@ export const Editor = () => {
             //   rej("My custom error message");
             // }, 1000);
           },
+        },
+      },
+
+      defaultKits: {
+        async getMeta(res, rej) {
+          try {
+            const kitsUrl = `${templates}/kits`;
+            const meta: Array<Kit> = await fetch(`${kitsUrl}/meta.json`).then((r) => r.json());
+
+            const data = meta.map((kit) => ({
+              ...kit,
+              blocks: kit.blocks.map((item) => ({
+                ...item,
+                thumbnailSrc: `${kitsUrl}/thumbs/${item.id}.jpg`,
+              })),
+            }));
+
+            res(data);
+          } catch (e) {
+            rej("Failed to load meta.json");
+          }
+        },
+        async getData(res, rej, id) {
+          const kitsUrl = `${templates}/kits`;
+          try {
+            const data = await fetch(`${kitsUrl}/resolves/${id}.json`).then((r) => r.json());
+            res(data);
+          } catch (e) {
+            rej("Failed to load resolves for selected DefaultTemplate");
+          }
+        },
+      },
+      defaultPopups: {
+        async getMeta(res, rej) {
+          const popupsUrl = `${templates}/popups`;
+
+          try {
+            const meta: Popup = await fetch(`${popupsUrl}/meta.json`).then((r) => r.json());
+
+            const data = {
+              ...meta,
+              blocks: meta.blocks.map((item) => ({
+                ...item,
+                thumbnailSrc: `${popupsUrl}/thumbs/${item.id}.jpg`,
+              })),
+            };
+
+            res(data);
+          } catch (e) {
+            rej("Failed to load meta.json");
+          }
+        },
+        async getData(res, rej, id) {
+          const popupsUrl = `${templates}/popups`;
+          try {
+            const data = await fetch(`${popupsUrl}/resolves/${id}.json`).then((r) => r.json());
+            res(data);
+          } catch (e) {
+            rej("Failed to load resolves for selected DefaultTemplate");
+          }
+        },
+      },
+      defaultLayouts: {
+        async getMeta(res, rej) {
+          const layoutsUrl = `${templates}/layouts`;
+          try {
+            const meta: Template = await fetch(`${layoutsUrl}/meta.json`).then((r) => r.json());
+
+            const data = {
+              ...meta,
+              templates: meta.templates.map((item) => ({
+                ...item,
+                thumbnailSrc: `${layoutsUrl}/thumbs/${item.pages[0].id}.jpg`,
+                pages: item.pages.map((page) => ({
+                  ...page,
+                  thumbnailSrc: `${layoutsUrl}/thumbs/${page.id}.jpg`,
+                })),
+              })),
+            };
+
+            res(data);
+          } catch (e) {
+            rej("Failed to load meta.json");
+          }
+        },
+        async getData(res, rej, id) {
+          const layoutsUrl = `${templates}/layouts`;
+          try {
+            const data = await fetch(`${layoutsUrl}/resolves/${id}.json`).then((r) => r.json());
+
+            res(data);
+          } catch (e) {
+            rej("Failed to load resolves for selected DefaultTemplate");
+          }
+        },
+      },
+      defaultStories: {
+        async getMeta(res, rej) {
+          const storiesUrl = `${templates}/stories`;
+          try {
+            const meta: StoryTemplate = await fetch(`${storiesUrl}/meta.json`).then((r) => r.json());
+
+            const data = {
+              ...meta,
+              stories: meta.stories.map((story) => ({
+                ...story,
+                thumbnailSrc: `${storiesUrl}/thumbs/${story.pages[0].id}.jpg`,
+                pages: story.pages.map((page) => ({
+                  ...page,
+                  thumbnailSrc: `${storiesUrl}/thumbs/${page.id}.jpg`,
+                })),
+              })),
+            };
+
+            res(data);
+          } catch (e) {
+            rej("Failed to load meta.json");
+          }
+        },
+        async getData(res, rej, id) {
+          const storiesUrl = `${templates}/stories`;
+          try {
+            const data = await fetch(`${storiesUrl}/resolves/${id}.json`).then((r) => r.json());
+            res(data);
+          } catch (e) {
+            rej("Failed to load resolves for selected DefaultTemplate");
+          }
         },
       },
     },
