@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "src",
+    "outDir": "build/es",
     "paths": {
-      "@core": ["src/index.ts"],
-      "@core/es/*": ["src/*"]
+      "@/*": ["./*"]
     },
     "strictNullChecks": true,
     "moduleResolution": "node",
@@ -15,10 +15,9 @@
     "target": "es6",
     "lib": ["dom", "es2017"],
     "skipLibCheck": true,
-    "outDir": "build/es",
     "declaration": true,
     "module": "ESNext"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", "build"]
 }
