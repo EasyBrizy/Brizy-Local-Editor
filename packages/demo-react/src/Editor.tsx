@@ -152,39 +152,6 @@ export const Editor = () => {
           }
         },
       },
-      defaultStories: {
-        async getMeta(res, rej) {
-          const storiesUrl = `${templates}/stories`;
-          try {
-            const meta: StoryTemplate = await fetch(`${storiesUrl}/meta.json`).then((r) => r.json());
-
-            const data = {
-              ...meta,
-              stories: meta.stories.map((story) => ({
-                ...story,
-                thumbnailSrc: `${storiesUrl}/thumbs/${story.pages[0].id}.jpg`,
-                pages: story.pages.map((page) => ({
-                  ...page,
-                  thumbnailSrc: `${storiesUrl}/thumbs/${page.id}.jpg`,
-                })),
-              })),
-            };
-
-            res(data);
-          } catch (e) {
-            rej("Failed to load meta.json");
-          }
-        },
-        async getData(res, rej, id) {
-          const storiesUrl = `${templates}/stories`;
-          try {
-            const data = await fetch(`${storiesUrl}/resolves/${id}.json`).then((r) => r.json());
-            res(data);
-          } catch (e) {
-            rej("Failed to load resolves for selected DefaultTemplate");
-          }
-        },
-      },
     },
     onSave: (data) => {
       dispatch({
