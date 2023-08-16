@@ -1,4 +1,5 @@
-import { ActionResolve, AddMediaData, Target } from "../types/types";
+import { AddMediaData } from "@/types/media";
+import { ActionResolve, Target } from "@/types/types";
 import { ActionTypes } from "./types";
 
 export const addMediaRes = (r: AddMediaData, uid: string): ActionResolve => ({

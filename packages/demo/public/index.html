@@ -75,6 +75,7 @@
       const bucketRegion = "REGION";
       const IdentityPoolId = "IDENTITY_POOL_ID";
       const AWS = window.AWS;
+      const templates = "https://e-t-cloud.b-cdn.net/1.0.0"
 
       const createUpload = (accept) => {
         let lock = false;
@@ -137,6 +138,7 @@
 
       if (editor) {
         const config = {
+          mode: "popup",
           container: editor,
           pageData: {
             id: "1",
@@ -1711,6 +1713,41 @@
                     reject("File Uploaded canceled");
                   }
                 },
+              },
+            },
+
+            defaultPopups: {
+              async getMeta(res, rej) {
+                const popupsUrl = `${templates}/popups`;
+
+                try {
+                  const meta = await fetch(`${popupsUrl}/meta.json`).then((r) =>
+                    r.json(),
+                  );
+
+                  const data = {
+                    ...meta,
+                    blocks: meta.blocks.map((item) => ({
+                      ...item,
+                      thumbnailSrc: `${popupsUrl}/thumbs/${item.id}.jpg`,
+                    })),
+                  };
+
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load meta.json");
+                }
+              },
+              async getData(res, rej, id) {
+                const popupsUrl = `${templates}/popups`;
+                try {
+                  const data = await fetch(`${popupsUrl}/resolves/${id}.json`).then((r) =>
+                    r.json(),
+                  );
+                  res(data);
+                } catch (e) {
+                  rej("Failed to load resolves for selected DefaultTemplate");
+                }
               },
             },
           },

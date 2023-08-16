@@ -1,0 +1,153 @@
+import { mergeDeep } from "timm";
+import { getApi } from "../handlers/api";
+import { getPage } from "../handlers/defaults/page";
+import { getUi } from "../handlers/defaults/ui";
+import { getDynamicContent } from "../handlers/dynamicContent";
+import { getIntegration } from "../handlers/integration";
+
+export function subscriber(event: MessageEvent): void {
+  const data = event.data;
+  const target = window.__target__;
+
+  if (data.uid === undefined) {
+    console.error("Invalid/Missing the uid");
+    return;
+  }
+
+  if (data.target !== target) {
+    return;
+  }
+
+  // Used to check multiple instance of the builder in the same page
+  const uid = data.uid;
+
+  try {
+    const action = JSON.parse(data.data);
+
+    switch (action.type) {
+      case `${target}_init_page`: {
+        const defaultConfig = window.__VISUAL_CONFIG__;
+        const urls = defaultConfig.urls ?? {};
+        const pro = defaultConfig.pro ?? {};
+        const _mode = defaultConfig.mode;
+        const _api = defaultConfig.api;
+        const _menuData = defaultConfig.menuData;
+        const _dynamicContent = defaultConfig.dynamicContent ?? {};
+        const configData = action.data ? action.data : {};
+        const configAssets = configData.assets;
+        // @ts-expect-error: TODO: Need to add right types for __VISUAL__CONFIG__
+        const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
+        // @ts-expect-error: TODO: Need to add right types for __VISUAL__CONFIG__
+        const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
+        const mode = configData.mode ?? _mode;
+        const api = configData.api ? configData.api : _api;
+        const integration = configData.integration ?? {};
+        const dynamicContent = { ..._dynamicContent, ...configData.dynamicContent };
+        const token = configData.token;
+        const pageData = action.data.pageData ?? {};
+        const menuData = action.data.menu ?? _menuData;
+
+        window.__VISUAL_CONFIG__.mode = mode;
+        window.__VISUAL_CONFIG__.projectData = {
+          dataVersion: 1,
+          data: action.data.projectData,
+        };
+        window.__VISUAL_CONFIG__.menuData = menuData;
+        window.__VISUAL_CONFIG__.auth = {
+          token,
+        };
+        window.__VISUAL_CONFIG__.urls = mergeDeep(urls, {
+          assets: freeAssets,
+          pagePreview: configData.pagePreview,
+        });
+        window.__VISUAL_CONFIG__.pro = mergeDeep(pro, {
+          urls: { assets: proAssets },
+        });
+
+        window.__VISUAL_CONFIG__.pageData = getPage(pageData);
+        window.__VISUAL_CONFIG__.ui = getUi(mode, configData);
+        window.__VISUAL_CONFIG__.dynamicContent = getDynamicContent({ uid, target, event, dynamicContent });
+        window.__VISUAL_CONFIG__.integration = getIntegration({ uid, target, event, integration });
+        window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
+
+        window.__VISUAL_CONFIG__.onLoad = () => {
+          const data = JSON.stringify({ type: `${target}_on_load` });
+
+          // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
+          event.source?.postMessage({ target, uid, data }, event.origin);
+        };
+
+        const iframe = document.querySelector("#no-script-frame");
+        const root = document.querySelector("#root");
+
+        if (iframe && root) {
+          root.innerHTML = iframe.innerHTML;
+        }
+        break;
+      }
+      case `${target}_save`: {
+        if (typeof window.__VISUAL_CONFIG__.onUpdate === "function") {
+          const configData = action.data && "configData" in action.data ? action.data : {};
+          const mode = window.__VISUAL_CONFIG__.mode;
+
+          window.__VISUAL_CONFIG__.onUpdate((res: Record<string, unknown>) => {
+            const data = JSON.stringify({
+              type: `${target}_save`,
+              payload: { mode, ...res },
+            });
+
+            // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
+            event.source?.postMessage({ target, uid, data }, event.origin);
+          }, configData);
+        }
+
+        break;
+      }
+      case `${target}_add_media_res`:
+      case `${target}_add_media_rej`:
+      case `${target}_add_file_res`:
+      case `${target}_add_file_rej`:
+      case `${target}_form_fields_res`:
+      case `${target}_form_fields_rej`:
+      case `${target}_dc_richtext_res`:
+      case `${target}_dc_richtext_rej`:
+      case `${target}_dc_image_res`:
+      case `${target}_dc_image_rej`:
+      case `${target}_dc_link_res`:
+      case `${target}_dc_link_rej`:
+      case `${target}_template_kits_meta_res`:
+      case `${target}_template_kits_meta_rej`:
+      case `${target}_template_kits_data_res`:
+      case `${target}_template_kits_data_rej`:
+      case `${target}_template_popups_meta_res`:
+      case `${target}_template_popups_meta_rej`:
+      case `${target}_template_popups_data_res`:
+      case `${target}_template_popups_data_rej`:
+      case `${target}_template_layouts_meta_res`:
+      case `${target}_template_layouts_meta_rej`:
+      case `${target}_template_layouts_data_res`:
+      case `${target}_template_layouts_data_rej`:
+      case `${target}_template_stories_meta_res`:
+      case `${target}_template_stories_meta_rej`:
+      case `${target}_template_stories_data_res`:
+      case `${target}_template_stories_data_rej`:
+      case `${target}_create_screenshots_res`:
+      case `${target}_create_screenshots_rej`:
+      case `${target}_update_screenshots_res`:
+      case `${target}_update_screenshots_rej`:
+      case `${target}_dc_make_placeholder_res`:
+      case `${target}_dc_make_placeholder_rej`:
+      case `${target}_dc_explode_placeholder_res`:
+      case `${target}_dc_explode_placeholder_rej`: {
+        // Nothing to do here
+        // All Logic is outside of current event
+        break;
+      }
+      default: {
+        console.warn("Invalid dataType", action.type);
+      }
+    }
+  } catch (e) {
+    console.error("Invalid JSON", e);
+  }
+}

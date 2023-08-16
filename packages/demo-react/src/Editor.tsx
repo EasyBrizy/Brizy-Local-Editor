@@ -1,3 +1,4 @@
+import { Popup } from "@builder/core/build/es/types/templates";
 import React, { useReducer, useRef } from "react";
 import { demoConfig } from "./demoConfig";
 import { useEditor } from "./hooks/useEditor";
@@ -7,6 +8,8 @@ import { reducer } from "./reducers";
 import { State } from "./reducers/types";
 
 const token = "demo";
+
+const templates = "https://e-t-cloud.b-cdn.net/1.0.0";
 
 const noop = () => {};
 
@@ -53,6 +56,37 @@ export const Editor = () => {
             //   rej("My custom error message");
             // }, 1000);
           },
+        },
+      },
+
+      defaultPopups: {
+        async getMeta(res, rej) {
+          const popupsUrl = `${templates}/popups`;
+
+          try {
+            const meta: Popup = await fetch(`${popupsUrl}/meta.json`).then((r) => r.json());
+
+            const data = {
+              ...meta,
+              blocks: meta.blocks.map((item) => ({
+                ...item,
+                thumbnailSrc: `${popupsUrl}/thumbs/${item.id}.jpg`,
+              })),
+            };
+
+            res(data);
+          } catch (e) {
+            rej("Failed to load meta.json");
+          }
+        },
+        async getData(res, rej, id) {
+          const popupsUrl = `${templates}/popups`;
+          try {
+            const data = await fetch(`${popupsUrl}/resolves/${id}.json`).then((r) => r.json());
+            res(data);
+          } catch (e) {
+            rej("Failed to load resolves for selected DefaultTemplate");
+          }
         },
       },
     },

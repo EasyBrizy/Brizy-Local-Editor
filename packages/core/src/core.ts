@@ -1,54 +1,95 @@
-import { v4 as uuid } from "uuid";
-import { loader } from "./Loader";
-import { destroyLoader, initLoader } from "./Loader/init";
+import { loader } from "@/Loader";
+import { destroyLoader, initLoader } from "@/Loader/init";
 import {
   addFileRej,
   addFileRes,
   addMediaRej,
   addMediaRes,
+  createScreenshotsRej,
+  createScreenshotsRes,
+  dcExplodePlaceholderRej,
+  dcExplodePlaceholderRes,
   dcImageRej,
   dcImageRes,
   dcLinkRej,
   dcLinkRes,
+  dcMakePlaceholderRej,
+  dcMakePlaceholderRes,
   dcRichTextRej,
   dcRichTextRes,
   formFieldsRej,
   formFieldsRes,
   init,
   save,
-} from "./actions";
-import { ActionTypes } from "./actions/types";
-import {
-  AddFileData,
-  AddFileExtra,
-  AddMediaData,
-  AddMediaExtra,
-  BaseDCItem,
-  BuilderOutput,
-  DCHandlerExtra,
-  FormFieldsOption,
-  HtmlOutputType,
-  Init,
-  OnSave,
-  Target,
-} from "./types/types";
-import { createOutput } from "./utils/createOutput";
+  templateKitsDataRej,
+  templateKitsDataRes,
+  templateKitsMetaRej,
+  templateKitsMetaRes,
+  templateLayoutsDataRej,
+  templateLayoutsDataRes,
+  templateLayoutsMetaRej,
+  templateLayoutsMetaRes,
+  templatePopupsDataRej,
+  templatePopupsDataRes,
+  templatePopupsMetaRej,
+  templatePopupsMetaRes,
+  templateStoriesDataRej,
+  templateStoriesDataRes,
+  templateStoriesMetaRej,
+  templateStoriesMetaRes,
+  updateScreenshotsRej,
+  updateScreenshotsRes,
+} from "@/actions";
+import { ActionTypes } from "@/actions/types";
+import { AddFileData, AddFileExtra } from "@/types/customFile";
+import { BaseDCItem, DCHandlerExtra, DCPlaceholderObj } from "@/types/dynamicContent";
+import { FormFieldsOption } from "@/types/form";
+import { AddMediaData, AddMediaExtra } from "@/types/media";
+import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
+import { Kit, Popup, StoryTemplate, Template } from "@/types/templates";
+import { BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
+import { createOutput } from "@/utils/createOutput";
+import { v4 as uuid } from "uuid";
 
 const actions = {
-  init: init,
-  save: save,
-  addMediaRes: addMediaRes,
-  addMediaRej: addMediaRej,
-  addFileRes: addFileRes,
-  addFileRej: addFileRej,
-  formFieldsRes: formFieldsRes,
-  formFieldsRej: formFieldsRej,
-  dcRichTextRes: dcRichTextRes,
-  dcRichTextRej: dcRichTextRej,
-  dcImageRes: dcImageRes,
-  dcImageRej: dcImageRej,
-  dcLinkRes: dcLinkRes,
-  dcLinkRej: dcLinkRej,
+  init,
+  save,
+  addMediaRes,
+  addMediaRej,
+  addFileRes,
+  addFileRej,
+  formFieldsRes,
+  formFieldsRej,
+  dcRichTextRes,
+  dcRichTextRej,
+  dcImageRes,
+  dcImageRej,
+  dcLinkRes,
+  dcLinkRej,
+  dcMakePlaceholderRes,
+  dcMakePlaceholderRej,
+  dcExplodePlaceholderRes,
+  dcExplodePlaceholderRej,
+  templateKitsMetaRes,
+  templateKitsMetaRej,
+  templateKitsDataRes,
+  templateKitsDataRej,
+  templatePopupsMetaRes,
+  templatePopupsMetaRej,
+  templatePopupsDataRes,
+  templatePopupsDataRej,
+  templateLayoutsMetaRes,
+  templateLayoutsMetaRej,
+  templateLayoutsDataRes,
+  templateLayoutsDataRej,
+  templateStoriesMetaRes,
+  templateStoriesMetaRej,
+  templateStoriesDataRes,
+  templateStoriesDataRej,
+  createScreenshotsRes,
+  createScreenshotsRej,
+  updateScreenshotsRes,
+  updateScreenshotsRej,
 };
 
 const savedNodeCB = new Map<HTMLElement, OnSave>();
@@ -219,6 +260,198 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             };
 
             link.handler(res, rej, extra);
+          },
+          [ActionTypes.dcMakePlaceholder]: (placeholderObj: DCPlaceholderObj) => {
+            const { dynamicContent = {} } = config;
+            const { makePlaceholder } = dynamicContent;
+
+            if (typeof makePlaceholder === "function") {
+              const placeholder = makePlaceholder(placeholderObj);
+
+              if (placeholder) {
+                iframeWindow.postMessage(actions.dcMakePlaceholderRej(placeholder, uid), targetOrigin);
+              } else {
+                const message = actions.dcMakePlaceholderRej(
+                  "The makePlaceholder function must return placeholder not undefined",
+                  uid,
+                );
+                iframeWindow.postMessage(message, targetOrigin);
+              }
+            } else {
+              const message = actions.dcMakePlaceholderRej("Missing makePlaceholder", uid);
+              iframeWindow.postMessage(message, targetOrigin);
+            }
+          },
+          [ActionTypes.dcExplodePlaceholder]: (placeholder: string) => {
+            const { dynamicContent = {} } = config;
+            const { explodePlaceholder } = dynamicContent;
+
+            if (typeof explodePlaceholder === "function") {
+              const placeholderObj = explodePlaceholder(placeholder);
+
+              if (placeholderObj) {
+                iframeWindow.postMessage(actions.dcExplodePlaceholderRes(placeholderObj, uid), targetOrigin);
+              } else {
+                const message = actions.dcExplodePlaceholderRej(
+                  "The explodePlaceholder function must return placeholder not undefined",
+                  uid,
+                );
+                iframeWindow.postMessage(message, targetOrigin);
+              }
+            } else {
+              const message = actions.dcExplodePlaceholderRej("Missing explodePlaceholder", uid);
+              iframeWindow.postMessage(message, targetOrigin);
+            }
+          },
+          [ActionTypes.templateKitsMeta]: () => {
+            const { api = {} } = config;
+            const { defaultKits } = api;
+            const getMeta = defaultKits?.getMeta;
+
+            if (typeof getMeta === "function") {
+              const res = (r: Array<Kit>) => {
+                iframeWindow.postMessage(actions.templateKitsMetaRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateKitsMetaRej(r, uid), targetOrigin);
+              };
+              getMeta(res, rej);
+            }
+          },
+          [ActionTypes.templateKitsData]: (blockId: string) => {
+            const { api = {} } = config;
+            const { defaultKits } = api;
+            const getData = defaultKits?.getData;
+
+            if (typeof getData === "function") {
+              const res = (r: Record<string, unknown>) => {
+                iframeWindow.postMessage(actions.templateKitsDataRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateKitsDataRej(r, uid), targetOrigin);
+              };
+              getData(res, rej, blockId);
+            }
+          },
+          [ActionTypes.templatePopupsMeta]: () => {
+            const { api = {} } = config;
+            const { defaultPopups } = api;
+            const getMeta = defaultPopups?.getMeta;
+
+            if (typeof getMeta === "function") {
+              const res = (r: Popup) => {
+                iframeWindow.postMessage(actions.templatePopupsMetaRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templatePopupsMetaRej(r, uid), targetOrigin);
+              };
+              getMeta(res, rej);
+            }
+          },
+          [ActionTypes.templatePopupsData]: (popupId: string) => {
+            const { api = {} } = config;
+            const { defaultPopups } = api;
+            const getData = defaultPopups?.getData;
+
+            if (typeof getData === "function") {
+              const res = (r: Record<string, unknown>) => {
+                iframeWindow.postMessage(actions.templatePopupsDataRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templatePopupsDataRej(r, uid), targetOrigin);
+              };
+              getData(res, rej, popupId);
+            }
+          },
+          [ActionTypes.templateLayoutsMeta]: () => {
+            const { api = {} } = config;
+            const { defaultLayouts } = api;
+            const getMeta = defaultLayouts?.getMeta;
+
+            if (typeof getMeta === "function") {
+              const res = (r: Template) => {
+                iframeWindow.postMessage(actions.templateLayoutsMetaRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateLayoutsMetaRej(r, uid), targetOrigin);
+              };
+              getMeta(res, rej);
+            }
+          },
+          [ActionTypes.templateLayoutsData]: (layoutId: string) => {
+            const { api = {} } = config;
+            const { defaultLayouts } = api;
+            const getData = defaultLayouts?.getData;
+
+            if (typeof getData === "function") {
+              const res = (r: Record<string, unknown>) => {
+                iframeWindow.postMessage(actions.templateLayoutsDataRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateLayoutsDataRej(r, uid), targetOrigin);
+              };
+              getData(res, rej, layoutId);
+            }
+          },
+          [ActionTypes.templateStoriesMeta]: () => {
+            const { api = {} } = config;
+            const { defaultStories } = api;
+            const getMeta = defaultStories?.getMeta;
+
+            if (typeof getMeta === "function") {
+              const res = (r: StoryTemplate) => {
+                iframeWindow.postMessage(actions.templateStoriesMetaRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateStoriesMetaRej(r, uid), targetOrigin);
+              };
+              getMeta(res, rej);
+            }
+          },
+          [ActionTypes.templateStoriesData]: (storyId: string) => {
+            const { api = {} } = config;
+            const { defaultStories } = api;
+            const getData = defaultStories?.getData;
+
+            if (typeof getData === "function") {
+              const res = (r: Record<string, unknown>) => {
+                iframeWindow.postMessage(actions.templateStoriesDataRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateStoriesDataRej(r, uid), targetOrigin);
+              };
+              getData(res, rej, storyId);
+            }
+          },
+          [ActionTypes.createScreenshots]: (extra: ScreenshotExtra) => {
+            const { api = {} } = config;
+            const { screenshots } = api;
+            const create = screenshots?.create;
+
+            if (typeof create === "function") {
+              const res = (r: ScreenshotRes) => {
+                iframeWindow.postMessage(actions.createScreenshotsRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.createScreenshotsRej(r, uid), targetOrigin);
+              };
+              create(res, rej, extra);
+            }
+          },
+          [ActionTypes.updateScreenshots]: (extra: ScreenshotExtra & ScreenshotRes) => {
+            const { api = {} } = config;
+            const { screenshots } = api;
+            const update = screenshots?.update;
+
+            if (typeof update === "function") {
+              const res = (r: ScreenshotRes) => {
+                iframeWindow.postMessage(actions.updateScreenshotsRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.updateScreenshotsRej(r, uid), targetOrigin);
+              };
+              update(res, rej, extra);
+            }
           },
         };
 
