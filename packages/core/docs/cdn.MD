@@ -81,8 +81,6 @@ type config = {
 
   // DynamicContent
   dynamicContent?: {
-    makePlaceholder?: MakePlaceholder;
-    explodePlaceholder?: ExplodePlaceholder;
     groups?: {
       [DCTypes.image]: Array<ConfigDCItem> | DCItemHandler;
       [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
@@ -244,14 +242,6 @@ interface DCItemHandler {
     extra?: { keyCode: string }
   ) => void;
 }
-interface DCPlaceholderObj {
-  name: string;
-  attr?: Record<string, unknown>;
-}
-
-type MakePlaceholder = (placeholderObj: DCPlaceholderObj) => string | undefined;
-
-type ExplodePlaceholder = (placeholder: string) => DCPlaceholderObj | undefined;
 
 // Media
 export interface AddMediaData {
@@ -383,6 +373,16 @@ Config can be passed as an object when you initialize the editor from the script
 | integration.form.fields.handler    | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 ### DynamicContent parameters
+Builder wrapped all outside placeholder inside builder placeholder `{{ placeholder content='Base64(SOME EXTERNAL PLACEHOLDER)' }}`
+
+#### Builder added extra attributes for `placeholder`
+- Featured Image added **cW(Container Width)** **cH(Container Height)** if external service want to crop the image
+
+Example: `{{ placeholder content='Base64( {{ featured_image }} )' cW='200' cH='200' }}`
+
+- Extra Context if dynamicContent.groups is an Array
+
+Example: `{{ placeholder content='Base64( {{ post_title }} )' entityType='pages' entityId='page1' }}`
 
 Dynamic content can be configured in 2 ways
 
@@ -392,8 +392,6 @@ Dynamic content can be configured in 2 ways
 
 | Name                                             | Type      | Description                                                                                                                                                                                                                                                                                   |
 |:-------------------------------------------------|:----------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| dynamicContent.makePlaceholder(not completed)    | function  | Is a function to create the placeholder from object `{ name: "placeholder_name", attr: { attr1: 1, attr2: 2 } }` to string `{{ placeholder_name attr1=1 attr2=2 }}`, used for additional [context](https://github.com/EasyBrizy/builder/assets/18303258/cfe8dc0d-80ab-435d-a625-51f088e9e290) |
-| dynamicContent.explodePlaceholder(not completed) | function  | Is a function to create the placeholder from string `{{ placeholder_name attr1=1 attr2=2 }}` to object `{ name: 'placeholder_name', attr: { attr1: 1, attr2: 2 } }`, used for additional [context](https://github.com/EasyBrizy/builder/assets/18303258/cfe8dc0d-80ab-435d-a625-51f088e9e290) |
 | dynamicContent.groups[DCTypes.image]             | array     | Takes array of ConfigDCItem for all Element what persis ImageUpload                                                                                                                                                                                                                           |
 | dynamicContent.groups[DCTypes.link]              | array     | Takes array of ConfigDCItem for all Element what persis Link                                                                                                                                                                                                                                  |
 | dynamicContent.groups[DCTypes.richText]          | array     | Takes array of ConfigDCItem for all Element what persis Content html                                                                                                                                                                                                                          |
@@ -403,8 +401,6 @@ Dynamic content can be configured in 2 ways
 
 | Name                                              | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 |:--------------------------------------------------|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| dynamicContent.makePlaceholder(not completed)     | function   | Is a function to create the placeholder from object `{ name: "placeholder_name", attr: { attr1: 1, attr2: 2 } }` to string `{{ placeholder_name attr1=1 attr2=2 }}`, used for additional [context](https://github.com/EasyBrizy/builder/assets/18303258/cfe8dc0d-80ab-435d-a625-51f088e9e290)                                                                                                                                                                                                                                                                                                      |
-| dynamicContent.explodePlaceholder(not completed)  | function   | Is a function to create the placeholder from string `{{ placeholder_name attr1=1 attr2=2 }}` to object `{ name: 'placeholder_name', attr: { attr1: 1, attr2: 2 } }`, used for additional [context](https://github.com/EasyBrizy/builder/assets/18303258/cfe8dc0d-80ab-435d-a625-51f088e9e290)                                                                                                                                                                                                                                                                                                      |
 | dynamicContent.groups[DCTypes.image].handler      | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 | dynamicContent.groups[DCTypes.link].handler       | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 | dynamicContent.groups[DCTypes.richText].handler   | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
@@ -673,21 +669,6 @@ const defaultConfigModulesGroupForPages = {
 };
 ```
 
-#### Example Dynamic Content(default)
-Use below example if you don't want to use any customisations
-
-```ts
-const config = {
-  dynamicContent: {
-    makePlaceholder(placeholderObj) {
-      return placeholderObj.name;
-    },
-    explodePlaceholder(placeholderStr) {
-      return { name: placeholderStr }
-    },
-  }
-};
-```
 
 #### Example API Default Kits
 ```ts
