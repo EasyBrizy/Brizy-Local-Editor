@@ -1,9 +1,7 @@
 import { HandlerData } from "@/builderProvider/types/type";
-import { getIn, merge, setIn } from "timm";
-import { addExplodePlaceholder } from "./explodePlaceholder";
+import { getIn, setIn } from "timm";
 import { addImageDCHandler } from "./image";
 import { addLinkDCHandler } from "./link";
-import { addMakePlaceholder } from "./makePlaceholder";
 import { addRichTextDCHandler } from "./text";
 
 interface DC extends HandlerData {
@@ -16,8 +14,6 @@ export const getDynamicContent = (data: DC) => {
   const richTextDC = getIn(dynamicContent, ["groups", "richText", "handler"]) as undefined | Record<string, unknown>;
   const imageDC = getIn(dynamicContent, ["groups", "image", "handler"]) as undefined | Record<string, unknown>;
   const linkDC = getIn(dynamicContent, ["groups", "link", "handler"]) as undefined | Record<string, unknown>;
-  const enableMakePlaceholder = getIn(dynamicContent, ["makePlaceholder", "enable"]);
-  const enableExplodePlaceholder = getIn(dynamicContent, ["explodePlaceholder", "enable"]);
 
   if (richTextDC && richTextDC.enable) {
     dc = setIn(dc, ["groups", "richText"], {
@@ -35,14 +31,6 @@ export const getDynamicContent = (data: DC) => {
     dc = setIn(dc, ["groups", "link"], {
       handler: addLinkDCHandler({ uid, target, event }),
     }) as Record<string, unknown>;
-  }
-
-  if (enableMakePlaceholder) {
-    dc = merge(dc, { makePlaceholder: addMakePlaceholder({ uid, target, event }) });
-  }
-
-  if (enableExplodePlaceholder) {
-    dc = merge(dc, { explodePlaceholder: addExplodePlaceholder({ uid, target, event }) });
   }
 
   return dc;

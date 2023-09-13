@@ -32,7 +32,7 @@ const createIntegration = <T extends HtmlOutputType>(config: Config<T>): Builder
 //#region DynamicContent
 
 type DynamicContent = Config<HtmlOutputType>["dynamicContent"];
-type DCOption = Omit<DynamicContent, "makePlaceholder" | "explodePlaceholder" | "groups">;
+type DCOption = Omit<DynamicContent, "groups">;
 
 type BuilderDCOption = DCOption & {
   makePlaceholder?: {
@@ -65,9 +65,7 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
   const richText = dynamicContent?.groups?.richText;
   const image = dynamicContent?.groups?.image;
   const link = dynamicContent?.groups?.link;
-  const makePlaceholder = dynamicContent?.makePlaceholder;
-  const explodePlaceholder = dynamicContent?.explodePlaceholder;
-  let dc: BuilderDCOption = omit(dynamicContent, ["makePlaceholder", "explodePlaceholder", "groups"]);
+  let dc: BuilderDCOption = omit(dynamicContent, ["groups"]);
   let groups = undefined;
 
   if (richText) {
@@ -92,14 +90,6 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
     } else {
       groups = mergeIn(groups, ["link", "handler"], { enable: true }) as BuilderDCOption["groups"];
     }
-  }
-
-  if (typeof makePlaceholder === "function") {
-    dc = { ...dc, makePlaceholder: { enable: true } };
-  }
-
-  if (typeof explodePlaceholder === "function") {
-    dc = { ...dc, explodePlaceholder: { enable: true } };
   }
 
   return { ...dc, groups };
