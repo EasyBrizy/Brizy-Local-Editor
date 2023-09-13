@@ -29,17 +29,6 @@ export interface DCGroups {
   [DCTypes.richText]?: Array<ConfigDCItem> | DCItemHandler;
 }
 
-export interface DCPlaceholderObj {
-  name: string;
-  attr?: Record<string, unknown>;
-}
-
-export type MakePlaceholder = (placeholderObj: DCPlaceholderObj) => string | undefined;
-
-export type ExplodePlaceholder = (placeholder: string) => DCPlaceholderObj | undefined;
-
 export interface DynamicContent {
-  makePlaceholder?: MakePlaceholder;
-  explodePlaceholder?: ExplodePlaceholder;
   groups?: DCGroups;
 }
