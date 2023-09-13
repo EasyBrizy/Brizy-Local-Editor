@@ -10,10 +10,6 @@ export {
   dcLinkRej,
   dcImageRes,
   dcImageRej,
-  dcMakePlaceholderRes,
-  dcMakePlaceholderRej,
-  dcExplodePlaceholderRes,
-  dcExplodePlaceholderRej,
 } from "./dc";
 export {
   templateKitsMetaRes,

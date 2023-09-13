@@ -86,11 +86,13 @@ export function subscriber(event: MessageEvent): void {
         break;
       }
       case `${target}_save`: {
-        if (typeof window.__VISUAL_CONFIG__.onUpdate === "function") {
+        const Config = window.Brizy?.config?.getAll();
+
+        if (Config && typeof Config.onUpdate === "function") {
           const configData = action.data && "configData" in action.data ? action.data : {};
           const mode = window.__VISUAL_CONFIG__.mode;
 
-          window.__VISUAL_CONFIG__.onUpdate((res: Record<string, unknown>) => {
+          Config.onUpdate((res: Record<string, unknown>) => {
             const data = JSON.stringify({
               type: `${target}_save`,
               payload: { mode, ...res },
@@ -134,11 +136,7 @@ export function subscriber(event: MessageEvent): void {
       case `${target}_create_screenshots_res`:
       case `${target}_create_screenshots_rej`:
       case `${target}_update_screenshots_res`:
-      case `${target}_update_screenshots_rej`:
-      case `${target}_dc_make_placeholder_res`:
-      case `${target}_dc_make_placeholder_rej`:
-      case `${target}_dc_explode_placeholder_res`:
-      case `${target}_dc_explode_placeholder_rej`: {
+      case `${target}_update_screenshots_rej`: {
         // Nothing to do here
         // All Logic is outside of current event
         break;

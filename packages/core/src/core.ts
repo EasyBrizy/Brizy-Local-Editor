@@ -7,14 +7,10 @@ import {
   addMediaRes,
   createScreenshotsRej,
   createScreenshotsRes,
-  dcExplodePlaceholderRej,
-  dcExplodePlaceholderRes,
   dcImageRej,
   dcImageRes,
   dcLinkRej,
   dcLinkRes,
-  dcMakePlaceholderRej,
-  dcMakePlaceholderRes,
   dcRichTextRej,
   dcRichTextRes,
   formFieldsRej,
@@ -42,7 +38,7 @@ import {
 } from "@/actions";
 import { ActionTypes } from "@/actions/types";
 import { AddFileData, AddFileExtra } from "@/types/customFile";
-import { BaseDCItem, DCHandlerExtra, DCPlaceholderObj } from "@/types/dynamicContent";
+import { BaseDCItem, DCHandlerExtra } from "@/types/dynamicContent";
 import { FormFieldsOption } from "@/types/form";
 import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
@@ -66,10 +62,6 @@ const actions = {
   dcImageRej,
   dcLinkRes,
   dcLinkRej,
-  dcMakePlaceholderRes,
-  dcMakePlaceholderRej,
-  dcExplodePlaceholderRes,
-  dcExplodePlaceholderRej,
   templateKitsMetaRes,
   templateKitsMetaRej,
   templateKitsDataRes,
@@ -260,48 +252,6 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             };
 
             link.handler(res, rej, extra);
-          },
-          [ActionTypes.dcMakePlaceholder]: (placeholderObj: DCPlaceholderObj) => {
-            const { dynamicContent = {} } = config;
-            const { makePlaceholder } = dynamicContent;
-
-            if (typeof makePlaceholder === "function") {
-              const placeholder = makePlaceholder(placeholderObj);
-
-              if (placeholder) {
-                iframeWindow.postMessage(actions.dcMakePlaceholderRej(placeholder, uid), targetOrigin);
-              } else {
-                const message = actions.dcMakePlaceholderRej(
-                  "The makePlaceholder function must return placeholder not undefined",
-                  uid,
-                );
-                iframeWindow.postMessage(message, targetOrigin);
-              }
-            } else {
-              const message = actions.dcMakePlaceholderRej("Missing makePlaceholder", uid);
-              iframeWindow.postMessage(message, targetOrigin);
-            }
-          },
-          [ActionTypes.dcExplodePlaceholder]: (placeholder: string) => {
-            const { dynamicContent = {} } = config;
-            const { explodePlaceholder } = dynamicContent;
-
-            if (typeof explodePlaceholder === "function") {
-              const placeholderObj = explodePlaceholder(placeholder);
-
-              if (placeholderObj) {
-                iframeWindow.postMessage(actions.dcExplodePlaceholderRes(placeholderObj, uid), targetOrigin);
-              } else {
-                const message = actions.dcExplodePlaceholderRej(
-                  "The explodePlaceholder function must return placeholder not undefined",
-                  uid,
-                );
-                iframeWindow.postMessage(message, targetOrigin);
-              }
-            } else {
-              const message = actions.dcExplodePlaceholderRej("Missing explodePlaceholder", uid);
-              iframeWindow.postMessage(message, targetOrigin);
-            }
           },
           [ActionTypes.templateKitsMeta]: () => {
             const { api = {} } = config;
