@@ -27,14 +27,6 @@ export enum ActionTypes {
   dcLinkRes = "@builder_dc_link_res",
   dcLinkRej = "@builder_dc_link_rej",
 
-  dcMakePlaceholder = "@builder_dc_make_placeholder",
-  dcMakePlaceholderRes = "@builder_dc_make_placeholder_res",
-  dcMakePlaceholderRej = "@builder_dc_make_placeholder_rej",
-
-  dcExplodePlaceholder = "@builder_dc_explode_placeholder",
-  dcExplodePlaceholderRes = "@builder_dc_explode_placeholder_res",
-  dcExplodePlaceholderRej = "@builder_dc_explode_placeholder_rej",
-
   templateKitsMeta = "@builder_template_kits_meta",
   templateKitsMetaRes = "@builder_template_kits_meta_res",
   templateKitsMetaRej = "@builder_template_kits_meta_rej",
@@ -46,7 +38,7 @@ export enum ActionTypes {
   templatePopupsMetaRes = "@builder_template_popups_meta_res",
   templatePopupsMetaRej = "@builder_template_popups_meta_rej",
   templatePopupsData = "@builder_template_popups_data",
-  templatePopupsDataRes = "@builder_template_popups_data _res",
+  templatePopupsDataRes = "@builder_template_popups_data_res",
   templatePopupsDataRej = "@builder_template_popups_data_rej",
 
   templateLayoutsMeta = "@builder_template_layouts_meta",
