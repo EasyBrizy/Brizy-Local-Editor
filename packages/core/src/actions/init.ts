@@ -1,4 +1,5 @@
 import { DCTypes } from "@/types/dynamicContent";
+import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { ActionResolve, Config, HtmlOutputType, Modes, Target } from "@/types/types";
 import { mergeIn, omit, setIn } from "timm";
 import { ActionTypes } from "./types";
@@ -169,6 +170,32 @@ const createApi = <T extends HtmlOutputType>(config: Config<T>): BuilderAPI => {
 
 //#endregion
 
+//#region UI
+
+type UI = Config<HtmlOutputType>["ui"];
+
+type BuilderUI = UI & {
+  leftSidebar?: {
+    [LeftSidebarOptionsIds.cms]?: {
+      enable?: boolean;
+    };
+  };
+};
+
+export const createUi = <T extends HtmlOutputType>(config: Config<T>): BuilderUI => {
+  let ui = config.ui ?? {};
+  const { leftSidebar = {} } = ui;
+  const cms = leftSidebar[LeftSidebarOptionsIds.cms];
+
+  if (typeof cms?.onOpen === "function") {
+    ui = setIn(ui, ["leftSidebar", "cms"], { enable: true }) as BuilderUI;
+  }
+
+  return ui;
+};
+
+//#endregion
+
 export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, token: string): ActionResolve => ({
   uid,
   target: Target.builder,
@@ -179,7 +206,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, t
       pageData: config.pageData,
       projectData: config.projectData,
       pagePreview: config.pagePreview,
-      ui: config.ui,
+      ui: createUi(config),
       token: token,
       menuData: config.menu,
       api: createApi(config),
