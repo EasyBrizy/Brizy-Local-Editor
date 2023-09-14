@@ -62,4 +62,8 @@ export enum ActionTypes {
   updateScreenshots = "@builder_update_screenshots",
   updateScreenshotsRes = "@builder_update_screenshots_res",
   updateScreenshotsRej = "@builder_update_screenshots_rej",
+
+  leftSidebarOpenCMS = "@builder_leftSidebar_open_cms",
+  leftSidebarOpenCMSClose = "@builder_leftSidebar_open_cms_close",
+  leftSidebarCloseCMS = "@builder_leftSidebar_close_cms",
 }
