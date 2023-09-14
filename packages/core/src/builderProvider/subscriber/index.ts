@@ -65,7 +65,7 @@ export function subscriber(event: MessageEvent): void {
         });
 
         window.__VISUAL_CONFIG__.pageData = getPage(pageData);
-        window.__VISUAL_CONFIG__.ui = getUi(mode, configData);
+        window.__VISUAL_CONFIG__.ui = getUi({ uid, target, event, mode, config: configData });
         window.__VISUAL_CONFIG__.dynamicContent = getDynamicContent({ uid, target, event, dynamicContent });
         window.__VISUAL_CONFIG__.integration = getIntegration({ uid, target, event, integration });
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
@@ -136,7 +136,8 @@ export function subscriber(event: MessageEvent): void {
       case `${target}_create_screenshots_res`:
       case `${target}_create_screenshots_rej`:
       case `${target}_update_screenshots_res`:
-      case `${target}_update_screenshots_rej`: {
+      case `${target}_update_screenshots_rej`:
+      case `${target}_leftSidebar_open_cms_close`: {
         // Nothing to do here
         // All Logic is outside of current event
         break;

@@ -1,9 +1,17 @@
+import { HandlerData } from "@/builderProvider/types/type";
 import {
   BaseElementTypes,
   LeftSidebarMoreOptionsIds,
   LeftSidebarOptionsIds,
   StoryElementTypes,
 } from "@/types/leftSidebar";
+import { getIn, setIn } from "timm";
+import { getCloseCMS, getOpenCMS } from "./cms";
+
+interface Data extends HandlerData {
+  mode: string;
+  config: Record<string, unknown>;
+}
 
 const defaultUI = (mode: string): Record<string, unknown> => {
   const topTabsOrder: Array<LeftSidebarOptionsIds> = [
@@ -207,12 +215,21 @@ const defaultUI = (mode: string): Record<string, unknown> => {
   };
 };
 
-export const getUi = (mode: string, config: Record<string, unknown>): Record<string, unknown> => {
+export const getUi = (data: Data): Record<string, unknown> => {
+  const { mode, config, uid, target, event } = data;
   const oldUI = defaultUI(mode);
   const _ui = config.ui as Record<string, unknown> | undefined;
   const ui = _ui ? _ui : oldUI;
   const popupSettings = Object.assign({}, oldUI.popupSettings, ui.popupSettings);
-  const leftSidebar = Object.assign({}, oldUI.leftSidebar, ui.leftSidebar);
+  let leftSidebar = Object.assign({}, oldUI.leftSidebar, ui.leftSidebar);
+  const enabledCMS = getIn(leftSidebar, ["cms", "enable"]);
+
+  if (enabledCMS) {
+    leftSidebar = setIn(leftSidebar, ["cms"], {
+      onOpen: getOpenCMS({ event, target, uid }),
+      onClose: getCloseCMS({ event, target, uid }),
+    }) as Record<string, unknown>;
+  }
 
   return {
     ...ui,
