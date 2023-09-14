@@ -16,6 +16,7 @@ import {
   formFieldsRej,
   formFieldsRes,
   init,
+  leftSidebarOpenCMSClose,
   save,
   templateKitsDataRej,
   templateKitsDataRes,
@@ -40,6 +41,7 @@ import { ActionTypes } from "@/actions/types";
 import { AddFileData, AddFileExtra } from "@/types/customFile";
 import { BaseDCItem, DCHandlerExtra } from "@/types/dynamicContent";
 import { FormFieldsOption } from "@/types/form";
+import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import { Kit, Popup, StoryTemplate, Template } from "@/types/templates";
@@ -82,6 +84,7 @@ const actions = {
   createScreenshotsRej,
   updateScreenshotsRes,
   updateScreenshotsRej,
+  leftSidebarOpenCMSClose,
 };
 
 const savedNodeCB = new Map<HTMLElement, OnSave>();
@@ -401,6 +404,28 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
                 iframeWindow.postMessage(actions.updateScreenshotsRej(r, uid), targetOrigin);
               };
               update(res, rej, extra);
+            }
+          },
+          [ActionTypes.leftSidebarOpenCMS]: () => {
+            const { leftSidebar = {} } = config.ui ?? {};
+            const cms = leftSidebar[LeftSidebarOptionsIds.cms];
+            const onOpen = cms?.onOpen;
+
+            if (typeof onOpen === "function") {
+              const onClose = () => {
+                iframeWindow.postMessage(actions.leftSidebarOpenCMSClose(uid), targetOrigin);
+              };
+
+              onOpen(onClose);
+            }
+          },
+          [ActionTypes.leftSidebarCloseCMS]: () => {
+            const { leftSidebar = {} } = config.ui ?? {};
+            const cms = leftSidebar[LeftSidebarOptionsIds.cms];
+            const onClose = cms?.onClose;
+
+            if (typeof onClose === "function") {
+              onClose();
             }
           },
         };

@@ -58,6 +58,7 @@ export enum LeftSidebarOptionsIds {
   globalStyle = "globalStyle",
   deviceMode = "deviceMode",
   more = "more",
+  cms = "cms",
 }
 
 export enum LeftSidebarMoreOptionsIds {
@@ -80,6 +81,12 @@ export interface LeftSidebar {
 
   [LeftSidebarOptionsIds.more]?: {
     options?: Array<LeftSidebarMoreOptions>;
+  };
+
+  [LeftSidebarOptionsIds.cms]?: {
+    onOpen: (onClose: VoidFunction) => void;
+    onClose: VoidFunction;
+    icon?: string;
   };
 
   moduleGroups?: Array<{
