@@ -1,6 +1,7 @@
 import { DCTypes } from "@/types/dynamicContent";
 import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { ActionResolve, Config, HtmlOutputType, Modes, Target } from "@/types/types";
+import { encode } from "js-base64";
 import { mergeIn, omit, setIn } from "timm";
 import { ActionTypes } from "./types";
 
@@ -202,6 +203,21 @@ export const createUi = <T extends HtmlOutputType>(config: Config<T>): BuilderUI
 
 //#endregion
 
+//#region Page
+
+type Page = Config<HtmlOutputType>["pageData"];
+
+type BuilderPage = Page & {
+  data: string;
+};
+
+const getPage = <T extends HtmlOutputType>(config: Config<T>): BuilderPage => ({
+  ...config.pageData,
+  data: encode(JSON.stringify(config.pageData.data ?? {})),
+});
+
+//#endreigon
+
 export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, token: string): ActionResolve => ({
   uid,
   target: Target.builder,
@@ -209,7 +225,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, t
     type: ActionTypes.initPage,
     data: {
       mode: createModes(config.mode ?? Modes.page),
-      pageData: config.pageData,
+      pageData: getPage(config),
       projectData: config.projectData,
       pagePreview: config.pagePreview,
       ui: createUi(config),
