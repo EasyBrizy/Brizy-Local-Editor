@@ -5,8 +5,11 @@ import {
   LeftSidebarOptionsIds,
   StoryElementTypes,
 } from "@/types/leftSidebar";
+import { Publish } from "@/types/publish";
+import { HtmlOutputType } from "@/types/types";
 import { getIn, setIn } from "timm";
 import { getCloseCMS, getOpenCMS } from "./cms";
+import { getPublish } from "./publish";
 
 interface Data extends HandlerData {
   mode: string;
@@ -223,6 +226,8 @@ export const getUi = (data: Data): Record<string, unknown> => {
   const popupSettings = Object.assign({}, oldUI.popupSettings, ui.popupSettings);
   let leftSidebar = Object.assign({}, oldUI.leftSidebar, ui.leftSidebar);
   const enabledCMS = getIn(leftSidebar, ["cms", "enable"]);
+  const enabledPublish = getIn(ui, ["publish", "enable"]);
+  let publish: Partial<Publish<HtmlOutputType>> = {};
 
   if (enabledCMS) {
     leftSidebar = setIn(leftSidebar, ["cms"], {
@@ -231,8 +236,13 @@ export const getUi = (data: Data): Record<string, unknown> => {
     }) as Record<string, unknown>;
   }
 
+  if (enabledPublish) {
+    publish = getPublish({ event, target, uid });
+  }
+
   return {
     ...ui,
+    publish,
     popupSettings,
     leftSidebar,
   };

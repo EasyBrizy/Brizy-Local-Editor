@@ -137,7 +137,9 @@ export function subscriber(event: MessageEvent): void {
       case `${target}_create_screenshots_rej`:
       case `${target}_update_screenshots_res`:
       case `${target}_update_screenshots_rej`:
-      case `${target}_leftSidebar_open_cms_close`: {
+      case `${target}_leftSidebar_open_cms_close`:
+      case `${target}_ui_publish_res`:
+      case `${target}_ui_publish_rej`: {
         // Nothing to do here
         // All Logic is outside of current event
         break;

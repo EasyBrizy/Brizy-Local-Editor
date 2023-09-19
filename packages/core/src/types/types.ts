@@ -1,9 +1,11 @@
+import { PageData, ProjectData } from "./common";
 import { CustomFile } from "./customFile";
 import { DynamicContent } from "./dynamicContent";
 import { Form } from "./form";
 import { LeftSidebar } from "./leftSidebar";
 import { Media } from "./media";
 import { Menu } from "./menu";
+import { Publish } from "./publish";
 import { Screenshots } from "./screenshots";
 import { DefaultKits, DefaultLayouts, DefaultPopups, DefaultStories } from "./templates";
 import { Theme } from "./theme";
@@ -39,8 +41,8 @@ export enum Modes {
 }
 
 export interface BuilderOutput {
-  pageData: Record<string, unknown>;
-  projectData: Record<string, unknown>;
+  pageData: PageData;
+  projectData: ProjectData;
   styles?: Array<string>;
   scripts?: Array<string>;
   html?: string;
@@ -48,7 +50,7 @@ export interface BuilderOutput {
   mode: Modes;
 }
 
-export type OnSave = <T extends HtmlOutputType>(output: Output<T>) => void;
+export type OnSave<T extends HtmlOutputType> = (output: Output<T>) => void;
 
 export interface Config<T extends HtmlOutputType> {
   mode?: Modes;
@@ -105,6 +107,9 @@ export interface Config<T extends HtmlOutputType> {
 
     // LeftSidebar
     leftSidebar?: LeftSidebar;
+
+    // Publish
+    publish?: Publish<T>;
   };
 
   //#endregion
@@ -138,7 +143,7 @@ export interface Config<T extends HtmlOutputType> {
 
   //#region Events
 
-  onSave?: OnSave;
+  onSave?: OnSave<T>;
   onLoad?: VoidFunction;
 
   //#endregion
