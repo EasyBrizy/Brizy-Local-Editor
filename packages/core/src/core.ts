@@ -17,6 +17,8 @@ import {
   formFieldsRes,
   init,
   leftSidebarOpenCMSClose,
+  publishRej,
+  publishRes,
   save,
   templateKitsDataRej,
   templateKitsDataRes,
@@ -43,6 +45,7 @@ import { BaseDCItem, DCHandlerExtra } from "@/types/dynamicContent";
 import { FormFieldsOption } from "@/types/form";
 import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@/types/media";
+import { PublishData } from "@/types/publish";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import { Kit, Popup, StoryTemplate, Template } from "@/types/templates";
 import { BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
@@ -85,9 +88,11 @@ const actions = {
   updateScreenshotsRes,
   updateScreenshotsRej,
   leftSidebarOpenCMSClose,
+  publishRej,
+  publishRes,
 };
 
-const savedNodeCB = new Map<HTMLElement, OnSave>();
+const savedNodeCB = new Map<HTMLElement, OnSave<HtmlOutputType>>();
 
 export const Core: Init<HtmlOutputType> = (token, config, cb) => {
   if (!token) {
@@ -428,6 +433,24 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               onClose();
             }
           },
+          [ActionTypes.uiPublish]: (extra: BuilderOutput) => {
+            const { publish } = config.ui ?? {};
+            const handler = publish?.handler;
+
+            if (typeof handler === "function") {
+              const res = (r: PublishData) => {
+                iframeWindow.postMessage(actions.publishRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.publishRej(r, uid), targetOrigin);
+              };
+
+              const output = createOutput(htmlOutputType, extra);
+
+              config.onSave?.(output);
+              handler(res, rej, output);
+            }
+          },
         };
 
         // @ts-expect-error: temporary
@@ -442,7 +465,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
       }
     });
 
-    const save = (cb?: OnSave) => {
+    const save = (cb?: OnSave<HtmlOutputType>) => {
       if (typeof cb === "function") {
         savedNodeCB.set(container, cb);
       }

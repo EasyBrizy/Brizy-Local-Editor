@@ -187,15 +187,22 @@ type BuilderUI = UI & {
       enable?: boolean;
     };
   };
+  publish?: {
+    enable?: boolean;
+  };
 };
 
 export const createUi = <T extends HtmlOutputType>(config: Config<T>): BuilderUI => {
   let ui = config.ui ?? {};
-  const { leftSidebar = {} } = ui;
+  const { leftSidebar = {}, publish } = ui;
   const cms = leftSidebar[LeftSidebarOptionsIds.cms];
 
   if (typeof cms?.onOpen === "function") {
     ui = setIn(ui, ["leftSidebar", "cms"], { enable: true }) as BuilderUI;
+  }
+
+  if (typeof publish?.handler === "function") {
+    ui = setIn(ui, ["publish"], { enable: true }) as BuilderUI;
   }
 
   return ui;
