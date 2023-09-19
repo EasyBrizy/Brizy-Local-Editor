@@ -66,4 +66,8 @@ export enum ActionTypes {
   leftSidebarOpenCMS = "@builder_leftSidebar_open_cms",
   leftSidebarOpenCMSClose = "@builder_leftSidebar_open_cms_close",
   leftSidebarCloseCMS = "@builder_leftSidebar_close_cms",
+
+  uiPublish = "@builder_ui_publish",
+  uiPublishRes = "@builder_ui_publish_res",
+  uiPublishRej = "@builder_ui_publish_rej",
 }
