@@ -24,3 +24,4 @@ export {
 } from "./templates";
 export { createScreenshotsRes, createScreenshotsRej, updateScreenshotsRes, updateScreenshotsRej } from "./screenshots";
 export { leftSidebarOpenCMSClose } from "./leftSidebar";
+export { publishRes, publishRej } from "./publish";
