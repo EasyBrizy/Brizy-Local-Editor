@@ -1,17 +1,18 @@
 // Provider for Builder
 // Used for transform core api to builder internal api
-import { defaultDC } from "./defaults";
+import { compiler, defaultDC } from "./defaults";
 import { subscriber } from "./subscriber";
 
 (function (w: Window) {
   const origin = w.__origin__;
-  const mode = "external_story";
+  const mode = "page";
 
   window.__VISUAL_CONFIG__ = {
     mode,
     project: { id: 1 },
     page: { provider: "collections" },
     user: { role: "admin", isApproved: true },
+    compiler: compiler(),
     urls: {
       assets: origin + "/dist/free",
       worker: origin + "/dist/free/editor/js",

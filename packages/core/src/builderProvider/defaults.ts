@@ -5,3 +5,11 @@ export const defaultDC = () => ({
 });
 
 //#endregion
+
+//#region Compiler
+
+export const compiler = () => ({
+  type: "browser",
+});
+
+//#endregion
