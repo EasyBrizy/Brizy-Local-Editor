@@ -213,7 +213,7 @@ interface DCItemHandler {
   handler: (
     res: Response<BaseDCItem>,
     rej: Response<string>,
-    extra?: { keyCode: string }
+    extra?: { keyCode?: string, placeholder: string }
   ) => void;
 }
 
