@@ -16,7 +16,8 @@ export interface ConfigDCItem extends BaseDCItem {
 }
 
 export interface DCHandlerExtra {
-  keyCode: string;
+  keyCode?: string;
+  placeholder: string;
 }
 
 interface DCItemHandler {
