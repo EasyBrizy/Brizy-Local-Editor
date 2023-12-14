@@ -9,9 +9,19 @@ import { subscriber } from "./subscriber";
 
   window.__VISUAL_CONFIG__ = {
     mode,
-    project: { id: 1 },
-    page: { provider: "collections" },
-    user: { role: "admin", isApproved: true },
+    project: {
+      id: 1,
+      status: {
+        locked: false,
+      },
+    },
+    page: {
+      provider: "collections",
+    },
+    user: {
+      role: "admin",
+      isApproved: true,
+    },
     compiler: compiler(),
     urls: {
       assets: origin + "/dist/free",
