@@ -7,27 +7,29 @@
   (function (window, doc) {
     const popupUrl = `${apiURL}/${popupId}`; // API url to get popup data;
 
-    function _appendScript({ doc, node, onLoad, pnError }) {
-      const script = doc.createElement("script");
+    async function _appendScript({ doc, node }) {
+      return new Promise((resolve, reject) => {
+        const script = doc.createElement("script");
 
-      for (let i = 0; i < node.attributes.length; i++) {
-        const { name, value } = node.attributes[i];
-        script[name] = value;
-      }
+        for (let i = 0; i < node.attributes.length; i++) {
+          const { name, value } = node.attributes[i];
+          script[name] = value;
+        }
 
-      // if the script don't have a src, it means it's inline script
-      if (!script.src) {
-        script.innerHTML = node.innerHTML;
+        // if the script don't have a src, it means it's inline script
+        if (!script.src) {
+          script.innerHTML = node.innerHTML;
 
-        // the inline script is already loaded
-        onLoad();
-      } else {
-        // attach the onload and onerror event to the script
-        script.onload = onLoad;
-        script.onerror = onError;
-      }
+          // the inline script is already loaded
+          resolve();
+        } else {
+          // attach the onload and onerror event to the script
+          script.onload = resolve;
+          script.onerror = reject;
+        }
 
-      doc.body.appendChild(script);
+        doc.body.appendChild(script);
+      });
     }
 
     function _appendStyle({ doc, node, onLoad, onError }) {
@@ -96,23 +98,22 @@
           _overrideScripts({ node, doc });
         });
 
-        // append all scripts to the body and resolve a promise when all scripts are loaded
-        const scriptsPromises = scriptsNodes.map((node) => {
-          return new Promise((res, rej) => {
-            _appendScript({
-              node,
-              doc: doc,
-              onLoad: res,
-              onError: rej,
-            });
-          });
-        });
+        // sequentially append all scripts to the body and resolve a promise when all scripts are loaded
+        async function appendScripts(scriptsNodes) {
+          for (const node of scriptsNodes) {
+            await _appendScript({ doc, node });
+          }
+        }
 
         // wait for all scripts to be loaded
-        await Promise.all(scriptsPromises);
-
-        // init the popup
-        window.Brz.emit("init.dom", window.jQuery(popupHTML));
+        appendScripts(scriptsNodes)
+          .then(() => {
+            // init the popup
+            window.Brz.emit("init.dom", window.jQuery(popupHTML));
+          })
+          .catch((e) => {
+            console.error("Error loading scripts", e);
+          });
       } catch (e) {
         console.error("Error loading popup", e);
       }
