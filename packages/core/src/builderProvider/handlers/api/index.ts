@@ -6,6 +6,7 @@ import { addCustomFileHandler } from "./customFile";
 import { addMediaHandler } from "./media";
 import { getCreateScreenshots, getUpdateScreenshots } from "./screenshots";
 import {
+  getKits,
   getKitsData,
   getKitsMeta,
   getLayoutsData,
@@ -33,6 +34,7 @@ export const getApi = (data: Data) => {
 
   if (enabledDefaultKits) {
     api = setIn(api, ["defaultKits"], {
+      getKits: getKits({ event, target, uid }),
       getMeta: getKitsMeta({ event, target, uid }),
       getData: getKitsData({ event, target, uid }),
     }) as Record<string, unknown>;

@@ -261,7 +261,22 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
 
             link.handler(res, rej, extra);
           },
-          [ActionTypes.templateKitsMeta]: () => {
+          [ActionTypes.templateKits]: () => {
+            const { api = {} } = config;
+            const { defaultKits } = api;
+            const getKits = defaultKits?.getKits;
+
+            if (typeof getKits === "function") {
+              const res = (r: Array<Kit>) => {
+                iframeWindow.postMessage(actions.templateKitsMetaRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateKitsMetaRej(r, uid), targetOrigin);
+              };
+              getKits(res, rej);
+            }
+          },
+          [ActionTypes.templateKitsMeta]: (kitId: string) => {
             const { api = {} } = config;
             const { defaultKits } = api;
             const getMeta = defaultKits?.getMeta;
@@ -273,7 +288,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.templateKitsMetaRej(r, uid), targetOrigin);
               };
-              getMeta(res, rej);
+              getMeta(res, rej, kitId);
             }
           },
           [ActionTypes.templateKitsData]: (blockId: string) => {

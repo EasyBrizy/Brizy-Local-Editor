@@ -27,6 +27,9 @@ export enum ActionTypes {
   dcLinkRes = "@builder_dc_link_res",
   dcLinkRej = "@builder_dc_link_rej",
 
+  templateKits = "@builder_template_kits_",
+  templateKitsRes = "@builder_template_kits__res",
+  templateKitsRej = "@builder_template_kits__rej",
   templateKitsMeta = "@builder_template_kits_meta",
   templateKitsMetaRes = "@builder_template_kits_meta_res",
   templateKitsMetaRej = "@builder_template_kits_meta_rej",

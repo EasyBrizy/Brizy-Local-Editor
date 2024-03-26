@@ -2,7 +2,8 @@ import { Response } from "./common";
 
 interface DefaultTemplate<T1, T2> {
   label?: string;
-  getMeta: (res: Response<T1>, rej: Response<string>) => void;
+  getKits: (res: Response<T1>, rej: Response<string>) => void;
+  getMeta: (res: Response<T1>, rej: Response<string>, kitId: string) => void;
   getData: (res: Response<T2>, rej: Response<string>, blockId: string) => void;
 }
 
