@@ -1,6 +1,8 @@
+import type { Response } from "@/types/common";
 import { DCTypes } from "@/types/dynamicContent";
 import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { ActionResolve, Config, HtmlOutputType, Modes, Target } from "@/types/types";
+import type { Dictionary } from "@/utils/types";
 import { encode } from "js-base64";
 import { mergeIn, omit, setIn } from "timm";
 import { ActionTypes } from "./types";
@@ -54,6 +56,11 @@ type BuilderDCOption = DCOption & {
       };
     };
   };
+  getPlaceholderData?: (
+    res: Response<Dictionary<string[]>>,
+    rej: Response<string>,
+    extra: { placeholders: Dictionary<string>; signal?: AbortSignal },
+  ) => void;
 };
 
 const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDCOption => {
@@ -61,7 +68,7 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
   const richText = dynamicContent?.groups?.richText;
   const image = dynamicContent?.groups?.image;
   const link = dynamicContent?.groups?.link;
-  let dc: BuilderDCOption = omit(dynamicContent, ["groups"]);
+  let dc: BuilderDCOption = omit(dynamicContent, ["groups", "getPlaceholderData"]);
   let groups = undefined;
 
   if (richText) {
@@ -86,6 +93,10 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
     } else {
       groups = mergeIn(groups, ["link", "handler"], { enable: true }) as BuilderDCOption["groups"];
     }
+  }
+
+  if (typeof dynamicContent.getPlaceholderData === "function") {
+    dc = setIn(dc, ["getPlaceholderData"], { enable: true }) as BuilderDCOption;
   }
 
   return { ...dc, groups };

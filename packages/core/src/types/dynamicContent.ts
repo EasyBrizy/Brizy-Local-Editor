@@ -1,3 +1,4 @@
+import { Dictionary } from "@/utils/types";
 import { Response } from "./common";
 
 export enum DCTypes {
@@ -30,6 +31,12 @@ export interface DCGroups {
   [DCTypes.richText]?: Array<ConfigDCItem> | DCItemHandler;
 }
 
+export interface DCPlaceholdersExtra {
+  placeholders: Dictionary<string>;
+  signal: AbortSignal | undefined;
+}
+
 export interface DynamicContent {
   groups?: DCGroups;
+  getPlaceholderData?: (res: Response<Dictionary<string>>, rej: Response<string>, extra: DCPlaceholdersExtra) => void;
 }

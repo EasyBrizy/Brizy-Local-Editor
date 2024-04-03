@@ -1,6 +1,6 @@
 // Provider for Builder
 // Used for transform core api to builder internal api
-import { compiler, defaultDC } from "./defaults";
+import { compiler } from "./defaults";
 import { subscriber } from "./subscriber";
 
 (function (w: Window) {
@@ -37,7 +37,6 @@ import { subscriber } from "./subscriber";
         assets: origin + "/dist/pro",
       },
     },
-    dynamicContent: defaultDC(),
     api: {},
   };
 

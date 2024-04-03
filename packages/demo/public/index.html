@@ -75,7 +75,7 @@
       const bucketRegion = "REGION";
       const IdentityPoolId = "IDENTITY_POOL_ID";
       const AWS = window.AWS;
-      const templates = "https://e-t-cloud.b-cdn.net/1.0.0";
+      const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
 
       const createUpload = (accept) => {
         let lock = false;
@@ -914,7 +914,7 @@
             defaultKits: {
               async getKits(res, rej) {
                 try {
-                  const kits = await fetch(`${templates}/meta.json`)
+                  const kits = await fetch(`${templates}/kits/meta.json`)
                     .then((r) => r.json())
                     .then((data) =>
                       data.map((kit) => ({
@@ -928,43 +928,45 @@
                   rej("Failed to load Kits");
                 }
               },
-              async getMeta(res, rej, data) {
+              async getMeta(res, rej, kit) {
                 try {
-                  const kits = await fetch(`${templates}/meta.json`).then((r) => r.json());
-                  const kit = kits.find((item) => item.id === data.id);
-                  const blocks = kit.blocks.map((block) => ({
-                    id: block.id,
-                    cat: block.cat,
-                    title: block.title,
-                    type: block.type,
-                    keywords: block.keywords,
-                    thumbnailHeight: block.thumbnailHeight,
-                    thumbnailWidth: block.thumbnailWidth,
-                    thumbnailSrc: `${templates}/thumbs/${block.id}.jpg`,
-                    pro: block.pro ?? false,
-                    kitId: kit.id,
-                    blank: block.blank,
-                  }));
-                  const categories = data.categories;
-                  const types = data.types;
+                  const kitsUrl = `${templates}/kits`;
+                  const kits = await fetch(`${kitsUrl}/meta.json`).then((r) => r.json());
 
-                  const customKit = {
+                  const _kit = kits.find((item) => item.id === kit.id);
+
+                  const blocks = kit?.blocks.map(
+                    ({ id, cat, pro, title, keywords, thumbnailWidth, thumbnailHeight, type, blank }) => ({
+                      id,
+                      cat,
+                      title,
+                      type,
+                      keywords,
+                      thumbnailHeight,
+                      thumbnailWidth,
+                      thumbnailSrc: `${templates}/kits/thumbs/${id}.jpg`,
+                      pro: pro ?? false,
+                      kitId: kit.id,
+                      blank,
+                    }),
+                  );
+
+                  res({
                     id: kit.id,
-                    name: kit.title,
-                    styles: kit.styles,
                     blocks,
-                    categories,
-                    types,
-                  };
-
-                  res(customKit);
+                    categories: _kit.categories,
+                    types: _kit.types,
+                    name: kit.title,
+                    styles: _kit.styles,
+                  });
                 } catch (e) {
                   rej("Failed to load meta.json");
                 }
               },
               async getData(res, rej, kit) {
+                const kitsUrl = `${templates}/kits`;
                 try {
-                  const data = await fetch(`${templates}/resolves/${kit.id}.json`).then((r) => r.json());
+                  const data = await fetch(`${kitsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
                   res(data);
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");
@@ -991,10 +993,10 @@
                   rej("Failed to load meta.json");
                 }
               },
-              async getData(res, rej, id) {
+              async getData(res, rej, kit) {
                 const popupsUrl = `${templates}/popups`;
                 try {
-                  const data = await fetch(`${popupsUrl}/resolves/${id}.json`).then((r) => r.json());
+                  const data = await fetch(`${popupsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
                   res(data);
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");

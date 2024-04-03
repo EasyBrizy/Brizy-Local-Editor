@@ -1,5 +1,6 @@
 import { BaseDCItem } from "@/types/dynamicContent";
 import { ActionResolve, Target } from "@/types/types";
+import { Dictionary } from "@/utils/types";
 import { ActionTypes } from "./types";
 
 export const dcRichTextRes = (r: BaseDCItem, uid: string): ActionResolve => ({
@@ -36,4 +37,16 @@ export const dcLinkRej = (r: string, uid: string): ActionResolve => ({
   uid,
   target: Target.builder,
   data: JSON.stringify({ type: ActionTypes.dcLinkRej, data: r }),
+});
+
+export const dcPlaceholderRes = (r: Dictionary<string>, uid: string) => ({
+  uid,
+  target: Target.builder,
+  data: JSON.stringify({ type: ActionTypes.dcPlaceholderDataRes, data: r }),
+});
+
+export const dcPlaceholderRej = (r: string, uid: string) => ({
+  uid,
+  target: Target.builder,
+  data: JSON.stringify({ type: ActionTypes.dcPlaceholderDataRej, data: r }),
 });

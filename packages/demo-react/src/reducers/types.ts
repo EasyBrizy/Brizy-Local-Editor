@@ -1,4 +1,5 @@
-import type { DynamicContentOption, Response } from "@builder/core/build/es/types/types";
+import { Response } from "@builder/core/build/es/types/common";
+import type { BaseDCItem } from "@builder/core/build/es/types/dynamicContent";
 
 export type Action =
   | {
@@ -7,7 +8,7 @@ export type Action =
     }
   | {
       type: "modal";
-      res: Response<DynamicContentOption>;
+      res: Response<BaseDCItem>;
       rej: Response<string>;
     }
   | {
@@ -23,7 +24,7 @@ export interface State {
   output: string;
   modal: {
     opened: boolean;
-    resolve: Response<DynamicContentOption>;
+    resolve: Response<BaseDCItem>;
     reject: Response<string>;
   };
 }

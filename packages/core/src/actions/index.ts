@@ -3,7 +3,16 @@ export { save } from "./save";
 export { addMediaRes, addMediaRej } from "./addImage";
 export { addFileRes, addFileRej } from "./addFile";
 export { formFieldsRes, formFieldsRej } from "./formFields";
-export { dcRichTextRes, dcRichTextRej, dcLinkRes, dcLinkRej, dcImageRes, dcImageRej } from "./dc";
+export {
+  dcRichTextRes,
+  dcRichTextRej,
+  dcLinkRes,
+  dcLinkRej,
+  dcImageRes,
+  dcImageRej,
+  dcPlaceholderRes,
+  dcPlaceholderRej,
+} from "./dc";
 export {
   templateKitsMetaRes,
   templateKitsMetaRej,
