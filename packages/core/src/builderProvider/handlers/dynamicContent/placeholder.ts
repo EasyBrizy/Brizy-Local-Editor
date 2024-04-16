@@ -13,7 +13,7 @@ function placeholderDataHandler(data: PlaceholderDataHandler) {
 
   return function placeholderData(event: MessageEvent) {
     const data = event.data;
-    if (data.ta !== target || data.uid !== uid) {
+    if (data.target !== target || data.uid !== uid) {
       return;
     }
 
@@ -40,7 +40,7 @@ export function getPlaceholderDataHandler(data: HandlerData) {
   const { target, uid, event } = data;
 
   return (res: Response<Dictionary<string>>, rej: Response<string>, extra: DCPlaceholdersExtra) => {
-    const data = JSON.stringify({ type: `${target}_dc_get_placeholder_data`, payload: extra });
+    const data = JSON.stringify({ type: `${target}_dc_placeholder_data`, payload: extra });
 
     // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
     event.source?.postMessage({ target, uid, data }, event.origin);

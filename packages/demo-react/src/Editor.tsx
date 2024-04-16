@@ -38,6 +38,9 @@ export const Editor = () => {
           },
         },
       },
+      getPlaceholderData(res, rej, extra) {
+        res({ test: ["test1"] });
+      },
     },
 
     api: {

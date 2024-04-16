@@ -935,7 +935,7 @@
 
                   const _kit = kits.find((item) => item.id === kit.id);
 
-                  const blocks = kit?.blocks.map(
+                  const blocks = _kit?.blocks.map(
                     ({ id, cat, pro, title, keywords, thumbnailWidth, thumbnailHeight, type, blank }) => ({
                       id,
                       cat,
