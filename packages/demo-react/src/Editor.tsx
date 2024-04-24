@@ -9,7 +9,9 @@ import { State } from "./reducers/types";
 
 const token = "demo";
 
-const templates = "https://e-t-cloud.b-cdn.net/1.0.0";
+const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
+// Url for thirdParty build
+// const thirdParty = "http://127.0.0.1:5432";
 
 const noop = () => {};
 
@@ -29,7 +31,15 @@ export const Editor = () => {
   const config: Config = {
     ...demoConfig,
     container: containerRef.current,
+    // If you want to connect thirdParty components,
+    // you need to build it before demo is started
 
+    // thirdPartyUrls: [
+    //   {
+    //     scriptUrl: `${thirdParty}/index.js`,
+    //     styleUrl: `${thirdParty}/index.css`,
+    //   },
+    // ],
     dynamicContent: {
       groups: {
         richText: {
@@ -42,9 +52,6 @@ export const Editor = () => {
         res({ test: ["test1"] });
       },
     },
-
-    thirdPartyUrls: [{ scriptUrl: "http://localhost:3000/thirdParty/index.js" }],
-
     api: {
       media: {
         mediaResizeUrl: "https://media.brizylocal.com/media",

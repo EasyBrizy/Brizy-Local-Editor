@@ -71,10 +71,7 @@ export function subscriber(event: MessageEvent): void {
         window.__VISUAL_CONFIG__.dynamicContent = getDCConfig({ uid, target, event, dynamicContent });
         window.__VISUAL_CONFIG__.integration = getIntegration({ uid, target, event, integration });
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
-        // TODO: Need to add support for multiple scripts and styles
-        window.__VISUAL_CONFIG__.thirdPartyAssetsURL = configData.thirdPartyUrls.find(
-          (s: { scriptUrl?: string; styleUrl?: string }) => s.scriptUrl,
-        )?.scriptUrl;
+        window.__VISUAL_CONFIG__.thirdPartyUrls = configData.thirdPartyUrls;
 
         window.__VISUAL_CONFIG__.onLoad = () => {
           const data = JSON.stringify({ type: `${target}_on_load` });
