@@ -1,3 +1,4 @@
+import { VideoTypes } from "@builder/core/build/es/types/types";
 import { Config } from "./hooks/useEditor/types";
 
 export const demoConfig: Config<"monolith"> = {
@@ -145,10 +146,7 @@ export const demoConfig: Config<"monolith"> = {
                                 {
                                   type: "Cloneable",
                                   value: {
-                                    _styles: [
-                                      "wrapper-clone",
-                                      "wrapper-clone--button",
-                                    ],
+                                    _styles: ["wrapper-clone", "wrapper-clone--button"],
                                     items: [
                                       {
                                         type: "Button",
@@ -242,8 +240,7 @@ export const demoConfig: Config<"monolith"> = {
                                           gradientLinearDegree: 90,
                                           gradientRadialDegree: 90,
                                           hoverBgColorType: "solid",
-                                          hoverGradientActivePointer:
-                                            "startPointer",
+                                          hoverGradientActivePointer: "startPointer",
                                           hoverGradientStartPointer: 0,
                                           hoverGradientFinishPointer: 100,
                                           hoverGradientType: "linear",
@@ -335,8 +332,7 @@ export const demoConfig: Config<"monolith"> = {
                                           mobileLetterSpacing: 1,
                                           tempMobileBorderRadius: 2,
                                           linkType: "anchor",
-                                          linkAnchor:
-                                            "zeqfcpwrgxdeznyzyujlahaabdkiljhnozbe",
+                                          linkAnchor: "zeqfcpwrgxdeznyzyujlahaabdkiljhnozbe",
                                           tabsState: "",
                                           tabsColor: "",
                                           tempBoxShadowBlur: 0,
@@ -421,8 +417,7 @@ export const demoConfig: Config<"monolith"> = {
                                           tempMobilePaddingLeft: 26,
                                           mobileBorderRadius: 2,
                                           linkType: "anchor",
-                                          linkAnchor:
-                                            "pacwvjuxmpbjcozcfwpjffuerrbvmaeiyrry",
+                                          linkAnchor: "pacwvjuxmpbjcozcfwpjffuerrbvmaeiyrry",
                                           className: "",
                                           iconSize: "small",
                                           iconCustomSize: 16,
@@ -440,8 +435,7 @@ export const demoConfig: Config<"monolith"> = {
                                           gradientLinearDegree: 90,
                                           gradientRadialDegree: 90,
                                           hoverBgColorType: "solid",
-                                          hoverGradientActivePointer:
-                                            "startPointer",
+                                          hoverGradientActivePointer: "startPointer",
                                           hoverGradientStartPointer: 0,
                                           hoverGradientFinishPointer: 100,
                                           hoverGradientType: "linear",
@@ -662,8 +656,7 @@ export const demoConfig: Config<"monolith"> = {
                                           gradientLinearDegree: 90,
                                           gradientRadialDegree: 90,
                                           hoverBgColorType: "solid",
-                                          hoverGradientActivePointer:
-                                            "startPointer",
+                                          hoverGradientActivePointer: "startPointer",
                                           hoverGradientStartPointer: 0,
                                           hoverGradientFinishPointer: 100,
                                           hoverGradientType: "linear",
@@ -755,8 +748,7 @@ export const demoConfig: Config<"monolith"> = {
                                           mobileLetterSpacing: 1,
                                           tempMobileBorderRadius: 2,
                                           linkType: "anchor",
-                                          linkAnchor:
-                                            "essjeveederfnmzpbppolbjnotxmbqmgufjy",
+                                          linkAnchor: "essjeveederfnmzpbppolbjnotxmbqmgufjy",
                                           fontFamilyType: "google",
                                           families: {
                                             fontFamily: "montserrat",
@@ -862,10 +854,7 @@ export const demoConfig: Config<"monolith"> = {
                                 {
                                   type: "Cloneable",
                                   value: {
-                                    _styles: [
-                                      "wrapper-clone",
-                                      "wrapper-clone--icon",
-                                    ],
+                                    _styles: ["wrapper-clone", "wrapper-clone--icon"],
                                     items: [
                                       {
                                         type: "Icon",
@@ -918,8 +907,7 @@ export const demoConfig: Config<"monolith"> = {
                                           gradientLinearDegree: 90,
                                           gradientRadialDegree: 90,
                                           hoverBgColorType: "solid",
-                                          hoverGradientActivePointer:
-                                            "startPointer",
+                                          hoverGradientActivePointer: "startPointer",
                                           hoverGradientStartPointer: 0,
                                           hoverGradientFinishPointer: 100,
                                           hoverGradientType: "linear",
@@ -1186,10 +1174,7 @@ export const demoConfig: Config<"monolith"> = {
                                 {
                                   type: "Cloneable",
                                   value: {
-                                    _styles: [
-                                      "wrapper-clone",
-                                      "wrapper-clone--button",
-                                    ],
+                                    _styles: ["wrapper-clone", "wrapper-clone--button"],
                                     items: [
                                       {
                                         type: "Button",
@@ -1266,8 +1251,7 @@ export const demoConfig: Config<"monolith"> = {
                                           tempMobilePaddingLeft: 26,
                                           mobileBorderRadius: 2,
                                           linkType: "anchor",
-                                          linkAnchor:
-                                            "pacwvjuxmpbjcozcfwpjffuerrbvmaeiyrry",
+                                          linkAnchor: "pacwvjuxmpbjcozcfwpjffuerrbvmaeiyrry",
                                         },
                                       },
                                     ],
@@ -1710,8 +1694,7 @@ export const demoConfig: Config<"monolith"> = {
                                           _id: "ffpvqhcjtolmysjwiyzdmstlvcukymqqlmkx",
                                           imageWidth: 1200,
                                           imageHeight: 700,
-                                          imageSrc:
-                                            "2eb8c6a8ffdab6a9008a3cfae205c1ad.jpg",
+                                          imageSrc: "2eb8c6a8ffdab6a9008a3cfae205c1ad.jpg",
                                           height: 100,
                                           positionX: 50,
                                           positionY: 50,
@@ -1770,8 +1753,7 @@ export const demoConfig: Config<"monolith"> = {
                               tabsCurrentElement: "tabCurrentElement",
                               bgImageWidth: 1250,
                               bgImageHeight: 1322,
-                              bgImageSrc:
-                                "973bfde7e357b4a4b5a45cacc5a7cc94.png",
+                              bgImageSrc: "973bfde7e357b4a4b5a45cacc5a7cc94.png",
                               bgColorOpacity: 0,
                               tempBgColorOpacity: 1,
                               borderRadius: 0,
@@ -1825,10 +1807,7 @@ export const demoConfig: Config<"monolith"> = {
                                 {
                                   type: "Cloneable",
                                   value: {
-                                    _styles: [
-                                      "wrapper-clone",
-                                      "wrapper-clone--icon",
-                                    ],
+                                    _styles: ["wrapper-clone", "wrapper-clone--icon"],
                                     items: [
                                       {
                                         type: "Icon",
@@ -1964,10 +1943,7 @@ export const demoConfig: Config<"monolith"> = {
                                 {
                                   type: "Cloneable",
                                   value: {
-                                    _styles: [
-                                      "wrapper-clone",
-                                      "wrapper-clone--icon",
-                                    ],
+                                    _styles: ["wrapper-clone", "wrapper-clone--icon"],
                                     items: [
                                       {
                                         type: "Icon",
@@ -2170,10 +2146,7 @@ export const demoConfig: Config<"monolith"> = {
                                 {
                                   type: "Cloneable",
                                   value: {
-                                    _styles: [
-                                      "wrapper-clone",
-                                      "wrapper-clone--button",
-                                    ],
+                                    _styles: ["wrapper-clone", "wrapper-clone--button"],
                                     items: [
                                       {
                                         type: "Button",
@@ -2250,8 +2223,7 @@ export const demoConfig: Config<"monolith"> = {
                                           tempMobilePaddingLeft: 26,
                                           mobileBorderRadius: 2,
                                           linkType: "anchor",
-                                          linkAnchor:
-                                            "gmxdljgmwozvyzwftkjxbindnkvrnygorjud",
+                                          linkAnchor: "gmxdljgmwozvyzwftkjxbindnkvrnygorjud",
                                         },
                                       },
                                     ],
@@ -2495,11 +2467,7 @@ export const demoConfig: Config<"monolith"> = {
                                 {
                                   type: "Row",
                                   value: {
-                                    _styles: [
-                                      "row",
-                                      "hide-row-borders",
-                                      "padding-0",
-                                    ],
+                                    _styles: ["row", "hide-row-borders", "padding-0"],
                                     items: [
                                       {
                                         type: "Column",
@@ -2509,10 +2477,7 @@ export const demoConfig: Config<"monolith"> = {
                                             {
                                               type: "Wrapper",
                                               value: {
-                                                _styles: [
-                                                  "wrapper",
-                                                  "wrapper--richText",
-                                                ],
+                                                _styles: ["wrapper", "wrapper--richText"],
                                                 items: [
                                                   {
                                                     type: "RichText",
@@ -2529,10 +2494,7 @@ export const demoConfig: Config<"monolith"> = {
                                             {
                                               type: "Wrapper",
                                               value: {
-                                                _styles: [
-                                                  "wrapper",
-                                                  "wrapper--richText",
-                                                ],
+                                                _styles: ["wrapper", "wrapper--richText"],
                                                 items: [
                                                   {
                                                     type: "RichText",
@@ -2559,10 +2521,7 @@ export const demoConfig: Config<"monolith"> = {
                                             {
                                               type: "Wrapper",
                                               value: {
-                                                _styles: [
-                                                  "wrapper",
-                                                  "wrapper--spacer",
-                                                ],
+                                                _styles: ["wrapper", "wrapper--spacer"],
                                                 items: [
                                                   {
                                                     type: "Spacer",
@@ -2583,10 +2542,7 @@ export const demoConfig: Config<"monolith"> = {
                                             {
                                               type: "Wrapper",
                                               value: {
-                                                _styles: [
-                                                  "wrapper",
-                                                  "wrapper--richText",
-                                                ],
+                                                _styles: ["wrapper", "wrapper--richText"],
                                                 items: [
                                                   {
                                                     type: "RichText",
@@ -2603,10 +2559,7 @@ export const demoConfig: Config<"monolith"> = {
                                             {
                                               type: "Wrapper",
                                               value: {
-                                                _styles: [
-                                                  "wrapper",
-                                                  "wrapper--richText",
-                                                ],
+                                                _styles: ["wrapper", "wrapper--richText"],
                                                 items: [
                                                   {
                                                     type: "RichText",
@@ -2633,10 +2586,7 @@ export const demoConfig: Config<"monolith"> = {
                                             {
                                               type: "Wrapper",
                                               value: {
-                                                _styles: [
-                                                  "wrapper",
-                                                  "wrapper--spacer",
-                                                ],
+                                                _styles: ["wrapper", "wrapper--spacer"],
                                                 items: [
                                                   {
                                                     type: "Spacer",
@@ -2727,10 +2677,7 @@ export const demoConfig: Config<"monolith"> = {
                                             {
                                               type: "Wrapper",
                                               value: {
-                                                _styles: [
-                                                  "wrapper",
-                                                  "wrapper--richText",
-                                                ],
+                                                _styles: ["wrapper", "wrapper--richText"],
                                                 items: [
                                                   {
                                                     type: "RichText",
@@ -2747,10 +2694,7 @@ export const demoConfig: Config<"monolith"> = {
                                             {
                                               type: "Wrapper",
                                               value: {
-                                                _styles: [
-                                                  "wrapper",
-                                                  "wrapper--richText",
-                                                ],
+                                                _styles: ["wrapper", "wrapper--richText"],
                                                 items: [
                                                   {
                                                     type: "RichText",
@@ -2782,8 +2726,7 @@ export const demoConfig: Config<"monolith"> = {
                                           marginLeftSuffix: "px",
                                           margin: 0,
                                           tabsState: "tabNormal",
-                                          tabsCurrentElement:
-                                            "tabCurrentElement",
+                                          tabsCurrentElement: "tabCurrentElement",
                                           tabsColor: "tabOverlay",
                                           tabletMarginLeft: 30,
                                           tabletMarginLeftSuffix: "px",
@@ -3048,10 +2991,7 @@ export const demoConfig: Config<"monolith"> = {
                                                       type: "Text",
                                                       label: "Your Name",
                                                       required: "on",
-                                                      options: [
-                                                        "Option 1",
-                                                        "Option 2",
-                                                      ],
+                                                      options: ["Option 1", "Option 2"],
                                                       _id: "mimzwtumhnequciecknhcqulwdksikbxpdwu",
                                                       placeholder: "Your Name",
                                                     },
@@ -3062,10 +3002,7 @@ export const demoConfig: Config<"monolith"> = {
                                                       type: "Email",
                                                       label: "Your Email",
                                                       required: "off",
-                                                      options: [
-                                                        "Option 1",
-                                                        "Option 2",
-                                                      ],
+                                                      options: ["Option 1", "Option 2"],
                                                       _id: "csnlavyiyolrpyqqzxfhnvjyjezpdwftyzfo",
                                                       placeholder: "Your Email",
                                                     },
@@ -3076,10 +3013,7 @@ export const demoConfig: Config<"monolith"> = {
                                                       type: "Paragraph",
                                                       label: "Message",
                                                       required: "off",
-                                                      options: [
-                                                        "Option 1",
-                                                        "Option 2",
-                                                      ],
+                                                      options: ["Option 1", "Option 2"],
                                                       _id: "kuutftbtaijiawxtunldsiikepscirixmbke",
                                                       placeholder: "Message",
                                                     },
@@ -3090,8 +3024,7 @@ export const demoConfig: Config<"monolith"> = {
                                                 tabsState: "",
                                                 tabsColor: "",
                                                 borderColorPalette: "color7",
-                                                tempBorderColorPalette:
-                                                  "color7",
+                                                tempBorderColorPalette: "color7",
                                                 borderColorOpacity: 1,
                                                 borderStyle: "solid",
                                                 borderWidth: 1,
@@ -3316,10 +3249,7 @@ export const demoConfig: Config<"monolith"> = {
                                 {
                                   type: "Cloneable",
                                   value: {
-                                    _styles: [
-                                      "wrapper-clone",
-                                      "wrapper-clone--icon",
-                                    ],
+                                    _styles: ["wrapper-clone", "wrapper-clone--icon"],
                                     items: [
                                       {
                                         type: "Icon",
@@ -4202,6 +4132,11 @@ export const demoConfig: Config<"monolith"> = {
           ]);
         },
       },
+    },
+  },
+  elements: {
+    video: {
+      types: [VideoTypes.youtube, VideoTypes.vimeo, VideoTypes.url, VideoTypes.custom],
     },
   },
   pagePreview: "https://pages.demo.brizylocal.com/preview.html",
