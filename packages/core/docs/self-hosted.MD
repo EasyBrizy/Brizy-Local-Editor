@@ -155,6 +155,14 @@ type config = {
     };
   };
 
+  // Elements
+  elements?: {
+    video?: {
+      types: Array<VideoTypes>
+    }
+  };
+
+
   // API
   api?: {
     /// Media
@@ -339,6 +347,14 @@ export interface Theme {
     "--light-gray"?: string;
   };
 }
+// Elements
+/// Video
+export enum VideoTypes {
+  "youtube" = "youtube",
+  "vimeo" = "vimeo",
+  "custom" = "custom",
+  "url" = "url",
+}
 ```
 
 Config can be passed as an object when you initialize the editor from the script.
@@ -400,6 +416,12 @@ Dynamic content can be configured in 2 ways
 | ui.leftSidebar.bottomTabsOrder        | Array   | Lets you control the order and turning on or off the [icons in the left sidebar at the bottom](https://user-images.githubusercontent.com/10077249/206904746-f23a8b8d-ed58-4c20-b036-d204efc94437.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.                                                                                                                                        |
 | ui.leftSidebar.more.options           | Array   | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar.                                                                                                                                                                                                                                                                                                                                               |
 | ui.leftSidebar.modulesGroups          | Array   | Lets you control the elements and turing on or off the [icons in the addElements](https://user-images.githubusercontent.com/18303258/230393691-1f0e5198-43e7-43ee-ab06-8d8d0f5f9c03.png) in the left sidebar. The default arrangement you can see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/self-hosted.MD#default-modulesgroup)                                                                                                                                             |
+
+### Elements parameters
+
+| Name                 | Type   | Description                                                                                                                                                                                                                                                                                                  |
+|:---------------------|:-------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| elements.video.types | Array  | Lets you control the order and turning on or off the [video types](https://github.com/EasyBrizy/Brizy-Local-Editor/assets/18303258/77c8b1d5-1708-4cdf-a3db-b63e87730ade). Can take the values: "**youtube**", "**vimeo**", "**custom**" and "**url**". Leave "**youtube**" if you want to have only youtube. |
 
 ### API parameters
 

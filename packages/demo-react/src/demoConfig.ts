@@ -1,3 +1,4 @@
+import { VideoTypes } from "@builder/core/build/es/types/types";
 import { Config } from "./hooks/useEditor/types";
 
 export const demoConfig: Config<"monolith"> = {
@@ -108,11 +109,7 @@ export const demoConfig: Config<"monolith"> = {
                                 {
                                   type: "Button",
                                   value: {
-                                    _styles: [
-                                      "story-button",
-                                      "story-form-button",
-                                      "submit",
-                                    ],
+                                    _styles: ["story-button", "story-form-button", "submit"],
                                     _id: "gcoletzjbdmzkwmwurqbhruzgaviofnojbwd",
                                     offsetY: 38,
                                     offsetX: 0,
@@ -853,6 +850,11 @@ export const demoConfig: Config<"monolith"> = {
     },
   },
   htmlOutputType: "monolith",
+  elements: {
+    video: {
+      types: [VideoTypes.youtube, VideoTypes.vimeo, VideoTypes.url, VideoTypes.custom],
+    },
+  },
   integration: {
     form: {
       action: "https://reqbin.com/sample/post/json",
