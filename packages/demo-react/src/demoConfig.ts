@@ -1,3 +1,4 @@
+import { VideoTypes } from "@builder/core/build/es/types/types";
 import { Config } from "./hooks/useEditor/types";
 
 export const demoConfig: Config<"monolith"> = {
@@ -349,10 +350,7 @@ export const demoConfig: Config<"monolith"> = {
                                                 type: "Email",
                                                 label: "Email",
                                                 required: "on",
-                                                options: [
-                                                  "Option 1",
-                                                  "Option 2",
-                                                ],
+                                                options: ["Option 1", "Option 2"],
                                                 _id: "pvmfxbjrnzxbccwbcqeknaptsiemoxomrmkd",
                                               },
                                             },
@@ -362,10 +360,7 @@ export const demoConfig: Config<"monolith"> = {
                                                 type: "Text",
                                                 label: "Subject",
                                                 required: "off",
-                                                options: [
-                                                  "Option 1",
-                                                  "Option 2",
-                                                ],
+                                                options: ["Option 1", "Option 2"],
                                                 placeholder: "Subject",
                                                 _id: "geuvravbggcrqdgjcaaktgtyswglthyhipev",
                                               },
@@ -376,10 +371,7 @@ export const demoConfig: Config<"monolith"> = {
                                                 type: "Paragraph",
                                                 label: "Message",
                                                 required: "off",
-                                                options: [
-                                                  "Option 1",
-                                                  "Option 2",
-                                                ],
+                                                options: ["Option 1", "Option 2"],
                                                 placeholder: "Message",
                                                 height: 90,
                                                 heightSuffix: "",
@@ -1522,6 +1514,11 @@ export const demoConfig: Config<"monolith"> = {
           ]);
         },
       },
+    },
+  },
+  elements: {
+    video: {
+      types: [VideoTypes.youtube, VideoTypes.url, VideoTypes.vimeo, VideoTypes.custom],
     },
   },
   pagePreview: "https://popup.demo.brizylocal.com/preview.html",
