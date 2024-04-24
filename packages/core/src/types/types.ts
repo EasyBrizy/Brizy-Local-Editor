@@ -112,7 +112,7 @@ export interface ConfigDCItem extends BaseDCItem {
 
 export interface DCHandlerExtra {
   keyCode?: string;
-  placeholder : string,
+  placeholder: string;
 }
 
 interface DCItemHandler {
@@ -204,6 +204,18 @@ export enum StoryElementTypes {
 
 //#endregion
 
+//#region Elements
+
+// Video
+export enum VideoTypes {
+  "youtube" = "youtube",
+  "vimeo" = "vimeo",
+  "custom" = "custom",
+  "url" = "url",
+}
+
+//#endregion
+
 export type Response<R> = (r: R) => void;
 
 export type OnSave = <T extends HtmlOutputType>(output: Output<T>) => void;
@@ -290,6 +302,13 @@ export interface Config<T extends HtmlOutputType> {
     };
 
     //#endregion
+  };
+
+  // Elements
+  elements?: {
+    video?: {
+      types: Array<VideoTypes>;
+    };
   };
 
   // API

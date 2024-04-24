@@ -96,6 +96,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, t
       pageData: config.pageData,
       projectData: config.projectData,
       pagePreview: config.pagePreview,
+      elements: config.elements,
       ui: config.ui,
       token: token,
       api: config.api,
