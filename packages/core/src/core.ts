@@ -48,7 +48,7 @@ import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { PublishData } from "@/types/publish";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import { Kit, Popup, StoryTemplate, Template } from "@/types/templates";
-import { BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
+import { AutoSaveOutput, BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
 import { createOutput } from "@/utils/createOutput";
 import { v4 as uuid } from "uuid";
 
@@ -155,6 +155,9 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             if (typeof onSaveCallback === "function") {
               onSaveCallback(_output);
             }
+          },
+          [ActionTypes.autoSave]: (output: AutoSaveOutput) => {
+            config.onAutoSave?.(output);
           },
           [ActionTypes.onLoad]: () => {
             destroyLoader(spinner, container);

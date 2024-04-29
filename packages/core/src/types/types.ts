@@ -50,7 +50,13 @@ export interface BuilderOutput {
   mode: Modes;
 }
 
+export interface AutoSaveOutput {
+  pageData: PageData;
+  projectData: ProjectData;
+}
+
 export type OnSave<T extends HtmlOutputType> = (output: Output<T>) => void;
+export type OnAutoSave<T extends HtmlOutputType> = (output: Output<T>) => void;
 
 export interface Config<T extends HtmlOutputType> {
   mode?: Modes;
@@ -144,6 +150,7 @@ export interface Config<T extends HtmlOutputType> {
   //#region Events
 
   onSave?: OnSave<T>;
+  onAutoSave?: OnAutoSave<T>;
   onLoad?: VoidFunction;
 
   //#endregion

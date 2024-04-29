@@ -184,6 +184,8 @@ type config = {
   };
 
   onSave?: (data: Output) => void;
+  onAutoSave?: (res: AutoSave) => void;
+  autoSaveInterval?: number;
   onLoad?: VoidFunction;
 };
 
