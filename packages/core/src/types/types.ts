@@ -40,7 +40,12 @@ export interface BuilderOutput {
   mode: BuilderModes;
 }
 
+export interface AutoSaveOutput {
+  pageData?: PageData;
+  projectData?: ProjectData;
+}
 export type OnSave = (output: Output) => void;
+export type OnAutoSave = (output: AutoSaveOutput) => void;
 
 export interface Config {
   mode?: Modes;
@@ -138,6 +143,7 @@ export interface Config {
   //#region Events
 
   onSave?: OnSave;
+  onAutoSave?: OnAutoSave;
   onLoad?: VoidFunction;
 
   //#endregion

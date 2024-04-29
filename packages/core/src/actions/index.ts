@@ -13,6 +13,7 @@ export {
   dcPlaceholderRes,
   dcPlaceholderRej,
 } from "./dc";
+export { autoSave } from "./autoSave";
 export {
   templateKitsMetaRes,
   templateKitsMetaRej,

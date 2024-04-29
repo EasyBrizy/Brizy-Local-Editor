@@ -5,6 +5,7 @@ import {
   addFileRes,
   addMediaRej,
   addMediaRes,
+  autoSave,
   createScreenshotsRej,
   createScreenshotsRes,
   dcImageRej,
@@ -51,7 +52,7 @@ import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { PublishData } from "@/types/publish";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import { KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
-import { BuilderOutput, Init, OnSave, Target } from "@/types/types";
+import { AutoSaveOutput, BuilderOutput, Init, OnSave, Target } from "@/types/types";
 import { createOutput } from "@/utils/createOutput";
 import { Dictionary } from "@/utils/types";
 import { v4 as uuid } from "uuid";
@@ -59,6 +60,7 @@ import { v4 as uuid } from "uuid";
 const actions = {
   init,
   save,
+  autoSave,
   addMediaRes,
   addMediaRej,
   addFileRes,
@@ -163,6 +165,9 @@ export const Core: Init = (token, config, cb) => {
             if (typeof onSaveCallback === "function") {
               onSaveCallback(_output);
             }
+          },
+          [ActionTypes.autoSave]: (output: AutoSaveOutput) => {
+            config.onAutoSave?.(output);
           },
           [ActionTypes.onLoad]: () => {
             destroyLoader(spinner, container);
