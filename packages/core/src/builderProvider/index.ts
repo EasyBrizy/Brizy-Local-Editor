@@ -27,6 +27,8 @@ import { subscriber } from "./subscriber";
       assets: origin + "/dist/free",
       worker: origin + "/dist/free/editor/js",
       templateFonts: origin + "/dist/free/editor/icons",
+      templateIcons: origin + "/dist/free/editor/icons",
+      compileTemplateIcons: origin + "/dist/free/editor/icons",
     },
     editorVersion: "no-verify",
     menuData: [],
