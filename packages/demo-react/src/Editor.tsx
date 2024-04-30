@@ -1,4 +1,4 @@
-import { Kit, Popup, StoryTemplate, Template } from "@builder/core/build/es/types/templates";
+import { BlockWithThumbs, KitType, Kits, Popup, StoryTemplate, Template } from "@builder/core/build/es/types/templates";
 import React, { useReducer, useRef } from "react";
 import { demoConfig } from "./demoConfig";
 import { useEditor } from "./hooks/useEditor";
@@ -38,6 +38,9 @@ export const Editor = () => {
           },
         },
       },
+      getPlaceholderData(res, rej, extra) {
+        res({ test: ["test1"] });
+      },
     },
 
     api: {
@@ -60,28 +63,61 @@ export const Editor = () => {
       },
 
       defaultKits: {
-        async getMeta(res, rej) {
+        async getKits(res, rej) {
+          try {
+            const kits = await fetch(`${templates}/kits/meta.json`)
+              .then((r) => r.json())
+              .then((data) =>
+                data.map((kit: { id: string; name: string }) => ({
+                  id: kit.id,
+                  title: kit.name,
+                })),
+              );
+
+            res(kits);
+          } catch (e) {
+            rej("Failed to load Kits");
+          }
+        },
+        async getMeta(res, rej, kit) {
           try {
             const kitsUrl = `${templates}/kits`;
-            const meta: Array<Kit> = await fetch(`${kitsUrl}/meta.json`).then((r) => r.json());
+            const kits = await fetch(`${kitsUrl}/meta.json`).then((r) => r.json());
 
-            const data = meta.map((kit) => ({
-              ...kit,
-              blocks: kit.blocks.map((item) => ({
-                ...item,
-                thumbnailSrc: `${kitsUrl}/thumbs/${item.id}.jpg`,
-              })),
-            }));
+            const _kit = kits.find((item: Kits) => item.id === kit.id);
 
-            res(data);
+            const blocks = _kit?.blocks.map(
+              ({ id, cat, pro, title, keywords, thumbnailWidth, thumbnailHeight, type, blank }: BlockWithThumbs) => ({
+                id,
+                cat,
+                title,
+                type,
+                keywords,
+                thumbnailHeight,
+                thumbnailWidth,
+                thumbnailSrc: `${templates}/kits/thumbs/${id}.jpg`,
+                pro: pro ?? false,
+                kitId: kit.id,
+                blank,
+              }),
+            );
+
+            res({
+              id: kit.id,
+              blocks,
+              categories: _kit.categories,
+              types: _kit.types as KitType[],
+              name: kit.title,
+              styles: _kit.styles,
+            });
           } catch (e) {
             rej("Failed to load meta.json");
           }
         },
-        async getData(res, rej, id) {
+        async getData(res, rej, kit) {
           const kitsUrl = `${templates}/kits`;
           try {
-            const data = await fetch(`${kitsUrl}/resolves/${id}.json`).then((r) => r.json());
+            const data = await fetch(`${kitsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
             res(data);
           } catch (e) {
             rej("Failed to load resolves for selected DefaultTemplate");
@@ -108,10 +144,10 @@ export const Editor = () => {
             rej("Failed to load meta.json");
           }
         },
-        async getData(res, rej, id) {
+        async getData(res, rej, kit) {
           const popupsUrl = `${templates}/popups`;
           try {
-            const data = await fetch(`${popupsUrl}/resolves/${id}.json`).then((r) => r.json());
+            const data = await fetch(`${popupsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
             res(data);
           } catch (e) {
             rej("Failed to load resolves for selected DefaultTemplate");

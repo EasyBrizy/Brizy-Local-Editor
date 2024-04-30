@@ -11,6 +11,8 @@ import {
   dcImageRes,
   dcLinkRej,
   dcLinkRes,
+  dcPlaceholderRej,
+  dcPlaceholderRes,
   dcRichTextRej,
   dcRichTextRes,
   formFieldsRej,
@@ -39,17 +41,19 @@ import {
   updateScreenshotsRej,
   updateScreenshotsRes,
 } from "@/actions";
+import { templateKitsRej, templateKitsRes } from "@/actions/templates";
 import { ActionTypes } from "@/actions/types";
 import { AddFileData, AddFileExtra } from "@/types/customFile";
-import { BaseDCItem, DCHandlerExtra } from "@/types/dynamicContent";
+import { BaseDCItem, DCHandlerExtra, DCPlaceholdersExtra } from "@/types/dynamicContent";
 import { FormFieldsOption } from "@/types/form";
 import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { PublishData } from "@/types/publish";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
-import { Kit, Popup, StoryTemplate, Template } from "@/types/templates";
+import { KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
 import { BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
 import { createOutput } from "@/utils/createOutput";
+import { Dictionary } from "@/utils/types";
 import { v4 as uuid } from "uuid";
 
 const actions = {
@@ -67,6 +71,10 @@ const actions = {
   dcImageRej,
   dcLinkRes,
   dcLinkRej,
+  dcPlaceholderRes,
+  dcPlaceholderRej,
+  templateKitsRes,
+  templateKitsRej,
   templateKitsMetaRes,
   templateKitsMetaRej,
   templateKitsDataRes,
@@ -164,7 +172,6 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const { api = {} } = config;
             const { media = {} } = api;
             const handler = media.addMedia?.handler;
-
             if (typeof handler === "function") {
               const res = (r: AddMediaData) => {
                 iframeWindow.postMessage(actions.addMediaRes(r, uid), targetOrigin);
@@ -261,22 +268,53 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
 
             link.handler(res, rej, extra);
           },
-          [ActionTypes.templateKitsMeta]: () => {
+          [ActionTypes.dcPlaceholderData]: (extra: DCPlaceholdersExtra) => {
+            const { getPlaceholderData } = config.dynamicContent ?? {};
+
+            if (typeof getPlaceholderData !== "function") {
+              return;
+            }
+            const res = (r: Dictionary<string>) => {
+              iframeWindow.postMessage(actions.dcPlaceholderRes(r, uid), targetOrigin);
+            };
+
+            const rej = (r: string) => {
+              iframeWindow.postMessage(actions.dcPlaceholderRej(r, uid), targetOrigin);
+            };
+
+            getPlaceholderData(res, rej, extra);
+          },
+          [ActionTypes.templateKits]: () => {
+            const { api = {} } = config;
+            const { defaultKits } = api;
+            const getKits = defaultKits?.getKits;
+
+            if (typeof getKits === "function") {
+              const res = (r: Array<KitItem>) => {
+                iframeWindow.postMessage(actions.templateKitsRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateKitsMetaRej(r, uid), targetOrigin);
+              };
+              getKits(res, rej);
+            }
+          },
+          [ActionTypes.templateKitsMeta]: (kit: KitItem) => {
             const { api = {} } = config;
             const { defaultKits } = api;
             const getMeta = defaultKits?.getMeta;
 
             if (typeof getMeta === "function") {
-              const res = (r: Array<Kit>) => {
+              const res = (r: KitsWithThumbs) => {
                 iframeWindow.postMessage(actions.templateKitsMetaRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.templateKitsMetaRej(r, uid), targetOrigin);
               };
-              getMeta(res, rej);
+              getMeta(res, rej, kit);
             }
           },
-          [ActionTypes.templateKitsData]: (blockId: string) => {
+          [ActionTypes.templateKitsData]: (kit: KitItem) => {
             const { api = {} } = config;
             const { defaultKits } = api;
             const getData = defaultKits?.getData;
@@ -288,7 +326,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.templateKitsDataRej(r, uid), targetOrigin);
               };
-              getData(res, rej, blockId);
+              getData(res, rej, kit);
             }
           },
           [ActionTypes.templatePopupsMeta]: () => {
@@ -306,7 +344,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               getMeta(res, rej);
             }
           },
-          [ActionTypes.templatePopupsData]: (popupId: string) => {
+          [ActionTypes.templatePopupsData]: (kit: KitItem) => {
             const { api = {} } = config;
             const { defaultPopups } = api;
             const getData = defaultPopups?.getData;
@@ -318,7 +356,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.templatePopupsDataRej(r, uid), targetOrigin);
               };
-              getData(res, rej, popupId);
+              getData(res, rej, kit);
             }
           },
           [ActionTypes.templateLayoutsMeta]: () => {
@@ -336,7 +374,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               getMeta(res, rej);
             }
           },
-          [ActionTypes.templateLayoutsData]: (layoutId: string) => {
+          [ActionTypes.templateLayoutsData]: (id: string) => {
             const { api = {} } = config;
             const { defaultLayouts } = api;
             const getData = defaultLayouts?.getData;
@@ -348,7 +386,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.templateLayoutsDataRej(r, uid), targetOrigin);
               };
-              getData(res, rej, layoutId);
+              getData(res, rej, id);
             }
           },
           [ActionTypes.templateStoriesMeta]: () => {
@@ -366,7 +404,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               getMeta(res, rej);
             }
           },
-          [ActionTypes.templateStoriesData]: (storyId: string) => {
+          [ActionTypes.templateStoriesData]: (id: string) => {
             const { api = {} } = config;
             const { defaultStories } = api;
             const getData = defaultStories?.getData;
@@ -378,7 +416,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.templateStoriesDataRej(r, uid), targetOrigin);
               };
-              getData(res, rej, storyId);
+              getData(res, rej, id);
             }
           },
           [ActionTypes.createScreenshots]: (extra: ScreenshotExtra) => {

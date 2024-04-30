@@ -1,48 +1,113 @@
+import { Literal } from "@/utils/types";
 import { Response } from "./common";
 
-interface DefaultTemplate<T1, T2> {
+interface DefaultTemplate<T1> {
   label?: string;
   getMeta: (res: Response<T1>, rej: Response<string>) => void;
-  getData: (res: Response<T2>, rej: Response<string>, blockId: string) => void;
+}
+export interface Block {
+  id: string;
+  cat: Array<Literal>;
+  title: string;
+  keywords: string;
+  thumbnailWidth: number;
+  thumbnailHeight: number;
+  type: Literal;
+  blank?: string;
+  position?: number;
+  pro?: boolean;
+  kitId: string;
+}
+
+export interface Categories {
+  id: Literal;
+  slug: string;
+  title: string;
+  hidden?: boolean;
+}
+interface Palette {
+  id: string;
+  hex: string;
+}
+
+type fontSizeUnits = "px" | "%";
+
+interface FontStyle {
+  id: Literal;
+  title: string;
+  deletable: "on" | "off";
+  fontFamily: string;
+  fontFamilyType: string;
+  fontSize: number;
+  fontSizeSuffix?: fontSizeUnits;
+  fontWeight: number;
+  letterSpacing: number;
+  lineHeight: number;
+  mobileFontSize: number;
+  mobileFontSizeSuffix?: fontSizeUnits;
+  mobileFontWeight: number;
+  mobileLetterSpacing: number;
+  mobileLineHeight: number;
+  tabletFontSize: number;
+  tabletFontSizeSuffix?: fontSizeUnits;
+  tabletFontWeight: number;
+  tabletLetterSpacing: number;
+  tabletLineHeight: number;
+}
+export interface Style {
+  id: string;
+  title: string;
+  colorPalette: Array<Palette>;
+  fontStyles: Array<FontStyle>;
 }
 
 //#region DefaultKits
 
-type KitTypeID = Symbol;
-type KitCategoryID = Symbol;
-
-interface KitBlock {
+export interface Kits {
+  blocks: Array<Block>;
+  categories: Array<Categories>;
   id: string;
-  title: string;
-  thumbnailWidth: number;
-  thumbnailHeight: number;
+  name: string;
+  styles: Array<Style>;
+  types: Array<Record<string, unknown>>;
+}
+
+export interface BlockWithThumbs extends Block {
   thumbnailSrc: string;
-  type: KitTypeID;
-  cat: Array<KitCategoryID>;
+}
+export interface KitsWithThumbs extends Omit<Kits, "blocks"> {
+  blocks: Array<BlockWithThumbs>;
 }
 
-interface KitType {
-  id: KitTypeID;
-  name: string;
-  title: string;
-  icon: string;
-}
-
-interface KitCategory {
-  id: KitCategoryID;
+export type Kit = {
+  categories: string;
+  pro: string;
+  theme: string;
   slug: string;
-  title: string;
-}
+  thumbnail: string;
+  keywords: string;
+  thumbnailHeight: number;
+  thumbnailWidth: number;
+};
 
-export interface Kit {
+export type KitType = {
+  title: string;
   id: string;
   name: string;
-  blocks: Array<KitBlock>;
-  types: Array<KitType>;
-  categories: Array<KitCategory>;
-}
+  icon: string;
+};
 
-export type DefaultKits = DefaultTemplate<Array<Kit>, Record<string, unknown>>;
+export type KitItem = {
+  id: string;
+  title: string;
+};
+
+export interface DefaultKits {
+  label?: string;
+  getKits: (res: Response<Array<KitItem>>, rej: Response<string>) => void;
+  getMeta: (res: Response<KitsWithThumbs>, rej: Response<string>, kit: KitItem) => void;
+  getData: (res: Response<Record<string, unknown>>, rej: Response<string>, id: KitItem) => void;
+}
 
 //#endregion
 
@@ -70,7 +135,9 @@ export interface Popup {
   categories: Array<PopupCategory>;
 }
 
-export type DefaultPopups = DefaultTemplate<Popup, Record<string, unknown>>;
+export interface DefaultPopups extends DefaultTemplate<Popup> {
+  getData: (res: Response<Record<string, unknown>>, rej: Response<string>, id: KitItem) => void;
+}
 
 //#endregion
 
@@ -106,7 +173,9 @@ export interface Template {
   categories: Array<LayoutCategory>;
 }
 
-export type DefaultLayouts = DefaultTemplate<Template, Record<string, unknown>>;
+export interface DefaultLayouts extends DefaultTemplate<Template> {
+  getData: (res: Response<Record<string, unknown>>, rej: Response<string>, id: string) => void;
+}
 
 //#endregion
 
@@ -142,6 +211,8 @@ export interface StoryTemplate {
   categories: Array<StoryCategory>;
 }
 
-export type DefaultStories = DefaultTemplate<StoryTemplate, Record<string, unknown>>;
+export interface DefaultStories extends DefaultTemplate<StoryTemplate> {
+  getData: (res: Response<Record<string, unknown>>, rej: Response<string>, id: string) => void;
+}
 
 //#endregion

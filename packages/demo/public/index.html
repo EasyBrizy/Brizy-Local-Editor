@@ -75,7 +75,7 @@
       const bucketRegion = "REGION";
       const IdentityPoolId = "IDENTITY_POOL_ID";
       const AWS = window.AWS;
-      const templates = "https://e-t-cloud.b-cdn.net/1.0.0"
+      const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
 
       const createUpload = (accept) => {
         let lock = false;
@@ -912,32 +912,61 @@
             },
 
             defaultKits: {
-              async getMeta(res, rej) {
+              async getKits(res, rej) {
+                try {
+                  const kits = await fetch(`${templates}/kits/meta.json`)
+                    .then((r) => r.json())
+                    .then((data) =>
+                      data.map((kit) => ({
+                        id: kit.id,
+                        title: kit.name,
+                      })),
+                    );
+
+                  res(kits);
+                } catch (e) {
+                  rej("Failed to load Kits");
+                }
+              },
+              async getMeta(res, rej, kit) {
                 try {
                   const kitsUrl = `${templates}/kits`;
-                  const meta = await fetch(`${kitsUrl}/meta.json`).then(
-                    (r) => r.json(),
+                  const kits = await fetch(`${kitsUrl}/meta.json`).then((r) => r.json());
+
+                  const _kit = kits.find((item) => item.id === kit.id);
+
+                  const blocks = _kit?.blocks.map(
+                    ({ id, cat, pro, title, keywords, thumbnailWidth, thumbnailHeight, type, blank }) => ({
+                      id,
+                      cat,
+                      title,
+                      type,
+                      keywords,
+                      thumbnailHeight,
+                      thumbnailWidth,
+                      thumbnailSrc: `${templates}/kits/thumbs/${id}.jpg`,
+                      pro: pro ?? false,
+                      kitId: kit.id,
+                      blank,
+                    }),
                   );
 
-                  const data = meta.map((kit) => ({
-                    ...kit,
-                    blocks: kit.blocks.map((item) => ({
-                      ...item,
-                      thumbnailSrc: `${kitsUrl}/thumbs/${item.id}.jpg`,
-                    })),
-                  }));
-
-                  res(data);
+                  res({
+                    id: kit.id,
+                    blocks,
+                    categories: _kit.categories,
+                    types: _kit.types,
+                    name: kit.title,
+                    styles: _kit.styles,
+                  });
                 } catch (e) {
                   rej("Failed to load meta.json");
                 }
               },
-              async getData(res, rej, id) {
+              async getData(res, rej, kit) {
                 const kitsUrl = `${templates}/kits`;
                 try {
-                  const data = await fetch(`${kitsUrl}/resolves/${id}.json`).then((r) =>
-                    r.json(),
-                  );
+                  const data = await fetch(`${kitsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
                   res(data);
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");
@@ -949,9 +978,7 @@
                 const popupsUrl = `${templates}/popups`;
 
                 try {
-                  const meta = await fetch(`${popupsUrl}/meta.json`).then((r) =>
-                    r.json(),
-                  );
+                  const meta = await fetch(`${popupsUrl}/meta.json`).then((r) => r.json());
 
                   const data = {
                     ...meta,
@@ -966,12 +993,10 @@
                   rej("Failed to load meta.json");
                 }
               },
-              async getData(res, rej, id) {
+              async getData(res, rej, kit) {
                 const popupsUrl = `${templates}/popups`;
                 try {
-                  const data = await fetch(`${popupsUrl}/resolves/${id}.json`).then((r) =>
-                    r.json(),
-                  );
+                  const data = await fetch(`${popupsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
                   res(data);
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");
@@ -982,9 +1007,7 @@
               async getMeta(res, rej) {
                 const layoutsUrl = `${templates}/layouts`;
                 try {
-                  const meta = await fetch(`${layoutsUrl}/meta.json`).then((r) =>
-                    r.json(),
-                  );
+                  const meta = await fetch(`${layoutsUrl}/meta.json`).then((r) => r.json());
 
                   const data = {
                     ...meta,
@@ -1006,9 +1029,7 @@
               async getData(res, rej, id) {
                 const layoutsUrl = `${templates}/layouts`;
                 try {
-                  const data = await fetch(`${layoutsUrl}/resolves/${id}.json`).then(
-                    (r) => r.json(),
-                  );
+                  const data = await fetch(`${layoutsUrl}/resolves/${id}.json`).then((r) => r.json());
 
                   res(data);
                 } catch (e) {
@@ -1020,9 +1041,7 @@
               async getMeta(res, rej) {
                 const storiesUrl = `${templates}/stories`;
                 try {
-                  const meta = await fetch(`${storiesUrl}/meta.json`).then((r) =>
-                    r.json(),
-                  );
+                  const meta = await fetch(`${storiesUrl}/meta.json`).then((r) => r.json());
 
                   const data = {
                     ...meta,
@@ -1044,9 +1063,7 @@
               async getData(res, rej, id) {
                 const storiesUrl = `${templates}/stories`;
                 try {
-                  const data = await fetch(`${storiesUrl}/resolves/${id}.json`).then(
-                    (r) => r.json(),
-                  );
+                  const data = await fetch(`${storiesUrl}/resolves/${id}.json`).then((r) => r.json());
                   res(data);
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");

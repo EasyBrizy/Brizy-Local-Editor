@@ -1,10 +1,20 @@
-import { Kit, Popup, StoryTemplate, Template } from "@/types/templates";
+import { Kit, KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
 import { ActionResolve, Target } from "@/types/types";
 import { ActionTypes } from "./types";
 
 //#region Kits
+export const templateKitsRes = (r: Array<KitItem>, uid: string): ActionResolve => ({
+  uid,
+  target: Target.builder,
+  data: JSON.stringify({ type: ActionTypes.templateKitsRes, data: r }),
+});
+export const templateKitsRej = (r: Array<Kit>, uid: string): ActionResolve => ({
+  uid,
+  target: Target.builder,
+  data: JSON.stringify({ type: ActionTypes.templateKitsRej, data: r }),
+});
 
-export const templateKitsMetaRes = (r: Array<Kit>, uid: string): ActionResolve => ({
+export const templateKitsMetaRes = (r: KitsWithThumbs, uid: string): ActionResolve => ({
   uid,
   target: Target.builder,
   data: JSON.stringify({ type: ActionTypes.templateKitsMetaRes, data: r }),

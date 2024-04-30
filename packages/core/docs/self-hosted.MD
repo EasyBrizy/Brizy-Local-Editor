@@ -119,6 +119,14 @@ type config = {
       [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
       [DCTypes.richText]: Array<ConfigDCItem> | DCItemHandler;
     };
+    getPlaceholderData?: (
+      res: Response<ConfigDCItem>,
+      rej: Response<string>,
+      extra: {
+        placeholders: Dictionary<string[]>;
+        signal?: AbortSignal;
+      },
+    ) => void;
   };
 
   pagePreview: string;
@@ -153,8 +161,8 @@ type config = {
 
       cms?: {
         onOpen: (onClose: VoidFunction) => void;
-        onClose?: VoidFunction
-      }
+        onClose?: VoidFunction;
+      };
 
       // AddElements
       moduleGroups?: Array<{
@@ -185,26 +193,18 @@ type config = {
     };
 
     // Default Blocks | Kits | Popups | Stories
-    defaultKits?: DefaultTemplate<Array<Kits>, Block>; // More information about the type types/types.ts
-    defaultPopups?: DefaultTemplate<Popups, Popup>; // More information about the type types/types.ts
-    defaultLayouts?: DefaultTemplate<Layouts, Layout>; // More information about the type types/types.ts
+    defaultKits?: DefaultKits; // More information about the type types/types.ts
+    defaultPopups?: DefaultPopups; // More information about the type types/types.ts
+    defaultLayouts?: DefaultLayouts; // More information about the type types/types.ts
 
     // Used only in mode: story
-    defaultStories?: DefaultTemplate<Stories, Story>; // More information about the type types/types.ts
+    defaultStories?: DefaultStories; // More information about the type types/types.ts
 
     // Screebnshots
     screenshots?: {
       screenshotUrl?: string;
-      create?: (
-        res: Response<{ id: string }>,
-        rej: Response<string>,
-        extra: ScreenshotData
-      ) => void;
-      update?: (
-        res: Response<{ id: string }>,
-        rej: Response<string>,
-        extra: ScreenshotData & { id: string }
-      ) => void;
+      create?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData) => void;
+      update?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData & { id: string }) => void;
     };
   };
 
@@ -266,18 +266,21 @@ export enum DCTypes {
   link = "link",
   richText = "richText",
 }
+
 interface BaseDCItem {
   label: string;
   placeholder: string;
 }
+
 export interface ConfigDCItem extends BaseDCItem {
   optgroup?: ConfigDCItem[];
 }
+
 interface DCItemHandler {
   handler: (
     res: Response<BaseDCItem>,
     rej: Response<string>,
-    extra?: { keyCode?: string, placeholder: string, label: string }
+    extra?: { keyCode?: string; placeholder: string; label: string },
   ) => void;
 }
 
@@ -285,6 +288,7 @@ interface DCItemHandler {
 export interface AddMediaData {
   fileName: string; // fileName need contain .ext
 }
+
 export interface AddMediaExtra {
   acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
 }
@@ -333,7 +337,7 @@ export enum BaseElementTypes {
   Twitter = "Twitter",
   FacebookComments = "FacebookComments",
   Columns = "Columns",
-  Row = "Row"
+  Row = "Row",
 }
 
 /// Story Elements used only in Story mode, these elements doesn't work in Page, Popup
@@ -352,7 +356,7 @@ export enum StoryElementTypes {
   StoryStarRating = "StoryStarRating",
   StoryLottie = "StoryLottie",
   StoryImage = "StoryImage",
-  StoryVideo = "StoryVideo"
+  StoryVideo = "StoryVideo",
 }
 
 // Theme
@@ -376,11 +380,7 @@ export interface Theme {
 export interface DefaultTemplate<T1, T2> {
   label?: string;
   getMeta: (res: Response<T1>, rej: Response<string>) => void;
-  getData: (
-    res: Response<Promise<T2>>,
-    rej: Response<string>,
-    blockId: string
-  ) => void;
+  getData: (res: Response<Promise<T2>>, rej: Response<string>, blockId: string) => void;
 }
 
 // Screenshots
@@ -393,7 +393,7 @@ export interface ScreenshotData {
 Config can be passed as an object when you initialize the editor from the script.
 
 | Name           | Type                     | Description                                                    |
-|:---------------|:-------------------------|:---------------------------------------------------------------|
+| :------------- | :----------------------- | :------------------------------------------------------------- |
 | container      | HTMLElement              | Brizy Plugin will load into HTML element.                      |
 | mode           | "page", "popup", "story" | Default "page"                                                 |
 | htmlOutputType | "monolith" or "partial"  | Default "monolith"                                             |
@@ -403,17 +403,19 @@ Config can be passed as an object when you initialize the editor from the script
 
 ### Integration parameters
 
-| Name                               | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|:-----------------------------------|:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| integration.form.action            | string     | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                  |
-| integration.form.recaptcha.siteKey | string     | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| integration.form.fields.label      | string     | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| integration.form.fields.handler    | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| Name                               | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| :--------------------------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| integration.form.action            | string   | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                  |
+| integration.form.recaptcha.siteKey | string   | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| integration.form.fields.label      | string   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| integration.form.fields.handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 ### DynamicContent parameters
+
 Builder wrapped all outside placeholder inside builder placeholder `{{ placeholder content='Base64(SOME EXTERNAL PLACEHOLDER)' }}`
 
 #### Builder added extra attributes for `placeholder`
+
 - Featured Image added **cW(Container Width)** **cH(Container Height)** if external service want to crop the image
 
 Example: `{{ placeholder content='Base64( {{ featured_image }} )' cW='200' cH='200' }}`
@@ -428,25 +430,27 @@ Dynamic content can be configured in 2 ways
 
 #### DynamicContent Array of choices
 
-| Name                                             | Type      | Description                                                                                                                                                                                                                                                                                   |
-|:-------------------------------------------------|:----------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| dynamicContent.groups[DCTypes.image]             | array     | Takes array of ConfigDCItem for all Element what persis ImageUpload                                                                                                                                                                                                                           |
-| dynamicContent.groups[DCTypes.link]              | array     | Takes array of ConfigDCItem for all Element what persis Link                                                                                                                                                                                                                                  |
-| dynamicContent.groups[DCTypes.richText]          | array     | Takes array of ConfigDCItem for all Element what persis Content html                                                                                                                                                                                                                          |
+| Name                                    | Type     | Description                                                                                                                                                                                                                                                                                                                                                            |
+| :-------------------------------------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dynamicContent.groups[DCTypes.image]    | array    | Takes array of ConfigDCItem for all Element what persis ImageUpload                                                                                                                                                                                                                                                                                                    |
+| dynamicContent.groups[DCTypes.link]     | array    | Takes array of ConfigDCItem for all Element what persis Link                                                                                                                                                                                                                                                                                                           |
+| dynamicContent.groups[DCTypes.richText] | array    | Takes array of ConfigDCItem for all Element what persis Content html                                                                                                                                                                                                                                                                                                   |
+| dynamicContent.getPlaceholderData       | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor (example of resolve: `resolve({"/collection_items/72872": ["https://test-beta1.b-cdn.net/media/original/postImage.png", "/mypost", "mypost"]})`) |
 
 2. Send a handler function that sends the placeholder over the response function
+
 #### DynamicContent Option parameters
 
-| Name                                              | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|:--------------------------------------------------|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| dynamicContent.groups[DCTypes.image].handler      | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
-| dynamicContent.groups[DCTypes.link].handler       | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
-| dynamicContent.groups[DCTypes.richText].handler   | function   | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| Name                                            | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| :---------------------------------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dynamicContent.groups[DCTypes.image].handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| dynamicContent.groups[DCTypes.link].handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| dynamicContent.groups[DCTypes.richText].handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 ### UI parameters
 
 | Name                                  | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|:--------------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :------------------------------------ | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ui.popupSettings.displayCondition     | boolean  | Takes true or false values and lets you turn on or off the global [display conditions](https://user-images.githubusercontent.com/10077249/206892163-024f4fcd-d127-4c28-8a60-ea21e3982b3c.png) option together with the [display conditions popup](https://user-images.githubusercontent.com/10077249/206892176-23ed85ee-4f66-4c83-8ebb-a64117daa124.png).                                                                                                                                                                            |
 | ui.popupSettings.deletePopup          | boolean  | Takes true or false values and lets you turn on or off the [delete popup option](https://user-images.githubusercontent.com/10077249/206904265-7e79f65f-0288-4473-be14-afb5dcea6fbb.png). Turn off the delete option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the posibility to [access the premade Brizy templates](https://user-images.githubusercontent.com/10077249/206904279-f55a472a-5508-4594-b40f-6c9d20a90bd9.png) inside the editor.             |
 | ui.popupSettings.embedded             | boolean  | Takes true of false values and lets you turn on or off [Vertical align, Horizontal align, Scroll Page Behind and Close Button](https://user-images.githubusercontent.com/18303258/212686108-a43883df-574f-4b30-b795-5d48e93b3d08.png).                                                                                                                                                                                                                                                                                               |
@@ -466,12 +470,13 @@ Dynamic content can be configured in 2 ways
 ### API parameters
 
 | Name                           | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-|:-------------------------------|:---------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :----------------------------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | api.media.mediaResizeUrl       | string   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                                                                                                                              |
 | api.media.addMedia.handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                             |
 | api.customFile.fileUrl         | string   | This is the URL for your resources the final URL will be `api.customFile.fileUrl/${fileName}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | api.customFile.addFile.handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                             |
 | api.defaultKits.label          | string   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| api.defaultKits.getKits        | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ Array of kits ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                         |
 | api.defaultKits.getMeta        | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ Array of kits with blocks ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                             |
 | api.defaultKits.getData        | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve(block.json)`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                |
 | api.defaultPopups.label        | string   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
@@ -572,6 +577,7 @@ const config = {
 ```
 
 #### Default ModulesGroup
+
 ```ts
 // Popup
 const defaultConfigModulesGroupForPopup = {
@@ -584,25 +590,11 @@ const defaultConfigModulesGroupForPopup = {
         },
         {
           label: "essentials",
-          moduleNames: [
-            "Text",
-            "Image",
-            "Button",
-            "Icon",
-            "Spacer",
-            "Map",
-            "Form2",
-            "Line",
-          ],
+          moduleNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line"],
         },
         {
           label: "media",
-          moduleNames: [
-            "ImageGallery",
-            "Video",
-            "Audio",
-            "VideoPlaylist",
-          ],
+          moduleNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
         },
         {
           label: "content",
@@ -711,162 +703,209 @@ const defaultConfigModulesGroupForPages = {
 ```
 
 #### Example API Default Kits
+
 ```ts
+export type KitItem = {
+  id: string;
+  title: string;
+};
+
 const config = {
   api: {
     defaultKits: {
-      async getMeta(res, rej) {
+      async getKits(res, rej) {
         try {
-          const meta = await fetch("https://example.com/blocks").then(
-            (r) => r.json()
-          );
-          const block = {
-            id: "block1",
-            cat: [100],  // { same of value from kits.categories }
-            title: "Block 1",
-            thumbnailWidth: 100,
-            thumbnailHeight: 100,
-            thumbnailSrc: "https://example/com/block1/picture.png",
-            type: 0, // { same of value from kits.type }
-          }
-          const kit1 = {
-            id: "kit1",
-            blocks: [block],
-            name: "Kit name 1",
-            types: [
+          const kits = await fetch("https://example.com/kits").then((r) => r.json());
+
+          res([
+            {
+              id: "kit001",
+              title: "Kit #1",
+            },
+            {
+              id: "kit002",
+              title: "Kit #2",
+            },
+          ]);
+        } catch (e) {
+          rej("Failed to load Kits");
+        }
+      },
+      async getMeta(res, rej, kit) {
+        try {
+          const meta = await fetch(`https://example.com/kits/${id}`).then((r) => r.json());
+          res({
+            blocks: [
               {
-                "id": 0,
-                "name": "light",
-                "title": "Light",
-                "icon": "nc-light"
+                id: "Kit2Starter",
+                cat: [0],
+                title: "Kit2Starter0Dark",
+                type: 1,
+                keywords: "start",
+                thumbnailHeight: 311,
+                thumbnailWidth: 600,
+                thumbnailSrc: "https://example.com/kits/images/thumb_1.jpg",
+                pro: false,
+                kitId: "kit001",
+                blank: "blank",
               },
               {
-                "id": 1,
-                "name": "dark",
-                "title": "Dark",
-                "icon": "nc-dark"
-              }
+                id: "block2kit9081",
+                cat: [2, 16],
+                title: "block2kit9081",
+                type: 1,
+                keywords: "forms,hero,image",
+                thumbnailHeight: 327,
+                thumbnailWidth: 600,
+                thumbnailSrc: "https://example.com/kits/images/thumb_2.jpg"",
+                pro: false,
+                kitId: "kit001",
+              },
             ],
             categories: [
               {
-                id: 100,
-                slug: "blog",
-                title: "Blog"
+                id: 0,
+                slug: "blank",
+                title: "Blank",
+                hidden: true,
               },
-            ]
-          }
-          const kit2 = {
-            id: "kit2",
-            blocks: [block],
-            name: "Kit name 2",
+              {
+                id: 16,
+                slug: "hero",
+                title: "Hero",
+              },
+            ],
+            id: "kit001",
+            name: "Kit #2",
+            styles: [
+              {
+                id: "style042",
+                title: "Overpass",
+                colorPalette: [
+                  {
+                    id: "color1",
+                    hex: "#A170D9",
+                  },
+                  {
+                    id: "color2",
+                    hex: "#1C1C1C",
+                  },
+                ],
+                fontStyles: [
+                  {
+                    id: "paragraph",
+                    title: "Paragraph",
+                    fontFamily: "overpass",
+                    fontFamilyType: "google",
+                    fontSize: 16,
+                    fontSizeSuffix: "px",
+                    fontWeight: 400,
+                    lineHeight: 1.9,
+                  },
+                ],
+              },
+            ],
             types: [
               {
-                "id": 0,
-                "name": "light",
-                "title": "Light",
-                "icon": "nc-light"
+                id: 1,
+                name: "dark",
+                title: "Dark",
+                icon: "nc-dark",
               },
-              {
-                "id": 1,
-                "name": "dark",
-                "title": "Dark",
-                "icon": "nc-dark"
-              }
             ],
-          }
-
-          res([kit1, kit2]);
+          });
         } catch (e) {
           rej("Failed to get json");
         }
       },
-      async getData(res, rej, id) {
+      async getData(res, rej, kit) {
         try {
-          const data = await fetch(`https://example.com/blocks/${id}.json`).then((r) =>
-            r.json()
-          );
+          const data = await fetch(`https://example.com/blocks/${kit.id}.json`).then((r) => r.json());
           res(data);
         } catch (e) {
           rej("Failed to load resolves for selected DefaultKits");
         }
       },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 #### Example API Default Popups
+
 ```ts
 const config = {
   api: {
     defaultPopups: {
       async getMeta(res, rej) {
         try {
-          const meta = await fetch("https://example.com/popups").then(
-            (r) => r.json()
-          );
-          const popup = {
-            id: "popup1",
-            cat: [100],  // { same of value from data.categories }
-            title: "Popup 1",
-            thumbnailWidth: 100,
-            thumbnailHeight: 100,
-            thumbnailSrc: "https://example/com/popup1/picture.png"
-          }
-          const popup2 = {
-            id: "popup2",
-            cat: [200],  // { same of value from data.categories }
-            title: "Popup 2",
-            thumbnailWidth: 200,
-            thumbnailHeight: 200,
-            thumbnailSrc: "https://example/com/popup2/picture.png"
-          }
-          const data = {
-            blocks: [popup, popup2],
+          const popups = await fetch("https://example.com/popups").then((r) => r.json());
+
+          res({
+            blocks: [
+              {
+                id: "popup2000",
+                thumbnailWidth: 600,
+                thumbnailHeight: 417,
+                title: "popup2000",
+                keywords: "",
+                cat: [1493],
+                type: 0,
+                pro: true,
+                thumbnailSrc: "https://example.com/popups/images/thumb_1.jpg",
+              },
+              {
+                id: "popup1773",
+                thumbnailWidth: 600,
+                thumbnailHeight: 364,
+                title: "popup1773",
+                keywords: "",
+                cat: [1579],
+                type: 0,
+                pro: true,
+                thumbnailSrc: "https://example.com/popups/images/thumb_2.jpg",
+              },
+            ],
             categories: [
               {
-                id: 100,
-                slug: "blog",
-                title: "Blog"
+                id: 1579,
+                slug: "features",
+                title: "Features",
               },
               {
-                id: 200,
-                slug: "portfolio",
-                title: "Portfolio"
+                id: 1493,
+                slug: "sale",
+                title: "Sale",
               },
-            ]
-          }
-
-          res(data);
+            ],
+          });
         } catch (e) {
           rej("Failed to get json");
         }
       },
-      async getData(res, rej, id) {
+      async getData(res, rej, kit) {
         try {
-          const data = await fetch(`https://example.com/popups/${id}.json`).then((r) =>
-            r.json()
-          );
+          const data = await fetch(`https://example.com/popups/${kit.id}.json`).then((r) => r.json());
           res(data);
         } catch (e) {
           rej("Failed to load resolves for selected DefaultPopups");
         }
       },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 #### Example API Default Layouts
+
 ```ts
 const config = {
   api: {
     defaultLayouts: {
       async getMeta(res, rej) {
         try {
-          const meta = await fetch("https://example.com/layouts").then(
-            (r) => r.json()
-          );
+          const meta = await fetch("https://example.com/layouts").then((r) => r.json());
+
           const page = {
             id: "page1",
             thumbnailWidth: 680,
@@ -874,28 +913,28 @@ const config = {
             thumbnailSrc: "https://example/com/page1/picture.png",
             title: "Homepage",
             keywords: "home, details, menu, reservation, food, lunch",
-            cat: [ 100 ]
-          }
+            cat: [100],
+          };
           const layout = {
             name: "Template Name",
             color: "#FF7102",
-            cat: [ 100 ],
-            pages: [ page ],
-            styles: [] // Global Style JSON
-          }
+            cat: [100],
+            pages: [page],
+            styles: [], // Global Style JSON
+          };
           const data = {
-            templates: [ layout ],
+            templates: [layout],
             categories: [
               {
                 id: 100,
-                title: "Business"
+                title: "Business",
               },
               {
                 id: 200,
-                title: "Travel"
+                title: "Travel",
               },
-            ]
-          }
+            ],
+          };
 
           res(data);
         } catch (e) {
@@ -904,29 +943,26 @@ const config = {
       },
       async getData(res, rej, id) {
         try {
-          const data = await fetch(`https://example.com/layouts/${id}.json`).then((r) =>
-            r.json()
-          );
+          const data = await fetch(`https://example.com/layouts/${id}.json`).then((r) => r.json());
           res(data);
         } catch (e) {
           rej("Failed to load resolves for selected DefaultLayouts");
         }
       },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 #### Example API Default Stories
+
 ```ts
 const config = {
   api: {
     defaultStories: {
       async getMeta(res, rej) {
         try {
-          const meta = await fetch("https://example.com/stories").then(
-            (r) => r.json()
-          );
+          const meta = await fetch("https://example.com/stories").then((r) => r.json());
           const page = {
             id: "story1",
             thumbnailWidth: 680,
@@ -934,28 +970,28 @@ const config = {
             thumbnailSrc: "https://example/com/story1/picture.png",
             title: "Homepage",
             keywords: "home, details, menu, reservation, food, lunch",
-            cat: [ 100 ]
-          }
+            cat: [100],
+          };
           const story = {
             name: "Story Name",
             color: "#FF7102",
-            cat: [ 100 ],
-            pages: [ page ],
-            styles: [] // Global Style JSON
-          }
+            cat: [100],
+            pages: [page],
+            styles: [], // Global Style JSON
+          };
           const data = {
-            stories: [ story ],
+            stories: [story],
             categories: [
               {
                 id: 100,
-                title: "Business"
+                title: "Business",
               },
               {
                 id: 200,
-                title: "Travel"
+                title: "Travel",
               },
-            ]
-          }
+            ],
+          };
 
           res(data);
         } catch (e) {
@@ -964,17 +1000,15 @@ const config = {
       },
       async getData(res, rej, id) {
         try {
-          const data = await fetch(`https://example.com/story/${id}.json`).then((r) =>
-            r.json()
-          );
+          const data = await fetch(`https://example.com/story/${id}.json`).then((r) => r.json());
           res(data);
         } catch (e) {
           rej("Failed to load resolves for selected DefaultStories");
         }
       },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 #### Example API Screenshots
@@ -993,7 +1027,7 @@ const config = {
         try {
           const screenshot = await fetch("https://example.com/api/screenshot", {
             method: "POST",
-            body: JSON.stringify({ image: data.base64 })
+            body: JSON.stringify({ image: data.base64 }),
           }).then((r) => r.json());
 
           res({ id: screenshot.id });
@@ -1005,7 +1039,7 @@ const config = {
         try {
           const data = await fetch(`https://example.com/api/screenshot/${data.id}`, {
             method: "PUT",
-            body: JSON.stringify({ image: data.base64 })
+            body: JSON.stringify({ image: data.base64 }),
           }).then((r) => r.json());
 
           res(data);
@@ -1013,10 +1047,11 @@ const config = {
           rej("Failed to update screenshot");
         }
       },
-    }
-  }
-}
+    },
+  },
+};
 ```
+
 The url for the screenshot will be created like `${config.api.screenshots.screenshotUrl}/${id}?_thumbnailTime=${the screenshot time}`
 
 ### Events
@@ -1024,14 +1059,14 @@ The url for the screenshot will be created like `${config.api.screenshots.screen
 These are the callbacks that are triggered when the buttons are clicked.
 
 | Name   | Description                           | Returned values         |
-|:-------|:--------------------------------------|:------------------------|
+| :----- | :------------------------------------ | :---------------------- |
 | onSave | Fired when the Save button is clicked | JSON and HTML documents |
 | onLoad | Fired when the builder is loaded      | -                       |
 
 ### onSave
 
 | Name                               | Type        | Description                                                    |
-|:-----------------------------------|:------------|:---------------------------------------------------------------|
+| :--------------------------------- | :---------- | :------------------------------------------------------------- |
 | html                               | HTMLElement | HTML.                                                          |
 | pageData                           | object      | Loads the JSON page specified in the pageData parameter.       |
 | projectData                        | object      | Loads the JSON project specified in the projectData parameter. |
@@ -1040,7 +1075,7 @@ These are the callbacks that are triggered when the buttons are clicked.
 ### Popup Settings
 
 | Name                          | Type                          | Description                                                                                                                                 |
-|:------------------------------|:------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
+| :---------------------------- | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
 | popupSettings.verticalAlign   | "center" or "top" or "bottom" | Default "center". [Vertical align](https://user-images.githubusercontent.com/5760683/216273483-955e0a09-5acc-4124-bc94-0a05f2bbbb58.png).   |
 | popupSettings.horizontalAlign | "center" or "right" or "left" | Default "center". [Horizontal align](https://user-images.githubusercontent.com/5760683/216273441-a50bf80e-5894-4e5f-b764-20ee1552b0f6.png). |
 

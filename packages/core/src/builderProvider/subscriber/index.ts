@@ -2,7 +2,7 @@ import { mergeDeep } from "timm";
 import { getApi } from "../handlers/api";
 import { getPage } from "../handlers/defaults/page";
 import { getUi } from "../handlers/defaults/ui";
-import { getDynamicContent } from "../handlers/dynamicContent";
+import { getDCConfig } from "../handlers/dynamicContent";
 import { getIntegration } from "../handlers/integration";
 
 export function subscriber(event: MessageEvent): void {
@@ -66,7 +66,7 @@ export function subscriber(event: MessageEvent): void {
 
         window.__VISUAL_CONFIG__.pageData = getPage(pageData);
         window.__VISUAL_CONFIG__.ui = getUi({ uid, target, event, mode, config: configData });
-        window.__VISUAL_CONFIG__.dynamicContent = getDynamicContent({ uid, target, event, dynamicContent });
+        window.__VISUAL_CONFIG__.dynamicContent = getDCConfig({ uid, target, event, dynamicContent });
         window.__VISUAL_CONFIG__.integration = getIntegration({ uid, target, event, integration });
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
 
@@ -117,6 +117,10 @@ export function subscriber(event: MessageEvent): void {
       case `${target}_dc_image_rej`:
       case `${target}_dc_link_res`:
       case `${target}_dc_link_rej`:
+      case `${target}_dc_placeholder_data_res`:
+      case `${target}_dc_placeholder_data_rej`:
+      case `${target}_template_kits_res`:
+      case `${target}_template_kits_rej`:
       case `${target}_template_kits_meta_res`:
       case `${target}_template_kits_meta_rej`:
       case `${target}_template_kits_data_res`:

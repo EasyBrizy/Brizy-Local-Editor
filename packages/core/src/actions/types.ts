@@ -27,6 +27,13 @@ export enum ActionTypes {
   dcLinkRes = "@builder_dc_link_res",
   dcLinkRej = "@builder_dc_link_rej",
 
+  dcPlaceholderData = "@builder_dc_placeholder_data",
+  dcPlaceholderDataRes = "@builder_dc_placeholder_data_res",
+  dcPlaceholderDataRej = "@builder_dc_placeholder_data_rej",
+
+  templateKits = "@builder_template_kits",
+  templateKitsRes = "@builder_template_kits_res",
+  templateKitsRej = "@builder_template_kits_rej",
   templateKitsMeta = "@builder_template_kits_meta",
   templateKitsMetaRes = "@builder_template_kits_meta_res",
   templateKitsMetaRej = "@builder_template_kits_meta_rej",
