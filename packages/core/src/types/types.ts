@@ -38,6 +38,11 @@ export interface BuilderOutput {
   mode: Modes;
 }
 
+export interface AutoSaveOutput {
+  pageData?: BuilderOutput["pageData"];
+  projectData?: BuilderOutput["projectData"];
+}
+
 export interface MenuItem {
   type: "MenuItem";
   value: {
@@ -219,6 +224,7 @@ export enum VideoTypes {
 export type Response<R> = (r: R) => void;
 
 export type OnSave = <T extends HtmlOutputType>(output: Output<T>) => void;
+export type OnAutoSave = (output: AutoSaveOutput) => void;
 
 export interface Config<T extends HtmlOutputType> {
   container: HTMLElement;
@@ -340,6 +346,7 @@ export interface Config<T extends HtmlOutputType> {
 
   // events
   onSave?: OnSave;
+  onAutoSave?: OnAutoSave;
   onLoad?: VoidFunction;
 }
 
