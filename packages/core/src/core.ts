@@ -6,6 +6,7 @@ import {
   addFileRes,
   addMediaRej,
   addMediaRes,
+  autoSave,
   dcImageRej,
   dcImageRes,
   dcLinkRej,
@@ -23,6 +24,7 @@ import {
   AddFileExtra,
   AddMediaData,
   AddMediaExtra,
+  AutoSaveOutput,
   BaseDCItem,
   BuilderOutput,
   DCHandlerExtra,
@@ -37,6 +39,7 @@ import { createOutput } from "./utils/createOutput";
 const actions = {
   init: init,
   save: save,
+  autoSave: autoSave,
   addMediaRes: addMediaRes,
   addMediaRej: addMediaRej,
   addFileRes: addFileRes,
@@ -114,6 +117,9 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             if (typeof onSaveCallback === "function") {
               onSaveCallback(_output);
             }
+          },
+          [ActionTypes.autoSave]: (output: AutoSaveOutput) => {
+            config.onAutoSave?.(output);
           },
           [ActionTypes.onLoad]: () => {
             destroyLoader(spinner, container);

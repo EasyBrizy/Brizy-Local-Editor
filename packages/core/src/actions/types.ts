@@ -1,5 +1,6 @@
 export enum ActionTypes {
   save = "@builder_save",
+  autoSave = "@builder_auto_save",
   initPage = "@builder_init_page",
   onLoad = "@builder_on_load",
 
