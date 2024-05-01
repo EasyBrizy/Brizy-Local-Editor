@@ -1,7 +1,6 @@
 import { Handler, HandlerData } from "@/builderProvider/types/type";
 import { Response } from "@/types/common";
 import { Publish, PublishData } from "@/types/publish";
-import { HtmlOutputType } from "@/types/types";
 
 interface PublishHandler extends HandlerData {
   res: Response<PublishData>;
@@ -37,7 +36,7 @@ function handlePublish(data: PublishHandler) {
   };
 }
 
-export const getPublish = (data: HandlerData): Publish<HtmlOutputType> => {
+export const getPublish = (data: HandlerData): Publish => {
   const { target, uid, event } = data;
 
   const handler: Handler<PublishData, string, PublishData> = (res, rej, extra) => {
