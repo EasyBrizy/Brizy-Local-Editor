@@ -172,6 +172,7 @@ type config = {
     /// Media
     media?: {
       mediaResizeUrl?: string;
+      imagePatterns?: ImagePatterns;
 
       addMedia?: {
         handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
@@ -286,8 +287,14 @@ interface DCItemHandler {
 }
 
 // Media
+export interface ImagePatterns {
+  original: string;
+  split: string;
+  full: string;
+}
 export interface AddMediaData {
-  fileName: string; // fileName need contain .ext
+  uid: string
+  fileName?: string; // fileName need contain .ext
 }
 
 export interface AddMediaExtra {
@@ -470,8 +477,9 @@ Dynamic content can be configured in 2 ways
 ### API parameters
 
 | Name                           | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| :----------------------------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|:-------------------------------|:---------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | api.media.mediaResizeUrl       | string   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                                                                                                                              |
+| api.media.imagePatterns        | object   | This is a object with `full, original, split` keys. Used to control the final urls for all of builder resize, crop urls                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | api.media.addMedia.handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                             |
 | api.customFile.fileUrl         | string   | This is the URL for your resources the final URL will be `api.customFile.fileUrl/${fileName}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | api.customFile.addFile.handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                             |
@@ -501,6 +509,7 @@ const config = {
       handler(resolve, reject, extra) {
         // extra: { acceptedExtensions: Array<string> }
         resolve({
+          uid: "1234",
           fileName: "picture.png",
         });
       },
@@ -510,6 +519,80 @@ const config = {
 ```
 
 #### Example Media Handler with Brizy Local Image Resizer & AWS S3
+The builder uses two keys: `uid` and `fileName`, or only `uid` (with file extensions).
+The main idea is to resolve problems with the duplication of images.
+If the duplication was resolved by some media upload gallery, then send only `fileName` to `uid`.
+For example: `resolve({uid: "picture.png"})`.
+
+## Image Patterns
+Used to specify where the crop params from the builder need to be included in the URL.
+The `imagePatterns` object contains 3 keys: `full`, `original`, `split`.
+The value of every key must be send the placeholders
+The placeholder has syntax: `{{ oY=[oY] }}`
+
+Support placeholders:
+- `[baseUrl]`: the base URL sent via `api.media.mediaResizeUrl`
+- `[iW]`: the original image width (`number` or `any`)
+- `[iH]`: the original image height (`number` or `any`)
+- `[oX]`: the pointer X (`number`)
+- `[oY]`: the pointer Y (`number`)
+- `[cW]`: the container width, used to crop image (`number`)
+- `[cH]`: the container height, used to crop image (`number`)
+- `[uid]`: the UID of the image
+- `[fileName]`: optional placeholder; it would be used if `resolve({uid: "1234", fileName: "picture.png"})`
+
+
+Example:
+```ts
+const config = {
+  api: {
+    media: {
+      mediaResizeUrl: "http://localhost:7788/media", // HOST
+      imagePatterns: {
+        full: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}&{{ oX=[oX] }}&{{ oY=[oY] }}&{{ cW=[cW] }}&{{ cH=[cH] }}/{{ [uid] }}/{{ [fileName] }}",
+        original: "{{ [baseUrl] }}/{{ [sizeType] }}/{{ [uid] }}/{{ [fileName] }}",
+        split: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}/{{ [uid] }}/{{ [fileName] }}",
+      },
+    },
+  },
+};
+```
+
+Full:
+```html
+<img src="http://localhost:7788/media/iW=1808&iH=1017&oX=448&oY=53&cW=515&cH=605/1234/picture.jpg">
+```
+
+Original:
+```html
+<img src="http://localhost:7788/media/original/1234/picture.jpg">
+```
+
+Split:
+```html
+<img src="http://localhost:7788/media/iW=5000&iH=any/1234/picture.jpg">
+```
+
+[ImageKit](https://imagekit.io) example:
+```ts
+const config = {
+  api: {
+    media: {
+      mediaResizeUrl: "https://ik.imagekit.io/demo", // ImageKit HOST
+      imagePatterns: {
+        full: "{{ [baseUrl] }}/tr:{{ w-[cW] }},{{ h-[cH] }},c-maintain-ratio/{{ [fileName] }}",
+        split: "{{ [baseUrl] }}/tr:{{ w-[iW] }},c-at_max/{{ [fileName] }}",
+        original: "{{ [baseUrl] }}/tr:orig-true/{{ [fileName] }}"
+      }
+    }
+  }
+}
+```
+
+**Full**: Used inside the Image element where cropping or resizing of the image is needed.
+**Original**: Used when the builder tries to access the original URL of the image, for example, as a background for Section, Column, or Row.
+**Split**: Used when the builder tries to access the resized URL for the image, for example, as a background.
+> This case(split) is usually used when the client uploads very large images (e.g., 10MB), and we need to resize them to a smaller size (e.g., 1MB). In this case iH=any
 
 ```ts
 // In HTML
@@ -551,7 +634,8 @@ const config = {
           if (files && files.length) {
             const file = files[0];
             const fileName = file.name;
-            const filePath = `media/${fileName}`;
+            const uid = crypto.randomUUID();
+            const filePath = `media/${uid}/${fileName}`;
             const s3Config = {
               Key: filePath,
               Body: file,
@@ -562,7 +646,7 @@ const config = {
               if (err) {
                 reject(`Wrong Upload to S3 ${err.message}`);
               } else {
-                resolve({ fileName });
+                resolve({ uid, fileName });
               }
             });
           }

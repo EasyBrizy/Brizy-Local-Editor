@@ -21,8 +21,7 @@ function handleAddMedia(data: MediaHandler) {
 
       switch (action.type) {
         case `${target}_add_media_res`: {
-          // @ts-expect-error Argument of type { uid: any; } is not assignable to parameter of type AddMediaData
-          res({ uid: action.data.fileName });
+          res({ uid: action.data.uid, fileName: action.data.fileName });
           window.removeEventListener("message", mediaEmitter);
           break;
         }

@@ -46,10 +46,16 @@ export const Editor = () => {
     api: {
       media: {
         mediaResizeUrl: "https://media.brizylocal.com/media",
+        imagePatterns: {
+          full: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}&{{ oX=[oX] }}&{{ oY=[oY] }}&{{ cW=[cW] }}&{{ cH=[cH] }}/{{ [uid] }}/{{ [fileName] }}",
+          original: "{{ [baseUrl] }}/{{ [sizeType] }}/{{ [uid] }}/{{ [fileName] }}",
+          split: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}/{{ [uid] }}/{{ [fileName] }}",
+        },
         addMedia: {
           handler(res, rej, extra) {
             setTimeout(() => {
               res({
+                uid: "1234",
                 fileName: "my-custom-image.png",
               });
             }, 1000);

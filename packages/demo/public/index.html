@@ -857,12 +857,18 @@
           api: {
             media: {
               mediaResizeUrl: "https://media.brizylocal.com/media",
+              imagePatterns: {
+                full: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}&{{ oX=[oX] }}&{{ oY=[oY] }}&{{ cW=[cW] }}&{{ cH=[cH] }}/{{ [uid] }}/{{ [fileName] }}",
+                original: "{{ [baseUrl] }}/{{ [sizeType] }}/{{ [uid] }}/{{ [fileName] }}",
+                split: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}/{{ [uid] }}/{{ [fileName] }}",
+              },
               addMedia: {
                 async handler(resolve, reject, extra) {
                   try {
                     const file = await createUpload("image/*");
                     const fileName = file.name;
-                    const filePath = `media/${fileName}`;
+                    const uid = crypto.randomUUID();
+                    const filePath = `media/${uid}/${fileName}`;
                     const s3Config = {
                       Key: filePath,
                       Body: file,
@@ -873,7 +879,7 @@
                       if (err) {
                         reject(`Wrong Upload to S3 ${err.message}`);
                       } else {
-                        resolve({ fileName });
+                        resolve({ uid, fileName });
                       }
                     });
                   } catch (e) {

@@ -1,7 +1,8 @@
 import { Response } from "./common";
 
 export interface AddMediaData {
-  fileName: string;
+  uid: string;
+  fileName?: string;
 }
 
 export interface AddMediaExtra {
@@ -10,6 +11,11 @@ export interface AddMediaExtra {
 
 export interface Media {
   mediaResizeUrl?: string;
+  imagePatterns?: {
+    full: string;
+    original: string;
+    split: string;
+  };
 
   addMedia?: {
     handler: (res: Response<AddMediaData>, rej: Response<string>, extra: AddMediaExtra) => void;
