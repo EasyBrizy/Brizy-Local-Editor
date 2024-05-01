@@ -6,7 +6,6 @@ import {
   StoryElementTypes,
 } from "@/types/leftSidebar";
 import { Publish } from "@/types/publish";
-import { HtmlOutputType } from "@/types/types";
 import { getIn, setIn } from "timm";
 import { getCloseCMS, getOpenCMS } from "./cms";
 import { getPublish } from "./publish";
@@ -227,7 +226,7 @@ export const getUi = (data: Data): Record<string, unknown> => {
   let leftSidebar = Object.assign({}, oldUI.leftSidebar, ui.leftSidebar);
   const enabledCMS = getIn(leftSidebar, ["cms", "enable"]);
   const enabledPublish = getIn(ui, ["publish", "enable"]);
-  let publish: Partial<Publish<HtmlOutputType>> = {};
+  let publish: Partial<Publish> = {};
 
   if (enabledCMS) {
     leftSidebar = setIn(leftSidebar, ["cms"], {

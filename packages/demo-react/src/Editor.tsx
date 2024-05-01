@@ -26,7 +26,7 @@ export const Editor = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const config: Config<"monolith"> = {
+  const config: Config = {
     ...demoConfig,
     container: containerRef.current,
 

@@ -51,7 +51,7 @@ import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { PublishData } from "@/types/publish";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import { KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
-import { BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
+import { BuilderOutput, Init, OnSave, Target } from "@/types/types";
 import { createOutput } from "@/utils/createOutput";
 import { Dictionary } from "@/utils/types";
 import { v4 as uuid } from "uuid";
@@ -100,15 +100,15 @@ const actions = {
   publishRes,
 };
 
-const savedNodeCB = new Map<HTMLElement, OnSave<HtmlOutputType>>();
+const savedNodeCB = new Map<HTMLElement, OnSave>();
 
-export const Core: Init<HtmlOutputType> = (token, config, cb) => {
+export const Core: Init = (token, config, cb) => {
   if (!token) {
     console.error("Token is required");
     return;
   }
 
-  const { htmlOutputType = "monolith", container } = config;
+  const { container } = config;
 
   if (!(container instanceof HTMLElement)) {
     console.error("The element must be a valid HTMLElement");
@@ -156,7 +156,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
         const action = JSON.parse(data.data);
         const api = {
           [ActionTypes.save]: (output: BuilderOutput) => {
-            const _output = createOutput(htmlOutputType, output);
+            const _output = createOutput(output);
             config.onSave?.(_output);
             const onSaveCallback = savedNodeCB.get(container);
 
@@ -483,7 +483,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
                 iframeWindow.postMessage(actions.publishRej(r, uid), targetOrigin);
               };
 
-              const output = createOutput(htmlOutputType, extra);
+              const output = createOutput(extra);
 
               config.onSave?.(output);
               handler(res, rej, output);
@@ -503,7 +503,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
       }
     });
 
-    const save = (cb?: OnSave<HtmlOutputType>) => {
+    const save = (cb?: OnSave) => {
       if (typeof cb === "function") {
         savedNodeCB.set(container, cb);
       }

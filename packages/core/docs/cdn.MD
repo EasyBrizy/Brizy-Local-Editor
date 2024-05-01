@@ -56,11 +56,6 @@ type config = {
   // Story: Static story carosuel view
   mode: "page" | "popup" | "story";
 
-  // Monolith: Full HTML with DOCTYPE, head and body
-  // Partial: the root is a div element with all page compiled,
-  /// use this case when you need to create a fully customizable preview HTML
-  htmlOutputType: "monolith" | "partial";
-
   // Menu
   menu?: Array<Menu>;
 
@@ -176,13 +171,19 @@ type config = {
 };
 
 interface Output {
-  pageData: Record<string, unknown>;
-  projectData: Record<string, unknown>;
-
-  html?: {
-    root: string;
-    styles?: Array<string>;
-    scripts?: Array<string>;
+  pageData: {
+    [k: string]: unknown;
+    compiled?: {
+      html: string;
+      scripts: Array<string>;
+      styles: Array<string>;
+    }
+  };
+  projectData: {
+    [k: string]: unknown;
+    compiled?: {
+      styles: Array<string>;
+    }
   };
 
   // Only in popup mode
@@ -348,7 +349,6 @@ Config can be passed as an object when you initialize the editor from the script
 | :------------- | :----------------------- | :------------------------------------------------------------- |
 | container      | HTMLElement              | Brizy Plugin will load into HTML element.                      |
 | mode           | "page", "popup", "story" | Default "page"                                                 |
-| htmlOutputType | "monolith" or "partial"  | Default "monolith"                                             |
 | pageData       | object                   | Loads the JSON page specified in the pageData parameter.       |
 | projectData    | object                   | Loads the JSON project specified in the projectData parameter. |
 | menu           | array                    | Load the array of menu                                         |
@@ -1009,16 +1009,15 @@ The url for the screenshot will be created like `${config.api.screenshots.screen
 
 These are the callbacks that are triggered when the buttons are clicked.
 
-| Name   | Description                           | Returned values         |
-| :----- | :------------------------------------ | :---------------------- |
-| onSave | Fired when the Save button is clicked | JSON and HTML documents |
-| onLoad | Fired when the builder is loaded      | -                       |
+| Name   | Description                           | Returned values |
+| :----- | :------------------------------------ |:----------------|
+| onSave | Fired when the Save button is clicked | JSON            |
+| onLoad | Fired when the builder is loaded      | -               |
 
 #### onSave
 
 | Name                               | Type        | Description                                                    |
 | :--------------------------------- | :---------- | :------------------------------------------------------------- |
-| html                               | HTMLElement | HTML.                                                          |
 | pageData                           | object      | Loads the JSON page specified in the pageData parameter.       |
 | projectData                        | object      | Loads the JSON project specified in the projectData parameter. |
 | popupSettings (only in popup mode) | object      | Loads horizontalAlign and VerticalAlign                        |

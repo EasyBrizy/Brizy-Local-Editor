@@ -1,8 +1,4 @@
-import type {
-  Config as BuilderConfig,
-  Builder,
-  HtmlOutputType as BuilderHtmlOutputType,
-} from "@builder/core/build/es/types/types";
+import type { Builder, Config as BuilderConfig } from "@builder/core/build/es/types/types";
 
 export enum ActionKind {
   idle = "idle",
@@ -24,10 +20,9 @@ export interface State {
   error?: string;
 }
 
-interface _Config<T extends HtmlOutputType>
-  extends Omit<BuilderConfig<T>, "container"> {}
+interface _Config extends Omit<BuilderConfig, "container"> {}
 
-export interface Config<T extends HtmlOutputType> extends _Config<T> {
+export interface Config extends _Config {
   container: HTMLElement | null;
 }
 
@@ -35,6 +30,4 @@ export type Instance = {
   save: VoidFunction;
 };
 
-export type BuilderGlobal<T extends HtmlOutputType> = Builder<T>;
-
-export type HtmlOutputType = BuilderHtmlOutputType;
+export type BuilderGlobal = Builder;

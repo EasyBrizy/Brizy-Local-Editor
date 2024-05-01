@@ -1,7 +1,7 @@
 import type { Response } from "@/types/common";
 import { DCTypes } from "@/types/dynamicContent";
 import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
-import { ActionResolve, Config, HtmlOutputType, Modes, Target } from "@/types/types";
+import { ActionResolve, Config, Modes, Target } from "@/types/types";
 import type { Dictionary } from "@/utils/types";
 import { encode } from "js-base64";
 import { mergeIn, omit, setIn } from "timm";
@@ -9,7 +9,7 @@ import { ActionTypes } from "./types";
 
 //#region Integration
 
-type IntegrationConfig = Config<HtmlOutputType>["integration"];
+type IntegrationConfig = Config["integration"];
 type BuilderIntegrationConfig = IntegrationConfig & {
   form?: {
     fields?: {
@@ -18,7 +18,7 @@ type BuilderIntegrationConfig = IntegrationConfig & {
   };
 };
 
-const createIntegration = <T extends HtmlOutputType>(config: Config<T>): BuilderIntegrationConfig => {
+const createIntegration = (config: Config): BuilderIntegrationConfig => {
   const { integration = {} } = config;
   const integrationForm = integration.form ?? {};
 
@@ -35,7 +35,7 @@ const createIntegration = <T extends HtmlOutputType>(config: Config<T>): Builder
 
 //#region DynamicContent
 
-type DynamicContent = Config<HtmlOutputType>["dynamicContent"];
+type DynamicContent = Config["dynamicContent"];
 type DCOption = Omit<DynamicContent, "groups">;
 
 type BuilderDCOption = DCOption & {
@@ -63,7 +63,7 @@ type BuilderDCOption = DCOption & {
   ) => void;
 };
 
-const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDCOption => {
+const createDCContent = (config: Config): BuilderDCOption => {
   const { dynamicContent = {} } = config;
   const richText = dynamicContent?.groups?.richText;
   const image = dynamicContent?.groups?.image;
@@ -106,7 +106,7 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
 
 //#region Modes
 
-enum BuilderModes {
+export enum BuilderModes {
   externalPopup = "external_popup",
   externalStory = "external_story",
   page = "page",
@@ -130,7 +130,7 @@ const createModes = (modes: Modes): BuilderModes => {
 
 //#region API
 
-type API = Config<HtmlOutputType>["api"];
+type API = Config["api"];
 
 type BuilderAPI = API & {
   defaultKits?: {
@@ -150,7 +150,7 @@ type BuilderAPI = API & {
   };
 };
 
-const createApi = <T extends HtmlOutputType>(config: Config<T>): BuilderAPI => {
+const createApi = (config: Config): BuilderAPI => {
   let { api } = config;
 
   if (!api) {
@@ -184,7 +184,7 @@ const createApi = <T extends HtmlOutputType>(config: Config<T>): BuilderAPI => {
 
 //#region UI
 
-type UI = Config<HtmlOutputType>["ui"];
+type UI = Config["ui"];
 
 type BuilderUI = UI & {
   leftSidebar?: {
@@ -197,7 +197,7 @@ type BuilderUI = UI & {
   };
 };
 
-export const createUi = <T extends HtmlOutputType>(config: Config<T>): BuilderUI => {
+export const createUi = (config: Config): BuilderUI => {
   let ui = config.ui ?? {};
   const { leftSidebar = {}, publish } = ui;
   const cms = leftSidebar[LeftSidebarOptionsIds.cms];
@@ -217,20 +217,20 @@ export const createUi = <T extends HtmlOutputType>(config: Config<T>): BuilderUI
 
 //#region Page
 
-type Page = Config<HtmlOutputType>["pageData"];
+type Page = Config["pageData"];
 
 type BuilderPage = Page & {
   data: string;
 };
 
-const getPage = <T extends HtmlOutputType>(config: Config<T>): BuilderPage => ({
+const getPage = (config: Config): BuilderPage => ({
   ...config.pageData,
   data: encode(JSON.stringify(config.pageData.data ?? {})),
 });
 
 //#endreigon
 
-export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, token: string): ActionResolve => ({
+export const init = (config: Config, uid: string, token: string): ActionResolve => ({
   uid,
   target: Target.builder,
   data: JSON.stringify({

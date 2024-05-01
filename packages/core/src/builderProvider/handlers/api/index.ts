@@ -1,6 +1,5 @@
 import { HandlerData } from "@/builderProvider/types/type";
-import { isObject } from "@/utils/reader/object";
-import { read as readStr } from "@/utils/reader/string";
+import { Obj, Str } from "@brizy/readers";
 import { getIn, setIn } from "timm";
 import { addCustomFileHandler } from "./customFile";
 import { addMediaHandler } from "./media";
@@ -61,9 +60,9 @@ export const getApi = (data: Data) => {
     }) as Record<string, unknown>;
   }
 
-  if (enabledScreenshots && isObject(api.screenshots)) {
+  if (enabledScreenshots && Obj.isObject(api.screenshots)) {
     api = setIn(api, ["screenshots"], {
-      screenshotsUrl: readStr(api.screenshots.screenshotsUrl) ?? "",
+      screenshotsUrl: Str.read(api.screenshots.screenshotsUrl) ?? "",
       create: getCreateScreenshots({ event, target, uid }),
       update: getUpdateScreenshots({ event, target, uid }),
     }) as Record<string, unknown>;

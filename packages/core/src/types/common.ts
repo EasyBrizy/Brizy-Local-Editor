@@ -1,5 +1,17 @@
 export type Response<R> = (r: R) => void;
 
-export type ProjectData = Record<string, unknown>;
+export interface HtmlOutput {
+  html: string;
+  styles: Array<string>;
+  scripts: Array<string>;
+}
 
-export type PageData = Record<string, unknown>;
+export type ProjectData = {
+  [key: string]: unknown;
+  compiled?: HtmlOutput;
+};
+
+export type PageData = {
+  [key: string]: unknown;
+  compiled?: HtmlOutput;
+};

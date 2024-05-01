@@ -1,7 +1,7 @@
 //#region Compiler
 
 export const compiler = () => ({
-  type: "browser",
+  assets: "html",
 });
 
 //#endregion
