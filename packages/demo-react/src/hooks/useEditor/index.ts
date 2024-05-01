@@ -1,13 +1,5 @@
 import { useEffect, useReducer, useRef } from "react";
-import {
-  ActionKind,
-  Action,
-  BuilderGlobal,
-  Instance,
-  Config,
-  State,
-  HtmlOutputType,
-} from "./types";
+import { Action, ActionKind, BuilderGlobal, Config, Instance, State } from "./types";
 
 function reducer(state: State, action: Action) {
   const { type, error } = action;
@@ -30,15 +22,12 @@ function reducer(state: State, action: Action) {
   }
 }
 
-export const useEditor = <T extends HtmlOutputType>(
-  token: string,
-  config: Config<T>
-): [State, Instance | undefined] => {
+export const useEditor = (token: string, config: Config): [State, Instance | undefined] => {
   const [state, dispatch] = useReducer(reducer, {
     status: ActionKind.idle,
   });
   const builderInstance = useRef<Instance>();
-  const builderGlobal = useRef<BuilderGlobal<T>>();
+  const builderGlobal = useRef<BuilderGlobal>();
 
   useEffect(() => {
     const builder = window.Builder;
