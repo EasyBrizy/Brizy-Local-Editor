@@ -3,20 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/node": "^16.18.9",
-    "@types/react": "^18.0.26",
-    "@types/react-dom": "^18.0.9",
+    "@brizy/core": "^1.0.0",
+    "@builder/core": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.4",
-    "@builder/core": "*"
+    "typescript": "^4.9.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "tsc": "tsc --skipLibCheck --noEmit"
+    "tsc": "tsc --skipLibCheck --noEmit",
+    "clean:thirdParty": "rimraf public/thirdParty",
+    "build:thirdParty": "npm run clean:thirdParty && node bin/esbuild.config.js"
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +33,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-scripts": "5.0.1",
+    "@types/node": "^16.18.9",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "esbuild": "^0.20.2",
+    "esbuild-plugin-alias-path": "^2.0.2",
+    "minimist": "^1.2.8",
+    "rimraf": "^5.0.5"
   }
 }

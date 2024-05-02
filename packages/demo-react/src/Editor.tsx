@@ -43,6 +43,8 @@ export const Editor = () => {
       },
     },
 
+    thirdPartyUrls: [{ scriptUrl: "http://localhost:3000/thirdParty/index.js" }],
+
     api: {
       media: {
         mediaResizeUrl: "https://media.brizylocal.com/media",
