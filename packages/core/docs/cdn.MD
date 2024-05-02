@@ -352,13 +352,14 @@ export interface ScreenshotData {
 
 Config can be passed as an object when you initialize the editor from the script.
 
-| Name           | Type                     | Description                                                    |
-| :------------- | :----------------------- | :------------------------------------------------------------- |
-| container      | HTMLElement              | Brizy Plugin will load into HTML element.                      |
-| mode           | "page", "popup", "story" | Default "page"                                                 |
-| pageData       | object                   | Loads the JSON page specified in the pageData parameter.       |
-| projectData    | object                   | Loads the JSON project specified in the projectData parameter. |
-| menu           | array                    | Load the array of menu                                         |
+| Name            | Type                     | Description                                                    |
+|:----------------|:-------------------------|:---------------------------------------------------------------|
+| container       | HTMLElement              | Brizy Plugin will load into HTML element.                      |
+| mode            | "page", "popup", "story" | Default "page"                                                 |
+| pageData        | object                   | Loads the JSON page specified in the pageData parameter.       |
+| projectData     | object                   | Loads the JSON project specified in the projectData parameter. |
+| menu            | array                    | Load the array of menu                                         |
+| thirdPartyUrls  | array                    | Load the array of thirdParty scripts and styles                |
 
 ### Integration parameters
 
@@ -450,6 +451,11 @@ Dynamic content can be configured in 2 ways
 | api.screenshots.screenshotUrl  | string   | This is the URL for the Screenshot                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | api.screenshots.create         | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                         |
 | api.screenshots.update         | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                         |
+
+
+### ThirdParty parameters
+
+
 
 #### Example Media Handler
 
