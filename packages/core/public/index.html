@@ -27,6 +27,7 @@
               <script>
                   window.__VISUAL_CONFIG__ = window.parent.__VISUAL_CONFIG__;
               </script>
+              {{ third_party_styles }}
           </head>
           <body class='brz brz-ed brz-ed--desktop'>
               <div id='brz-ed-root'></div>
@@ -35,6 +36,7 @@
               <script src='<%= host %>/dist/free/editor/js/react.js'></script>
               <script src='<%= host %>/dist/free/editor/js/react-dom.js'></script>
               <script src='<%= host %>/dist/free/editor/js/editor.vendor.min.js'></script>
+              {{ third_party_scripts }}
               <script src='<%= host %>/dist/free/editor/js/editor.min.js'></script>
               <script src='<%= host %>/dist/pro/js/editor.pro.min.js'></script>
               <script>
