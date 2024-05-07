@@ -1,3 +1,4 @@
+import { replaceThirdParty } from "@/builderProvider/utils/thirdParty";
 import { mergeDeep } from "timm";
 import { getApi } from "../handlers/api";
 import { getPage } from "../handlers/defaults/page";
@@ -69,6 +70,10 @@ export function subscriber(event: MessageEvent): void {
         window.__VISUAL_CONFIG__.dynamicContent = getDCConfig({ uid, target, event, dynamicContent });
         window.__VISUAL_CONFIG__.integration = getIntegration({ uid, target, event, integration });
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
+        // TODO: Need to add support for multiple scripts and styles
+        window.__VISUAL_CONFIG__.thirdPartyAssetsURL = configData.thirdPartyUrls.find(
+          (s: { scriptUrl?: string; styleUrl?: string }) => s.scriptUrl,
+        )?.scriptUrl;
 
         window.__VISUAL_CONFIG__.onLoad = () => {
           const data = JSON.stringify({ type: `${target}_on_load` });
@@ -81,7 +86,10 @@ export function subscriber(event: MessageEvent): void {
         const root = document.querySelector("#root");
 
         if (iframe && root) {
-          root.innerHTML = iframe.innerHTML;
+          root.innerHTML = replaceThirdParty({
+            doc: iframe.innerHTML,
+            config: configData,
+          });
         }
         break;
       }

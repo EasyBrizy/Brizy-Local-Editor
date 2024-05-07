@@ -75,6 +75,12 @@ export interface Config {
 
   //#endregion
 
+  //#region ThirdParty
+
+  thirdPartyUrls?: Array<{ scriptUrl: string; styleUrl?: string }>;
+
+  //#endregion
+
   //#region UI
 
   ui?: {
