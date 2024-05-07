@@ -454,8 +454,7 @@ Dynamic content can be configured in 2 ways
 
 
 ### ThirdParty parameters
-
-
+ThirdParty can extend Brizy capabilities by rendering any React Component directly on the builder. [Quick Start Guide](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/thirdParty.MD)
 
 #### Example Media Handler
 
