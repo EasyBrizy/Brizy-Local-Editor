@@ -205,8 +205,15 @@ type config = {
   };
 
   onSave?: (data: Output) => void;
+  onAutoSave?: (data: AutoSave) => void;
+  autoSaveInterval?: number;
   onLoad?: VoidFunction;
 };
+
+interface AutoSave {
+  pageData?: Record<string, unknown>;
+  projectData?: Record<string, unknown>;
+}
 
 interface Output {
   pageData: {
@@ -1146,10 +1153,11 @@ The url for the screenshot will be created like `${config.api.screenshots.screen
 
 These are the callbacks that are triggered when the buttons are clicked.
 
-| Name   | Description                           | Returned values         |
-| :----- | :------------------------------------ | :---------------------- |
-| onSave | Fired when the Save button is clicked | JSON and HTML documents |
-| onLoad | Fired when the builder is loaded      | -                       |
+| Name       | Description                              | Returned values         |
+| :--------- | :--------------------------------------- | :---------------------- |
+| onSave     | Fired when the Save button is clicked    | JSON and HTML documents |
+| onAutoSave | Fired after Auto Save happened in editor | JSON                    |
+| onLoad     | Fired when the builder is loaded         | -                       |
 
 ### onSave
 
@@ -1159,6 +1167,19 @@ These are the callbacks that are triggered when the buttons are clicked.
 | pageData                           | object      | Loads the JSON page specified in the pageData parameter.       |
 | projectData                        | object      | Loads the JSON project specified in the projectData parameter. |
 | popupSettings (only in popup mode) | object      | Loads horizontalAlign and VerticalAlign                        |
+
+### onAutoSave
+
+| Name        | Type   | Description                                                    |
+| :---------- | :----- | :------------------------------------------------------------- |
+| pageData    | object | Loads the JSON page specified in the pageData parameter.       |
+| projectData | object | Loads the JSON project specified in the projectData parameter. |
+
+### autoSaveInterval
+
+| Name             | Type   | Description                                              |
+| :--------------- | :----- | :--------------------------------------------------------|
+| autoSaveInterval | number | Default `2000`. Set a `ms` delay for onAutoSave function |
 
 ### Popup Settings
 
