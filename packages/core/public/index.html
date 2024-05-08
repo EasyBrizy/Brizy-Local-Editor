@@ -464,6 +464,16 @@
                     event.origin,
                   );
                 };
+                window.__VISUAL_CONFIG__.onAutoSave = (data) => {
+                  event.source.postMessage(
+                    {
+                      target: "<%- target %>",
+                      uid: window.__uid__,
+                      data: JSON.stringify({ type: "<%- target %>_auto_save", payload: data }),
+                    },
+                    event.origin,
+                  );
+                };
                 window.__VISUAL_CONFIG__.api = {
                   ...api,
                   media: {
