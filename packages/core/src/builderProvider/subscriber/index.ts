@@ -1,4 +1,5 @@
 import { replaceThirdParty } from "@/builderProvider/utils/thirdParty";
+import { AutoSaveOutput } from "@/types/types";
 import { mergeDeep } from "timm";
 import { getApi } from "../handlers/api";
 import { getPage } from "../handlers/defaults/page";
@@ -81,6 +82,18 @@ export function subscriber(event: MessageEvent): void {
           // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
           event.source?.postMessage({ target, uid, data }, event.origin);
         };
+        window.__VISUAL_CONFIG__.onAutoSave = (data: AutoSaveOutput) => {
+          event.source?.postMessage(
+            {
+              target,
+              uid,
+              data: JSON.stringify({ type: `${target}_auto_save`, payload: data }),
+            },
+            // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
+            event.origin,
+          );
+        };
+        window.__VISUAL_CONFIG__.autoSaveInterval = configData.autoSaveInterval;
 
         const iframe = document.querySelector("#no-script-frame");
         const root = document.querySelector("#root");

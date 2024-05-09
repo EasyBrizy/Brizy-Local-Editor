@@ -247,6 +247,7 @@ export const init = (config: Config, uid: string, token: string): ActionResolve 
       api: createApi(config),
       integration: createIntegration(config),
       dynamicContent: createDCContent(config),
+      autoSaveInterval: config.autoSaveInterval,
     },
   }),
 });
