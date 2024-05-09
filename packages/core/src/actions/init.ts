@@ -103,6 +103,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, t
       menuData: config.menu,
       integration: createIntegration(config),
       dynamicContent: createDCContent(config),
+      autoSaveInterval: config.autoSaveInterval,
     },
   }),
 });
