@@ -1,0 +1,34 @@
+{
+  "name": "@brizy/third-party",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "npm run clean && npm run build -- serve",
+    "build": "npm run clean && npm run build:types && webpack",
+    "build:prod": "npm run clean && npm run build:types && npm run build -- --mode=production",
+    "build:types": "tsc -p tsconfig.build.json",
+    "clean": "rimraf dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
+    "@mui/x-charts": "^7.3.0"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.3.12",
+    "@swc/core": "^1.4.13",
+    "css-loader": "^7.1.1",
+    "mini-css-extract-plugin": "^2.8.1",
+    "postcss-loader": "^8.1.1",
+    "rimraf": "^5.0.5",
+    "sass": "^1.75.0",
+    "sass-loader": "^14.2.0",
+    "swc-loader": "^0.2.6",
+    "webpack": "5.91.0",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
