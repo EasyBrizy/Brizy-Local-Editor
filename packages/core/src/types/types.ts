@@ -347,6 +347,7 @@ export interface Config<T extends HtmlOutputType> {
   // events
   onSave?: OnSave;
   onAutoSave?: OnAutoSave;
+  autoSaveInterval?: number;
   onLoad?: VoidFunction;
 }
 
