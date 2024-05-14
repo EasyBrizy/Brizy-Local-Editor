@@ -144,6 +144,7 @@ export interface Config {
 
   onSave?: OnSave;
   onAutoSave?: OnAutoSave;
+  autoSaveInterval?: number;
   onLoad?: VoidFunction;
 
   //#endregion
