@@ -2,6 +2,7 @@
   "name": "@brizy/scripts",
   "version": "1.0.0",
   "description": "Configuration and scripts for Brizy Third Party",
+  "keywords": ["brizy", "Third Party"],
   "engines": {
     "node": ">=18"
   },
@@ -10,7 +11,7 @@
     "build": "tsc"
   },
   "bin": {
-    "brizy-scripts": "./build/bin/brizy-scripts.js"
+    "brizy-scripts": "build/bin/brizy-scripts.js"
   },
   "author": "@brizy",
   "license": "MIT",
