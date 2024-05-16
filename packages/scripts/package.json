@@ -1,0 +1,45 @@
+{
+  "name": "@brizy/scripts",
+  "version": "1.0.0",
+  "description": "Configuration and scripts for Brizy Third Party",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "tsc": "tsc --noEmit",
+    "build": "tsc"
+  },
+  "bin": {
+    "brizy-scripts": "./build/bin/brizy-scripts.js"
+  },
+  "author": "@brizy",
+  "license": "MIT",
+  "files": [
+    "build"
+  ],
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@types/fs-extra": "^11.0.4",
+    "@types/react-dev-utils": "^9.0.15",
+    "rimraf": "^5.0.7"
+  },
+  "dependencies": {
+    "@svgr/webpack": "^8.1.0",
+    "@swc/cli": "^0.3.12",
+    "@swc/core": "^1.5.6",
+    "ajv": "^6.12.6",
+    "browserslist": "^4.23.0",
+    "chalk": "^4.1.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^7.1.1",
+    "mini-css-extract-plugin": "^2.9.0",
+    "postcss-loader": "^8.1.1",
+    "sass-loader": "^14.2.1",
+    "source-map-loader": "^5.0.0",
+    "swc-loader": "^0.2.6",
+    "terser-webpack-plugin": "^5.3.10",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.91.0",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
