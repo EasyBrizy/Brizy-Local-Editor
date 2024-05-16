@@ -11,7 +11,7 @@ const token = "demo";
 
 const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
 // Url for thirdParty build
-// const thirdParty = "http://127.0.0.1:5432";
+const thirdParty = "http://127.0.0.1:3001";
 
 const noop = () => {};
 
@@ -36,7 +36,7 @@ export const Editor = () => {
 
     // thirdPartyUrls: [
     //   {
-    //     scriptUrl: `${thirdParty}/index.js`,
+    //     scriptUrl: `${thirdParty}/main.js`,
     //     styleUrl: `${thirdParty}/index.css`,
     //   },
     // ],
