@@ -39,5 +39,5 @@ if (allowScripts.includes(script)) {
   process.exit(result.status ?? 0);
 } else {
   console.log('Unknown script "' + script + '".');
-  console.log("Perhaps you need to update react-scripts?");
+  console.log("Perhaps you need to update brizy-scripts?");
 }
