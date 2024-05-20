@@ -13,10 +13,13 @@
     "demo:html": "echo \"need to write script\"",
     "tsc": "npm run tsc:core && npm run tsc:demo",
     "tsc:core": "lerna --scope @builder/core run tsc --stream",
-    "tsc:demo": "lerna --scope @builder/demo run tsc --stream"
+    "tsc:demo": "lerna --scope @builder/demo run tsc --stream",
+    "start:docs": "lerna --scope @brizy/docs run start",
+    "build:docs": "lerna --scope @brizy/docs run build"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "docusaurus"
   ],
   "devDependencies": {
     "lerna": "^6.0.3"

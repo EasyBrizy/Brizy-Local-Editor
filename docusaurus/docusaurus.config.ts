@@ -32,6 +32,8 @@ const config: Config = {
       "classic",
       {
         docs: {
+          routeBasePath: "docs",
+          path: "docs",
           sidebarPath: "./sidebars.ts",
           editUrl: "https://github.com/EasyBrizy/Brizy-Local-Editor",
         },
@@ -49,17 +51,48 @@ const config: Config = {
         src: "img/logo.svg",
       },
       items: [
+        //#region Docs Getting Started
+
         {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          to: "/docs/getting-started/what-is-brizy",
+          label: "Getting Started",
           position: "right",
-          label: "Docs",
+          activeBaseRegex: `/docs/`,
         },
+
+        //#endregion
+
+        //#region Internals
+
+        {
+          to: "/docs-internals/brizy-editor/introduction",
+          label: "Internals???",
+          position: "right",
+          activeBaseRegex: `/docs-internals/`,
+        },
+
+        //#endregion
+
+        //#region Third party
+
+        {
+          to: "/docs-third-party/brizy-widgets/introduction",
+          label: "Third Party",
+          position: "right",
+          activeBaseRegex: `/docs-third-party/`,
+        },
+
+        //#endregion
+
+        //#region Others
+
         {
           href: "https://github.com/EasyBrizy/Brizy-Local-Editor",
           label: "GitHub",
           position: "right",
         },
+
+        //#endregion
       ],
     },
     footer: {
@@ -70,7 +103,7 @@ const config: Config = {
           items: [
             {
               label: "Get Started",
-              to: "/docs/intro",
+              to: "/docs/getting-started/what-is-brizy",
             },
           ],
         },
@@ -100,6 +133,27 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
+
+  plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-internals",
+        path: "docs-internals",
+        routeBasePath: "docs-internals",
+        sidebarPath: require.resolve("./sidebars.js"),
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-third-party",
+        path: "docs-third-party",
+        routeBasePath: "docs-third-party",
+        sidebarPath: require.resolve("./sidebars.js"),
+      },
+    ],
+  ],
 };
 
 export default config;

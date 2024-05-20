@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
+    "start": "docusaurus start --port 1234",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "3.3.2",
+    "@docusaurus/plugin-content-docs": "^3.3.2",
     "@docusaurus/preset-classic": "3.3.2",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
