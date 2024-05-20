@@ -1,10 +1,13 @@
 import * as fs from "fs";
+import Minimist from "minimist";
 import * as path from "path";
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath: string) => path.resolve(appDirectory, relativePath);
 
-const buildPath = process.env.BUILD_PATH || "build";
+const argv_ = Minimist(process.argv.slice(2));
+const srcPath = argv_["webpack-src-dir"] || "src";
+const buildPath = argv_["webpack-build-dir"] || "build";
 
 const moduleFileExtensions = [
   "web.mjs",
@@ -33,7 +36,7 @@ const resolveModule = (resolveFn: Function, filePath: string) => {
 
 export default {
   appBuild: resolveApp(buildPath),
-  appIndexJs: resolveModule(resolveApp, "src/index"),
+  appIndexJs: resolveModule(resolveApp, `${srcPath}/index`),
   // appPath: resolveApp("."),
   // appPackageJson: resolveApp("package.json"),
   // appSrc: resolveApp("src"),

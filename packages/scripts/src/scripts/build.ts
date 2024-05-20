@@ -1,4 +1,3 @@
-import bfj from "bfj";
 import chalk from "chalk";
 import fs from "fs-extra";
 import webpack from "webpack";
