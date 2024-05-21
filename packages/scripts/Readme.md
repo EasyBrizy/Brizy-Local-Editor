@@ -20,3 +20,11 @@ Builds the project for production to the `build` folder. It optimizes the build 
 ### `start`
 
 Starts the development server. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+### Start Options
+- `--no-watch`: Starts the build for development without starting the watcher.
+- `--no-server`: Starts the build for development without starting the server.
+ 
+### Common Options
+- `--webpack-build-dir`: Allows customization of the build code directory. Default is `build`.
+- `--webpack-src-dir`: Allows customization of the source code directory. Default is `src`.
