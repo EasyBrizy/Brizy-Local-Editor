@@ -24,3 +24,5 @@ yarn-error.log*
 
 # Third Party
 public/thirdParty
+
+.env
