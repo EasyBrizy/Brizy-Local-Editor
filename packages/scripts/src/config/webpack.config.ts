@@ -51,8 +51,11 @@ const baseFactory = (env: "production" | "development"): Configuration => {
             compress: {
               passes: 2,
             },
+            output: {
+              comments: false,
+              ascii_only: true,
+            },
           },
-          extractComments: false,
         }),
       ],
     },

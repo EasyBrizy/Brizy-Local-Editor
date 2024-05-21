@@ -11,7 +11,7 @@ const token = "demo";
 
 const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
 // Url for thirdParty build
-const thirdParty = "http://127.0.0.1:3002";
+const thirdPartyHost = process.env["REACT_APP_PUBLIC_URL"] || "http://localhost:3000";
 
 const noop = () => {};
 
@@ -31,15 +31,14 @@ export const Editor = () => {
   const config: Config = {
     ...demoConfig,
     container: containerRef.current,
-    // If you want to connect thirdParty components,
-    // you need to build it before demo is started
 
     thirdPartyUrls: [
       {
-        scriptUrl: `${thirdParty}/main.js`,
-        styleUrl: `${thirdParty}/index.css`,
+        scriptUrl: `${thirdPartyHost}/thirdParty/main.js`,
+        styleUrl: `${thirdPartyHost}/thirdParty/index.css`,
       },
     ],
+
     dynamicContent: {
       groups: {
         richText: {
