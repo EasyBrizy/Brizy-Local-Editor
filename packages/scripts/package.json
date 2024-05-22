@@ -11,7 +11,8 @@
   },
   "scripts": {
     "tsc": "tsc --noEmit",
-    "build": "tsc"
+    "build": "tsc",
+    "prepublish": "npm run tsc && npm run build"
   },
   "bin": {
     "brizy-scripts": "build/bin/brizy-scripts.js"
