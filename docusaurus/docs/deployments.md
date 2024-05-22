@@ -37,7 +37,7 @@ cd < my-app >
 npm run build
 ```
 
-Read more about [Third Party](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/thirdParty.md).
+Read more about [Third Party](/docs-third-party/start-coding/requirements).
 
 ### Usage
 After building the third-party library, you can send it to the editor configuration via HTTP URLs. 
