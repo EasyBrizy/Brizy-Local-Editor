@@ -4,8 +4,9 @@ sidebar_position: 3
 
 # Creating Your First Addon
 
-Let’s create a simple Brizy third party that adds two widgets to Brizy. 
-The first will be a simple **Button** widget
+Let's create a simple Brizy third-party addon that introduces two new widgets to Brizy. 
+The first will be a basic **Button** widget, and the second will be a more complex widget 
+with options contained within the toolbar.
 
 ### Installation
 You can install the library using npm. Open your terminal and run the following command:
@@ -58,10 +59,8 @@ To view the new component, follow these steps:
 import { Brizy } from "@brizy/core";
 import React from "react";
 
-interface Props {}
-
-export function Button(props: Props): JSX.Element {
-  return <div className="componentToolbar">Button</div>;
+export function Button(): JSX.Element {
+  return <div className="button">Button</div>;
 }
 
 Brizy.registerComponent(Button, {
@@ -70,3 +69,93 @@ Brizy.registerComponent(Button, {
 });
 ```
 
+### Options types in Builder
+When creating custom components, you have the option to include various toolbar options for further customization.
+
+
+#### Example:
+
+```tsx
+import { Brizy } from "@brizy/core";
+import React from "react";
+
+interface Props {
+  address: string;
+  zoom: number;
+}
+
+const URL = "https://www.google.com/maps/embed/v1/place";
+const KEY = "AIzaSyCcywKcxXeMZiMwLDcLgyEnNglcLOyB_qw";
+
+export function Map(props: Props): JSX.Element {
+  const { address, zoom } = props;
+  const iframeSrc = `${URL}?key=${KEY}&q=${address}&zoom=${zoom}`;
+
+  return (
+    <div className="mapThirdComponent" style={{ pointerEvents: "none" }}>
+      <iframe src={iframeSrc} title="Map" />
+    </div>
+  );
+}
+
+Brizy.registerComponent(Map, {
+  id: "ThirdParty.Map",
+  title: "My Map",
+  options: (props) => {
+    return [
+      {
+        selector: ".mapThirdComponent",
+        toolbar: [
+          {
+            id: "toolbarCurrentElement",
+            type: "popover",
+            config: {
+              icon: "nc-pin",
+              title: "Map",
+            },
+            devices: "desktop",
+            options: [
+              {
+                id: "tabsCurrentElement",
+                type: "tabs",
+                tabs: [
+                  {
+                    id: "tabCurrentElement",
+                    label: "Map",
+                    options: [
+                      {
+                        id: "address",
+                        label: "Address",
+                        type: "inputText",
+                        placeholder: "Enter address",
+                        default: {
+                          value: "Chisinau",
+                        },
+                      },
+                      {
+                        id: "zoom",
+                        label: "Zoom",
+                        type: "slider",
+                        config: {
+                          min: 1,
+                          max: 21,
+                        },
+                        default: {
+                          value: 9,
+                          suffix: "inch",
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ];
+  },
+});
+```
+
+You've now experienced the simplicity of creating your first Brizy addon.

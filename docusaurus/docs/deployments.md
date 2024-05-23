@@ -25,8 +25,6 @@ You can deploy a fresh Brizy Local project, with a Git repository set up for you
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/EasyBrizy/Brizy-Local-Editor&project-name=brizy-local-editor&repository-name=brizy-local-editor&output-directory=packages/demo/public)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
 ## Third Party
 
 ### Creating an App
@@ -37,7 +35,7 @@ cd < my-app >
 npm run build
 ```
 
-Read more about [Third Party](/docs-third-party/start-coding/requirements).
+Read more about [Third Party](/docs-third-party/brizy-widgets/introduction).
 
 ### Usage
 After building the third-party library, you can send it to the editor configuration via HTTP URLs. 
