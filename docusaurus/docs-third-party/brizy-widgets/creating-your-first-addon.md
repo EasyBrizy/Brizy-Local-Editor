@@ -14,6 +14,24 @@ You can install the library using npm. Open your terminal and run the following 
 ```shell
 npx @brizy/create-thirdparty
 cd < my-app >
+```
+
+The previous command will generate the following folder structure:
+```shell
+# root directory of your thirdparty folder
+
+├── README.md
+├── node_modules
+├── package-lock.json
+├── package.json
+└── src
+    ├── Map
+    │   └── index.tsx
+    └── index.ts
+```
+
+To start the build, run the following command in your terminal:
+```shell
 npm run build
 ```
 

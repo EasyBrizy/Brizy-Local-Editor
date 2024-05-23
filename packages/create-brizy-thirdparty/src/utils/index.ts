@@ -1,11 +1,11 @@
 import { execSync } from "node:child_process";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import fs from "fs-extra";
 import chalk from "chalk";
 import { confirm } from "@inquirer/prompts";
 
-export { validateNpmName } from "./validate-pkg";
-export { OutputFilePermissionPlugin } from "./filePermision";
+export { validateNpmName } from "./validate-pkg.js";
 
 export function fireCommand(command: string) {
   try {
@@ -30,7 +30,8 @@ export function getCMD({ appPath }: { appPath: string }) {
 }
 
 export function copyTemplate({ appPath, appName }: { appPath: string; appName: string }) {
-  const templatesPath = path.resolve(path.dirname(__dirname), "templates");
+  const __dirname = fileURLToPath(import.meta.url);
+  const templatesPath = path.resolve(path.dirname(__dirname), "../../templates");
   fs.copySync(templatesPath, appPath);
 
   // #region Update packageJson name

@@ -1,5 +1,14 @@
+#!/usr/bin/env node
+
 import { input } from "@inquirer/prompts";
-import { getAppFolderPath, copyTemplate, validateNpmName, getCMD, fireCommand, printInstruction } from "./utils";
+import {
+  getAppFolderPath,
+  copyTemplate,
+  validateNpmName,
+  getCMD,
+  fireCommand,
+  printInstruction,
+} from "./utils/index.js";
 
 (async () => {
   try {

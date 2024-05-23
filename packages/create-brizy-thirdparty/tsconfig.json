@@ -1,16 +1,16 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "include": ["src"],
-  "exclude": ["node_modules", "templates"],
+  "exclude": ["node_modules", "templates", "bin"],
   "compilerOptions": {
-    "target": "ES5",
-    "module": "CommonJS",
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "Node",
-    "noEmit": true,
-    "strict": true,
     "noImplicitAny": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "strict": true,
   }
 }
