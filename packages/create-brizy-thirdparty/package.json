@@ -1,0 +1,42 @@
+{
+  "name": "@brizy/create-thirdparty",
+  "version": "1.0.4",
+  "description": "Brizy third-party starter template",
+  "keywords": [
+    "brizy",
+    "third party",
+    "starter"
+  ],
+  "homepage": "https://brizy.io",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "templates"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc -p ./tsconfig.prod.json",
+    "tsc": "tsc",
+    "prepublish": "npm run tsc && npm run build",
+    "clean": "rimraf bin"
+  },
+  "type": "module",
+  "bin": "bin/index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.12.12",
+    "@types/validate-npm-package-name": "^4.0.2",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.7",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "validate-npm-package-name": "^5.0.1",
+    "@inquirer/confirm": "^3.1.7",
+    "@inquirer/prompts": "^5.0.3",
+    "chalk": "^5.3.0",
+    "fs-extra": "^11.2.0"
+  }
+}

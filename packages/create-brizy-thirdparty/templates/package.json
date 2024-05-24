@@ -1,0 +1,11 @@
+{
+  "name": "@brizy/create-local-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "brizy-scripts build",
+    "start": "brizy-scripts start"
+  },
+  "license": "MIT"
+}
