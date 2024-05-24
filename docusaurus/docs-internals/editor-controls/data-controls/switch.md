@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+toc_max_heading_level: 4
 ---
 # Switch
 
@@ -33,7 +34,7 @@ The return value is determined by the configuration of on/off properties. By def
 ### Usage
 
 
-### Basic example
+#### Basic example
 Standard definition with only the required keys. This control will be displayed on all devices.
 
 ```js
@@ -43,7 +44,7 @@ Standard definition with only the required keys. This control will be displayed 
 }
 ```
 
-### Label example
+#### Label example
 Adding a label on the left side of the control.
 
 ```js
@@ -54,7 +55,7 @@ Adding a label on the left side of the control.
 }
 ```
 
-### Devices examples
+#### Devices examples
 It will be rendered on all devices. This value can be skipped because it is set to `"all"` by default.
 
 ```js
@@ -84,7 +85,7 @@ The display is limited to responsive modes, specifically `tablet` and `mobile`.
 }
 ```
 
-### Disabled examples
+#### Disabled examples
 
 Control will be disabled. Normally, here should be your dynamic condition.
 
@@ -122,7 +123,7 @@ const getToolbarContols = ({ getValue }) => {
 }
 ```
 
-### Config value for `on`/`off` examples
+#### Config value for `on`/`off` examples
 When the `switch` is enabled, it will return `"true"`.
 When the `switch` is disabled, it will return `"false"`.
 
