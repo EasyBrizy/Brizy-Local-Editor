@@ -2,9 +2,11 @@
 sidebar_position: 1
 toc_max_heading_level: 4
 ---
+
 # Switch
 
-The switcher control in Brizy presents an `on` \| `off` toggle. It functions as a sophisticated replacement for standard checkboxes.
+The switcher control in Brizy presents an `on` \| `off` toggle. It functions as a sophisticated replacement for standard
+checkboxes.
 
 Example of the switch when it is disabled:
 
@@ -16,53 +18,58 @@ Example of the switch when it is enabled:
 
 ### Parameters
 
-| Name          | Type                                     | Default | Description                                                                                                                                                                                                                                                          |
-|:--------------|:-----------------------------------------|:-------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`          | `string`                                 |    -    | The identifier of the key where the switch will save your data                                                                                                                                                                                                       |
-| `type`        | `string`                                 |    -    | Type should be `"switch"` to use this control                                                                                                                                                                                                                        |
-| `label?`      | `string`                                 |    -    | The label displayed on the left side of the control                                                                                                                                                                                                                  |
-| `position?`   | `number`                                 |    -    | The position of the control in toolbar                                                                                                                                                                                                                               |
-| `devices?`    | `"all"` \| `"desktop"` \| `"responsive"` | `"all"` | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices. |
-| `disabled?`   | `boolean`                                |  `false`  | Configure the condition under which the control is disabled or enabled.                                                                                                                                                                                              |
-| `config?.on`  | `string`                                 |   `"on"`   | The return value of the control when it is enabled                                                                                                                                                                                                                   |
-| `config?.off` | `string`                                 | `"off"` | The return value of the control when it is disabled                                                                                                                                                                                                                  |
-| `helper?.content`  | `string`                                                                                                                                                                        |    -    | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                 |
-| `helper?.position` | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` | `"top"` | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                |
+| Name               | Type                                                                                                                                                                                       |   Default    | Description                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|:-------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`               | `string`                                                                                                                                                                                   |      -       | The identifier of the key where the switch will save your data                                                                                                                                                                                                                                                                                                                                                                  |
+| `type`             | `string`                                                                                                                                                                                   |      -       | Type should be `"switch"` to use this control                                                                                                                                                                                                                                                                                                                                                                                   |
+| `label?`           | `string`                                                                                                                                                                                   |      -       | The label displayed on the left side of the control                                                                                                                                                                                                                                                                                                                                                                             |
+| `position?`        | `number`                                                                                                                                                                                   |      -       | The position of the control in toolbar                                                                                                                                                                                                                                                                                                                                                                                          |
+| `devices?`         | `"all"` \| `"desktop"` \| `"responsive"`                                                                                                                                                   |   `"all"`    | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices.                                                                                                                                                                                               |
+| `disabled?`        | `boolean`                                                                                                                                                                                  |   `false`    | Configure the condition under which the control is disabled or enabled.                                                                                                                                                                                                                                                                                                                                                         |
+| `states?`          | `Array<State>`                                                                                                                                                                             | [`"normal"`] | Allows for different styles based on the element's state <br/> <br/> <b>`State = "normal" \| "hover" \| "active"`</b> <br/> <br/> `"normal"` - the normal state of an element, <br/> `"hover"` - the state when the element is hovered over, <br/> `"active"` - the state when the element is active (e.g., current page in pagination)                                                                                         |
+| `config?.on`       | `string`                                                                                                                                                                                   |    `"on"`    | The return value of the control when it is enabled                                                                                                                                                                                                                                                                                                                                                                              |
+| `config?.off`      | `string`                                                                                                                                                                                   |   `"off"`    | The return value of the control when it is disabled                                                                                                                                                                                                                                                                                                                                                                             |
+| `helper?.content`  | `string`                                                                                                                                                                                   |      -       | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                                                                                                                                                                                                               |
+| `helper?.position` | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` |   `"top"`    | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                                                                                                                                                                                                              |
+| `style?`           | `function`                                                                                                                                                                                 |      -       | This function generates CSS output based on the value from the control. The parameter is an object containing a `value` key, which holds the current value of the control. The function returns an object with a CSS selector key and CSS property values.  <pre>`style: ({value}) => {`<br/> `return {`<br/>  `"{{WRAPPER}} .brz-text": {`<br/>   `display: value === "on" ? "flex" : "none"`<br/>  `}`<br/> `}`<br/>`}`</pre> |
 
 ### Return value
 
-The return value is determined by the configuration of on | off properties. By default, it is `"on"` when the switch is enabled and `"off"` when the switch is disabled.
+The return value is determined by the configuration of on | off properties. By default, it is `"on"` when the switch is
+enabled and `"off"` when the switch is disabled.
 
 ### Usage
 
-
 #### Basic example
+
 Standard definition with only the required keys. This control will be displayed on all devices.
 
 ```js
 {
-  id: "loop", 
+  id: "loop",
   type: "switch"
 }
 ```
 
 #### Label example
+
 Adding a label on the left side of the control.
 
 ```js
 {
-  id: "loop", 
+  id: "loop",
   label: "Loop",
   type: "switch"
 }
 ```
 
 #### Devices examples
+
 It will be rendered on all devices. This value can be skipped because it is set to `"all"` by default.
 
 ```js
 {
-  id: "loop", 
+  id: "loop",
   type: "switch",
   devices: "all"
 }
@@ -72,16 +79,17 @@ Rendering will occur only on `desktop`.
 
 ```js
 {
-  id: "loop", 
+  id: "loop",
   type: "switch",
   devices: "desktop"
 }
 ```
+
 The display is limited to responsive modes, specifically `tablet` and `mobile`.
 
 ```js
 {
-  id: "loop", 
+  id: "loop",
   type: "switch",
   devices: "responsive"
 }
@@ -93,8 +101,8 @@ Control will be disabled. Normally, here should be your dynamic condition.
 
 ```js
 {
-  id: "loop", 
-  type: "switch", 
+  id: "loop",
+  type: "switch",
   disabled: true
 }
 ```
@@ -126,12 +134,13 @@ const getToolbarContols = ({ getValue }) => {
 ```
 
 #### Config value for `on` | `off` examples
+
 When the `switch` is enabled, it will return `"true"`.
 When the `switch` is disabled, it will return `"false"`.
 
 ```js
 {
-  id: "loop", 
+  id: "loop",
   type: "switch",
   config: {
     on: "true",
@@ -145,7 +154,7 @@ When the `switch` is disabled, it will return `"0"`.
 
 ```js
 {
-  id: "loop", 
+  id: "loop",
   type: "switch",
   config: {
     on: "1",
@@ -159,7 +168,7 @@ When the `switch` is disabled, it will return `"square"`.
 
 ```js
 {
-  id: "loop", 
+  id: "loop",
   type: "switch",
   config: {
     on: "round",
@@ -170,7 +179,8 @@ When the `switch` is disabled, it will return `"square"`.
 
 #### Helper examples
 
-The helper object contains a content property with the value `"help text"`, which will be displayed as additional guidance or information for the user.
+The helper object contains a content property with the value `"help text"`, which will be displayed as additional
+guidance or information for the user.
 
 ```js
 {
@@ -182,7 +192,8 @@ The helper object contains a content property with the value `"help text"`, whic
 }
 ```
 
-When the helper object contains a position property with the value `"top-start"`, it indicates that the helper text will be displayed at the top left corner of the icon.
+When the helper object contains a position property with the value `"top-start"`, it indicates that the helper text will
+be displayed at the top left corner of the icon.
 
 ```js
 {
@@ -195,91 +206,108 @@ When the helper object contains a position property with the value `"top-start"`
 }
 ```
 
-[//]: # (### CSS examples)
+#### CSS examples
 
-[//]: # ()
-[//]: # (Show or hide the `.brz-text` element with CSS using a switch control value.)
+Show or hide the `.brz-text` element with CSS using a switch control value.
+If `config.on` and `config.off` are not provided, then the default values for the switch are `"on"` or `"off"`.
 
-[//]: # (If `config.on` and `config.off` are not provided, then the default values for the switch are `"on"` or `"off"`.)
+```js
+{
+  id: "loop",
+  type: "switch",
+  style: ({ value }) => {
+    if (value.value === "on") {
+      return {
+        "{{WRAPPER}} .brz-text": {
+          display: "block"
+        }
+      }
+    }
 
-[//]: # ()
-[//]: # (```js)
+    return {
+      "{{WRAPPER}} .brz-text": {
+        display: "none"
+      }
+    }
+  }
+}
 
-[//]: # ({)
+```
 
-[//]: # (  id: "loop", )
+Change the opacity of the `.brz-text` element with CSS using custom values from a `switch` control.
+The values for the switch were provided in the `config`, and now the values are `"1"` or `"0"`.
 
-[//]: # (  type: "switch",)
+```js
+{
+  id: "loop",
+  type: "switch",
+  config: {
+    on: "1",
+    off: "0"
+  },
+  style: ({ value }) => {
+    return {
+      "{{WRAPPER}} .brz-text": {
+        opacity: value.value
+      }
+    }
+  }
+}
+```
 
-[//]: # (  style: &#40;{ value }&#41;=> {)
+Change the `pointer-events` and `display` properties of the `.brz-text` and `.brz-map` elements with CSS.
 
-[//]: # (    if&#40;value.value === "on"&#41;{)
+```js
+{
+  id: "accesibility",
+  type: "switch",
+  style: ({ value }) => {
+    const isEnabled = value.value === "on";
+    
+    return {
+      "{{WRAPPER}} .brz-text, {{WRAPPER}} .brz-map": {
+        "pointer-events": isEnabled ? "all" : "none",
+        "display": isEnabled ? "flex": "block"
+      }
+    }
+  }
+}
+```
 
-[//]: # (      return {)
+Get the normal and hover CSS for opacity for the `.brz-list` element.
+If we enable the switch in the normal state and disable it in the hover state, hovering will result in a small fade effect.
 
-[//]: # (        "{{WRAPPER}} .brz-text": {)
+```js
+{
+  id: "loop",
+  type: "switch",
+  states: ["normal", "hover"],
+  style: ({ value }) => {
+    return {
+      "{{WRAPPER}} .brz-list:hover": {
+        opacity: value.value === "on" ? 1 : 0
+      }
+    }
+  }
+}
+```
 
-[//]: # (            display: "block")
+Get the normal and active CSS for color for the `.brz-list-item` element.
+For example, if we enable the switch in the normal state and disable it for the active state,
+then `.brz-list-item` will have a black color and `.brz-list-item.active` will have a red color.
 
-[//]: # (        })
+```js
+{
+  id: "loop",
+  type: "switch",
+  states: ["normal", "active"],
+  style: ({ value }) => {
+    return {
+      "{{WRAPPER}} .brz-list-item": {
+        color: value.value === "on" ? "black" : "red"
+      }
+    }
+  }
+}
+```
 
-[//]: # (      })
-
-[//]: # (    })
-
-[//]: # (    )
-[//]: # (    return {)
-
-[//]: # (      "{{WRAPPER}} .brz-text": {)
-
-[//]: # (        display: "none")
-
-[//]: # (      })
-
-[//]: # (    })
-
-[//]: # (  })
-
-[//]: # (})
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (Change the opacity of the `.brz-text` element with CSS using custom values from a `switch` control.)
-
-[//]: # (The values for the switch were provided in the `config`, and now the values are `"1"` or `"0"`.)
-
-[//]: # ()
-[//]: # (```js)
-
-[//]: # ({)
-
-[//]: # (  id: "loop", )
-
-[//]: # (  type: "switch",)
-
-[//]: # (  config: {)
-
-[//]: # (    on: "1",)
-
-[//]: # (    off: "0")
-
-[//]: # (  },)
-
-[//]: # (  style: &#40;{ value }&#41;=> {)
-
-[//]: # (    return {)
-
-[//]: # (      "{{WRAPPER}} .brz-text": {)
-
-[//]: # (        opacity: value.value)
-
-[//]: # (      })
-
-[//]: # (    })
-
-[//]: # (  })
-
-[//]: # (})
-
-[//]: # (```)
