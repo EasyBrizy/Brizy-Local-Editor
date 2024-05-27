@@ -26,6 +26,8 @@ Example of the switch when it is enabled:
 | `disabled?`   | `boolean`                                |  `false`  | Configure the condition under which the control is disabled or enabled.                                                                                                                                                                                              |
 | `config?.on`  | `string`                                 |   `"on"`   | The return value of the control when it is enabled                                                                                                                                                                                                                   |
 | `config?.off` | `string`                                 | `"off"` | The return value of the control when it is disabled                                                                                                                                                                                                                  |
+| `helper?.content`  | `string`                                                                                                                                                                        |    -    | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                 |
+| `helper?.position` | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` | `"top"` | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                |
 
 ### Return value
 
@@ -162,6 +164,33 @@ When the `switch` is disabled, it will return `"square"`.
   config: {
     on: "round",
     off: "square"
+  }
+}
+```
+
+#### Helper examples
+
+The helper object contains a content property with the value `"help text"`, which will be displayed as additional guidance or information for the user.
+
+```js
+{
+  id: "autoplay",
+  type: "switch",
+  helper: {
+    content: "help text"
+  }
+}
+```
+
+When the helper object contains a position property with the value `"top-start"`, it indicates that the helper text will be displayed at the top left corner of the icon.
+
+```js
+{
+  id: "autoplay",
+  type: "switch",
+  helper: {
+    content: "help text",
+    position: "top-start"
   }
 }
 ```
