@@ -31,6 +31,7 @@ Example of the switch when it is enabled:
 | `config?.off`      | `string`                                                                                                                                                                                   |   `"off"`    | The return value of the control when it is disabled                                                                                                                                                                                                                                                                                                                                                                             |
 | `helper?.content`  | `string`                                                                                                                                                                                   |      -       | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                                                                                                                                                                                                               |
 | `helper?.position` | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` |   `"top"`    | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                                                                                                                                                                                                              |
+| `default?`    | `Default`                                |    -    | The default control value. <br/> <br/> <b>`Default: { value: string; }`</b> <br/> <br/> `value` - the control's custom initial value <br/>                                                                                                                                                                                                                                                                                      |
 | `style?`           | `function`                                                                                                                                                                                 |      -       | This function generates CSS output based on the value from the control. The parameter is an object containing a `value` key, which holds the current value of the control. The function returns an object with a CSS selector key and CSS property values.  <pre>`style: ({value}) => {`<br/> `return {`<br/>  `"{{WRAPPER}} .brz-text": {`<br/>   `display: value === "on" ? "flex" : "none"`<br/>  `}`<br/> `}`<br/>`}`</pre> |
 
 ### Return value
@@ -311,3 +312,73 @@ then `.brz-list-item` will have a black color and `.brz-list-item.active` will h
 }
 ```
 
+
+#### Default value examples
+
+In this example, the switch control that has the value `"on"` by default will be enabled.
+
+```js
+{
+  id: "autoPlay", 
+  type: "switch",
+  default: {
+    value: "on"
+  }
+}
+```
+
+The switch control that has the value `"off"` by default will be disabled.
+
+```js
+{
+  id: "autoPlay", 
+  type: "switch",
+  default: {
+    value: "off"
+  }
+}
+```
+
+The switch control that has the value `"disabled"` and by default also will be disabled.
+
+```js
+{
+  id: "autoPlay", 
+  type: "switch",
+  default: {
+    value: "disabled"
+  }
+}
+```
+
+This switch will be disabled by default because the default value matches `config.off`.
+
+```js
+{
+  id: "loop",
+  type: "switch",
+  default: {
+    value: "false"
+  },
+  config: {
+    on: "true",
+    off: "false"
+  }
+}
+```
+
+This switch will be enabled by default because the default value matches `config.on`.
+
+```js
+{
+  id: "loop",
+  type: "switch",
+  default: {
+    value: "1"
+  },
+  config: {
+    on: "1",
+    off: "0"
+  }
+}
+```
