@@ -23,24 +23,23 @@ Example of the switch when it is enabled:
 | `id`               | `string`                                                                                                                                                                                   |      -       | The identifier of the key where the switch will save your data                                                                                                                                                                                                                                                                                                                                                                  |
 | `type`             | `string`                                                                                                                                                                                   |      -       | Type should be `"switch"` to use this control                                                                                                                                                                                                                                                                                                                                                                                   |
 | `label?`           | `string`                                                                                                                                                                                   |      -       | The label displayed on the left side of the control                                                                                                                                                                                                                                                                                                                                                                             |
+| `className?`       | `string`                                                                                                                                                                                   |      -       | The custom CSS class name that will be set on the control. It can be used to modify the control styles.                                                                                                                                                                                                                                                                                                                         |
+| `icon?`            | `string`                                                                                                                                                                                   |      -       | Icon name that will be rendered on left side of the control's label. View all [icons](../../icons/).                                                                                                                                                                                                                                                                                                                            |
 | `position?`        | `number`                                                                                                                                                                                   |      -       | The position of the control in toolbar                                                                                                                                                                                                                                                                                                                                                                                          |
+| `roles?`           | `Array<Role>`                                                                                                                                                                              |      -       | Render the control only if the current user's role matches one of the roles in the provided array. <br /> <br /> **`type Role = "admin" \| "viewer" \| "editor" \| "designer" \| "manager"`**                                                                                                                           | string`**                                                                                                                                                                                                                                                                                                  |
 | `devices?`         | `"all"` \| `"desktop"` \| `"responsive"`                                                                                                                                                   |   `"all"`    | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices.                                                                                                                                                                                               |
 | `disabled?`        | `boolean`                                                                                                                                                                                  |   `false`    | Configure the condition under which the control is disabled or enabled.                                                                                                                                                                                                                                                                                                                                                         |
+| `display?`         | `"inline" \| "block"`                                                                                                                                                                      |  `"inline"`   | Configure how the control and its label will be arranged. If `display` is `"inline"` then label and control will be in one row, if `display` is `"block"` then label will be in one row, and the next row down will be the control.                                                                                                                                                                                             |
+| `helper?.content`  | `string`                                                                                                                                                                                   |      -       | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                                                                                                                                                                                                               |
+| `helper?.position` | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` |   `"top"`    | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                                                                                                                                                                                                              |
 | `states?`          | `Array<State>`                                                                                                                                                                             | [`"normal"`] | Allows for different styles based on the element's state <br/> <br/> <b>`State = "normal" \| "hover" \| "active"`</b> <br/> <br/> `"normal"` - the normal state of an element, <br/> `"hover"` - the state when the element is hovered over, <br/> `"active"` - the state when the element is active (e.g., current page in pagination)                                                                                         |
 | `config?.on`       | `string`                                                                                                                                                                                   |    `"on"`    | The return value of the control when it is enabled                                                                                                                                                                                                                                                                                                                                                                              |
 | `config?.off`      | `string`                                                                                                                                                                                   |   `"off"`    | The return value of the control when it is disabled                                                                                                                                                                                                                                                                                                                                                                             |
-| `helper?.content`  | `string`                                                                                                                                                                                   |      -       | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                                                                                                                                                                                                               |
-| `helper?.position` | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` |   `"top"`    | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                                                                                                                                                                                                              |
+| `default?`         | `Default`                                                                                                                                                                                  |      -       | The default control value. <br/> <br/> <b>`Default: { value: string; }`</b> <br/> <br/> `value` - the control's custom initial value <br/>                                                                                                                                                                                                                                                                                      |
 | `style?`           | `function`                                                                                                                                                                                 |      -       | This function generates CSS output based on the value from the control. The parameter is an object containing a `value` key, which holds the current value of the control. The function returns an object with a CSS selector key and CSS property values.  <pre>`style: ({value}) => {`<br/> `return {`<br/>  `"{{WRAPPER}} .brz-text": {`<br/>   `display: value === "on" ? "flex" : "none"`<br/>  `}`<br/> `}`<br/>`}`</pre> |
 
-### Return value
 
-The return value is determined by the configuration of on | off properties. By default, it is `"on"` when the switch is
-enabled and `"off"` when the switch is disabled.
-
-### Usage
-
-#### Basic example
+### Basic example
 
 Standard definition with only the required keys. This control will be displayed on all devices.
 
@@ -51,6 +50,26 @@ Standard definition with only the required keys. This control will be displayed 
 }
 ```
 
+### Return value
+
+The return value is determined by the configuration of on/off properties. By default, it is `"on"` when the switch is
+enabled and `"off"` when the switch is disabled.
+
+```js
+{
+  value: string;
+}
+```
+
+Example of value:
+```js
+{
+  value: "on"
+}
+```
+
+### Usage
+
 #### Label example
 
 Adding a label on the left side of the control.
@@ -60,6 +79,42 @@ Adding a label on the left side of the control.
   id: "loop",
   label: "Loop",
   type: "switch"
+}
+```
+
+#### Class name example
+
+Adding a CSS class to the control's DOM node.
+
+```js
+{
+  id: "loop",
+  type: "switch"
+  className: "mySwitch"
+}
+```
+
+#### Icon example
+
+Adding a "repeat" icon to the left of the control's label.
+
+```js
+{
+  id: "loop",
+  type: "switch"
+  icon: "nc-repeat"
+}
+```
+
+#### Roles example
+
+Show the control only to users with admin and designer privileges.
+
+```js
+{
+  id: "loop",
+  type: "switch",
+  roles: ["admin", "designer"]
 }
 ```
 
@@ -133,6 +188,67 @@ const getToolbarContols = ({ getValue }) => {
 }
 ```
 
+#### Display examples
+In this example, with `display: "block"`, the label will be rendered on the first row and the control on the second.
+
+```js
+{
+  id: "autoplay",
+  type: "switch"
+  display: "block"
+}
+```
+
+#### Helper examples
+The helper object contains a content property with the value `"help text"`, which will be displayed as additional
+guidance or information for the user.
+
+```js
+{
+  id: "autoplay",
+  type: "switch",
+  helper: {
+    content: "help text"
+  }
+}
+```
+
+When the helper object contains a position property with the value `"top-start"`, it indicates that the helper text will
+be displayed at the top left corner of the icon.
+
+```js
+{
+  id: "autoplay",
+  type: "switch",
+  helper: {
+    content: "help text",
+    position: "top-start"
+  }
+}
+```
+#### States example
+
+Allows the control to work in normal and hover states.
+
+```js
+{
+  id: "display",
+  type: "switch", 
+  states: ["normal", "hover"]
+}
+```
+
+Allows the control to work in normal, hover and active states.
+
+```js
+{
+  id: "display",
+  type: "switch", 
+  states: ["normal", "hover", "active"]
+}
+```
+
+
 #### Config value for `on` | `off` examples
 
 When the `switch` is enabled, it will return `"true"`.
@@ -177,31 +293,72 @@ When the `switch` is disabled, it will return `"square"`.
 }
 ```
 
-#### Helper examples
+#### Default value examples
 
-The helper object contains a content property with the value `"help text"`, which will be displayed as additional
-guidance or information for the user.
+In this example, the switch control that has the value `"on"` by default will be enabled.
 
 ```js
 {
-  id: "autoplay",
+  id: "autoPlay", 
   type: "switch",
-  helper: {
-    content: "help text"
+  default: {
+    value: "on"
   }
 }
 ```
 
-When the helper object contains a position property with the value `"top-start"`, it indicates that the helper text will
-be displayed at the top left corner of the icon.
+The switch control that has the value `"off"` by default will be disabled.
 
 ```js
 {
-  id: "autoplay",
+  id: "autoPlay", 
   type: "switch",
-  helper: {
-    content: "help text",
-    position: "top-start"
+  default: {
+    value: "off"
+  }
+}
+```
+
+The switch control that has the value `"disabled"` and by default also will be disabled.
+
+```js
+{
+  id: "autoPlay", 
+  type: "switch",
+  default: {
+    value: "disabled"
+  }
+}
+```
+
+This switch will be disabled by default because the default value matches `config.off`.
+
+```js
+{
+  id: "loop",
+  type: "switch",
+  default: {
+    value: "false"
+  },
+  config: {
+    on: "true",
+    off: "false"
+  }
+}
+```
+
+This switch will be enabled by default because the default value matches `config.on`.
+
+```js
+{
+  id: "loop",
+  type: "switch",
+  default: {
+    value: "1"
+  },
+  config: {
+    on: "1",
+    off: "0"
   }
 }
 ```
@@ -311,3 +468,63 @@ then `.brz-list-item` will have a black color and `.brz-list-item.active` will h
 }
 ```
 
+#### Usage in HTML example
+
+In the example below, we use the switch output value (default is `"on"` | `"off"`) to determine when to render the label in the button element.
+When the switch is enabled (`"on"`), we will render the label.
+We also use the same switch value to add the `"data-disabled"` HTML attribute to the `.brz-button` and to create a `props.size` value for the `<Icon />` component.
+
+```tsx
+import { Brizy } from "@brizy/core";
+import { Icon } from "./Icon";
+import React, { JSX } from "react";
+
+interface Props {
+  showLabel: "on" | "off";
+}
+
+const Button = (props: Props): JSX.Element => {
+  const { showLabel } = props;
+
+  const attributes = {
+    "data-disabled": showLabel === "off"
+  }
+  
+  return (
+    <div className="brz-button" {...attributes}>
+      {showLabel === "on" && <span>Click</span>}
+      <Icon name="next" size={showLabel === "on" ? 16 : 24} />
+    </div>
+  );
+};
+
+Brizy.registerComponent(Button, {
+  id: "ThirdParty.Button",
+  title: "My Button",
+  options: (props) => {
+    return [
+      {
+        selector: ".brz-button",
+        toolbar: [
+          {
+            id: "toolbarCurrentElement",
+            type: "popover",
+            config: {
+              icon: "nc-button",
+              title: "Button"
+            },
+            devices: "desktop",
+            options: [
+              {
+                id: "showLabel",
+                type: "switch",
+                devices: "desktop"
+              }
+            ]
+          }
+        ]
+      }
+    ];
+  }
+});
+```
