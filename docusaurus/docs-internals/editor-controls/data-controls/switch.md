@@ -32,6 +32,11 @@ Example of the switch when it is enabled:
 ### Return value
 
 The return value is determined by the configuration of on | off properties. By default, it is `"on"` when the switch is enabled and `"off"` when the switch is disabled.
+```js
+{
+  value: config.on | config.off;
+}
+```
 
 ### Usage
 

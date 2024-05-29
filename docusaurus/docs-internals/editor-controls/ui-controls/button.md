@@ -29,7 +29,7 @@ Example of the button:
 
 ### Return value
 
-The button control in Brizy serves as an interactive element that triggers an action when clicked.
+The button control in Brizy serves as an interactive element that triggers an action when clicked and does not return a value.
 
 ### Usage
 
