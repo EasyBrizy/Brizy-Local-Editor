@@ -5,7 +5,7 @@ toc_max_heading_level: 4
 
 The ToggleButton component is a simple `on` | `off` toggle that can display an icon and change its appearance based on its type. This component supports customization through various props to control alignment, appearance, and behavior.
 
-Example of the toggle button when it is disabled | enabled:
+Example of the toggle button when it is disabled or enabled:
 
 ![Toggle Button Off](/img/data-controls/toggle-button-off.png) ![Toggle Button On](/img/data-controls/toggle-button-on.png)
 

@@ -2,11 +2,9 @@
 sidebar_position: 1
 toc_max_heading_level: 4
 ---
-
 # Switch
 
-The switcher control in Brizy presents an `on` \| `off` toggle. It functions as a sophisticated replacement for standard
-checkboxes.
+The switcher control in Brizy presents an `on` \| `off` toggle. It functions as a sophisticated replacement for standard checkboxes.
 
 Example of the switch when it is disabled:
 
