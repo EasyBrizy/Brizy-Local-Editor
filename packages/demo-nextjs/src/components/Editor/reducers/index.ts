@@ -7,6 +7,7 @@ export function reducer(state: State, action: Action) {
     case "update": {
       return {
         ...state,
+        loading: false,
         output: action.data,
       };
     }
@@ -16,6 +17,7 @@ export function reducer(state: State, action: Action) {
       }
       return {
         ...state,
+        loading: false,
         modal: {
           opened: true,
           resolve: action.res,
@@ -31,6 +33,7 @@ export function reducer(state: State, action: Action) {
 
       return {
         ...state,
+        loading: false,
         modal: {
           opened: false,
           resolve: noop,
@@ -43,11 +46,25 @@ export function reducer(state: State, action: Action) {
 
       return {
         ...state,
+        loading: false,
         modal: {
           opened: false,
           resolve: noop,
           reject: noop,
         },
+      };
+    }
+    case "loading": {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case "error": {
+      return {
+        ...state,
+        loading: false,
+        error: action.message,
       };
     }
   }

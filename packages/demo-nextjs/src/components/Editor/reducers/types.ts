@@ -7,6 +7,13 @@ export type Action =
       data: string;
     }
   | {
+      type: "loading";
+    }
+  | {
+      type: "error";
+      message: string;
+    }
+  | {
       type: "modal";
       res: Response<BaseDCItem>;
       rej: Response<string>;
@@ -22,6 +29,8 @@ export type Action =
 
 export interface State {
   output: string;
+  loading?: boolean;
+  error?: string;
   modal: {
     opened: boolean;
     resolve: Response<BaseDCItem>;

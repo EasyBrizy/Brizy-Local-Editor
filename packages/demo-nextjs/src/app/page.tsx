@@ -1,8 +1,8 @@
-"use client";
-
 import { Editor } from "@/components/Editor";
+import { getEditorConfig } from "@/lib/editorConfig";
 import React from "react";
 
-export default function EditorPage() {
-  return <Editor />;
+export default async function EditorPage() {
+  const editorConfig = await getEditorConfig();
+  return <Editor config={editorConfig} />;
 }

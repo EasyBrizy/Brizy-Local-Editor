@@ -9,17 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "mongoose": "^8.4.0",
+    "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.3"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@builder/core": "*",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
-    "@builder/core": "*"
+    "typescript": "^5"
   }
 }

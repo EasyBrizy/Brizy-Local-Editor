@@ -1,14 +1,17 @@
+"use client";
+
 import { DynamicContentModal } from "@/components/modals/DynamicContent";
+import { getConfig } from "@/config";
 import { useEditor } from "@/hooks/useEditor";
 import { Config } from "@/hooks/useEditor/types";
 import { BlockWithThumbs, KitType, Kits, Popup, StoryTemplate, Template } from "@builder/core/build/es/types/templates";
 import React, { useReducer, useRef } from "react";
-import { demoConfig } from "./demoConfig";
 import { reducer } from "./reducers";
 import { State } from "./reducers/types";
 import "./styles/index.css";
+import { Props } from "./types";
 
-const token = "demo";
+const token = getConfig().editorToken;
 
 const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
 
@@ -23,19 +26,18 @@ const initialState: State = {
   },
 };
 
-export const Editor = () => {
+export const Editor = (props: Props) => {
+  const { config: baseConfig } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const config: Config = {
-    ...demoConfig,
+    ...baseConfig,
     container: containerRef.current,
-
     dynamicContent: {
       groups: {
         richText: {
           handler(res, rej) {
-            console.log("eee");
             dispatch({ type: "modal", res, rej });
           },
         },
@@ -224,17 +226,44 @@ export const Editor = () => {
         },
       },
     },
-    onSave: (data) => {
-      dispatch({
-        type: "update",
-        data: JSON.stringify(data),
-      });
+    onSave: async (data) => {
+      try {
+        if (data.pageData) {
+          await fetch("/api/page", {
+            method: "POST",
+            body: JSON.stringify({
+              id: "1",
+              pageData: data.pageData,
+            }),
+          });
+        }
+        if (data.projectData) {
+          await fetch("/api/project", {
+            method: "POST",
+            body: JSON.stringify({
+              id: "1",
+              projectData: data.projectData,
+            }),
+          });
+        }
+
+        dispatch({
+          type: "update",
+          data: JSON.stringify(data),
+        });
+      } catch (e) {
+        dispatch({
+          type: "error",
+          message: "Failed to update projectData, pageData",
+        });
+      }
     },
   };
 
   const [builderState, builderInstance] = useEditor(token, config);
 
   const handleUpdate = () => {
+    dispatch({ type: "loading" });
     builderInstance?.save();
   };
 
@@ -254,6 +283,8 @@ export const Editor = () => {
 
   return (
     <>
+      {state.error && <div style={{ backgroundColor: "red", color: "#fff" }}>{state.error}</div>}
+
       <div className="container">
         {builderState.status === "error" ? (
           builderState.error
@@ -265,7 +296,7 @@ export const Editor = () => {
 
         <div className="container__output">
           <button className="btn" onClick={handleUpdate}>
-            Update
+            {state.loading ? "Updating..." : "Update"}
           </button>
           <textarea className="output" defaultValue={state.output} />
         </div>

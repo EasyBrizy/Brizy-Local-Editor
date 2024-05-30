@@ -1,14 +1,11 @@
-import { getConfig } from "@/config";
-import { Config } from "@/hooks/useEditor/types";
+import type { Config } from "@/hooks/useEditor/types";
 import { Modes } from "@builder/core/build/es/types/types";
-
-const previewUrl = `${getConfig().host}/preview`;
 
 export const demoConfig: Config = {
   mode: Modes.page,
   container: null,
   pageData: {
-    id: "1",
+    id: 1,
     title: "Home",
     slug: "Home",
     status: "publish",
@@ -23,6 +20,7 @@ export const demoConfig: Config = {
     fields: [],
   },
   projectData: {
+    id: 1,
     selectedKit: "vnexmlshkihvcgsxmozgxzzdwsyvolvmhtne",
     selectedStyle: "kldugntsakdckzxhreidncqvgunudghrcuzv",
     styles: [
@@ -694,25 +692,9 @@ export const demoConfig: Config = {
   integration: {
     form: {
       action: "https://reqbin.com/sample/post/json",
-      fields: {
-        handler(res) {
-          res([
-            {
-              title: "Email",
-              value: "email",
-            },
-            {
-              title: "Name",
-              value: "name",
-            },
-            {
-              title: "Password",
-              value: "password",
-            },
-          ]);
-        },
-      },
     },
   },
-  pagePreview: previewUrl,
+  urls: {
+    compileTemplateIcons: "/api/icons",
+  },
 };

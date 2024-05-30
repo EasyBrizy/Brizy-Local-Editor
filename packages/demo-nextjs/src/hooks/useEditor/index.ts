@@ -1,3 +1,4 @@
+import { getConfig } from "@/config";
 import { useEffect, useReducer, useRef } from "react";
 import { reducer } from "./reducer";
 import { ActionKind, BuilderGlobal, Config, Instance, State } from "./types";
@@ -16,7 +17,7 @@ export const useEditor = (token: string, config: Config): [State, Instance | und
 
     if (!builder && !builderScriptsRef) {
       const script = document.createElement("script");
-      script.src = "https://cdn.brizylocal.com/pages/3.1.4/index.js";
+      script.src = getConfig().editorUrl;
       document.body.appendChild(script);
       builderScript.current = script;
 
