@@ -2,6 +2,7 @@
 sidebar_position: 1
 toc_max_heading_level: 4
 ---
+
 # Switch
 
 The switcher control in Brizy presents an `on` \| `off` toggle. It functions as a sophisticated replacement for standard checkboxes.
@@ -29,46 +30,47 @@ Example of the switch when it is enabled:
 | `config?.off`      | `string`                                                                                                                                                                                   |   `"off"`    | The return value of the control when it is disabled                                                                                                                                                                                                                                                                                                                                                                             |
 | `helper?.content`  | `string`                                                                                                                                                                                   |      -       | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                                                                                                                                                                                                               |
 | `helper?.position` | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` |   `"top"`    | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                                                                                                                                                                                                              |
-| `default?`    | `Default`                                |    -    | The default control value. <br/> <br/> <b>`Default: { value: string; }`</b> <br/> <br/> `value` - the control's custom initial value <br/>                                                                                                                                                                                                                                                                                      |
 | `style?`           | `function`                                                                                                                                                                                 |      -       | This function generates CSS output based on the value from the control. The parameter is an object containing a `value` key, which holds the current value of the control. The function returns an object with a CSS selector key and CSS property values.  <pre>`style: ({value}) => {`<br/> `return {`<br/>  `"{{WRAPPER}} .brz-text": {`<br/>   `display: value === "on" ? "flex" : "none"`<br/>  `}`<br/> `}`<br/>`}`</pre> |
 
 ### Return value
 
-The return value is determined by the configuration of on | off properties. By default, it is `"on"` when the switch is
-enabled and `"off"` when the switch is disabled.
+The return value is determined by the configuration of on | off properties. By default, it is `"on"` when the switch is enabled and `"off"` when the switch is disabled.
+```js
+{
+  value: config.on | config.off;
+}
+```
 
 ### Usage
 
-#### Basic example
 
+#### Basic example
 Standard definition with only the required keys. This control will be displayed on all devices.
 
 ```js
 {
-  id: "loop",
+  id: "loop", 
   type: "switch"
 }
 ```
 
 #### Label example
-
 Adding a label on the left side of the control.
 
 ```js
 {
-  id: "loop",
+  id: "loop", 
   label: "Loop",
   type: "switch"
 }
 ```
 
 #### Devices examples
-
 It will be rendered on all devices. This value can be skipped because it is set to `"all"` by default.
 
 ```js
 {
-  id: "loop",
+  id: "loop", 
   type: "switch",
   devices: "all"
 }
@@ -78,17 +80,16 @@ Rendering will occur only on `desktop`.
 
 ```js
 {
-  id: "loop",
+  id: "loop", 
   type: "switch",
   devices: "desktop"
 }
 ```
-
 The display is limited to responsive modes, specifically `tablet` and `mobile`.
 
 ```js
 {
-  id: "loop",
+  id: "loop", 
   type: "switch",
   devices: "responsive"
 }
@@ -100,8 +101,8 @@ Control will be disabled. Normally, here should be your dynamic condition.
 
 ```js
 {
-  id: "loop",
-  type: "switch",
+  id: "loop", 
+  type: "switch", 
   disabled: true
 }
 ```
@@ -133,13 +134,12 @@ const getToolbarContols = ({ getValue }) => {
 ```
 
 #### Config value for `on` | `off` examples
-
 When the `switch` is enabled, it will return `"true"`.
 When the `switch` is disabled, it will return `"false"`.
 
 ```js
 {
-  id: "loop",
+  id: "loop", 
   type: "switch",
   config: {
     on: "true",
@@ -153,7 +153,7 @@ When the `switch` is disabled, it will return `"0"`.
 
 ```js
 {
-  id: "loop",
+  id: "loop", 
   type: "switch",
   config: {
     on: "1",
@@ -167,7 +167,7 @@ When the `switch` is disabled, it will return `"square"`.
 
 ```js
 {
-  id: "loop",
+  id: "loop", 
   type: "switch",
   config: {
     on: "round",
@@ -178,8 +178,7 @@ When the `switch` is disabled, it will return `"square"`.
 
 #### Helper examples
 
-The helper object contains a content property with the value `"help text"`, which will be displayed as additional
-guidance or information for the user.
+The helper object contains a content property with the value `"help text"`, which will be displayed as additional guidance or information for the user.
 
 ```js
 {
@@ -191,8 +190,7 @@ guidance or information for the user.
 }
 ```
 
-When the helper object contains a position property with the value `"top-start"`, it indicates that the helper text will
-be displayed at the top left corner of the icon.
+When the helper object contains a position property with the value `"top-start"`, it indicates that the helper text will be displayed at the top left corner of the icon.
 
 ```js
 {
@@ -310,73 +308,63 @@ then `.brz-list-item` will have a black color and `.brz-list-item.active` will h
 }
 ```
 
+#### Usage in HTML example
 
-#### Default value examples
+In the example below, we use the switch output value (default is `"on"` | `"off"`) to determine when to render the label in the button element.
+When the switch is enabled (`"on"`), we will render the label.
+We also use the same switch value to add the `"data-disabled"` HTML attribute to the `.brz-button` and to create a props.size value for the `<Icon />` component.
 
-In this example, the switch control that has the value `"on"` by default will be enabled.
+```tsx
+import { Brizy } from "@brizy/core";
+import { Icon } from "./Icon";
+import React, { JSX } from "react";
 
-```js
-{
-  id: "autoPlay", 
-  type: "switch",
-  default: {
-    value: "on"
-  }
+interface Props {
+  showLabel: "on" | "off";
 }
-```
 
-The switch control that has the value `"off"` by default will be disabled.
+const Button = (props: Props): JSX.Element => {
+  const { showLabel } = props;
 
-```js
-{
-  id: "autoPlay", 
-  type: "switch",
-  default: {
-    value: "off"
+  const attributes = {
+    "data-disabled": showLabel === "off"
   }
-}
-```
+  
+  return (
+    <div className="brz-button" {...attributes}>
+      {showLabel === "on" && <span>Click</span>}
+      <Icon name="next" size={showLabel === "on" ? 16 : 24} />
+    </div>
+  );
+};
 
-The switch control that has the value `"disabled"` and by default also will be disabled.
-
-```js
-{
-  id: "autoPlay", 
-  type: "switch",
-  default: {
-    value: "disabled"
+Brizy.registerComponent(Button, {
+  id: "ThirdParty.Button",
+  title: "My Button",
+  options: (props) => {
+    return [
+      {
+        selector: ".brz-button",
+        toolbar: [
+          {
+            id: "toolbarCurrentElement",
+            type: "popover",
+            config: {
+              icon: "nc-button",
+              title: "Button"
+            },
+            devices: "desktop",
+            options: [
+              {
+                id: "showLabel",
+                type: "switch",
+                devices: "desktop"
+              }
+            ]
+          }
+        ]
+      }
+    ];
   }
-}
-```
-
-This switch will be disabled by default because the default value matches `config.off`.
-
-```js
-{
-  id: "loop",
-  type: "switch",
-  default: {
-    value: "false"
-  },
-  config: {
-    on: "true",
-    off: "false"
-  }
-}
-```
-
-This switch will be enabled by default because the default value matches `config.on`.
-
-```js
-{
-  id: "loop",
-  type: "switch",
-  default: {
-    value: "1"
-  },
-  config: {
-    on: "1",
-    off: "0"
-  }
-}
+});
 ```
