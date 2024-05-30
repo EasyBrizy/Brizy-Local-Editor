@@ -54,6 +54,9 @@ export interface Config {
   projectData: Record<string, unknown>;
 
   //#region Urls
+  urls?: {
+    compileTemplateIcons?: string;
+  };
 
   assets?: string;
   pagePreview?: string;
