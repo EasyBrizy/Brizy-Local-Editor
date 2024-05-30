@@ -56,7 +56,7 @@ Standard definition with only the required keys. This control will be displayed 
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number"
 }
 ```
@@ -67,7 +67,7 @@ Adding a label on the left side of the control.
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   label: "Number"
 }
@@ -79,7 +79,7 @@ It will be rendered on all devices. This value can be skipped because it is set 
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   devices: "all"
 }
@@ -89,7 +89,7 @@ Rendering will occur only on `desktop`.
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   devices: "desktop"
 }
@@ -99,7 +99,7 @@ The display is limited to responsive modes, specifically `tablet` and `mobile`.
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   devices: "responsive"
 }
@@ -111,7 +111,7 @@ Control will be disabled. Normally, here should be your dynamic condition.
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   disabled: true
 }
@@ -131,7 +131,7 @@ const getToolbarContols = ({ getValue }) => {
       type: "switch",
     },
     {
-      id: "loop",
+      id: "rows",
       type: "number",
       disabled: switchId === "on",
     },
@@ -145,7 +145,7 @@ The `min` property is set to `100`, indicating that the minimum input field valu
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   config: {
     min: 100
@@ -159,7 +159,7 @@ The `max` property is set to `1000`, indicating that the maximum input field val
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   config: {
     max: 1000
@@ -173,7 +173,7 @@ The `step` property is set to `100`, indicating that the input field will increa
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   config: {
     step: 100
@@ -187,7 +187,7 @@ The `spinner` property is set to `false`, indicating that the input field will r
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   config: {
     spinner: false
@@ -201,7 +201,7 @@ The `updateRate` property is set to `60`, indicating that the input field will u
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   config: {
     updateRate: 60
@@ -215,7 +215,7 @@ The size property is set to `"medium"`, indicating that the input field will be 
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   config: {
     size: "medium"
@@ -229,7 +229,7 @@ The helper object contains a content property with the value `"help text"`, whic
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   helper: {
     content: "help text"
@@ -241,7 +241,7 @@ When the helper object contains a position property with the value `"top-start"`
 
 ```js
 {
-  id: "loop",
+  id: "rows",
   type: "number",
   helper: {
     content: "help text",
