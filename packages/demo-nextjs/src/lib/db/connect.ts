@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const MONGODB_URI = getConfig().dbUrl;
 
 if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
+  throw new Error("Please define the MONGODB_URI environment variable inside .env");
 }
 
 let cached = global.mongoose;

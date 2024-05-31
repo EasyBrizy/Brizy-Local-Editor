@@ -27,7 +27,9 @@ const ProjectDataSchema = new mongoose.Schema({
 const PageData = mongoose.models.PageData || mongoose.model("PageData", PageDataSchema);
 const ProjectData = mongoose.models.ProjectData || mongoose.model("ProjectData", ProjectDataSchema);
 
-export default {
+const models = {
   PageData,
   ProjectData,
 };
+
+export default models;
