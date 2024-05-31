@@ -78,11 +78,19 @@ import { Brizy } from "@brizy/core";
 import React from "react";
 
 export function Button(): JSX.Element {
-  return <div className="button">Button</div>;
+  return <div className="button">This button will be render in editor</div>;
 }
 
-Brizy.registerComponent(Button, {
+export function Button(): JSX.Element {
+  return <div className="button">This button will be render in View</div>;
+}
+
+Brizy.registerComponent({
   id: "ThirdParty.Button",
+  component:{
+    editor:Button,
+    view:Button
+  },
   title: "My Button",
 });
 ```
@@ -116,8 +124,12 @@ export function Map(props: Props): JSX.Element {
   );
 }
 
-Brizy.registerComponent(Map, {
+Brizy.registerComponent({
   id: "ThirdParty.Map",
+  component: {
+    editor: Map,
+    view: Map
+  },
   title: "My Map",
   options: (props) => {
     return [

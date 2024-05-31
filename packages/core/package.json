@@ -1,6 +1,6 @@
 {
   "name": "@builder/core",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "Builder core",
   "main": "build/index.js",
   "module": "build/es/index.js",
