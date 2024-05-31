@@ -1,7 +1,7 @@
 import { Brizy } from "@brizy/core";
 
 export const mapComponent = (props: any) => {
-  const { address, zoom } = props;
+  const { address, zoom = 13 } = props;
   const URL = "https://www.google.com/maps/embed/v1/place";
   const KEY = "AIzaSyCcywKcxXeMZiMwLDcLgyEnNglcLOyB_qw";
   const iframeSrc = `${URL}?key=${KEY}&q=${address}&zoom=${zoom}`;
@@ -13,8 +13,9 @@ export const mapComponent = (props: any) => {
   );
 };
 
-Brizy.registerComponent(mapComponent, {
+Brizy.registerComponent({
   id: "myComp",
+  component: { editor: mapComponent, view: mapComponent },
   title: "map",
   category: "custom",
   options: (props) => {
