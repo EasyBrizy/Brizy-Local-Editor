@@ -2,8 +2,8 @@ import { Output } from "@/types/types";
 import { PageData, ProjectData, Response } from "./common";
 
 export interface PublishData {
-  projectData?: PageData;
-  pageData?: ProjectData;
+  projectData?: ProjectData;
+  pageData?: PageData;
 }
 
 export interface Publish {

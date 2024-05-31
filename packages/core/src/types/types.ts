@@ -1,5 +1,5 @@
 import { BuilderModes } from "@/actions/init";
-import { HtmlOutput, PageData, ProjectData } from "./common";
+import { PageCompiled, PageData, ProjectCompiled, ProjectData } from "./common";
 import { CustomFile } from "./customFile";
 import { DynamicContent } from "./dynamicContent";
 import { Form } from "./form";
@@ -14,11 +14,11 @@ import { Theme } from "./theme";
 export interface Output {
   pageData: {
     [key: string]: unknown;
-    compiled?: HtmlOutput;
+    compiled?: PageCompiled;
   };
   projectData: {
     [key: string]: unknown;
-    compiled?: HtmlOutput;
+    compiled?: ProjectCompiled;
   };
   error?: string;
   popupSettings?: {

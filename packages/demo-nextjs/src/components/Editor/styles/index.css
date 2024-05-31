@@ -1,0 +1,40 @@
+.container {
+  padding: 100px 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.container__editor {
+  width: 80%;
+  height: 80vh;
+  border: 4px solid #141923;
+  margin-bottom: 20px;
+}
+.container__output {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+}
+.btn {
+  background-color: #405cf5;
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
+    rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+  color: #fff;
+  cursor: pointer;
+  font-size: 100%;
+  height: 44px;
+  line-height: 1.15;
+  margin: 0;
+  padding: 0 25px;
+  text-align: center;
+  width: 120px;
+  flex-basis: 120px;
+}
+.output {
+  flex: 1 1 auto;
+  margin-left: 20px;
+  min-height: 300px;
+}
