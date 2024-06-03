@@ -46,7 +46,7 @@ export const Editor = (props: Props) => {
         res({ test: ["test1"] });
       },
     },
-    thirdPartyUrls: [{ scriptUrl: "http://localhost:2222/main.js" }],
+    // thirdPartyUrls: [{ scriptUrl: "http://localhost:2222/main.js" }],
     api: {
       media: {
         mediaResizeUrl: "https://media.brizylocal.com/media",
