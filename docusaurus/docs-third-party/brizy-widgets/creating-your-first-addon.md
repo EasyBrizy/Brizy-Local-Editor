@@ -13,8 +13,9 @@ You can install the library using npm. Open your terminal and run the following 
 
 ```shell
 npx @brizy/create-thirdparty
-cd < my-app >
 ```
+You will be asked about the name of the project,
+after confirming, the script will generate the required folder structure.
 
 The previous command will generate the following folder structure:
 ```shell
@@ -30,10 +31,21 @@ The previous command will generate the following folder structure:
     └── index.ts
 ```
 
+To open the folder, enter the following command
+```shell
+cd < my-app >
+```
+
 To start the build, run the following command in your terminal:
 ```shell
 npm run build
 ```
+
+Or for development mode, run the following command:
+```shell
+npm run start
+```
+"
 
 > For more information about the available scripts, check the [`README`](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/scripts/Readme.md).
 
@@ -77,11 +89,11 @@ To view the new component, follow these steps:
 import { Brizy } from "@brizy/core";
 import React from "react";
 
-export function Button(): JSX.Element {
+export function EditorButton(): JSX.Element {
   return <div className="button">This button will be render in editor</div>;
 }
 
-export function Button(): JSX.Element {
+export function ViewButton(): JSX.Element {
   return <div className="button">This button will be render in View</div>;
 }
 
