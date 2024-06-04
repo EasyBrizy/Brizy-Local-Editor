@@ -172,14 +172,14 @@ Specifies the alignment of the content within the button. This controls how the 
 
 #### Helper example
 
-`content` serves as the tooltip's content and also determines whether the icon, which triggers the tooltip on hover, will be visible. If `content` is an empty string the icon will not display.
+The helper object contains a content property with the value `"help text"`, which will be displayed as additional guidance or information for the user.
 
 ```js
 {
   id: "shapeTopHorizontal",
   type: "toggleButton",
   helper: {
-    content: "Helper"
+    content: "help text"
   },
   config: {
     icon: "nc-flip-horizontal"
@@ -187,14 +187,14 @@ Specifies the alignment of the content within the button. This controls how the 
 }
 ```
 
-`position` specifies the position of the tooltip relative to the icon.
+When the helper object contains a position property with the value `"top-start"`, it indicates that the helper text will be displayed in the top left corner of the icon.
 
 ```js
 {
   id: "shapeTopHorizontal",
   type: "toggleButton",
   helper: {
-    content: "Helper",
+    content: "help text",
     position: "top-start"
   },
   config: {
