@@ -1,12 +1,9 @@
 import { Brizy } from "@brizy/core";
 
-export const mapTestComponent = (props: any): JSX.Element => {
+export const mapComponent = (props: any) => {
+  const { address, zoom = 13 } = props;
   const URL = "https://www.google.com/maps/embed/v1/place";
   const KEY = "AIzaSyCcywKcxXeMZiMwLDcLgyEnNglcLOyB_qw";
-
-  console.log("MapTest PROPS:", props);
-  const { address, zoom } = props;
-
   const iframeSrc = `${URL}?key=${KEY}&q=${address}&zoom=${zoom}`;
 
   return (
@@ -16,12 +13,12 @@ export const mapTestComponent = (props: any): JSX.Element => {
   );
 };
 
-Brizy.registerComponent(mapTestComponent, {
+Brizy.registerComponent({
   id: "myComp",
-  title: "my componentTitle",
+  component: { editor: mapComponent, view: mapComponent },
+  title: "map",
   category: "custom",
   options: (props) => {
-    console.log("props", props);
     return [
       {
         selector: ".mapThirdComponent",
@@ -52,24 +49,6 @@ Brizy.registerComponent(mapTestComponent, {
                         default: {
                           value: "Chisinau",
                         },
-                      },
-                      {
-                        id: "zoom",
-                        label: "Zoom",
-                        type: "slider",
-                        config: {
-                          min: 1,
-                          max: 21,
-                        },
-                        default: {
-                          value: 9,
-                          suffix: "inch",
-                        },
-                      },
-                      {
-                        id: "testBorder",
-                        label: "Border",
-                        type: "border",
                       },
                     ],
                   },

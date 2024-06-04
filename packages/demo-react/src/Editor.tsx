@@ -11,7 +11,7 @@ const token = "demo";
 
 const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
 // Url for thirdParty build
-const thirdPartyHost = process.env["REACT_APP_PUBLIC_URL"] || "http://localhost:3000";
+const thirdPartyHost = process.env["REACT_APP_PUBLIC_URL"] || "http://localhost:2222";
 
 const noop = () => {};
 
@@ -31,14 +31,7 @@ export const Editor = () => {
   const config: Config = {
     ...demoConfig,
     container: containerRef.current,
-
-    thirdPartyUrls: [
-      {
-        scriptUrl: `${thirdPartyHost}/thirdParty/main.js`,
-        styleUrl: `${thirdPartyHost}/thirdParty/index.css`,
-      },
-    ],
-
+    // thirdPartyUrls: [{ scriptUrl: `${thirdPartyHost}/main.js` }],
     dynamicContent: {
       groups: {
         richText: {

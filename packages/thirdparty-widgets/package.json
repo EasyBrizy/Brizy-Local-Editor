@@ -1,0 +1,14 @@
+{
+  "name": "thirdparty-widgets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "brizy-scripts build",
+    "start": "PORT=2222 brizy-scripts start"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@brizy/scripts": "^1.0.5"
+  }
+}
