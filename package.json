@@ -19,7 +19,8 @@
   },
   "workspaces": [
     "packages/*",
-    "docusaurus"
+    "docusaurus",
+    "plugins/*"
   ],
   "devDependencies": {
     "lerna": "^6.0.3"
