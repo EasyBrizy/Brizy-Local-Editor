@@ -9,6 +9,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@brizy/scripts": "^1.0.5"
+    "@brizy/scripts": "https://registry.npmjs.org/@brizy/scripts/-/scripts-1.0.5.tgz"
   }
 }
