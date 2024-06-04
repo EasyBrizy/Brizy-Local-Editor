@@ -1,8 +1,8 @@
 {
-  "name": "@brizy/wp-widgets-example",
+  "name": "@brizy/cloud-widgets-example",
   "version": "1.0.0",
   "description": "",
-  "main": "build/main.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "brizy-scripts build",
     "start": "brizy-scripts start"
