@@ -18,7 +18,7 @@ Brizy.registerComponent({
   component: { editor: mapComponent, view: mapComponent },
   title: "map",
   category: "custom",
-  options: (props) => {
+  options: (_) => {
     return [
       {
         selector: ".mapThirdComponent",
@@ -28,7 +28,7 @@ Brizy.registerComponent({
             type: "popover",
             config: {
               icon: "nc-pin",
-              title: "Map",
+              title: "Map"
             },
             devices: "desktop",
             position: 90,
@@ -47,17 +47,17 @@ Brizy.registerComponent({
                         type: "inputText",
                         placeholder: "Enter address",
                         default: {
-                          value: "Chisinau",
-                        },
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+                          value: "Chisinau"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ];
-  },
+  }
 });
