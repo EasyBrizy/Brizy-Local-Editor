@@ -37,7 +37,7 @@ const resolveModule = (resolveFn: Function, filePath: string) => {
 export default {
   appBuild: resolveApp(buildPath),
   appIndexJs: resolveModule(resolveApp, `${srcPath}/index`),
-  // appPath: resolveApp("."),
+  appPath: resolveApp("."),
+  appSrc: resolveApp(srcPath),
   // appPackageJson: resolveApp("package.json"),
-  // appSrc: resolveApp("src"),
 };

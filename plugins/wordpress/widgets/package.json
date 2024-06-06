@@ -5,14 +5,17 @@
   "main": "build/main.js",
   "scripts": {
     "build": "brizy-scripts build",
-    "start": "brizy-scripts start"
+    "start": "brizy-scripts start",
+    "tsc": "tsc"
   },
   "license": "MIT",
   "dependencies": {
     "@brizy/core": "^1.0.2"
   },
   "devDependencies": {
-    "@brizy/scripts": "^1.0.5",
-    "@types/react": "^18.3.3"
+    "@brizy/scripts": "^1.0.7",
+    "@types/react": "^18.3.3",
+    "prettier": "^3.3.1",
+    "typescript": "^5.4.5"
   }
 }
