@@ -1,7 +1,12 @@
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 import MiniCSSExtractPlugin from "mini-css-extract-plugin";
+import * as path from "node:path";
 import TerserPlugin from "terser-webpack-plugin";
 import { Configuration } from "webpack";
+import { convertExtension } from "../utils/extenstion";
+import { getConfigJsonScriptFields } from "../utils/getConfigJSON";
+import { getWebpackEntry } from "../utils/getWebpackEntry";
 import Paths from "./paths";
 
 const baseFactory = (env: "production" | "development"): Configuration => {
@@ -29,7 +34,7 @@ const baseFactory = (env: "production" | "development"): Configuration => {
 
   return {
     mode,
-    entry: Paths.appIndexJs,
+    entry: getWebpackEntry(),
     output: {
       filename: "[name].js",
       path: Paths.appBuild,
@@ -155,8 +160,39 @@ const baseFactory = (env: "production" | "development"): Configuration => {
         cleanAfterEveryBuildPatterns: ["!fonts/**", "!images/**"],
         cleanStaleWebpackAssets: false,
       }),
+
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: "**/config.json",
+            context: Paths.appSrc,
+            noErrorOnMissing: true,
+            transform(content, absoluteFrom) {
+              if (path.basename(absoluteFrom) === "config.json") {
+                const blockJson = JSON.parse(`${content}`);
+                const fields = getConfigJsonScriptFields(blockJson);
+
+                if (fields) {
+                  for (const [key, value] of Object.entries(fields)) {
+                    if (Array.isArray(value)) {
+                      blockJson[key] = value.map(convertExtension);
+                    } else if (typeof value === "string") {
+                      blockJson[key] = convertExtension(value);
+                    }
+                  }
+                }
+
+                return JSON.stringify(blockJson, null, 2);
+              }
+
+              return content;
+            },
+          },
+        ],
+      }),
+
       new MiniCSSExtractPlugin({
-        filename: "index.css",
+        filename: "[name].css",
       }),
     ],
     externals: {

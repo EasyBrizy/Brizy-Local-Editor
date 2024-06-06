@@ -1,42 +1,7 @@
 import { Brizy } from "@brizy/core";
-import { CSSProperties, ReactElement } from "react";
-import "./index.css";
-
-interface ControlProps {
-  address: string;
-  zoom: number;
-  style?: CSSProperties;
-}
-
-const Control = (props: ControlProps): ReactElement => {
-  const { address, zoom = 13, style } = props;
-  const URL = "https://www.google.com/maps/embed/v1/place";
-  const KEY = "AIzaSyCcywKcxXeMZiMwLDcLgyEnNglcLOyB_qw";
-  const iframeSrc = `${URL}?key=${KEY}&q=${address}&zoom=${zoom}`;
-
-  return (
-    <div className="mapThirdComponent" style={style}>
-      <iframe src={iframeSrc} title="map" />
-    </div>
-  );
-};
-
-interface Props {
-  address: string;
-  zoom: number;
-  width: number;
-  widthSuffix: "px" | "%";
-}
-
-const Editor = (props: Props): ReactElement => {
-  const { address, zoom, width, widthSuffix } = props;
-  return <Control address={address} zoom={zoom} style={{ pointerEvents: "none", width: `${width}${widthSuffix}` }} />;
-};
-
-const View = (props: Props): ReactElement => {
-  const { address, zoom, width, widthSuffix } = props;
-  return <Control address={address} zoom={zoom} style={{ width: `${width}${widthSuffix}` }} />;
-};
+import { Editor } from "./Editor";
+import { View } from "./View";
+import "./index.scss";
 
 const Map = { Editor, View };
 
@@ -46,7 +11,7 @@ Brizy.registerComponent({
   id: "Brizy.ThirdParty.Map",
   component: {
     editor: Editor,
-    view: View,
+    view: View
   },
   title: "Map",
   category: "custom",
@@ -60,7 +25,7 @@ Brizy.registerComponent({
             type: "popover",
             config: {
               icon: "nc-pin",
-              title: "Map",
+              title: "Map"
             },
             devices: "desktop",
             position: 90,
@@ -79,8 +44,8 @@ Brizy.registerComponent({
                         type: "inputText",
                         placeholder: "Enter address",
                         default: {
-                          value: "Chisinau",
-                        },
+                          value: "Chisinau"
+                        }
                       },
                       {
                         id: "width",
@@ -91,22 +56,22 @@ Brizy.registerComponent({
                           max: 100,
                           units: [
                             { title: "px", value: "px" },
-                            { title: "%", value: "%" },
-                          ],
+                            { title: "%", value: "%" }
+                          ]
                         },
                         default: {
                           value: 100,
-                          suffix: "%",
-                        },
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+                          suffix: "%"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ];
-  },
+  }
 });
