@@ -2,20 +2,21 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "postinstall": "lerna bootstrap",
-    "build": "npm run build:core && npm run build:demo",
-    "build:core": "lerna --scope @builder/core run build:prod",
-    "build:demo": "lerna --scope @builder/demo run build:prod",
-    "start:core": "lerna run start --scope=@builder/core",
-    "start:demo": "lerna run start --scope=@builder/demo",
-    "start:demoreact": "lerna run start --scope=demo-react",
-    "start:demonextjs": "lerna run dev --scope=demo-nextjs",
-    "start:thirdparty": "lerna run start --scope=thirdparty-widgets",
-    "tsc": "npm run tsc:core && npm run tsc:demo",
-    "tsc:core": "lerna --scope @builder/core run tsc --stream",
-    "tsc:demo": "lerna --scope @builder/demo run tsc --stream",
-    "start:docs": "lerna --scope @brizy/docs run start",
-    "build:docs": "lerna --scope @brizy/docs run build"
+    "postinstall": "./bin/postinstall.sh",
+    "build": "turbo run build",
+    "build:docs": "turbo run build --filter=@brizy/docs",
+    "build:core": "npm run build:prod --workspace=@builder/core",
+    "build:demo": "npm run build:prod --workspace=@builder/demo",
+    "build:scripts": "turbo run build --filter=@brizy/scripts",
+    "start:docs": "npm run start --workspace=@brizy/docs",
+    "start:core": "npm run start --workspace=@builder/core",
+    "start:demo": "npm run start --workspace=@builder/demo",
+    "start:demoreact": "npm run start --workspace=demo-react",
+    "start:demonextjs": "npm run dev --workspace=demo-nextjs",
+    "start:thirdparty": "npm run start --workspace=thirdparty-widgets",
+    "tsc": "turbo run tsc",
+    "tsc:core": "turbo run tsc --filter=@builder/core",
+    "tsc:demo": "turbo run tsc --filter=@builder/demo"
   },
   "workspaces": [
     "packages/*",
@@ -23,9 +24,6 @@
     "plugins/*"
   ],
   "devDependencies": {
-    "lerna": "^6.0.3"
-  },
-  "dependencies": {
-    "concurrently": "^8.2.2"
+    "turbo": "^1.13.3"
   }
 }

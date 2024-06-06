@@ -9,7 +9,7 @@ Before starting to work, make sure you meet the requirements as outlined below.
 ## Brizy local editor
 To start working, you’ll need a Brizy local server. 
 
-You can see how to start the Brizy local server [here](/docs/start-coding/deployments).
+You can see how to start the Brizy local server here.
 
 ## Node.js Version
 

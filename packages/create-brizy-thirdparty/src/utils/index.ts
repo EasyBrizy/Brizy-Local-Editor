@@ -17,12 +17,12 @@ export function fireCommand(command: string) {
   return true;
 }
 
-const devDependencies = ["@brizy/scripts"].join(" ");
+const devDependencies = ["@brizy/scripts", "typescript", "@types/react", "prettier"].join(" ");
 const dependencies = ["@brizy/core"].join(" ");
 
 export function getCMD({ appPath }: { appPath: string }) {
   return {
-    //Others bash CMD if need, ex:
+    // Others bash CMD if need, ex:
     // REPO_CLONE_CMD: `git clone ${BRIZY_LOCAL_GIT_URL} ${repoName}`,
     // GENERATE_PACKAGE_JSON: "echo generate...",
     INSTALL_DEPENDENCY: `cd ${appPath} && npm i ${dependencies} && npm i -D ${devDependencies}`,

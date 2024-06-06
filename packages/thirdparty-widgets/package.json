@@ -2,13 +2,20 @@
   "name": "thirdparty-widgets",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "build/main.js",
   "scripts": {
     "build": "brizy-scripts build",
-    "start": "PORT=2222 brizy-scripts start"
+    "start": "PORT=2222 brizy-scripts start",
+    "tsc": "tsc"
   },
   "license": "MIT",
+  "dependencies": {
+    "@brizy/core": "^1.0.2"
+  },
   "devDependencies": {
-    "@brizy/scripts": "^1.0.5"
+    "@brizy/scripts": "^1.0.5",
+    "@types/react": "^18.3.3",
+    "prettier": "^3.3.1",
+    "typescript": "^5.4.5"
   }
 }
