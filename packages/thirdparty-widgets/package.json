@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@brizy/core": "^1.0.2"
+    "@brizy/core": "^1.0.7"
   },
   "devDependencies": {
     "@brizy/scripts": "^1.0.5",
