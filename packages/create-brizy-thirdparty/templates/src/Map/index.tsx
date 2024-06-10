@@ -1,24 +1,21 @@
 import { Brizy } from "@brizy/core";
+import { Editor } from "./Editor";
+import { View } from "./View";
+import "./index.scss";
 
-export const mapComponent = (props: any) => {
-  const { address, zoom = 13 } = props;
-  const URL = "https://www.google.com/maps/embed/v1/place";
-  const KEY = "AIzaSyCcywKcxXeMZiMwLDcLgyEnNglcLOyB_qw";
-  const iframeSrc = `${URL}?key=${KEY}&q=${address}&zoom=${zoom}`;
+const Map = { Editor, View };
 
-  return (
-    <div className="mapThirdComponent" style={{ pointerEvents: "none" }}>
-      <iframe className="" src={iframeSrc} title="map" />
-    </div>
-  );
-};
+export default Map;
 
 Brizy.registerComponent({
-  id: "myComp",
-  component: { editor: mapComponent, view: mapComponent },
-  title: "map",
+  id: "Brizy.ThirdParty.Map",
+  component: {
+    editor: Editor,
+    view: View
+  },
+  title: "Map",
   category: "custom",
-  options: (_) => {
+  options: () => {
     return [
       {
         selector: ".mapThirdComponent",
@@ -48,6 +45,23 @@ Brizy.registerComponent({
                         placeholder: "Enter address",
                         default: {
                           value: "Chisinau"
+                        }
+                      },
+                      {
+                        id: "width",
+                        label: "Width",
+                        type: "slider",
+                        config: {
+                          min: 0,
+                          max: 100,
+                          units: [
+                            { title: "px", value: "px" },
+                            { title: "%", value: "%" }
+                          ]
+                        },
+                        default: {
+                          value: 100,
+                          suffix: "%"
                         }
                       }
                     ]
