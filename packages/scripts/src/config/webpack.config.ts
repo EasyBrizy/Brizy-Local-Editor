@@ -38,6 +38,9 @@ const baseFactory = (env: "production" | "development"): Configuration => {
     output: {
       filename: "[name].js",
       path: Paths.appBuild,
+      // Used relative path to some static files
+      // On the widgets we use getMetaData().pluginHost url
+      publicPath: "",
     },
     resolve: {
       extensions: [".js", ".json", ".ts", ".tsx", ".css"],
@@ -126,7 +129,7 @@ const baseFactory = (env: "production" | "development"): Configuration => {
             {
               loader: require.resolve("file-loader"),
               options: {
-                name: "media/[name].[hash:8].[ext]",
+                name: "static/[name].[hash:8].[ext]",
               },
             },
           ],
@@ -138,14 +141,14 @@ const baseFactory = (env: "production" | "development"): Configuration => {
           test: /\.(bmp|png|jpe?g|gif|webp)$/i,
           type: "asset/resource",
           generator: {
-            filename: "media/[name].[hash:8].[ext]",
+            filename: "static/[name].[hash:8].[ext]",
           },
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
           type: "asset/resource",
           generator: {
-            filename: "media/[name].[hash:8].[ext]",
+            filename: "static/[name].[hash:8].[ext]",
           },
         },
       ],
