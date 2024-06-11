@@ -1,12 +1,18 @@
-import { useState } from "react";
-import { Brizy } from "@brizy/core";
+import packageConfig from "../config.json";
+import bulbImg from "./img/bulb.jpg";
 import "./index.scss";
+import { Brizy } from "@brizy/core";
+import { useState } from "react";
+
+const metadata = Brizy.getMetaData(packageConfig);
 
 export const Counter = () => {
+  console.log("Metadata:", metadata);
   const [count, setCount] = useState(0);
 
   return (
     <div className="custom-counter">
+      <img src={`${metadata.pluginHost}/${bulbImg}`} />
       <button
         className="custom-counter__increment"
         onClick={() => setCount(count + 1)}

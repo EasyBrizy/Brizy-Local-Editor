@@ -244,6 +244,7 @@ export const init = (config: Config, uid: string, token: string): ActionResolve 
       token: token,
       menuData: config.menu,
       thirdPartyUrls: config.thirdPartyUrls,
+      newThirdPartyUrls: config.newThirdPartyUrls,
       api: createApi(config),
       integration: createIntegration(config),
       dynamicContent: createDCContent(config),

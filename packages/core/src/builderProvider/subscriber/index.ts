@@ -1,4 +1,4 @@
-import { replaceThirdParty } from "@/builderProvider/utils/thirdParty";
+import { prepareThirdpartyAssets, replaceThirdParty } from "@/builderProvider/utils/thirdParty";
 import { AutoSaveOutput } from "@/types/types";
 import { mergeDeep } from "timm";
 import { getApi } from "../handlers/api";
@@ -7,7 +7,7 @@ import { getUi } from "../handlers/defaults/ui";
 import { getDCConfig } from "../handlers/dynamicContent";
 import { getIntegration } from "../handlers/integration";
 
-export function subscriber(event: MessageEvent): void {
+export async function subscriber(event: MessageEvent): void {
   const data = event.data;
   const target = window.__target__;
 
@@ -74,6 +74,7 @@ export function subscriber(event: MessageEvent): void {
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
         window.__VISUAL_CONFIG__.thirdPartyUrls = configData.thirdPartyUrls;
 
+        console.log("ConfigData: ", configData);
         window.__VISUAL_CONFIG__.onLoad = () => {
           const data = JSON.stringify({ type: `${target}_on_load` });
 
@@ -96,10 +97,22 @@ export function subscriber(event: MessageEvent): void {
         const iframe = document.querySelector("#no-script-frame");
         const root = document.querySelector("#root");
 
+        const thirdPartyAssets = await prepareThirdpartyAssets(configData.newThirdPartyUrls);
+
+        console.log("thirdPartyAssets:: ___ ", thirdPartyAssets);
+
+        window.__VISUAL_CONFIG__.thirdPartyComponentHosts = thirdPartyAssets.map(({ name, host }) => {
+          return { name, host };
+        });
+
+        window.__VISUAL_CONFIG__.thirdPartyUrls = thirdPartyAssets.map(({ editorScripts }) => {
+          return { scriptUrl: editorScripts };
+        });
+
         if (iframe && root) {
-          root.innerHTML = replaceThirdParty({
+          root.innerHTML = await replaceThirdParty({
             doc: iframe.innerHTML,
-            config: configData,
+            thirdPartyAssets,
           });
         }
         break;
