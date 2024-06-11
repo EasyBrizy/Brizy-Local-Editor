@@ -47,11 +47,22 @@ export interface AutoSaveOutput {
 export type OnSave = (output: Output) => void;
 export type OnAutoSave = (output: AutoSaveOutput) => void;
 
+export interface Extension {
+  host?: string;
+  path: string;
+}
+
 export interface Config {
   mode?: Modes;
   container: HTMLElement;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
+
+  //#region Extensions
+
+  extensions?: Array<Extension>;
+
+  //#endregion
 
   //#region Urls
   urls?: {

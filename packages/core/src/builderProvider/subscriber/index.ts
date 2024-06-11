@@ -1,13 +1,17 @@
-import { prepareThirdpartyAssets, replaceThirdParty } from "@/builderProvider/utils/thirdParty";
 import { AutoSaveOutput } from "@/types/types";
+import { Obj } from "@brizy/readers";
+import { mPipe } from "fp-utilities";
 import { mergeDeep } from "timm";
 import { getApi } from "../handlers/api";
 import { getPage } from "../handlers/defaults/page";
 import { getUi } from "../handlers/defaults/ui";
 import { getDCConfig } from "../handlers/dynamicContent";
 import { getIntegration } from "../handlers/integration";
+import { getViewScripts, getViewStyles, prepareThirdPartyAssets, replaceThirdParty } from "../utils/thirdParty";
 
-export async function subscriber(event: MessageEvent): void {
+const getPageData = mPipe(Obj.read, Obj.readKey("pageData"), Obj.read);
+
+export async function subscriber(event: MessageEvent): Promise<void> {
   const data = event.data;
   const target = window.__target__;
 
@@ -72,7 +76,6 @@ export async function subscriber(event: MessageEvent): void {
         window.__VISUAL_CONFIG__.dynamicContent = getDCConfig({ uid, target, event, dynamicContent });
         window.__VISUAL_CONFIG__.integration = getIntegration({ uid, target, event, integration });
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
-        window.__VISUAL_CONFIG__.thirdPartyUrls = configData.thirdPartyUrls;
 
         window.__VISUAL_CONFIG__.onLoad = () => {
           const data = JSON.stringify({ type: `${target}_on_load` });
@@ -80,6 +83,7 @@ export async function subscriber(event: MessageEvent): void {
           // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
           event.source?.postMessage({ target, uid, data }, event.origin);
         };
+
         window.__VISUAL_CONFIG__.onAutoSave = (data: AutoSaveOutput) => {
           event.source?.postMessage(
             {
@@ -96,18 +100,19 @@ export async function subscriber(event: MessageEvent): void {
         const iframe = document.querySelector("#no-script-frame");
         const root = document.querySelector("#root");
 
-        const thirdPartyAssets = await prepareThirdpartyAssets(configData.extensions);
+        const thirdPartyAssets = await prepareThirdPartyAssets(configData.extensions);
 
-        window.__VISUAL_CONFIG__.thirdPartyComponentHosts = thirdPartyAssets.map(({ name, host }) => {
-          return { name, host };
-        });
+        // Store it globally and reuse it when the builder compiles the page.
+        window.__THIRD_PARTY_ASSETS__ = thirdPartyAssets;
 
-        window.__VISUAL_CONFIG__.thirdPartyUrls = thirdPartyAssets.map(({ editorScripts }) => {
-          return { scriptUrl: editorScripts };
-        });
+        window.__VISUAL_CONFIG__.thirdPartyComponentHosts = thirdPartyAssets.map(({ name, host }) => ({ name, host }));
+
+        window.__VISUAL_CONFIG__.thirdPartyUrls = thirdPartyAssets.map(({ editorScripts }) => ({
+          scriptUrl: editorScripts,
+        }));
 
         if (iframe && root) {
-          root.innerHTML = await replaceThirdParty({
+          root.innerHTML = replaceThirdParty({
             doc: iframe.innerHTML,
             thirdPartyAssets,
           });
@@ -121,7 +126,24 @@ export async function subscriber(event: MessageEvent): void {
           const configData = action.data && "configData" in action.data ? action.data : {};
           const mode = window.__VISUAL_CONFIG__.mode;
 
-          Config.onUpdate((res: Record<string, unknown>) => {
+          Config.onUpdate((_res: Record<string, unknown>) => {
+            let res = _res;
+            const pageData = getPageData(res);
+
+            if (pageData && window.__THIRD_PARTY_ASSETS__.length > 0) {
+              const newStyles = getViewStyles(window.__THIRD_PARTY_ASSETS__, pageData);
+              const newScripts = getViewScripts(window.__THIRD_PARTY_ASSETS__, pageData);
+
+              res = mergeDeep(res, {
+                pageData: {
+                  compiled: {
+                    styles: newStyles,
+                    scripts: newScripts,
+                  },
+                },
+              }) as Record<string, unknown>;
+            }
+
             const data = JSON.stringify({
               type: `${target}_save`,
               payload: { mode, ...res },
