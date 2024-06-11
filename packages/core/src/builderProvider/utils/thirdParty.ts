@@ -43,17 +43,17 @@ export interface ParsedThirdParty {
   editorStyles: string[];
 }
 
-export async function prepareThirdpartyAssets(thirdPartyCfgUrls: string[]) {
+export async function prepareThirdpartyAssets(extensions: { host?: string; path?: string }[]) {
   let assets: ParsedThirdParty[] = [];
 
-  for (const url of thirdPartyCfgUrls) {
-    const host = url.slice(0, url.lastIndexOf("/"));
+  for (const { host = "", path = "" } of extensions) {
+    const url = host + path;
     try {
-      const cfg = await fetch(url).then((r) => r.json());
-      const scripts = cfg.editorScripts.map((script: string) => `${host}/${script}`) ?? [];
-      const styles = cfg.editorStyles.map((style: string) => `${host}/${style}`) ?? [];
+      const cfg = await fetch(url + "/config.json").then((r) => r.json());
+      const scripts = cfg.editorScripts.map((script: string) => `${url}/${script}`) ?? [];
+      const styles = cfg.editorStyles.map((style: string) => `${url}/${style}`) ?? [];
 
-      assets.push({ name: cfg.name, host, editorScripts: scripts, editorStyles: styles });
+      assets.push({ name: cfg.name, host: url, editorScripts: scripts, editorStyles: styles });
     } catch (e) {
       console.log("Fail to load thirdParty: ", e);
     }

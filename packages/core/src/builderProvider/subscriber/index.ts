@@ -74,7 +74,6 @@ export async function subscriber(event: MessageEvent): void {
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
         window.__VISUAL_CONFIG__.thirdPartyUrls = configData.thirdPartyUrls;
 
-        console.log("ConfigData: ", configData);
         window.__VISUAL_CONFIG__.onLoad = () => {
           const data = JSON.stringify({ type: `${target}_on_load` });
 
@@ -97,9 +96,7 @@ export async function subscriber(event: MessageEvent): void {
         const iframe = document.querySelector("#no-script-frame");
         const root = document.querySelector("#root");
 
-        const thirdPartyAssets = await prepareThirdpartyAssets(configData.newThirdPartyUrls);
-
-        console.log("thirdPartyAssets:: ___ ", thirdPartyAssets);
+        const thirdPartyAssets = await prepareThirdpartyAssets(configData.extensions);
 
         window.__VISUAL_CONFIG__.thirdPartyComponentHosts = thirdPartyAssets.map(({ name, host }) => {
           return { name, host };

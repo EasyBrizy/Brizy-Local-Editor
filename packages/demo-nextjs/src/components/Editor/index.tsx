@@ -46,10 +46,7 @@ export const Editor = (props: Props) => {
         res({ test: ["test1"] });
       },
     },
-    // thirdPartyUrls: [{ scriptUrl: "http://localhost:2222/main.js" }],
-
-    //@ts-expect-error: new type of registry
-    newThirdPartyUrls: ["http://localhost:2222/config.json"],
+    extensions: [{ host: "http://localhost:2222" }],
     api: {
       media: {
         mediaResizeUrl: "https://media.brizylocal.com/media",

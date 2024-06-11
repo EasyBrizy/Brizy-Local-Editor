@@ -31,6 +31,7 @@ export const Editor = () => {
   const config: Config = {
     ...demoConfig,
     container: containerRef.current,
+    extensions: [{ host: thirdPartyHost }],
     // thirdPartyUrls: [{ scriptUrl: `${thirdPartyHost}/main.js` }],
     dynamicContent: {
       groups: {

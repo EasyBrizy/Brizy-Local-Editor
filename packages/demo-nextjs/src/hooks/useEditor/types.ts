@@ -24,6 +24,7 @@ export interface _Config extends Omit<BuilderConfig, "container"> {}
 
 export interface Config extends _Config {
   container: HTMLElement | null;
+  extensions?: { host?: string; path?: string }[];
 }
 
 export type Instance = {
