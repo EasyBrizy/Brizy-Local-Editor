@@ -1,5 +1,7 @@
 import packageConfig from "../config.json";
+//@ts-expect-error: Ts file imports
 import minusImg from "./img/minus.png";
+//@ts-expect-error: Ts file imports
 import plusImg from "./img/plus.png";
 import "./index.scss";
 import { Brizy } from "@brizy/core";
@@ -16,14 +18,22 @@ export const Counter = () => {
         className="custom-counter__decrement"
         onClick={() => setCount(count - 1)}
       >
-        <img height="250px" src={`${metadata.pluginHost}/${minusImg}`} />-
+        <img
+          height="20px"
+          src={`${metadata.pluginHost}/${minusImg}`}
+          alt="decrement"
+        />
       </button>
       <div className="custom-counter__count">{count}</div>
       <button
         className="custom-counter__increment"
         onClick={() => setCount(count + 1)}
       >
-        <img height="250px" src={`${metadata.pluginHost}/${plusImg}`} />+
+        <img
+          height="20px"
+          src={`${metadata.pluginHost}/${plusImg}`}
+          alt="increment"
+        />
       </button>
     </div>
   );
