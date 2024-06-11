@@ -100,7 +100,7 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         const iframe = document.querySelector("#no-script-frame");
         const root = document.querySelector("#root");
 
-        const thirdPartyAssets = await prepareThirdPartyAssets(configData.extensions);
+        const thirdPartyAssets = await prepareThirdPartyAssets(configData.extensions ?? []);
 
         // Store it globally and reuse it when the builder compiles the page.
         window.__THIRD_PARTY_ASSETS__ = thirdPartyAssets;
