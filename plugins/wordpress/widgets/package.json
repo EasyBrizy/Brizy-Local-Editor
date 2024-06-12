@@ -5,7 +5,7 @@
   "main": "build/main.js",
   "scripts": {
     "build": "brizy-scripts build",
-    "start": "brizy-scripts start",
+    "start": "PORT=2222 brizy-scripts start",
     "tsc": "tsc"
   },
   "license": "MIT",

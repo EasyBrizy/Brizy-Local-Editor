@@ -32,6 +32,9 @@ function devServer(_: Args) {
       const serverConfig: Configuration = {
         host: HOST,
         port,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         devMiddleware: {
           writeToDisk: true,
         },
