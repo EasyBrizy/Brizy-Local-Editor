@@ -12,10 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const target = event.target as HTMLElement;
       const value = parseInt(count.textContent ?? "0");
 
-      if (target.classList.contains("custom-counter__increment")) {
+      if (target.closest(".custom-counter__increment")) {
         count.innerHTML = `${value + 1}`;
       }
-      if (target.classList.contains("custom-counter__decrement")) {
+      if (target.closest(".custom-counter__decrement")) {
         count.innerHTML = `${value - 1}`;
       }
     });
