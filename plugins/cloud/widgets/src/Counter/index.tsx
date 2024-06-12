@@ -1,7 +1,5 @@
 import packageConfig from "../config.json";
-//@ts-expect-error: Ts file imports
 import minusImg from "./img/minus.png";
-//@ts-expect-error: Ts file imports
 import plusImg from "./img/plus.png";
 import "./index.scss";
 import { Brizy } from "@brizy/core";

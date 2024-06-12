@@ -46,7 +46,7 @@ export const Editor = (props: Props) => {
         res({ test: ["test1"] });
       },
     },
-    extensions: [{ host: "http://localhost:2222" }],
+    // extensions: [{ host: "http://localhost:2222" }],
     api: {
       media: {
         mediaResizeUrl: "https://media.brizylocal.com/media",
