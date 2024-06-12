@@ -1,6 +1,6 @@
 {
   "name": "@brizy/create-thirdparty",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Brizy third-party starter template",
   "keywords": [
     "brizy",
@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "build": "npm run clean && tsc -p ./tsconfig.prod.json",
-    "postbuild":"chmod +x bin/index.js",
+    "postbuild": "chmod +x bin/index.js",
     "tsc": "tsc",
     "clean": "rimraf bin",
     "prepublishOnly": "npm run tsc && npm run build"
