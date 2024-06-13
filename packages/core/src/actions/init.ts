@@ -248,6 +248,7 @@ export const init = (config: Config, uid: string, token: string): ActionResolve 
       integration: createIntegration(config),
       dynamicContent: createDCContent(config),
       autoSaveInterval: config.autoSaveInterval,
+      urls: config.urls,
     },
   }),
 });

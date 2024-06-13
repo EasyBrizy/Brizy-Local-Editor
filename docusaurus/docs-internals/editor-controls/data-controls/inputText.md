@@ -28,6 +28,11 @@ Example of the inputText:
 ### Return value
 
 The return value is a `string` representing the text field value.
+```js
+{
+  value: string;
+}
+```
 
 ### Usage
 

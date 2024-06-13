@@ -61,6 +61,7 @@ export function subscriber(event: MessageEvent): void {
         window.__VISUAL_CONFIG__.urls = mergeDeep(urls, {
           assets: freeAssets,
           pagePreview: configData.pagePreview,
+          ...(configData.urls ? configData.urls : {}),
         });
         window.__VISUAL_CONFIG__.pro = mergeDeep(pro, {
           urls: { assets: proAssets },
