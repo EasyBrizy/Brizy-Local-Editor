@@ -498,9 +498,11 @@ const Button = (props: Props): JSX.Element => {
   );
 };
 
-Brizy.registerComponent(Button, {
+Brizy.registerComponent({
   id: "ThirdParty.Button",
+  component: { editor: Button, view: Button },
   title: "My Button",
+  category: "custom",
   options: (props) => {
     return [
       {
