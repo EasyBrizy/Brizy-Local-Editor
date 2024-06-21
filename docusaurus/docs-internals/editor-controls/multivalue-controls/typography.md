@@ -11,18 +11,34 @@ Example of the control:
 
 ### Parameters
 
-| Name                    | Type                                     |         Default          | Description                                                                                                                                                                                                                                                                         |
-|:------------------------|:-----------------------------------------|:------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`                    | `string`                                 |            -             | The identifier of the key where the typography will save your data                                                                                                                                                                                                                  |
-| `type`                  | `string`                                 |            -             | Type should be `"typography"` to use this control                                                                                                                                                                                                                                   |
-| `position?`             | `number`                                 |            -             | The position of the control in toolbar                                                                                                                                                                                                                                              |
-| `devices?`              | `"all"` \| `"desktop"` \| `"responsive"` |         `"all"`          | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices                                                    |
-| `disabled?`             | `boolean`                                |         `false`          | Configure the condition under which the control is disabled or enabled                                                                                                                                                                                                              |
-| `config?.fontFamily`    | `boolean`                                |          `true`          | Determines whether the font family can be selected                                                                                                                                                                                                                                  |
-| `config?.fontSize`      | `Boundaries`                             |    `min: 0 max: 300`     | Sets the minimum and maximum boundaries for font size <br/><br/> <b>`Boundaries: { min: number; max: number }`</b>                                                                                                                                                                  |
-| `config?.lineHeight`    | `Boundaries`                             |     `min: 1 max: 20`     | Sets the minimum and maximum boundaries for line height <br/><br/> <b>`Boundaries: { min: number; max: number }`</b>                                                                                                                                                                |
-| `config?.letterSpacing` | `Boundaries`                             |    `min: -20 max: 20`    | Sets the minimum and maximum boundaries for letter spacing <br/><br/> <b>`Boundaries: { min: number; max: number }`</b>                                                                                                                                                             |
-| `config?.scriptChoices` | `TextScripts[]`                          |            -             | Determines whether the text can be formatted as subscript or superscript <br/><br/> <b>`TextScripts = "sub" \| "super"`</b>                                                                                                                                                         |
+| Name                    | Type                                     |      Default       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|:------------------------|:-----------------------------------------|:------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                    | `string`                                 |         -          | The identifier of the key where the `typography` will save your data                                                                                                                                                                                                                                                                                                                                                                        |
+| `type`                  | `string`                                 |         -          | Type should be `"typography"` to use this control                                                                                                                                                                                                                                                                                                                                                                                           |
+| `className?`            | `string`                                 |         -          | The custom CSS class name that will be set on the control. It can be used to modify the control styles                                                                                                                                                                                                                                                                                                                                      |
+| `position?`             | `number`                                 |         -          | The position of the control in toolbar                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `roles?`                | `Array<Role>`                            |         -          | Render the control only if the current user's role matches one of the roles in the provided array. <br /> <br /> **`type Role = "admin" \| "viewer" \| "editor" \| "designer" \| "manager"`**                                                                                                                                                                                                                                               |
+| `devices?`              | `"all"` \| `"desktop"` \| `"responsive"` |      `"all"`       | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices                                                                                                                                                                                                            |
+| `disabled?`             | `boolean`                                |      `false`       | Configure the condition under which the control is disabled or enabled                                                                                                                                                                                                                                                                                                                                                                      |
+| `config?.fontFamily`    | `boolean`                                |       `true`       | Determines whether the font family can be selected                                                                                                                                                                                                                                                                                                                                                                                          |
+| `config?.fontSize`      | `Boundaries`                             | `min: 0 max: 300`  | Sets the minimum and maximum boundaries for font size <br/><br/> <b>`Boundaries: { min: number; max: number }`</b>                                                                                                                                                                                                                                                                                                                          |
+| `config?.lineHeight`    | `Boundaries`                             |  `min: 1 max: 20`  | Sets the minimum and maximum boundaries for line height <br/><br/> <b>`Boundaries: { min: number; max: number }`</b>                                                                                                                                                                                                                                                                                                                        |
+| `config?.letterSpacing` | `Boundaries`                             | `min: -20 max: 20` | Sets the minimum and maximum boundaries for letter spacing <br/><br/> <b>`Boundaries: { min: number; max: number }`</b>                                                                                                                                                                                                                                                                                                                     |
+| `config?.scriptChoices` | `TextScripts[]`                          |         -          | Determines whether the text can be formatted as subscript or superscript <br/><br/> <b>`TextScripts = "sub" \| "super"`</b>                                                                                                                                                                                                                                                                                                                 |
+| `default?`              | `Default`                                |         -          | The default control value. Accepts all the fields as in the [return value](#return-value)                                                                                                                                                                                                                                                                                                                                                   |
+| `selector?`             | `string`                                 |         -          | The CSS selector to which the styles will be applied                                                                                                                                                                                                                                                                                                                                                                                        |
+| `style?`                | `function`                               |         -          | This function generates CSS output based on the value from the control. The parameter is an object containing a `value` key, which holds the current value of the control. The function returns an object with a CSS selector key and CSS property values. <pre>`style: ({value}) => {`<br/> `return {`<br/> ` "{{WRAPPER}} .brz-text": {`<br/> `   "font-size": ${value.fontSize}${value.fontSizeSuffix}`<br/> ` }`<br/> `}`<br/>`}`</pre> |
+
+### Basic example
+
+Standard definition with only the required keys. This control will be displayed on all devices.
+
+```js
+{
+  id: "typography", 
+  type: "typography"
+}
+```
 
 ### Return value
 
@@ -44,9 +60,9 @@ Return an object with the following values:
   lineHeight: number;
   lowercase: boolean;
   script: undefined | "super" | "sub";
-  strike: false;
-  underline: false;
-  uppercase: false;
+  strike: boolean;
+  underline: boolean;
+  uppercase: boolean;
   variableFontWeight: number;
 }
 ```
@@ -70,16 +86,54 @@ Return an object with the following values:
 `uppercase` - indicates whether the text is uppercase; <br/>
 `variableFontWeight` - the weight of the variable font, allowing for more precise adjustments; <br/>
 
-### Usage
-
-#### Basic example
-
-Standard definition with only the required keys. This control will be displayed on all devices.
+Example of the return value:
 
 ```js
 {
-  id: "typography", 
+  bold: false,
+  fontFamily: "overpass",
+  fontFamilyType: "google",
+  fontSize: 36,
+  fontSizeSuffix: "px",
+  fontSoftness: 0,
+  fontStyle: "heading2",
+  fontWeight: 700,
+  fontWidth: 100,
+  italic: false,
+  letterSpacing: -1.5,
+  lineHeight: 1.3,
+  lowercase: false,
+  script: undefined,
+  strike: false,
+  underline: false,
+  uppercase: false,
+  variableFontWeight: 400
+}
+```
+
+### Usage
+
+#### Class name example
+
+Adding a CSS class to the control's DOM node.
+
+```js
+{
+  id: "typography",
   type: "typography"
+  className: "myTypography"
+}
+```
+
+#### Roles example
+
+Show the control only to users with admin and designer privileges.
+
+```js
+{
+  id: "typography",
+  type: "typography",
+  roles: ["admin", "designer"]
 }
 ```
 
@@ -325,4 +379,162 @@ Determines whether the text can be formatted as subscript or superscript.
     scriptChoices: ["sub", "super"]
   }
 }
+```
+
+#### Default value example
+
+In the `default` object you can set the default values for any `typography` properties.
+
+```js
+{
+  id: "typography",
+  type: "typography",
+  default: {
+    fontFamilyType: "google",
+    fontSize: 12,
+    fontSizeSuffix: "px",
+    fontWeight: 700,
+    lineHeight: 1.8,
+    letterSpacing: 3,
+    variableFontWeight: 700,
+    fontWidth: 100,
+    fontSoftness: 0,
+    bold: false,
+    italic: false,
+    underline: false,
+    strike: false,
+    uppercase: false,
+    lowercase: false,
+  }
+}
+```
+
+#### CSS examples (`selector`, `style`)
+
+Using `selector` all the styles will be applied automatically to the element that matches the selector.
+
+```js
+{
+  id: "typography",
+  type: "typography",
+  selector: "{{WRAPPER}} .brz-text"
+}
+```
+
+Using the value from the `typography` control change the font weight and letter spacing of a text element.
+
+```js
+{
+  id: "typography",
+  type: "typography",
+  style: ({ value }) => {
+    return {
+      "{{WRAPPER}} .brz-text": {
+        "font-weight": value.fontWeight,
+        "letter-spacing": value.letterSpacing
+      }
+    }
+  }
+}
+```
+
+#### Usage in HTML example
+
+To retrieve the control's return value, access the necessary values from the component's props using the following rule: 
+concatenate the `id` of the `typography` control with the value you wish to extract. The example below demonstrates 
+how to extract 5 values from the `typography` control and use them to change some styles of a `h1` element.
+
+```tsx
+import { Brizy } from "@brizy/core";
+
+interface Props {
+  titleBold: boolean;
+  titleFontFamily: string;
+  titleFontFamilyType: "google" | "upload" | "system";
+  titleFontSize: number;
+  titleFontSizeSuffix: "px" | "em" | "rem" | "vw";
+  titleFontSoftness: number;
+  titleFontStyle: string;
+  titleFontWeight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+  titleFontWidth: number;
+  titleItalic: boolean;
+  titleLetterSpacing: number;
+  titleLineHeight: number;
+  titleLowercase: boolean;
+  titleScript: undefined | "super" | "sub";
+  titleStrike: boolean;
+  titleUnderline: boolean;
+  titleUppercase: boolean;
+  titleVariableFontWeight: number;
+}
+
+const Component = (props: Props): JSX.Element => {
+  const { 
+    titleFontSize, 
+    titleFontSizeSuffix,
+    titleFontWeight,
+    titleLineHeight,
+    titleFontFamily
+  } = props;
+
+  return <div className="component">
+    <h1 
+      style={{
+        fontSize: `${titleFontSize}${titleFontSizeSuffix}`,
+        fontWeight: titleFontWeight,
+        lineHeight: titleLineHeight,
+        fontFamily: titleFontFamily
+      }}
+    >
+      Title
+    </h1>
+  </div>
+}
+
+Brizy.registerComponent({
+  id: "ThirdParty.Component",
+  component: { editor: Component, view: Component },
+  title: "Component",
+  category: "custom",
+  options: (props) => {
+    return [
+      {
+        selector: ".component",
+        toolbar: [
+          {
+            id: "toolbarTypography",
+            type: "popover",
+            config: {
+              icon: "nc-font",
+              title: "Typography"
+            },
+            options: [
+              {
+                id: "title",
+                type: "typography",
+                default: {
+                  fontFamilyType: "google",
+                  fontSize: 12,
+                  fontSizeSuffix: "px",
+                  fontWeight: 700,
+                  lineHeight: 1.8,
+                  letterSpacing: 3,
+                  variableFontWeight: 700,
+                  fontWidth: 100,
+                  fontSoftness: 0,
+                  bold: false,
+                  italic: false,
+                  underline: false,
+                  strike: false,
+                  uppercase: false,
+                  lowercase: false,
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+})
 ```
