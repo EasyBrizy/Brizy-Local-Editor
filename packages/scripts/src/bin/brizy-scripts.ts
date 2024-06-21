@@ -6,7 +6,7 @@ process.on("unhandledRejection", (err) => {
 });
 
 const args = process.argv.slice(2);
-const allowScripts = ["build", "start"];
+const allowScripts = ["build", "start", "zip"];
 
 const scriptIndex = args.findIndex((x) => x === "build" || x === "start");
 const script = scriptIndex === -1 ? args[0] : args[scriptIndex];
