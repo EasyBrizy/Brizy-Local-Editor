@@ -29,6 +29,12 @@ Starts the development server. Open [http://localhost:3000](http://localhost:300
 - `--webpack-build-dir`: Allows customization of the build code directory. Default is `build`.
 - `--webpack-src-dir`: Allows customization of the source code directory. Default is `src`.
 
+
+### `zip`
+
+Creates a zip file of the build directory. This is useful for packaging your project for distribution or deployment. 
+The zip file will be created in the project root directory.
+
 ## Configuration
 The project is configured using a JSON file, which should be placed in the `src` folder. 
 Below is the required configuration:

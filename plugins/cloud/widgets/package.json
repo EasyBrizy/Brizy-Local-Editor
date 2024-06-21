@@ -6,6 +6,7 @@
   "scripts": {
     "build": "brizy-scripts build",
     "start": "PORT=2222 brizy-scripts start",
+    "zip": "brizy-scripts zip",
     "tsc": "tsc"
   },
   "license": "MIT",

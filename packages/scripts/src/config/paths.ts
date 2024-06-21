@@ -39,5 +39,5 @@ export default {
   appIndexJs: resolveModule(resolveApp, `${srcPath}/index`),
   appPath: resolveApp("."),
   appSrc: resolveApp(srcPath),
-  // appPackageJson: resolveApp("package.json"),
+  appPackageJson: resolveApp("package.json"),
 };
