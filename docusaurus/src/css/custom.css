@@ -39,4 +39,7 @@
   color: var(--menu-item-disabled);
 }
 
+.brz-img--border {
+  border:1px solid var(--menu-item-disabled);
+}
 
