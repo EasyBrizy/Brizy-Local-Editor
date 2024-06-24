@@ -89,7 +89,7 @@ Adding a CSS class to the control's DOM node.
 ```js
 {
   id: "loop",
-  type: "switch"
+  type: "switch",
   className: "mySwitch"
 }
 ```
@@ -101,7 +101,7 @@ Adding a "repeat" icon to the left of the control's label.
 ```js
 {
   id: "loop",
-  type: "switch"
+  type: "switch",
   icon: "nc-repeat"
 }
 ```
@@ -194,7 +194,7 @@ In this example, with `display: "block"`, the label will be rendered on the firs
 ```js
 {
   id: "autoplay",
-  type: "switch"
+  type: "switch",
   display: "block"
 }
 ```
@@ -388,7 +388,6 @@ If `config.on` and `config.off` are not provided, then the default values for th
     }
   }
 }
-
 ```
 
 Change the opacity of the `.brz-text` element with CSS using custom values from a `switch` control.
