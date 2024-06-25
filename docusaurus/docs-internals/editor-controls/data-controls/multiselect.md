@@ -19,20 +19,40 @@ Example of the `multiSelect` with multiple selections:
 
 ### Parameters
 
-| Name                | Type                                                                                                                                                                                       | Default | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|:--------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`                | `string`                                                                                                                                                                                   |    -    | The identifier of the key where the switch will save your data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `type`              | `string`                                                                                                                                                                                   |    -    | Type should be `"multiSelect"` to use this control                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `label?`            | `string`                                                                                                                                                                                   |    -    | The label displayed on the left side of the control                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| `placeholder?`      | `string`                                                                                                                                                                                   |    -    | The placeholder text displayed in the multiselect field.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `position?`         | `number`                                                                                                                                                                                   |    -    | The position of the control in toolbar                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| `devices?`          | `"all"` \| `"desktop"` \| `"responsive"`                                                                                                                                                   | `"all"` | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `disabled?`         | `boolean`                                                                                                                                                                                  | `false` | Configure the condition under which the control is disabled or enabled.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `helper?.content`   | `string`                                                                                                                                                                                   |    -    | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `helper?.position`  | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` | `"top"` | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `choices`           | `ChoicesSync \| ChoicesAsync`                                                                                                                                                              |    -    | The `choices` property can be configured to either synchronously or asynchronously provide a list of selectable options for a given component. This property can take two forms: `ChoicesSync` or `ChoicesAsync`.<br/><br/>**ChoicesSync**<br/><br/> `ChoicesSync` is an array of `Choice` objects that are directly provided to the component.<br/><br/>**`Choice: { title: string; value: string }`**<br/><br/> Each `Choice` object defines the following properties:<br/>`title` - A string representing the display title of the choice.<br/>`value` - A value representing the choice. This value is returned when the choice is selected.<br/><br/>**ChoicesAsync**<br/><br/>`ChoicesAsync` is used to load the choices dynamically via asynchronous functions. It is an object that defines the following properties:<br/><br/>**`ChoicesAsync: { load: (value: Array<string>, abortSignal?: AbortSignal) => Promise<Choice[]>; search: (search: string, abortSignal?: AbortSignal) => Promise<Choice[]>; }`**<br/><br/>`load` - A function that takes a `value` and optionally an `AbortSignal`, and returns a Promise resolving to an array of `Choice` objects. This function is used to load the select choices.<br/>`search` - A function that takes a `search` string from the search input and optionally an `AbortSignal`, and returns a Promise resolving to an array of `Choice` objects based on the search criteria. This function is used to dynamically search and load choices based on user input.<br/>       |                                                                                                                                                                                                                         |
-| `config?.search`    | `boolean`                                                                                                                                                                                  |    -    | If provided and set to `true`, an input field is displayed at the top to search items within the control.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| `config?.showArrow` | `boolean`                                                                                                                                                                                  |    -    | If provided and set to `true` an arrow is displayed to the right.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Name                 | Type                                                                                                                                                                                       |   Default    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|:---------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                 | `string`                                                                                                                                                                                   |      -       | The identifier of the key where the control will save your data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `type`               | `string`                                                                                                                                                                                   |      -       | Type should be `"multiSelect"` to use this control                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `label?`             | `string`                                                                                                                                                                                   |      -       | The label displayed on the left side of the control                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `icon?`              | `string`                                                                                                                                                                                   |      -       | Icon name that will be rendered on left side of the control's label. View all [icons](../../icons/).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `placeholder?`       | `string`                                                                                                                                                                                   |      -       | The placeholder text displayed in the multiselect field.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `position?`          | `number`                                                                                                                                                                                   |      -       | The position of the control in toolbar                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `roles?`             | `Array<Role>`                                                                                                                                                                              |      -       | Render the control only if the current user's role matches one of the roles in the provided array. <br /> <br /> **`type Role = "admin" \| "viewer" \| "editor" \| "designer" \| "manager"`**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | string`**                                                                                                                                                                                                                                                                                                  |
+| `devices?`           | `"all"` \| `"desktop"` \| `"responsive"`                                                                                                                                                   |   `"all"`    | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `disabled?`          | `boolean`                                                                                                                                                                                  |   `false`    | Configure the condition under which the control is disabled or enabled.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `display?`           | `"inline" \| "block"`                                                                                                                                                                      |  `"inline"`  | Configure how the control and its label will be arranged. If `display` is `"inline"` then label and control will be in one row, if `display` is `"block"` then label will be in one row, and the next row down will be the control.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `helper?.content`    | `string`                                                                                                                                                                                   |      -       | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `helper?.position`   | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` |   `"top"`    | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `states?`            | `Array<State>`                                                                                                                                                                             | [`"normal"`] | Allows for different styles based on the element's state <br/> <br/> <b>`State = "normal" \| "hover" \| "active"`</b> <br/> <br/> `"normal"` - the normal state of an element, <br/> `"hover"` - the state when the element is hovered over, <br/> `"active"` - the state when the element is active (e.g., current page in pagination)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `choices`            | `ChoicesSync \| ChoicesAsync`                                                                                                                                                              |      -       | The `choices` property can be configured to either synchronously or asynchronously provide a list of selectable options for a given component. This property can take two forms: `ChoicesSync` or `ChoicesAsync`.<br/><br/>**ChoicesSync**<br/><br/> `ChoicesSync` is an array of `Choice` objects that are directly provided to the component.<br/><br/>**`Choice: { title: string; value: string }`**<br/><br/> Each `Choice` object defines the following properties:<br/>`title` - A string representing the display title of the choice.<br/>`value` - A value representing the choice. This value is returned when the choice is selected.<br/><br/>**ChoicesAsync**<br/><br/>`ChoicesAsync` is used to load the choices dynamically via asynchronous functions. It is an object that defines the following properties:<br/><br/>**`ChoicesAsync: { load: (value: Array<string>, abortSignal?: AbortSignal) => Promise<Choice[]>; search: (search: string, abortSignal?: AbortSignal) => Promise<Choice[]>; }`**<br/><br/>`load` - A function that takes a `value` and optionally an `AbortSignal`, and returns a Promise resolving to an array of `Choice` objects. This function is used to load the select choices.<br/>`search` - A function that takes a `search` string from the search input and optionally an `AbortSignal`, and returns a Promise resolving to an array of `Choice` objects based on the search criteria. This function is used to dynamically search and load choices based on user input.<br/> |                                                                                                                                                                                                                         |
+| `config?.search`     | `boolean`                                                                                                                                                                                  |     -        | If provided and set to `true`, an input field is displayed at the top to search items within the control.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `config?.showArrow`  | `boolean`                                                                                                                                                                                  |      -       | If provided and set to `true` an arrow is displayed to the right.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `default?`           | `Default`                                                                                                                                                                                  |      -       | The default control value. <br/> <br/> <b>`Default: { value: Array<string> }`</b> <br/> <br/> `value` - the control's custom initial value <br/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `style?`             | `function`                                                                                                                                                                                 |      -       | This function generates CSS output based on the value from the control. The parameter is an object containing a `value` key, which holds the current value of the control. The function returns an object with a CSS selector key and CSS property values.  <pre>`style: ({value}) => {`<br/> `return {`<br/>  `"{{WRAPPER}} .brz-text": {`<br/>   `color: value.includes("events") ? "green" : "black"`<br/>  `}`<br/> `}`<br/>`}`</pre>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+
+### Basic example
+Standard definition with only the required keys. This control will be displayed on all devices.
+
+```js
+{
+  id: "type",
+  type: "multiSelect",
+  choices: [
+    { title: "Timeline", value: "timeline" },
+    { title: "Events", value: "events" }
+  ]
+}
+```
 
 ### Return value
 
@@ -53,21 +73,6 @@ Example of value:
 
 ### Usage
 
-
-#### Basic example
-Standard definition with only the required keys. This control will be displayed on all devices.
-
-```js
-{
-  id: "type",
-  type: "multiSelect",
-  choices: [
-    { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
-  ]
-}
-```
-
 #### Label example
 Adding a label on the left side of the control.
 
@@ -78,7 +83,39 @@ Adding a label on the left side of the control.
   type: "multiSelect",
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
+    { title: "Events", value: "events" }
+  ]
+}
+```
+
+#### Icon example
+
+Adding a "star" icon to the left of the control's label.
+
+```js
+{
+  id: "type",
+  type: "multiSelect",
+  icon: "nc-star",
+  choices: [
+    { title: "Timeline", value: "timeline" },
+    { title: "Events", value: "events" }
+  ]
+}
+```
+
+#### Roles example
+
+Show the control only to users with admin and designer privileges.
+
+```js
+{
+  id: "type",
+  type: "multiSelect",
+  roles: ["admin", "designer"],
+  choices: [
+    { title: "Timeline", value: "timeline" },
+    { title: "Events", value: "events" }
   ]
 }
 ```
@@ -94,8 +131,8 @@ The placeholder text displayed in the multiselect field.
   placeholder: "Select choices",
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
-  ],
+    { title: "Events", value: "events" }
+  ]
 }
 ```
 
@@ -109,7 +146,7 @@ It will be rendered on all devices. This value can be skipped because it is set 
   devices: "all",
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
+    { title: "Events", value: "events" }
   ]
 }
 ```
@@ -123,7 +160,7 @@ Rendering will occur only on `desktop`.
   devices: "desktop",
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
+    { title: "Events", value: "events" }
   ]
 }
 ```
@@ -136,7 +173,7 @@ The display is limited to responsive modes, specifically `tablet` and `mobile`.
   devices: "responsive",
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
+    { title: "Events", value: "events" }
   ]
 }
 ```
@@ -152,7 +189,7 @@ Control will be disabled. Normally, here should be your dynamic condition.
   disabled: true,
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
+    { title: "Events", value: "events" }
   ]
 }
 ```
@@ -180,9 +217,23 @@ const getToolbarContols = ({ getValue }) => {
       disabled: videoType === "custom",
       choices: [
         { title: "Timeline", value: "timeline" },
-        { title: "Events", value: "events" },
+        { title: "Events", value: "events" }
       ]
     }
+  ]
+}
+```
+#### Display examples
+In this example, with `display: "block"`, the label will be rendered on the first row and the control on the second.
+
+```js
+{
+  id: "type",
+  type: "multiSelect"
+  display: "block",
+  choices: [
+    { title: "Timeline", value: "timeline" },
+    { title: "Events", value: "events" }
   ]
 }
 ```
@@ -197,7 +248,7 @@ The helper object contains a content property with the value `"Helper"`, which w
   type: "multiSelect",
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
+    { title: "Events", value: "events" }
   ],
   helper: {
     content: "Helper"
@@ -213,12 +264,41 @@ When the helper object contains a position property with the value `"top-start"`
   type: "multiSelect",
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
+    { title: "Events", value: "events" }
   ],
   helper: {
     content: "Helper",
     position: "top-start"
   }
+}
+```
+#### States example
+
+Allows the control to work in normal and hover states.
+
+```js
+{
+  id: "type",
+  type: "multiSelect", 
+  states: ["normal", "hover"],
+  choices: [
+    { title: "Timeline", value: "timeline" },
+    { title: "Events", value: "events" }
+  ]
+}
+```
+
+Allows the control to work in normal, hover and active states.
+
+```js
+{
+  id: "type",
+  type: "multiSelect", 
+  states: ["normal", "hover", "active"],
+  choices: [
+    { title: "Timeline", value: "timeline" },
+    { title: "Events", value: "events" }
+  ]
 }
 ```
 
@@ -265,7 +345,7 @@ For the example below, an input field appears above the dropdown. This allows us
   type: "multiSelect",
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
+    { title: "Events", value: "events" }
   ],
   config: {
     search: true
@@ -283,10 +363,127 @@ An arrow icon appears to the right of the `multiSelect`.
   type: "multiSelect",
   choices: [
     { title: "Timeline", value: "timeline" },
-    { title: "Events", value: "events" },
+    { title: "Events", value: "events" }
   ],
   config: {
     showArrow: true
   }
 }
+```
+
+#### Default value examples
+
+In this example, the `multiSelect` control that has the value `"['events']"` by default.
+
+```js
+{
+  id: "type", 
+  type: "multiSelect",
+  choices: [
+    { title: "Timeline", value: "timeline" },
+    { title: "Events", value: "events" }
+  ],
+  default: {
+    value: "['events']"
+  }
+}
+```
+
+#### CSS examples
+
+Change the `.brz-text` element color with CSS using a `multiSelect` control value.
+
+```js
+{
+  id: "type",
+  type: "multiSelect",
+  choices: [
+    { title: "Timeline", value: "timeline" },
+    { title: "Events", value: "events" }
+  ],
+  style: ({ value }) => {
+    if (value.value.includes("events")) {
+      return {
+        "{{WRAPPER}} .brz-text": {
+          "color": "orange"
+        }
+      }
+    }
+
+    return {
+      "{{WRAPPER}} .brz-text": {
+        "color": "black"
+      }
+    }
+  }
+}
+```
+
+#### Usage in HTML example
+
+In the example below, we use the `multiSelect` output value to determine when to render the label in the button element.
+When the `multiSelect` includes `"evenets"`, we will render the label.
+We also use the same `multiSelect` value to add the `"data-disabled"` HTML attribute to the `.brz-button`.
+
+```tsx
+import { Brizy } from "@brizy/core";
+import { Icon } from "./Icon";
+import React, { JSX } from "react";
+
+interface Props {
+  type: string;
+}
+
+const Button = (props: Props): JSX.Element => {
+  const { type } = props;
+
+  const parsed = JSON.parse(type);
+  
+  const attributes = {
+    "data-disabled": parsed.includes("events")
+  }
+  
+  return (
+    <div className="brz-button" {...attributes}>
+      {parsed.includes("events") && <span>Show Events</span>}
+      <Icon name="calendar"/>
+    </div>
+  );
+};
+
+Brizy.registerComponent({
+  id: "ThirdParty.Button",
+  component: { editor: Button, view: Button },
+  title: "My Button",
+  category: "custom",
+  options: (props) => {
+    return [
+      {
+        selector: ".brz-button",
+        toolbar: [
+          {
+            id: "toolbarCurrentElement",
+            type: "popover",
+            config: {
+              icon: "nc-button",
+              title: "Button"
+            },
+            devices: "desktop",
+            options: [
+              {
+                id: "type",
+                type: "multiSelect",
+                choices: [
+                  { title: "Timeline", value: "timeline" },
+                  { title: "Events", value: "events" }
+                ],
+                devices: "desktop"
+              }
+            ]
+          }
+        ]
+      }
+    ];
+  }
+});
 ```
