@@ -17,9 +17,11 @@ Example of the control with hover on the button:
 
 | Name                   | Type                                                                                                                                                                                                                                    |  Default   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 |:-----------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`                   | `string`                                                                                                                                                                                                                                |     -      | A unique identifier for the popover. This is used to differentiate between multiple popovers                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `id`                   | `string`                                                                                                                                                                                                                                |     -      | A unique identifier for the `popover`. This is used to differentiate between multiple popovers                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `type`                 | `string`                                                                                                                                                                                                                                |     -      | Type should be `"popover"` to use this control                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `className?`           | `string` | - | The custom CSS class name that will be set on the control. It can be used to modify the control styles. |
 | `position?`            | `number`                                                                                                                                                                                                                                |     -      | The position of the control in toolbar                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `roles?`               | `Array<Role>` | - | Render the control only if the current user's role matches one of the roles in the provided array. <br /> <br /> **`type Role = "admin" \| "viewer" \| "editor" \| "designer" \| "manager"`** | string`** |
 | `devices?`             | `"all"` \| `"desktop"` \| `"responsive"`                                                                                                                                                                                                |  `"all"`   | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices                                                                                                                                                                                                                                                                                                                              |
 | `disabled?`            | `boolean`                                                                                                                                                                                                                               |  `false`   | Configure the condition under which the control is disabled or enabled                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `options?`             | `Array<ControlItem>`                                                                                                                                                                                                                    |     -      | An array of controls that will be displayed inside the popover <br/><br/> **`ControlItem = { id: number; type: string; label?: string; disabled?: boolean; devices?: "all" \| "desktop" \| "responsive" }`** <br/> <br/> `id` - id of the other control where it will store its data <br/> `type` - type of the control <br/> `label` - the label displayed on the left side of the control <br/> `disabled` - configure the condition under which the control is disabled or enabled <br/> `devices` - define the devices where the control will be rendered |
@@ -29,9 +31,7 @@ Example of the control with hover on the button:
 | `config?.title`        | `string`                                                                                                                                                                                                                                |     -      | The `title` attribute for the button, which appears as a tooltip when the user hovers over the button                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | `config?.onOpenDirect` | `boolean`                                                                                                                                                                                                                               |  `false`   | Determines whether the popover content is displayed immediately when the toolbar is opened, rather than waiting for a click on the button                                                                                                                                                                                                                                                                                                                                                                                                                     |
 
-### Usage
-
-#### Basic example
+### Basic example
 
 Standard definition with the keys necessary for the normal operation of the control. Will be displayed on all devices.
 
@@ -46,6 +46,36 @@ Standard definition with the keys necessary for the normal operation of the cont
       label: "Display Close Button"
     }
   ]
+}
+```
+
+### Return value
+
+Does not return anything.
+
+### Usage
+
+#### Class name example
+
+Adding a CSS class to the control's DOM node.
+
+```js
+{
+  id: "popover",
+  type: "popover",
+  className: "myPopover"
+}
+```
+
+#### Roles example
+
+Show the control only to users with admin and designer privileges.
+
+```js
+{
+  id: "popover",
+  type: "popover",
+  roles: ["admin", "designer"]
 }
 ```
 
@@ -168,7 +198,7 @@ Determines the position of the popover relative to the button.
     {
       id: "closeButtonState",
       type: "switch",
-      label: "Display Close Button",
+      label: "Display Close Button"
     }
   ]
 }
@@ -189,7 +219,7 @@ Specifies the size of the popover.
     {
       id: "closeButtonState",
       type: "switch",
-      label: "Display Close Button",
+      label: "Display Close Button"
     }
   ]
 }
@@ -210,7 +240,7 @@ The icon displayed within the button.
     {
       id: "closeButtonState",
       type: "switch",
-      label: "Display Close Button",
+      label: "Display Close Button"
     }
   ]
 }
@@ -231,7 +261,7 @@ The title attribute for the button, which appears as a tooltip when the user hov
     {
       id: "closeButtonState",
       type: "switch",
-      label: "Display Close Button",
+      label: "Display Close Button"
     }
   ]
 }
@@ -252,12 +282,8 @@ Determines whether the popover content is displayed immediately when the toolbar
     {
       id: "closeButtonState",
       type: "switch",
-      label: "Display Close Button",
+      label: "Display Close Button"
     }
   ]
 }
 ```
-
-### Return value
-
-Does not return anything.
