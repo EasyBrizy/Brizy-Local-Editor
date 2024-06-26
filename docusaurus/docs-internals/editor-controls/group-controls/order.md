@@ -18,18 +18,18 @@ Example of the control with vertical arrows:
 
 | Name               | Type                                        |      Default      | Description                                                                                                                                                                                                                                                                                                                                          |
 |:-------------------|:--------------------------------------------|:-----------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`               | `string`                                    |         -         | The identifier of the key where the `"order"` will save your data                                                                                                                                                                                                                                                                                    |
+| `id`               | `string`                                    |         -         | The identifier of the key where the `order` will save your data                                                                                                                                                                                                                                                                                     |
 | `type`             | `string`                                    |         -         | Type should be `"order"` to use this control                                                                                                                                                                                                                                                                                                         |
+| `className?`       | `string`                                    |         -         | The custom CSS class name that will be set on the control. It can be used to modify the control styles                                                                                                                                                                                                                                               |
 | `position?`        | `number`                                    |         -         | The position of the control in toolbar                                                                                                                                                                                                                                                                                                               |
+| `roles?`           | `Array<Role>`                               |         -         | Render the control only if the current user's role matches one of the roles in the provided array. <br /> <br /> **`type Role = "admin" \| "viewer" \| "editor" \| "designer" \| "manager"`**                                                                                                                                                        |
 | `devices?`         | `"all"` \| `"desktop"` \| `"responsive"`    |      `"all"`      | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices                                                                                                                     |
 | `disabled?`        | `boolean`                                   |      `false`      | Configure the condition under which the control is disabled or enabled                                                                                                                                                                                                                                                                               |
 | `config?.disable`  | `"prev"` \| `"next"` \| `"all"` \| `"none"` |     `"none"`      | Determines which arrow will be disabled                                                                                                                                                                                                                                                                                                              |
-| `config?.onChange` | `Function`                                  | `() => undefined` | Called when one of the arrows is clicked. Allows customization of the reordering logic <br/> <br/> <b>`Function = (value: "next" \| "prev") => void`</b> <br/> <br/>  `value` - the direction of the reorder action, which can be either `"prev"` (indicating a move to the previous position) or `"next"` (indicating a move to the next position). |
+| `config?.onChange` | `function`                                  | `() => undefined` | Called when one of the arrows is clicked. Allows customization of the reordering logic <br/> <br/> <b>`Function = (value: "next" \| "prev") => void`</b> <br/> <br/>  `value` - the direction of the reorder action, which can be either `"prev"` (indicating a move to the previous position) or `"next"` (indicating a move to the next position). |
 | `config?.align`    | `"horizontal"` \| `"vertical"`              |  `"horizontal"`   | Determines the alignment of the arrows                                                                                                                                                                                                                                                                                                               |
 
-### Usage
-
-#### Basic example
+### Basic example
 
 Standard definition with the keys necessary for the normal operation of the control. Will be displayed on all devices.
 
@@ -37,6 +37,70 @@ Standard definition with the keys necessary for the normal operation of the cont
 {
   id: "order", 
   type: "order",
+  config: {
+    disable: itemIndex === 0
+      ? "prev"
+      : itemIndex === items.length - 1
+        ? "next"
+        : undefined,
+    onChange: (v) => {
+      switch (v) {
+        case "prev":
+          // logic to reorder item
+          break;
+        case "next":
+          // logic to reorder item
+          break;
+      }
+    }
+  }
+}
+```
+
+### Return value
+
+Does not return anything
+
+### Usage
+
+#### Class name example
+
+Adding a CSS class to the control's DOM node.
+
+```js
+{
+  id: "order",
+  type: "order",
+  className: "myOrder"
+  config: {
+    disable: itemIndex === 0
+      ? "prev"
+      : itemIndex === items.length - 1
+        ? "next"
+        : undefined,
+    onChange: (v) => {
+      switch (v) {
+        case "prev":
+          // logic to reorder item
+          break;
+        case "next":
+          // logic to reorder item
+          break;
+      }
+    }
+  }
+}
+```
+
+#### Roles example
+
+Show the control only to users with admin and designer privileges.
+
+```js
+{
+  id: "order",
+  type: "order",
+  className: "myOrder"
   config: {
     disable: itemIndex === 0
       ? "prev"
@@ -296,7 +360,3 @@ Determines the alignment of the arrows. In this case the arrows will display one
   }
 }
 ```
-
-### Return value
-
-Does not return anything
