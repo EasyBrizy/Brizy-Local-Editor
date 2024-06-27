@@ -88,6 +88,12 @@ export interface Config {
 
   //#endregion
 
+  //#region l10n
+
+  l10n?: Record<string, string>;
+
+  //#endregion
+
   //#region DynamicContent
 
   dynamicContent?: DynamicContent;

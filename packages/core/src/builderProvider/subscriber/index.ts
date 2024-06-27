@@ -52,6 +52,7 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         const token = configData.token;
         const pageData = action.data.pageData ?? {};
         const menuData = action.data.menu ?? _menuData;
+        const l10n = configData.l10n ?? {};
 
         window.__VISUAL_CONFIG__.mode = mode;
         window.__VISUAL_CONFIG__.projectData = {
@@ -76,6 +77,7 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         window.__VISUAL_CONFIG__.dynamicContent = getDCConfig({ uid, target, event, dynamicContent });
         window.__VISUAL_CONFIG__.integration = getIntegration({ uid, target, event, integration });
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
+        window.__VISUAL_CONFIG__.l10n = l10n;
 
         window.__VISUAL_CONFIG__.onLoad = () => {
           const data = JSON.stringify({ type: `${target}_on_load` });
