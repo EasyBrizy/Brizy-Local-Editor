@@ -233,6 +233,12 @@ export interface Config<T extends HtmlOutputType> {
 
   htmlOutputType: T;
 
+  //#region l10n
+
+  l10n?: Record<string, string>;
+
+  //#region
+
   //#region Urls
 
   assets?: string;
