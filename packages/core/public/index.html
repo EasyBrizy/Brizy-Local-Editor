@@ -358,6 +358,7 @@
                 const imageDC = dynamicContent.groups?.image?.handler;
                 const linkDC = dynamicContent.groups?.link?.handler;
                 const elements = configData.elements;
+                const l10n = configData.l10n;
 
                 if (integrationFormFields && integrationFormFields.enable) {
                   formIntegration.fields = {
@@ -489,6 +490,7 @@
                 window.__VISUAL_CONFIG__.dynamicContent = dynamicContent;
                 window.__VISUAL_CONFIG__.elements = elements;
                 window.__VISUAL_CONFIG__.autoSaveInterval = configData.autoSaveInterval;
+                window.__VISUAL_CONFIG__.l10n = l10n;
 
                 const iframe = document.querySelector("#no-script-frame");
                 const root = document.querySelector("#root");
