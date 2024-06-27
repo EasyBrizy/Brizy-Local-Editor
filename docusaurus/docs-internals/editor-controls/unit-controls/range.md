@@ -19,14 +19,19 @@ Example of the `range` with start and end label:<br/>
 
 | Name                 | Type                                                                                                                                                                                       | Default | Description                                                                                                                                                                                                                      |
 |:---------------------| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                 | `string`                                                                                                                                                                                   |    -    | The identifier of the key where the range will save your data                                                                                                                                                                    |
+| `id`                 | `string`                                                                                                                                                                                   |    -    | The identifier of the key where the `range` will save your data                                                                                                                                                                    |
 | `type`               | `string`                                                                                                                                                                                   |    -    | Type should be `"range"` to use this control                                                                                                                                                                                     |
 | `label?`             | `string`                                                                                                                                                                                   |    -    | The label displayed on the left side of the control                                                                                                                                                                              |
+| `className?`       | `string`                                                                                                                                                                                   |      -       | The custom CSS class name that will be set on the control. It can be used to modify the control styles                                                                                                                                                                                                                                                                                                                         |
+| `icon?`            | `string`                                                                                                                                                                                   |      -       | Icon name that will be rendered on left side of the control's label. View all [icons](../../icons/)                                                                                                                                                                                                                                                                                                                           |
 | `position?`          | `number`                                                                                                                                                                                   |    -    | The position of the control in toolbar                                                                                                                                                                                           |
+| `roles?`           | `Array<Role>`                                                                                                                                                                              |      -       | Render the control only if the current user's role matches one of the roles in the provided array. <br /> <br /> **`type Role = "admin" \| "viewer" \| "editor" \| "designer" \| "manager"`**                                                                                                                           | string`**                                                                                                                                                                                                                                                                                                  |
 | `devices?`           | `"all"` \| `"desktop"` \| `"responsive"`                                                                                                                                                   | `"all"` | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices |
 | `disabled?`          | `boolean`                                                                                                                                                                                  | `false` | Configure the condition under which the control is disabled or enabled                                                                                                                                                           |
+| `display?`         | `"inline" \| "block"`                                                                                                                                                                      |  `"inline"`   | Configure how the control and its label will be arranged. If `display` is `"inline"` then label and control will be in one row, if `display` is `"block"` then label will be in one row, and the next row down will be the control.                                                                                                                                                                                             |
 | `helper?.content`    | `string`                                                                                                                                                                                   |    -    | If provided, displays an icon next to the label. When hovering over this icon, a tooltip with additional information appears                                                                                                     |
 | `helper?.position`   | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` | `"top"` | Specifies the position of the tooltip relative to the helper icon                                                                                                                                                                |
+| `states?`          | `Array<State>`                                                                                                                                                                             | [`"normal"`] | Allows for different styles based on the element's state <br/> <br/> <b>`State = "normal" \| "hover" \| "active"`</b> <br/> <br/> `"normal"` - the normal state of an element, <br/> `"hover"` - the state when the element is hovered over, <br/> `"active"` - the state when the element is active (e.g., current page in pagination)                                                                                         |
 | `config?.min`        | `number`                                                                                                                                                                                   |   `0`   | The minimum value allowed on the range scale                                                                                                                                                                                     |
 | `config?.max`        | `number`                                                                                                                                                                                   |  `100`  | The maximum value allowed on the range scale                                                                                                                                                                                     |
 | `config?.step`       | `number`                                                                                                                                                                                   |   `1`   | The incremental step between values on the range scale                                                                                                                                                                           |
@@ -34,6 +39,19 @@ Example of the `range` with start and end label:<br/>
 | `config?.unit`       | `string`                                                                                                                                                                                   |    -    | The unit of measurement for the values displayed on the range scale                                                                                                                                                              |
 | `config?.startLabel` | `string`                                                                                                                                                                                   |    -    | The label indicating the starting point of the range                                                                                                                                                                             |
 | `config?.endLabel`   | `string`                                                                                                                                                                                   |    -    | The label indicating the ending point of the range                                                                                                                                                                               |
+| `default?`         | `Default`                                                                                                                                                                                  |      -       | The default control value. <br/> <br/> <b>`Default: { from: number;  to: number;}`</b> <br/> <br/> `from` - the control's start value <br/>                                                                  `to` - the control's end value <br/>                                                                                                                                                                                                                                                                                                                |
+| `style?`           | `function`                                                                                                                                                                                 |      -       | This function generates CSS output based on the value from the control. The parameter is an object containing a `value` key, which holds the current value of the control. The function returns an object with a CSS selector key and CSS property values.  <pre>`style: ({value}) => {`<br/> `return {`<br/>  `"{{WRAPPER}} .brz-range": {`<br/>   `background: value.from >= 10 ? "red" : "green"`<br/>  `}`<br/> `}`<br/>`}`</pre> |
+
+### Basic example
+
+Standard definition with only the required keys. This control will be displayed on all devices.
+
+```js
+{
+  id: "interval",
+  type: "range"
+}
+```
 
 ### Return value
 
@@ -49,18 +67,15 @@ The return value of the range control represents the current selected range of v
 `from` - the starting value of the range;<br/>
 `to` - the ending value of the range;<br/>
 
-### Usage
-
-#### Basic example
-
-Standard definition with only the required keys. This control will be displayed on all devices.
-
+Example of value:
 ```js
 {
-  id: "interval",
-  type: "range"
+  from: 10,
+  to: 90
 }
 ```
+
+### Usage
 
 #### Label example
 
@@ -71,6 +86,42 @@ Adding a label on the left side of the control.
   id: "interval",
   type: "range",
   label: "Range"
+}
+```
+
+#### Class name example
+
+Adding a CSS class to the control's DOM node.
+
+```js
+{
+  id: "interval",
+  type: "range",
+  className: "myRange"
+}
+```
+
+#### Icon example
+
+Adding a "range" icon to the left of the control's label.
+
+```js
+{
+  id: "interval",
+  type: "range",
+  icon: "nc-range"
+}
+```
+
+#### Roles example
+
+Show the control only to users with admin and designer privileges.
+
+```js
+{
+  id: "interval",
+  type: "range",
+  roles: ["admin", "designer"]
 }
 ```
 
@@ -132,16 +183,27 @@ const getToolbarContols = ({ getValue }) => {
       type: "select",
       choices: [
         { title: "Youtube", value: "youtube" },
-        { title: "Custom", value: "custom" },
-      ],
+        { title: "Custom", value: "custom" }
+      ]
     },
     {
       id: "interval",
       type: "range",
-      disabled: videoType === "custom",
-    },
+      disabled: videoType === "custom"
+    }
   ];
 };
+```
+
+#### Display examples
+In this example, with `display: "block"`, the label will be rendered on the first row and the control on the second.
+
+```js
+{
+  id: "interval",
+  type: "range",
+  display: "block"
+}
 ```
 
 #### Helper examples
@@ -168,6 +230,28 @@ When the helper object contains a position property with the value `"top-start"`
     content: "help text",
     position: "top-start"
   }
+}
+```
+
+#### States example
+
+Allows the control to work in normal and hover states.
+
+```js
+{
+  id: "interval",
+  type: "range",
+  states: ["normal", "hover"]
+}
+```
+
+Allows the control to work in normal, hover and active states.
+
+```js
+{
+  id: "interval",
+  type: "range",
+  states: ["normal", "hover", "active"]
 }
 ```
 
@@ -267,4 +351,104 @@ Specifies the label indicating the ending point of the range.
     endLabel: "50"
   }
 }
+```
+#### Default value examples
+
+In this example, the default values for the `range` control will start with a from value of `10` and a to value of `100`.
+
+```js
+{
+  id: "interval",
+  type: "range",
+  default: {
+    from: 10,
+    to: 100
+  }
+}
+```
+
+#### CSS examples
+
+Change the background color of the `.brz-range` element using a range control value. If `value.from` is greater than or equal to 20, the color is red; otherwise, the color is green.
+
+```js
+{
+  id: "interval",
+  type: "range",
+  style: ({ value }) => {
+    if (value.from >= 20) {
+      return {
+        "{{WRAPPER}} .brz-range": {
+          background: "red"
+        }
+      }
+    }
+
+    return {
+      "{{WRAPPER}} .brz-range": {
+        background: "green"
+      }
+    }
+  }
+}
+
+```
+
+
+#### Usage in HTML example
+
+In the example below, we use the Range output values ( `priceFrom` and `priceTo` ). The Range component will render a `range` input control with a minimum value of `priceFrom` and a maximum value of `priceTo`.
+
+```tsx
+import { Brizy } from "@brizy/core";
+import React, { JSX } from "react";
+
+interface Props {
+  priceFrom: number;
+  priceTo: number;
+}
+
+const Price = (props: Props): JSX.Element => {
+  const { priceFrom, priceTo } = props;
+
+  return (
+    <div>
+      <h3>Filtering price range</h3>
+      <span>From: {priceFrom}</span>
+      <span>To: {priceTo}</span>
+    </div>
+  );
+};
+
+Brizy.registerComponent({
+  id: "ThirdParty.Price",
+  component: { editor: Price, view: Price },
+  title: "My Price",
+  category: "custom",
+  options: (props) => {
+    return [
+      {
+        selector: ".brz-range",
+        toolbar: [
+          {
+            id: "toolbarCurrentElement",
+            type: "popover",
+            config: {
+              icon: "nc-price",
+              title: "Range"
+            },
+            devices: "desktop",
+            options: [
+              {
+                id: "price",
+                type: "range",
+                devices: "desktop"
+              }
+            ]
+          }
+        ]
+      }
+    ];
+  }
+});
 ```
