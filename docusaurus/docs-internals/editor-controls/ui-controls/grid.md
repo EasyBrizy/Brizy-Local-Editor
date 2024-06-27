@@ -21,19 +21,19 @@ Without separator:
 
 ### Parameters
 
-| Name                | Type                                     | Default | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|:--------------------|:-----------------------------------------|:-------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`                | `string`                                 |    -    | The unique identifier to delimit the `grid` control                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `type`              | `string`                                 |    -    | Type should be `"grid"` to use this control.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `position?`         | `number`                                 |    -    | The position of the control in toolbar.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `devices?`          | `"all"` \| `"desktop"` \| `"responsive"` | `"all"` | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| `disabled?`         | `boolean`                                | `false` | Configure the condition under which the control is disabled or enabled.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `columns`           | `Array<ColumnItem>`                      |    -    | Defines the number and configuration of columns in the grid layout. Each column is represented by an object. <br/><br/> <b> `ColumnItem : { id: string, size?: 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| "auto", align?: "start" \| "end" \| "center", options: ControlItem[], className?: string }`</b> <br/><br/> `id` - the unique identifier for each individual column <br/> `size` - defines the size of the column in grid layout. <br/> `align` - Specifies the alignment of the column item within its grid cell. <br/> `className` - defines the CSS class or classes to be applied to the column  <br/> `options` - an array of objects representing the content associated with each column <br/><br/> <b> `ControlItem: { id: string; type: string; title?: string; label?: string; position?: number; }`</b> <br/><br/> `id` - this property uniquely identifies each control item and is derived from a saved option value. It represents an identifier associated with a specific configuration or option selected <br/> `title` - the title displayed on the control, representing the content section associated with that Column Item <br/> `label` - an additional label or description for the control, providing further context or information about the content section it represents <br/> `position` - specifies the position of the control within the Column Item <br/> `type` - type of control |  
-| `config?.separator` | `boolean`                                | `false` | If the value is `true` then a separator will be applied between the columns.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Name                | Type                                     |   Default    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|:--------------------|:-----------------------------------------|:------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                | `string`                                 |      -       | The unique identifier to delimit the `grid` control                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `type`              | `string`                                 |      -       | Type should be `"grid"` to use this control.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `position?`         | `number`                                 |      -       | The position of the control in toolbar.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `className?`        | `string`                                 |      -       | The custom CSS class name that will be set on the control. It can be used to modify the control styles.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `roles?`            | `Array<Role>`                            |      -       | Render the control only if the current user's role matches one of the roles in the provided array. <br /> <br /> **`type Role = "admin" \| "viewer" \| "editor" \| "designer" \| "manager"`**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string`**                                                                                                                                                                                                                                                                                                  |
+| `devices?`          | `"all"` \| `"desktop"` \| `"responsive"` |   `"all"`    | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `disabled?`         | `boolean`                                |   `false`    | Configure the condition under which the control is disabled or enabled.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `columns`           | `Array<ColumnItem>`                      |      -       | Defines the number and configuration of columns in the grid layout. Each column is represented by an object. <br/><br/> <b> `ColumnItem : { id: string, size?: 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| "auto", align?: "start" \| "end" \| "center", options: ControlItem[], className?: string }`</b> <br/><br/> `id` - the unique identifier for each individual column <br/> `size` - defines the size of the column in grid layout. <br/> `align` - Specifies the alignment of the column item within its grid cell. <br/> `className` - defines the CSS class or classes to be applied to the column  <br/> `options` - an array of objects representing the content associated with each column <br/><br/> <b> `ControlItem: { id: string; type: string; title?: string; label?: string; position?: number; }`</b> <br/><br/> `id` - this property uniquely identifies each control item and is derived from a saved option value. It represents an identifier associated with a specific configuration or option selected <br/> `title` - the title displayed on the control, representing the content section associated with that Column Item <br/> `label` - an additional label or description for the control, providing further context or information about the content section it represents <br/> `position` - specifies the position of the control within the Column Item <br/> `type` - type of control |  
+| `config?.separator` | `boolean`                                |   `false`    | If the value is `true` then a separator will be applied between the columns.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 
-### Usage
-
-#### Basic example
+### Basic example
 
 In this example, we implemented the `grid` control that have two columns each of column render a different control.
 
@@ -70,39 +70,67 @@ const getToolbarItems = () => {
 };
 ```
 
-#### Separator example
+### Return value
 
-In this example, we implemented the `grid` control that have two columns divided by a separator.
+This control does not return any value.
+
+
+### Usage
+
+#### Class name example
+
+Adding a CSS class to the control's DOM node.
+
 ```js
 {
-  id: "grid-group",
+  id: "gridControl",
+  type: "grid"
+  className: "grid-control"
+}
+```
+
+#### Roles example
+
+Show the control only to users with admin and designer privileges.
+
+```js
+{
+  id: "gridControl",
   type: "grid",
-  config: {
-    separator: true
-  },
-  columns: [
-    {
-      id: "grid-settings",
-      size: 1,
-      options: [
-        {
-          id: "styles",
-          type: "sidebarTabsButton"
-        }
-      ]
-    },
-    {
-      id: "grid-effects",
-      size: 1,
-      options: [
-        {
-          id: "effects",
-          type: "sidebarTabsButton"
-        }
-      ]
-    }
-  ]
-};
+  roles: ["admin", "designer"]
+}
+```
+
+#### Devices examples
+
+It will be rendered on all devices. This value can be skipped because it is set to `"all"` by default.
+
+```js
+{
+  id: "gridControl",
+  type: "grid",
+  devices: "all"
+}
+```
+
+Rendering will occur only on `desktop`.
+
+```js
+{
+  id: "gridControl",
+  type: "grid",
+  devices: "desktop"
+}
+```
+
+The display is limited to responsive modes, specifically `tablet` and `mobile`.
+
+```js
+{
+  id: "gridControl",
+  type: "grid",
+  devices: "responsive"
+}
 ```
 
 #### Disabled examples
@@ -165,7 +193,38 @@ const getToolbarContols = ({ getValue }) => {
 }
 ```
 
+#### Config `separator` example
 
-### Return value
+In this example, we implemented the `grid` control that have two columns divided by a separator.
+```js
+{
+  id: "grid-group",
+  type: "grid",
+  config: {
+    separator: true
+  },
+  columns: [
+    {
+      id: "grid-settings",
+      size: 1,
+      options: [
+        {
+          id: "styles",
+          type: "sidebarTabsButton"
+        }
+      ]
+    },
+    {
+      id: "grid-effects",
+      size: 1,
+      options: [
+        {
+          id: "effects",
+          type: "sidebarTabsButton"
+        }
+      ]
+    }
+  ]
+};
+```
 
-This control does not return any value.
