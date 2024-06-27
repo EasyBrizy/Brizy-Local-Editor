@@ -250,6 +250,7 @@ export const init = (config: Config, uid: string, token: string): ActionResolve 
       dynamicContent: createDCContent(config),
       autoSaveInterval: config.autoSaveInterval,
       urls: config.urls,
+      l10n: config.l10n,
     },
   }),
 });
