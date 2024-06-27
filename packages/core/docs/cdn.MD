@@ -74,6 +74,9 @@ type config = {
     };
   };
 
+  // L10n
+  l10n?: Record<string, string>;
+
   // DynamicContent
   dynamicContent?: {
     useCustomPlaceholder?: boolean;
@@ -333,13 +336,14 @@ export enum VideoTypes {
 
 Config can be passed as an object when you initialize the editor from the script.
 
-| Name           | Type                | Description                                                      |
-|:---------------|:--------------------|:-----------------------------------------------------------------|
-| container      | HTMLElement         | Brizy Plugin will load into HTML element.                        |
-| htmlOutputType | monolith or partial | Default "monolith"                                               |
-| pageData       | object              | Loads the JSON page specified in the pageData parameter.         |
-| projectData    | object              | Loads the JSON project specified in the projectData parameter.   |
-| menu           | array               | Load the array of menu                                           |
+| Name           | Type                | Description                                                                                                                            |
+|:---------------|:--------------------|:---------------------------------------------------------------------------------------------------------------------------------------|
+| container      | HTMLElement         | Brizy Plugin will load into HTML element.                                                                                              |
+| htmlOutputType | monolith or partial | Default "monolith"                                                                                                                     |
+| pageData       | object              | Loads the JSON page specified in the pageData parameter.                                                                               |
+| projectData    | object              | Loads the JSON project specified in the projectData parameter.                                                                         |
+| menu           | array               | Load the array of menu                                                                                                                 |
+| l10n           | object              | A data structure that maps keys to localized strings for localization purposes. All keys available [here](/packages/core/docs/l10n.ts) |
 
 ### Integration parameters
 
