@@ -18,14 +18,12 @@ Example of `sidebarTabsButton` control:
 | `type`          | `string`                                 |     -      | Type should be `"sidebarTabsButton"` to use this control                                                                                                                                                                         |
 | `devices?`      | `"all"` \| `"desktop"` \| `"responsive"` |  `"all"`   | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices |
 | `disabled?`     | `boolean`                                |  `false`   | Configure the condition under which the control is disabled or enabled                                                                                                                                                           |
-| `config?.tabId` | `string`                                 |     -      | Specifies the id of the tab on the sidebar that will be opened when the `sidebarTabsButton` is clicked                                                                                                                            |
+| `config?.tabId` | `string`                                 |     -      | Specifies the id of the tab on the sidebar that will be opened when the `sidebarTabsButton` is clicked                                                                                                                           |
 | `config?.icon`  | `string`                                 |     -      | The icon name of the button                                                                                                                                                                                                      |
 | `config?.align` | `"left"` \| `"center"` \| `"right"`      | `"center"` | The alignment of the button                                                                                                                                                                                                      |
 | `config?.text`  | `string`                                 |     -      | The text displayed on the button                                                                                                                                                                                                 |
 
-### Usage
-
-#### Basic example
+### Basic example
 
 Standard definition with only the required keys. This control will be displayed on all devices.
 
@@ -35,6 +33,12 @@ Standard definition with only the required keys. This control will be displayed 
   type: "sidebarTabsButton"
 }
 ```
+
+### Return value
+
+The `sidebarTabsButton` control does not return anything.
+
+### Usage
 
 #### Devices examples
 
@@ -94,13 +98,13 @@ const getToolbarContols = ({ getValue }) => {
       type: "select",
       choices: [
         { title: "Youtube", value: "youtube" },
-        { title: "Custom", value: "custom" },
+        { title: "Custom", value: "custom" }
       ],
     },
     {
       id: "button",
       type: "sidebarTabsButton",
-      disabled: videoType === "custom",
+      disabled: videoType === "custom"
     },
   ];
 };
@@ -161,7 +165,3 @@ Defines the text to be displayed with the control.
   }
 }
 ```
-
-### Return value
-
-The `sidebarTabsButton` control does not return anything.
