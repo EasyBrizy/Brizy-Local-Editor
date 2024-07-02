@@ -41,6 +41,7 @@ const baseFactory = (env: "production" | "development"): Configuration => {
       // Used relative path to some static files
       // On the widgets we use getMetaData().pluginHost url
       publicPath: "",
+      assetModuleFilename: "static/[name].[hash:8][ext]",
     },
     resolve: {
       extensions: [".js", ".json", ".ts", ".tsx", ".css"],
@@ -140,16 +141,10 @@ const baseFactory = (env: "production" | "development"): Configuration => {
         {
           test: /\.(bmp|png|jpe?g|gif|webp)$/i,
           type: "asset/resource",
-          generator: {
-            filename: "static/[name].[hash:8].[ext]",
-          },
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
           type: "asset/resource",
-          generator: {
-            filename: "static/[name].[hash:8].[ext]",
-          },
         },
       ],
     },
