@@ -1,26 +1,25 @@
 ---
-sidebar_position: 3
 toc_max_heading_level: 4
 ---
 
-# Textarea
+# Icons Picker
 
-The Brizy `textarea` control offers a traditional textarea field with the ability to set the number of rows.
+The `iconsPicker` control in Brizy functions similarly to checkboxes but features a distinct user interface. Users can select by icons for various purposes, and the blue checkmarks visually indicate which icons are currently active or chosen.
 
-Example of the `textarea`:
+Example of the `iconsPicker`
 
-![Textarea](/img/controls/textarea.png)
+![Icons Picker](/img/controls/iconsPicker.png)
 
-Example of the `textarea` with placeholder and 2 lines:
+Example of checked `iconsPicker`
 
-![TextareaWithPlaceholder](/img/controls/textareaPlaceholder.png)
+![Icons Picker Checked](/img/controls/iconsPickerChecked.png)
 
 ### Parameters
 
 | Name               | Type                                                                                                                                                                                       |   Default    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`               | `string`                                                                                                                                                                                   |      -       | The identifier of the key where the textarea will save your data                                                                                                                                                                                                                                                                                                                                                                                                       |
-| `type`             | `string`                                                                                                                                                                                   |      -       | Type should be `"textarea"` to use this control                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `id`               | `string`                                                                                                                                                                                   |      -       | The identifier of the key where the `iconsPicker` will save your data                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `type`             | `string`                                                                                                                                                                                   |      -       | Type should be `"iconsPicker"` to use this control                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `label?`           | `string`                                                                                                                                                                                   |      -       | The label displayed on the left side of the control                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `className?`       | `string`                                                                                                                                                                                   |      -       | The custom CSS class name that will be set on the control. It can be used to modify the control styles.                                                                                                                                                                                                                                                                                                                                                                |
 | `icon?`            | `string`                                                                                                                                                                                   |      -       | Icon name that will be rendered on left side of the control's label. View all [icons](../../icons/).                                                                                                                                                                                                                                                                                                                                                                   |
@@ -28,34 +27,45 @@ Example of the `textarea` with placeholder and 2 lines:
 | `roles?`           | `Array<Role>`                                                                                                                                                                              |      -       | Render the control only if the current user's role matches one of the roles in the provided array. <br /> <br /> **`type Role = "admin" \| "viewer" \| "editor" \| "designer" \| "manager"`**                                                                                                                                                                                                                                                                          |
 | `devices?`         | `"all"` \| `"desktop"` \| `"responsive"`                                                                                                                                                   |   `"all"`    | Define the devices where the control will be rendered. `"all"` renders the control on all devices. `"desktop"` renders the control only on desktop devices. `"responsive"` renders the control on both tablet and mobile devices.                                                                                                                                                                                                                                      |
 | `disabled?`        | `boolean`                                                                                                                                                                                  |   `false`    | Configure the condition under which the control is disabled or enabled.                                                                                                                                                                                                                                                                                                                                                                                                |
-| `display?`         | `"inline" \| "block"`                                                                                                                                                                      |  `"inline"`  | Configure how the control and its label will be arranged. If `display` is `"inline"` then label and control will be in one row, if `display` is `"block"` then label will be in one row, and the next row down will be the control.                                                                                                                                                                                                                                    |
-| `placeholder?`     | `string`                                                                                                                                                                                   |      -       | The placeholder text displayed in the input field.                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `states?`          | `Array<State>`                                                                                                                                                                             | [`"normal"`] | Allows for different styles based on the element's state <br/> <br/> <b>`State = "normal" \| "hover" \| "active"`</b> <br/> <br/> `"normal"` - the normal state of an element, <br/> `"hover"` - the state when the element is hovered over, <br/> `"active"` - the state when the element is active (e.g., current page in pagination)                                                                                                                                |
 | `helper?.content`  | `string`                                                                                                                                                                                   |      -       | If provided, an icon is displayed next to the label. When hovering over this icon, a tooltip with additional information appears.                                                                                                                                                                                                                                                                                                                                      |
 | `helper?.position` | `"top-start"` \| `"top"` \| `"top-end"` \| `"right-start"` \| `"right"` \| `"right-end"` \| `"bottom-end"` \| `"bottom"` \| `"bottom-start"` \| `"left-end"` \| `"left"` \| `"left-start"` |   `"top"`    | Specifies the position of the tooltip relative to the helper icon.                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `states?`          | `Array<State>`                                                                                                                                                                             | [`"normal"`] | Allows for different styles based on the element's state <br/> <br/> <b>`State = "normal" \| "hover" \| "active"`</b> <br/> <br/> `"normal"` - the normal state of an element, <br/> `"hover"` - the state when the element is hovered over, <br/> `"active"` - the state when the element is active (e.g., current page in pagination)                                                                                                                                |
-| `config?.lines`    | `number`                                                                                                                                                                                   |      -       | Specifies the number of rows for the textarea component.                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `config?.size`     | `"short"` \| `"medium"` \| `"large"` \| `"auto"`                                                                                                                                           |   `"auto"`   | A string that specifies the size of the input field.                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| `default?  `       | `Default`                                                                                                                                                                                  |      -       | The default control value. <br/> <br/> <b>`Default: { value: string; }`</b> <br/> <br/> `value` - the control's custom initial value <br/>                                                                                                                                                                                                                                                                                                                             |
+| `choices`          | `Array<Choice>`                                                                                                                                                                            |      -       | A required property that defines the array of choice objects to render as icons elements.<br/><br/><b>`Choice: { title: string, icon: string, value: string }`</b> <br/><br/>`title` - the title of the icon element.<br/>`icon` - the icon associated with the icon element.<br/>`value` - the value returned by the `iconsPicker` when this option is selected.                                                                                                      |
+| `default?  `       | `Default`                                                                                                                                                                                  |      -       | The default control value. <br/> <br/> <b>`Default: { value: string; active: string; }`</b> <br/> <br/> `value` - the control's custom initial value <br/> `active` - the active icon by default                                                                                                                                                                                                                                                                       |
 | `style?`           | `function`                                                                                                                                                                                 |      -       | This function generates CSS output based on the value from the control. The parameter is an object containing a `value` key, which holds the current value of the control. The function returns an object with a CSS selector key and CSS property values. <pre>`style: ({value}) => {`<br/> `return {`<br/> &nbsp;`"{{WRAPPER}} .brz-text": {`<br/> &nbsp; &nbsp; `display: value === "none" ? "none" : "block"`<br/> &nbsp; &nbsp; `}`<br/> &nbsp; `}`<br/>`}`</pre> |
 
 ### Basic example
 
-Standard definition with only the required keys. This control will be visible on all devices.
+Standard definition with only the required keys. This control will be displayed on all devices
 
 ```js
 {
-  id: "description",
-  type: "textarea"
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ]
 }
 ```
 
 ### Return value
 
-The return value is a `string` representing the text field value.
+The return value of the `iconsPicker` control is an object with two properties:`value`: a string representing some value.
+`active`: a string indicating the currently active state.
 
 ```js
 {
   value: string;
+  active: string;
 }
 ```
 
@@ -63,7 +73,8 @@ Example of value:
 
 ```js
 {
-  value: "demo example value"
+  value: '["value-1", "value-2"]',
+  active: "value-1"
 }
 ```
 
@@ -71,13 +82,25 @@ Example of value:
 
 #### Label example
 
-Adding a label on the left side of the control.
+Adding a label on the left side of control
 
 ```js
 {
-  id: "description",
-  type: "textarea",
-  label: "Description"
+  id: "icons",
+  label: "Style",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ]
 }
 ```
 
@@ -87,8 +110,20 @@ Adding a CSS class to the control's DOM node.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ],
   className: "myClass"
 }
 ```
@@ -99,8 +134,20 @@ Adding a "repeat" icon to the left of the control's label.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ],
   icon: "nc-repeat"
 }
 ```
@@ -111,21 +158,45 @@ Show the control only to users with admin and designer privileges.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ],
   roles: ["admin", "designer"]
 }
 ```
 
 #### Devices examples
 
-It will be rendered on all devices. This value can be omitted since it defaults to `"all"`.
+It will be rendered on all devices. This value can be skipped because it is set to `"all"` by default.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
-  devices: "all"
+  id: "icons",
+  type: "iconsPicker",
+  devices: "all",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ]
 }
 ```
 
@@ -133,9 +204,21 @@ Rendering will occur only on `desktop`.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
-  devices: "desktop"
+  id: "icons",
+  type: "iconsPicker",
+  devices: "desktop",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ]
 }
 ```
 
@@ -143,9 +226,21 @@ The display is limited to responsive modes, specifically `tablet` and `mobile`.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
-  devices: "responsive"
+  id: "icons",
+  type: "iconsPicker",
+  devices: "responsive",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ]
 }
 ```
 
@@ -155,9 +250,21 @@ Control will be disabled. Normally, here should be your dynamic condition.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
-  disabled: true
+  id: "icons",
+  type: "iconsPicker",
+  disabled: true,
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ]
 }
 ```
 
@@ -167,7 +274,7 @@ Control will be disabled when `videoType` variable will be `"custom"`.
 
 ```js
 const getToolbarContols = ({ getValue }) => {
-  const videoType = getValue("videoType");
+  const videoType = getValue("videoType")
 
   return [
     {
@@ -179,60 +286,72 @@ const getToolbarContols = ({ getValue }) => {
       ]
     },
     {
-      id: "description",
-      type: "textarea",
-      disabled: videoType === "custom"
+      id: "icons",
+      type: "iconsPicker",
+      disabled: videoType === "custom",
+      choices: [
+        {
+          title: "Item 1",
+          value: "val1",
+          icon: "nc-star"
+        },
+        {
+          title: "Item 2",
+          value: "val2",
+          icon: "nc-line"
+        }
+      ]
     }
-  ];
-};
-```
-
-#### Display examples
-
-In this example, with `display: "block"`, the label will be rendered on the first row and the control on the second.
-
-```js
-{
-  id: "description",
-  type: "textarea",
-  display: "block"
-}
-```
-
-#### Placeholder example
-
-Adding the placeholder text for the control.
-
-```js
-{
-  id: "description",
-  type: "textarea",
-  placeholder: "Start typing here..."
+  ]
 }
 ```
 
 #### Helper examples
 
-The helper object contains a content property with the value `"help text"`, which will be displayed as additional guidance or information for the user.
+The helper object contains a content property with the value `"Helper"`, which will be displayed as additional guidance or information for the user.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ],
   helper: {
-    content: "help text"
+    content: "Helper"
   }
 }
 ```
 
-When the helper object contains a position property with the value `"top-start"`, it indicates that the helper text will be displayed at the top left corner of the icon.
+When the helper object contains a position property with the value `"top-start"`, indicating that the helper text will be displayed at the top start of icon.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ],
   helper: {
-    content: "help text",
+    content: "Helper",
     position: "top-start"
   }
 }
@@ -244,8 +363,20 @@ Allows the control to work in normal and hover states.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ],
   states: ["normal", "hover"]
 }
 ```
@@ -254,66 +385,75 @@ Allows the control to work in normal, hover and active states.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ],
   states: ["normal", "hover", "active"]
-}
-```
-
-#### Config values for `lines` example
-
-Specifies the number of lines for the textarea component. This determines the visible height of the textarea input field.
-
-```js
-{
-  id: "description",
-  type: "textarea",
-  config: {
-    lines: 3
-  }
-}
-```
-
-#### Config `size` example
-
-The size property is set to `"medium"`, indicating that the input field will be rendered with medium dimensions.
-
-```js
-{
-  id: "description",
-  type: "textarea",
-  config: {
-    size: "medium"
-  }
 }
 ```
 
 #### Default value examples
 
-In this example, the textarea control that has the value `"Default text"` by default.
+In this example, the `iconsPicker` control that has the value `"val1"` by default. And `"val2"` item will be active by default.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Item 1",
+      value: "val1",
+      icon: "nc-star"
+    },
+    {
+      title: "Item 2",
+      value: "val2",
+      icon: "nc-line"
+    }
+  ],
   default: {
-    value: "Default text"
+    value: '["val1"]',
+    active: "val2"
   }
 }
 ```
 
 #### CSS examples
 
-Change the content of the `.brz-text::after` element with CSS using custom values from a `textarea` control.
+Change the fontSize of the `.brz-text` element with CSS using custom values from a `iconsPicker` control.
 
 ```js
 {
-  id: "description",
-  type: "textarea",
+  id: "icons",
+  type: "iconsPicker",
+  choices: [
+    {
+      title: "Small",
+      value: "small",
+      icon: "nc-small"
+    },
+    {
+      title: "Big",
+      value: "big",
+      icon: "nc-big"
+    }
+  ],
   style: ({ value }) => {
     return {
-      "{{WRAPPER}} .brz-text::after": {
-        content: value.value
+      "{{WRAPPER}} .brz-text": {
+        "font-size": value.value === "small" ? 12 : 15
       }
     }
   }
@@ -322,55 +462,73 @@ Change the content of the `.brz-text::after` element with CSS using custom value
 
 #### Usage in HTML example
 
-In the example below, we use the textarea output value to determine the content for the label in the Text element.
+In the example below, we use the `iconsPicker` output value to determine the decoration for button text.
 
 ```tsx
 import { Brizy } from "@brizy/core";
 import React, { JSX } from "react";
+import { Icon } from "./Icon";
 
 interface Props {
-  description: string;
+  style: string;
 }
 
-const Text = (props: Props): JSX.Element => {
-  const { description } = props;
+const Button = (props: Props): JSX.Element => {
+  const { style } = props
 
-  return (
-    <div className="brz-text">
-      <span>{description}</span>
-    </div>
-  );
-};
+  const styleClass = style ? JSON.parse(style).join(" ") : ""
+
+  const className = "brz-button" + " " + styleClass
+
+  return <div className={className}>Click</div>
+}
 
 Brizy.registerComponent({
-  id: "ThirdParty.Text",
-  component: { editor: Text, view: Text },
-  title: "My Text",
+  id: "ThirdParty.Button",
+  component: { editor: Button, view: Button },
+  title: "My Button",
   category: "custom",
   options: (props) => {
     return [
       {
-        selector: ".brz-text",
+        selector: ".brz-button",
         toolbar: [
           {
             id: "toolbarCurrentElement",
             type: "popover",
             config: {
-              icon: "nc-text",
-              title: "Text"
+              icon: "nc-button",
+              title: "Button"
             },
             devices: "desktop",
             options: [
               {
-                id: "description",
-                type: "textarea",
+                id: "style",
+                type: "iconsPicker",
+                choices: [
+                  {
+                    title: "Underline",
+                    value: "underline",
+                    icon: "nc-underline"
+                  },
+                  {
+                    title: "Bold",
+                    value: "bold",
+                    icon: "nc-bold"
+                  },
+                  {
+                    title: "Italic",
+                    value: "italic",
+                    icon: "nc-italic"
+                  }
+                ],
                 devices: "desktop"
               }
             ]
           }
         ]
       }
-    ];
+    ]
   }
-});
+})
 ```

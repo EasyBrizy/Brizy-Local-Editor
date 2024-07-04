@@ -7,7 +7,7 @@ The `iconPicker` control represents a list of radio buttons that can include an 
 
 Example of the control:
 
-![Icon Picker](/img/data-controls/iconPicker.png)
+![Icon Picker](/img/controls/iconPicker.png)
 
 ### Parameters
 

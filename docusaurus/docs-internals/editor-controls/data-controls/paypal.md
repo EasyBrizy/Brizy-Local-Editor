@@ -9,11 +9,11 @@ The `paypal` control in Brizy allows users to easily make payments through PayPa
 
 Example of the `paypal` integration button:
 
-![Paypal](/img/data-controls/paypal-integration-button.png)
+![Paypal](/img/controls/paypal-integration-button.png)
 
 Example of the `paypal` connect popup:
 
-![Paypal](/img/data-controls/paypal.png)
+![Paypal](/img/controls/paypal.png)
 
 ### Parameters
 

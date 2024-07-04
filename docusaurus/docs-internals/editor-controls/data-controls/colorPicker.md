@@ -9,15 +9,15 @@ Brizy's `colorPicker` control offers a user-friendly color picker field with an 
 
 Example of the `colorPicker`:
 
-![ColorPicker](/img/data-controls/colorPicker.png)
+![ColorPicker](/img/controls/colorPicker.png)
 
 Example of the `colorPicker` with disabled opacity:
 
-![ColorPicker](/img/data-controls/colorPickerNoOpacity.png)
+![ColorPicker](/img/controls/colorPickerNoOpacity.png)
 
 Example of the `colorPicker` with disabled color palette:
 
-![ColorPicker](/img/data-controls/сolorPickerNoPalette.png)
+![ColorPicker](/img/controls/сolorPickerNoPalette.png)
 
 ### Parameters
 

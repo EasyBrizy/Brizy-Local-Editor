@@ -7,7 +7,7 @@ The ToggleButton component is a simple `on` | `off` toggle that can display an i
 
 Example of the toggle button when it is disabled or enabled:
 
-![Toggle Button Off](/img/data-controls/toggle-button-off.png) ![Toggle Button On](/img/data-controls/toggle-button-on.png)
+![Toggle Button Off](/img/controls/toggle-button-off.png) ![Toggle Button On](/img/controls/toggle-button-on.png)
 
 ### Parameters
 

@@ -8,15 +8,15 @@ The `editableSelect` control with extra options allows users to choose from a li
 
 Example of `editableSelect` control when it is closed:
 
-![Editable Select](/img/data-controls/editableSelect.png)
+![Editable Select](/img/controls/editableSelect.png)
 
 Example of `editableSelect` control when it is open:
 
-![Editable Select Opened](/img/data-controls/editableSelectOpened.png)
+![Editable Select Opened](/img/controls/editableSelectOpened.png)
 
 Example of options `editableSelect` control:
 
-![Editable Select Options](/img/data-controls/editableSelectOptions.png)
+![Editable Select Options](/img/controls/editableSelectOptions.png)
 
 ### Parameters
 

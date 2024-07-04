@@ -8,23 +8,23 @@ The `imageUpload` control displays a image selection interface, enabling the use
 
 Example of the `imageUpload` control:
 
-![Image Upload](/img/data-controls/imageUpload.png)
+![Image Upload](/img/controls/imageUpload.png)
 
 Example of uploaded image in control:
 
-![Image Upload Add](/img/data-controls/imageUpload-image.png)
+![Image Upload Add](/img/controls/imageUpload-image.png)
 
 Example of uploaded image without the possibility to delete it:
 
-![Image Upload Can't Delete](/img/data-controls/imageUpload-can-not-delete.png)
+![Image Upload Can't Delete](/img/controls/imageUpload-can-not-delete.png)
 
 Example of a dropdown menu for selecting image sizes:
 
-![Image Upload Dropdown](/img/data-controls/imageUpload-dropdown.png)
+![Image Upload Dropdown](/img/controls/imageUpload-dropdown.png)
 
 Example of uploaded image without sizes dropdown:
 
-![Image Upload Without Dropdown](/img/data-controls/imageUpload-no-dropdown.png)
+![Image Upload Without Dropdown](/img/controls/imageUpload-no-dropdown.png)
 
 ### Parameters
 

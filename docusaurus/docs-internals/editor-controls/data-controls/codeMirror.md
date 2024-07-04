@@ -7,7 +7,7 @@ Brizy's `codeMirror` control features a code editor with a textarea interface.
 
 Example of `codeMirror` control:
 
-![Code Mirror](/img/data-controls/codeMirror.png)
+![Code Mirror](/img/controls/codeMirror.png)
 
 ### Parameters
 

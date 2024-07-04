@@ -9,9 +9,9 @@ The toggle control in Brizy functions as a switchable interactive element, enabl
 
 Example of the toggle:
 
-![Toggle](/img/data-controls/toggle-left.png)<br/>
-![Toggle](/img/data-controls/toggle-center.png)<br/>
-![Toggle](/img/data-controls/toggle-right.png)<br/>
+![Toggle](/img/controls/toggle-left.png)<br/>
+![Toggle](/img/controls/toggle-center.png)<br/>
+![Toggle](/img/controls/toggle-right.png)<br/>
 
 ### Parameters
 

@@ -9,7 +9,7 @@ Brizy's `inputText` control offers a straightforward input field for text entry,
 
 Example of the `inputText`:
 
-![InputText](/img/data-controls/inputText.png)
+![InputText](/img/controls/inputText.png)
 
 ### Parameters
 

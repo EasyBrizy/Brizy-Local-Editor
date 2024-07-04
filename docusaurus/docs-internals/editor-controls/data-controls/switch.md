@@ -10,11 +10,11 @@ checkboxes.
 
 Example of the switch when it is disabled:
 
-![Switch Off](/img/data-controls/switch-off.png)
+![Switch Off](/img/controls/switch-off.png)
 
 Example of the switch when it is enabled:
 
-![Switch On](/img/data-controls/switch-on.png)
+![Switch On](/img/controls/switch-on.png)
 
 ### Parameters
 
