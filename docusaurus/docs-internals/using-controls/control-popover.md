@@ -3,13 +3,13 @@ sidebar_position: 5
 ---
 # Control Popover
 Popover control is used to render other controls in popover. By itself, popover control is a button and does not return any value. <br/>
-For `popover` control, the `id` property has no effect and is used only to separate from other popover's. [Read more](../editor-controls/group-controls/popover)
+For `popover` control, the `id` property has no effect and is used only to separate from other popover's. [Read more](../editor-controls/containers/popover)
 
 ### UI example
 ---
 In the following example, the button in the first square represents the popover trigger. Clicking on it will open the popover itself with its controls (the second square).
 
-<img  class="brz-img--border" src="/img/control-popover/control-popover.png" /> <br/><br/>
+<img  class="brz-img--border" src="/img/controls/control-popover.png" /> <br/><br/>
 
 ### Code example
 ---

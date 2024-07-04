@@ -4,16 +4,16 @@ sidebar_position: 6
 # Control Tabs
 The `tabs` control is an element within tabbed navigation interfaces. It serves as an interactive tab, enabling users to toggle between various content areas with various controls. <br/>
 For `tabs` control, the `id` serves as the key name to store the current active tab, only if `config.saveTab` is provided and its value is `true`.
-[Read more](../editor-controls/group-controls/tabs)
+[Read more](../editor-controls/containers/tabs)
 
 ### UI example
 ---
 **How `tabs` looks:**
-<img  class="brz-img--border" src="/img/control-tabs/control-tabs.png" /> <br/><br/>
+<img  class="brz-img--border" src="/img/controls/control-tabs.png" /> <br/><br/>
 
 **Switching between tabs:**
-<img  class="brz-img--border" src="/img/control-tabs/control-tabs-2.png" /> <br/><br/>
-<img  class="brz-img--border" src="/img/control-tabs/control-tabs-3.png" /> <br/><br/>
+<img  class="brz-img--border" src="/img/controls/control-tabs-2.png" /> <br/><br/>
+<img  class="brz-img--border" src="/img/controls/control-tabs-3.png" /> <br/><br/>
 
 ### Code example
 ---

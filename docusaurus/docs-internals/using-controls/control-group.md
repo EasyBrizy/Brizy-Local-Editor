@@ -4,7 +4,7 @@ toc_max_heading_level: 4
 ---
 # Control Group
 Group control is a control used to group two or more other controls. <br/> It modifies the UI to be more intuitive and clear for the end user. <br/> This control itself does not return any value. Its primary function is to omit rendering the divider between controls within the group, visually indicating that these controls are interrelated <br/>
-For group control, the `id` property has no effect and is used only to separate groups by names. [Read more](../editor-controls/group-controls/group)
+For group control, the `id` property has no effect and is used only to separate groups by names. [Read more](../editor-controls/containers/group)
 
 As an example, we have some alert component that offer two options:
 
@@ -19,11 +19,11 @@ These options are related. If the `Display close button` option is enabled, then
 ---
 **How these usually look:** <br/>
 
-<img  class="brz-img--border" src="/img/control-group/alert-options-no-group.png" /> <br/><br/>
+<img  class="brz-img--border" src="/img/controls/alert-options-no-group.png" /> <br/><br/>
 
 **How they look with `group` control:** <br/>
 
-<img  class="brz-img--border" src="/img/control-group/alert-options-group.png" /> <br/><br/>
+<img  class="brz-img--border" src="/img/controls/alert-options-group.png" /> <br/><br/>
 
 **What's the difference:** <br/>
 The difference between the first and second example lies in the presence of a divider. In the first example, a divider separates the options. In the second example (using `group` control), the divider is omitted. <br/><br/>
