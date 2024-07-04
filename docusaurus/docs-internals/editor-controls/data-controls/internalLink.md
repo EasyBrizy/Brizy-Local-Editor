@@ -8,15 +8,15 @@ Brizy's `internalLink` control lets you easily redirect users to any page within
 
 Example of the `internalLink`:
 
-![Internal Link](/img/data-controls/internalLink.png)
+![Internal Link](/img/controls/internalLink.png)
 
 Example of the `internalLink` search:
 
-![Internal Link Search](/img/data-controls/internalLinkSearch.png)
+![Internal Link Search](/img/controls/internalLinkSearch.png)
 
 Example of the `internalLink` result:
 
-![Internal Link Result](/img/data-controls/internalLinkResult.png)
+![Internal Link Result](/img/controls/internalLinkResult.png)
 
 ### Parameters
 

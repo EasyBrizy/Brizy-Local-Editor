@@ -7,7 +7,7 @@ The `aiText` control in Brizy enables users to generate text based on a given pr
 
 Example of `aiText` control:
 
-![AiText](/img/data-controls/aiText.png)
+![AiText](/img/controls/aiText.png)
 
 
 ### Parameters

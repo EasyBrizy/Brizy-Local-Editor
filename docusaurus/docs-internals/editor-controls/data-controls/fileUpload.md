@@ -7,11 +7,11 @@ The `fileUpload` control displays a file chooser section that allows the user to
 
 Example of the `fileUpload` without selected file:
 
-![FileUpload without file](/img/data-controls/fileupload-without-file.png)
+![FileUpload without file](/img/controls/fileupload-without-file.png)
 
 Example of the `fileUpload` with selected file:
 
-![FileUpload without file](/img/data-controls/fileupload-with-file.png)
+![FileUpload without file](/img/controls/fileupload-with-file.png)
 
 ### Parameters
 

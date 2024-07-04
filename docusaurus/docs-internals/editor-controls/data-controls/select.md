@@ -7,15 +7,15 @@ The `select` control serves as an advanced replacement for a traditional `select
 
 Example of the `select` when it is closed:
 
-![Select Closed](/img/data-controls/select-closed.png)
+![Select Closed](/img/controls/select-closed.png)
 
 Example of the `select` when it is opened:
 
-![Select Opened](/img/data-controls/select-opened.png)
+![Select Opened](/img/controls/select-opened.png)
 
 Example of the `select` with helper:
 
-![Select Helper](/img/data-controls/select-helper.png)
+![Select Helper](/img/controls/select-helper.png)
 
 
 ### Parameters

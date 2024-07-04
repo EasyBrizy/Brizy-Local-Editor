@@ -8,15 +8,15 @@ The `radioGroup` control in Brizy presents a selection of options. It functions 
 
 Example of the `radioGroup`
 
-![Radio Group](/img/data-controls/radio-group.png)
+![Radio Group](/img/controls/radio-group.png)
 
 Example of the `radioGroup` with label
 
-![Radio Group](/img/data-controls/radio-group-label.png)
+![Radio Group](/img/controls/radio-group-label.png)
 
 Example of the `radioGroup` with helper
 
-![Radio Group](/img/data-controls/radio-group-helper.png)
+![Radio Group](/img/controls/radio-group-helper.png)
 
 ### Parameters
 

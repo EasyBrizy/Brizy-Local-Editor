@@ -9,15 +9,15 @@ The number control in Brizy provides a straightforward number input field, allow
 
 Example of number control:
 
-![Number](/img/data-controls/number.png)
+![Number](/img/controls/number.png)
 
 Example of large number control:
 
-![NumberLarge](/img/data-controls/numberLarge.png)
+![NumberLarge](/img/controls/numberLarge.png)
 
 Example of number control with disabled spinner:
 
-![NumberNoSpinner](/img/data-controls/numberNoSpinner.png)
+![NumberNoSpinner](/img/controls/numberNoSpinner.png)
 
 ### Parameters
 
