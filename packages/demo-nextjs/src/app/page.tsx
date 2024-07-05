@@ -15,13 +15,13 @@ export default function EditorPage() {
         <nav>
           <ul className={styles.navList}>
             <li>
-              <Link href="/page">Page Builder</Link>
+              <Link href="/admin/page">Page Builder</Link>
             </li>
             <li>
-              <Link href="/popup">Popup Builder</Link>
+              <Link href="/admin/popup">Popup Builder</Link>
             </li>
             <li>
-              <Link href="/story">Story Builder</Link>
+              <Link href="/admin/story">Story Builder</Link>
             </li>
           </ul>
         </nav>

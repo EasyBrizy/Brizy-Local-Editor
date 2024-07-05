@@ -18,7 +18,7 @@ Brizy.registerComponent({
   component: { editor: mapComponent, view: mapComponent },
   title: "map",
   category: "custom",
-  options: (_) => {
+  options: () => {
     return [
       {
         selector: ".mapThirdComponent",
