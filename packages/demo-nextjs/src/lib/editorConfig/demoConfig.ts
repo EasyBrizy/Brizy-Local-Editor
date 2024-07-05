@@ -4,6 +4,13 @@ import { Modes } from "@builder/core/build/es/types/types";
 export const demoConfig: Config = {
   mode: Modes.page,
   container: null,
+  // extensions: [
+  //   {
+  //     host: "http://localhost:2222",
+  //     path: "",
+  //   },
+  // ],
+
   pageData: {
     id: 1,
     title: "Home",
