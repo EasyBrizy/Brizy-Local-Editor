@@ -233,7 +233,7 @@ export const Editor = (props: Props) => {
           await fetch("/api/page", {
             method: "POST",
             body: JSON.stringify({
-              id: "1",
+              id: baseConfig.pageData.id,
               pageData: data.pageData,
             }),
           });
@@ -242,7 +242,7 @@ export const Editor = (props: Props) => {
           await fetch("/api/project", {
             method: "POST",
             body: JSON.stringify({
-              id: "1",
+              id: baseConfig.projectData.id,
               projectData: data.projectData,
             }),
           });

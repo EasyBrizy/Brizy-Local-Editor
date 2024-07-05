@@ -146,7 +146,10 @@ export const Core: Init = (token, config, cb) => {
       const data = event.data;
 
       if (data.uid === undefined) {
-        console.error("Missing the uid");
+        if (data.target !== undefined) {
+          console.warn("Missing the uid");
+        }
+
         return;
       }
 

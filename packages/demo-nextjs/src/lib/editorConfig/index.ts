@@ -2,32 +2,51 @@ import { getConfig } from "@/config";
 import { Config } from "@/hooks/useEditor/types";
 import DBConnect from "@/lib/db/connect";
 import Models from "@/lib/db/models";
-import { pageId, projectId } from "@/utils/mock";
+import { Modes } from "@builder/core/build/es/types/types";
 import { demoConfig } from "./demoConfig";
 
-const getProjectData = (model: any): Config["projectData"] => {
+const getProjectData = (model: Record<string, string>): Config["projectData"] => {
   const projectDataParsed = JSON.parse(model.data);
   return projectDataParsed.data;
 };
 
-const getPageData = (model: any): Config["pageData"] => {
+const getPageData = (model: Record<string, string>): Config["pageData"] => {
   const pageDataParsed = JSON.parse(model.data);
   const { compiled, ...pageData } = pageDataParsed;
   return pageData;
 };
 
-export async function getEditorConfig(): Promise<Config> {
-  try {
-    await DBConnect();
+interface Data {
+  pageId: number;
+  projectId: number;
+  mode: Modes;
+}
 
-    const pageDataModel = await Models.PageData.findOne({ id: pageId });
-    const projectDataModel = await Models.ProjectData.findOne({ id: projectId });
+export async function getEditorConfig(data: Data): Promise<Config> {
+  try {
+    const { pageId, projectId, mode } = data;
+    await DBConnect();
+    let pageDataModel = undefined;
+    let projectDataModel = undefined;
+
+    try {
+      pageDataModel = (await Models.PageData.findOne({ id: pageId })) ?? undefined;
+    } catch (e) {
+      console.error(e);
+    }
+
+    try {
+      projectDataModel = (await Models.ProjectData.findOne({ id: projectId })) ?? undefined;
+    } catch (e) {
+      console.error(e);
+    }
 
     return {
       ...demoConfig,
+      mode,
       pagePreview: `${getConfig().host}/preview/${pageId}`,
-      pageData: getPageData(pageDataModel),
-      projectData: getProjectData(projectDataModel),
+      ...(pageDataModel ? { pageData: getPageData(pageDataModel) } : {}),
+      ...(projectDataModel ? { projectData: getProjectData(projectDataModel) } : {}),
     };
   } catch (e) {
     throw new Error("Failed to fetch data");
