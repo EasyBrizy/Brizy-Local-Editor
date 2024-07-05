@@ -1,1 +1,1 @@
-export { mapComponent } from "./Map";
+export { MapEditor, MapPreview } from "./Map";
