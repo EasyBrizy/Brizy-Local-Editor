@@ -382,7 +382,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               getMeta(res, rej);
             }
           },
-          [ActionTypes.templateLayoutsData]: (id: string) => {
+          [ActionTypes.templateLayoutsData]: (page: { id: string; layoutId: string }) => {
             const { api = {} } = config;
             const { defaultLayouts } = api;
             const getData = defaultLayouts?.getData;
@@ -394,7 +394,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.templateLayoutsDataRej(r, uid), targetOrigin);
               };
-              getData(res, rej, id);
+              getData(res, rej, page);
             }
           },
           [ActionTypes.templateStoriesMeta]: () => {
