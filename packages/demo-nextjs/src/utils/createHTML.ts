@@ -1,4 +1,4 @@
-import { PageCompiled, ProjectCompiled } from "@builder/core/build/es/types/common";
+import { PageJsonCompiledOutput, ProjectJsonCompiledOutput } from "@builder/core/build/es/types/common";
 
 interface Data {
   head?: string;
@@ -20,9 +20,15 @@ const createMockHTML = ({ head = "", body }: Data): string => `
 `;
 
 interface Model {
-  page?: PageCompiled;
-  project?: ProjectCompiled;
+  page?: PageJsonCompiledOutput;
+  project?: ProjectJsonCompiledOutput;
 }
+
+const recordToAttributes = (attributes: Record<string, string | boolean>): string => {
+  return Object.entries(attributes)
+    .map(([key, value]) => `${key}="${value}"`)
+    .join(" ");
+};
 
 export const createHTML = ({ page, project }: Model): string => {
   const { styles, scripts, html } = page ?? {};
@@ -32,8 +38,33 @@ export const createHTML = ({ page, project }: Model): string => {
     return createMockHTML({ body: "<h1>Missing page</h1>" });
   }
 
-  const stylesStr = [...(styles ?? []), ...(projectStyles ?? [])].join("");
-  const scriptsStr = scripts?.join("") ?? "";
+  const stylesStr = [...(styles ?? []), ...(projectStyles ?? [])]
+    .map((style) => {
+      const attrStr = recordToAttributes(style.attr ?? {});
+
+      if (style.type === "style") {
+        return `<style ${attrStr}>${style.html}</style>`;
+      }
+
+      if (style.type === "link") {
+        return `<link ${attrStr}/>`;
+      }
+    })
+    .join("");
+
+  const scriptsStr =
+    scripts
+      ?.map((script) => {
+        if ("html" in script) {
+          const { html, attr = {} } = script;
+          const attrStr = recordToAttributes(attr);
+          return `<script ${attrStr}>${html}</script>`;
+        }
+
+        const attrStr = recordToAttributes(script.attr ?? {});
+        return `<script ${attrStr}></script>`;
+      })
+      .join("") ?? "";
 
   const body = `
     <!-- HTML -->
@@ -42,8 +73,5 @@ export const createHTML = ({ page, project }: Model): string => {
     ${scriptsStr}
 `;
 
-  return createMockHTML({
-    head: stylesStr,
-    body,
-  });
+  return createMockHTML({ head: stylesStr, body });
 };

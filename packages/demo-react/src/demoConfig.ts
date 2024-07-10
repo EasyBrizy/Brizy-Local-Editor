@@ -4,6 +4,7 @@ import { Config } from "./hooks/useEditor/types";
 export const demoConfig: Config = {
   mode: Modes.page,
   container: null,
+  htmlOutputType: "html",
   pageData: {
     id: "1",
     title: "Home",
