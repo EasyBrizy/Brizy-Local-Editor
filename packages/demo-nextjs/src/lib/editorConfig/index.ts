@@ -49,6 +49,7 @@ export async function getEditorConfig(data: Data): Promise<Config> {
       ...(projectDataModel ? { projectData: getProjectData(projectDataModel) } : {}),
     };
   } catch (e) {
+    console.error(e);
     throw new Error("Failed to fetch data");
   }
 }

@@ -1,5 +1,5 @@
 import { BuilderModes } from "@/actions/init";
-import { PageCompiled, PageData, ProjectCompiled, ProjectData } from "./common";
+import { PageData, PageDataOutput, ProjectData, ProjectDataOutput } from "./common";
 import { CustomFile } from "./customFile";
 import { DynamicContent } from "./dynamicContent";
 import { Form } from "./form";
@@ -11,15 +11,9 @@ import { Screenshots } from "./screenshots";
 import { DefaultKits, DefaultLayouts, DefaultPopups, DefaultStories } from "./templates";
 import { Theme } from "./theme";
 
-export interface Output {
-  pageData: {
-    [key: string]: unknown;
-    compiled?: PageCompiled;
-  };
-  projectData: {
-    [key: string]: unknown;
-    compiled?: ProjectCompiled;
-  };
+export interface Output<T extends HtmlOutputType> {
+  pageData: PageDataOutput<T>;
+  projectData: ProjectDataOutput<T>;
   error?: string;
   popupSettings?: {
     verticalAlign: "top" | "bottom" | "center";
@@ -33,30 +27,33 @@ export enum Modes {
   story = "story",
 }
 
-export interface BuilderOutput {
-  pageData: PageData;
-  projectData: ProjectData;
+export interface BuilderOutput<T extends HtmlOutputType> {
+  pageData?: PageData<T>;
+  projectData?: ProjectData<T>;
   error?: string;
   mode: BuilderModes;
 }
 
-export interface AutoSaveOutput {
-  pageData?: PageData;
-  projectData?: ProjectData;
+export interface AutoSaveOutput<T extends HtmlOutputType> {
+  pageData?: PageData<T>;
+  projectData?: ProjectData<T>;
 }
-export type OnSave = (output: Output) => void;
-export type OnAutoSave = (output: AutoSaveOutput) => void;
+export type OnSave<T extends HtmlOutputType> = (output: Output<T>) => void;
+export type OnAutoSave<T extends HtmlOutputType> = (output: AutoSaveOutput<T>) => void;
 
 export interface Extension {
   host?: string;
   path: string;
 }
 
-export interface Config {
+export type HtmlOutputType = "html" | "json";
+
+export interface Config<T extends HtmlOutputType> {
   mode?: Modes;
   container: HTMLElement;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
+  htmlOutputType: T;
 
   //#region Extensions
 
@@ -65,6 +62,7 @@ export interface Config {
   //#endregion
 
   //#region Urls
+
   urls?: {
     compileTemplateIcons?: string;
   };
@@ -128,7 +126,7 @@ export interface Config {
     leftSidebar?: LeftSidebar;
 
     // Publish
-    publish?: Publish;
+    publish?: Publish<T>;
   };
 
   //#endregion
@@ -162,8 +160,8 @@ export interface Config {
 
   //#region Events
 
-  onSave?: OnSave;
-  onAutoSave?: OnAutoSave;
+  onSave?: OnSave<T>;
+  onAutoSave?: OnAutoSave<T>;
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
 
@@ -186,8 +184,8 @@ export type ActionResolve = {
   data: string;
 };
 
-export type Init = (token: string, config: Config, cb: CB) => void;
+export type Init<T extends HtmlOutputType> = (token: string, config: Config<T>, cb: CB) => void;
 
-export type Builder = {
-  init: Init;
+export type Builder<T extends HtmlOutputType> = {
+  init: Init<T>;
 };

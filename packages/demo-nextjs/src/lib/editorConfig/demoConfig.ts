@@ -4,6 +4,8 @@ import { Modes } from "@builder/core/build/es/types/types";
 export const demoConfig: Config = {
   mode: Modes.page,
   container: null,
+  // Using JSON makes it easier to include <style> and <script> tags in the body
+  htmlOutputType: "json",
   pageData: {
     id: 1,
     title: "Home",

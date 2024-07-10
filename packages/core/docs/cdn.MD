@@ -51,6 +51,11 @@ type config = {
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
 
+  // html: Array of strings with Styles & Scripts
+  // json: Array of more granular objects, used when needing to merge multiple pages into one
+  // Use this case when you need to create a fully customizable preview HTML
+  htmlOutputType: "html" | "json";
+
   // Page: Static Page view
   // Popup: Static Popup view with conditions(open on exit, open after x minutes)
   // Story: Static story carosuel view
@@ -76,6 +81,9 @@ type config = {
 
   // L10n
   l10n?: Record<string, string>;
+
+  // Extensions
+  extensions?: Array<Extension>;
 
   // DynamicContent
   dynamicContent?: {
@@ -358,19 +366,26 @@ export interface ScreenshotData {
   base64: string;
   blockType: "normal" | "global" | "saved" | "layout";
 }
+
+// Extenstions
+export interface Extension {
+  host?: string;
+  path: string;
+}
 ```
 
 Config can be passed as an object when you initialize the editor from the script.
 
-| Name           | Type                     | Description                                                                                                                             |
-|:---------------|:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------|
-| container      | HTMLElement              | Brizy Plugin will load into HTML element.                                                                                               |
-| mode           | "page", "popup", "story" | Default "page"                                                                                                                          |
-| pageData       | object                   | Loads the JSON page specified in the pageData parameter.                                                                                |
-| projectData    | object                   | Loads the JSON project specified in the projectData parameter.                                                                          |
-| menu           | array                    | Load the array of menu                                                                                                                  |
-| thirdPartyUrls | array                    | Load the array of thirdParty scripts and styles                                                                                         |
-| l10n           | object                   | A data structure that maps keys to localized strings for localization purposes. All keys available [here](/packages/core/docs/l10n.ts)  |
+| Name            | Type                     | Description                                                                                                                            |
+|:----------------|:-------------------------|:---------------------------------------------------------------------------------------------------------------------------------------|
+| container       | HTMLElement              | Brizy Plugin will load into HTML element.                                                                                              |
+| mode            | "page", "popup", "story" | Default "page"                                                                                                                         |
+| htmlOutputType  | "json", "html"           | Default "html"                                                                                                                         |
+| pageData        | object                   | Loads the JSON page specified in the pageData parameter.                                                                               |
+| projectData     | object                   | Loads the JSON project specified in the projectData parameter.                                                                         |
+| menu            | array                    | Load the array of menu                                                                                                                 |
+| extension       | array                    | Load the array of extension scripts and styles                                                                                         |
+| l10n            | object                   | A data structure that maps keys to localized strings for localization purposes. All keys available [here](/packages/core/docs/l10n.ts) |
 
 ### Integration parameters
 

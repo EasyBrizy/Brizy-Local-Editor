@@ -52,7 +52,7 @@ import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { PublishData } from "@/types/publish";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import { KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
-import { AutoSaveOutput, BuilderOutput, Init, OnSave, Target } from "@/types/types";
+import { AutoSaveOutput, BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
 import { createOutput } from "@/utils/createOutput";
 import { Dictionary } from "@/utils/types";
 import { v4 as uuid } from "uuid";
@@ -102,15 +102,15 @@ const actions = {
   publishRes,
 };
 
-const savedNodeCB = new Map<HTMLElement, OnSave>();
+const savedNodeCB = new Map<HTMLElement, OnSave<HtmlOutputType>>();
 
-export const Core: Init = (token, config, cb) => {
+export const Core: Init<HtmlOutputType> = (token, config, cb) => {
   if (!token) {
     console.error("Token is required");
     return;
   }
 
-  const { container } = config;
+  const { htmlOutputType = "html", container } = config;
 
   if (!(container instanceof HTMLElement)) {
     console.error("The element must be a valid HTMLElement");
@@ -160,8 +160,8 @@ export const Core: Init = (token, config, cb) => {
       try {
         const action = JSON.parse(data.data);
         const api = {
-          [ActionTypes.save]: (output: BuilderOutput) => {
-            const _output = createOutput(output);
+          [ActionTypes.save]: (output: BuilderOutput<HtmlOutputType>) => {
+            const _output = createOutput(htmlOutputType, output);
             config.onSave?.(_output);
             const onSaveCallback = savedNodeCB.get(container);
 
@@ -169,7 +169,7 @@ export const Core: Init = (token, config, cb) => {
               onSaveCallback(_output);
             }
           },
-          [ActionTypes.autoSave]: (output: AutoSaveOutput) => {
+          [ActionTypes.autoSave]: (output: AutoSaveOutput<HtmlOutputType>) => {
             config.onAutoSave?.(output);
           },
           [ActionTypes.onLoad]: () => {
@@ -479,19 +479,19 @@ export const Core: Init = (token, config, cb) => {
               onClose();
             }
           },
-          [ActionTypes.uiPublish]: (extra: BuilderOutput) => {
+          [ActionTypes.uiPublish]: (extra: BuilderOutput<HtmlOutputType>) => {
             const { publish } = config.ui ?? {};
             const handler = publish?.handler;
 
             if (typeof handler === "function") {
-              const res = (r: PublishData) => {
+              const res = (r: PublishData<HtmlOutputType>) => {
                 iframeWindow.postMessage(actions.publishRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.publishRej(r, uid), targetOrigin);
               };
 
-              const output = createOutput(extra);
+              const output = createOutput(htmlOutputType, extra);
 
               config.onSave?.(output);
               handler(res, rej, output);
@@ -511,7 +511,7 @@ export const Core: Init = (token, config, cb) => {
       }
     });
 
-    const save = (cb?: OnSave) => {
+    const save = (cb?: OnSave<HtmlOutputType>) => {
       if (typeof cb === "function") {
         savedNodeCB.set(container, cb);
       }

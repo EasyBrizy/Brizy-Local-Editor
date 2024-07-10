@@ -35,16 +35,17 @@ Here's how you can do it:
 const config = {
   // Other keys of the config...
   
-  thirdPartyUrls: [
+  extensions: [
     {
-      scriptUrl: "https://<the-build-host-of-library>/main.js"
+      host: "https://<the-build-host-of-library>",
+      path: "v1"
     }
   ]
 };
 ```
 
-Replace `"http://<the-build-host-of-library>/main.js"` with the actual HTTP URL of your built library file. 
-By adding this URL to the `thirdPartyUrls` array in your editor configuration, the library will be loaded and available for use within the editor environment.
+Replace `"http://<the-build-host-of-library>"` with the actual HTTP URL of your built library file. 
+By adding this URL to the `extensions` array in your editor configuration, the library will be loaded and available for use within the editor environment.
 
 To view the new component, follow these steps:
 

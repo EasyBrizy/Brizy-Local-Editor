@@ -1,6 +1,6 @@
 import DBConnect from "@/lib/db/connect";
 import Models from "@/lib/db/models";
-import { PageCompiled, ProjectCompiled } from "@builder/core/build/es/types/common";
+import { PageJsonCompiledOutput, ProjectJsonCompiledOutput } from "@builder/core/build/es/types/common";
 
 const getPageCompiled = (model: Record<string, string>) => {
   const pageDataParsed = JSON.parse(model.data);
@@ -18,8 +18,8 @@ interface Data {
 }
 
 export async function getPreview(data: Data): Promise<{
-  page: PageCompiled;
-  project: ProjectCompiled;
+  page: PageJsonCompiledOutput;
+  project: ProjectJsonCompiledOutput;
 }> {
   const { pageId, projectId } = data;
   await DBConnect();
