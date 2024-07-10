@@ -1,4 +1,4 @@
-import { AutoSaveOutput } from "@/types/types";
+import { AutoSaveOutput, HtmlOutputType } from "@/types/types";
 import { Obj } from "@brizy/readers";
 import { mPipe } from "fp-utilities";
 import { mergeDeep } from "timm";
@@ -53,6 +53,7 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         const pageData = action.data.pageData ?? {};
         const menuData = action.data.menu ?? _menuData;
         const l10n = configData.l10n ?? {};
+        const compiler = configData.compiler ?? defaultConfig.compiler;
 
         window.__VISUAL_CONFIG__.mode = mode;
         window.__VISUAL_CONFIG__.projectData = {
@@ -71,6 +72,7 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         window.__VISUAL_CONFIG__.pro = mergeDeep(pro, {
           urls: { assets: proAssets },
         });
+        window.__VISUAL_CONFIG__.compiler = compiler;
 
         window.__VISUAL_CONFIG__.pageData = getPage(pageData);
         window.__VISUAL_CONFIG__.ui = getUi({ uid, target, event, mode, config: configData });
@@ -86,7 +88,7 @@ export async function subscriber(event: MessageEvent): Promise<void> {
           event.source?.postMessage({ target, uid, data }, event.origin);
         };
 
-        window.__VISUAL_CONFIG__.onAutoSave = (data: AutoSaveOutput) => {
+        window.__VISUAL_CONFIG__.onAutoSave = (data: AutoSaveOutput<HtmlOutputType>) => {
           event.source?.postMessage(
             {
               target,

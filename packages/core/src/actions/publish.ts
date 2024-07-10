@@ -1,8 +1,8 @@
 import { PublishData } from "@/types/publish";
-import { ActionResolve, Target } from "@/types/types";
+import { ActionResolve, HtmlOutputType, Target } from "@/types/types";
 import { ActionTypes } from "./types";
 
-export const publishRes = (r: PublishData, uid: string): ActionResolve => ({
+export const publishRes = (r: PublishData<HtmlOutputType>, uid: string): ActionResolve => ({
   uid,
   target: Target.builder,
   data: JSON.stringify({ type: ActionTypes.uiPublishRes, data: r }),

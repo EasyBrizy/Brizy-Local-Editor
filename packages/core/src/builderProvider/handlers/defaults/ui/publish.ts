@@ -1,13 +1,14 @@
 import { Handler, HandlerData } from "@/builderProvider/types/type";
 import { Response } from "@/types/common";
 import { Publish, PublishData } from "@/types/publish";
+import { HtmlOutputType } from "@/types/types";
 
-interface PublishHandler extends HandlerData {
-  res: Response<PublishData>;
+interface PublishHandler<T extends HtmlOutputType> extends HandlerData {
+  res: Response<PublishData<T>>;
   rej: Response<string>;
 }
 
-function handlePublish(data: PublishHandler) {
+function handlePublish(data: PublishHandler<HtmlOutputType>) {
   const { uid, target, res, rej } = data;
 
   return function openEmitter(event: MessageEvent) {
@@ -36,10 +37,10 @@ function handlePublish(data: PublishHandler) {
   };
 }
 
-export const getPublish = (data: HandlerData): Publish => {
+export const getPublish = <T extends HtmlOutputType>(data: HandlerData): Publish<T> => {
   const { target, uid, event } = data;
 
-  const handler: Handler<PublishData, string, PublishData> = (res, rej, extra) => {
+  const handler: Handler<PublishData<T>, string, PublishData<T>> = (res, rej, extra) => {
     const data = JSON.stringify({
       type: `${target}_ui_publish`,
       payload: extra,
