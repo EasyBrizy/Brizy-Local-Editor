@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: inherit;
+  flex: 1;
+}
+
+.brz-ui-ed-price, .brz-ui-ed-price-compare-at {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+}
+
+.brz-ui-ed-price-compare-at {
+  text-decoration: line-through;
+}
+
+.brz-ui-ed-price-compare-at:empty{
+  display:none;
+}
+
