@@ -3,12 +3,43 @@ import { Brizy } from "@brizy/core";
 import { HOVER, NORMAL } from "../utils/stateMode";
 import "./index.css";
 
-export const Price = (props: any) => {
-  return (
-    <div className="container">
-      <AlphaPrice price="50" compareAtPrice="20" />
-    </div>
-  );
+const helperHTML = `
+<p class="brz-p">You can use the following selectors to create targeted CSS.</p>
+<p class="brz-p">
+  <span class="brz-span brz-ed-tooltip__overlay-code">element</span> {...}
+  <br class="brz-br">
+  <span class="brz-span brz-ed-tooltip__overlay-code">element .child-element</span> {...}
+</p>`;
+
+interface Props {
+  priceStyle: "style-1" | "style-2" | "style-3";
+}
+
+export const Price = ({ priceStyle }: Props) => {
+  console.log(priceStyle);
+  switch (priceStyle) {
+    case "style-1": {
+      return (
+        <div className="container">
+          <AlphaPrice price="50" compareAtPrice="20" />
+        </div>
+      );
+    }
+    case "style-2": {
+      return (
+        <div className="container">
+          <AlphaPrice price="50" />
+        </div>
+      );
+    }
+    case "style-3": {
+      return (
+        <div className="container">
+          <AlphaPrice compareAtPrice="20" />
+        </div>
+      );
+    }
+  }
 };
 
 Brizy.registerComponent({
@@ -16,6 +47,7 @@ Brizy.registerComponent({
   component: { editor: Price, view: Price },
   title: "Price",
   category: "custom",
+  // @ts-ignore
   options: ({ getValue }) => {
     const style1 = getValue("priceStyle")?.value === "style-1";
 
@@ -46,20 +78,6 @@ Brizy.registerComponent({
                   value: "style-1",
                 },
               },
-              // {
-              //   id: "sourceID",
-              //   type: "select",
-              //   label: "Product",
-              //   devices: "desktop",
-              //   // disabled: !sourceItemsHandler,
-              //   placeholder: "Select",
-              //   choices: {
-              //     load: () => getSourceIds(sourceType, _config),
-              //     emptyLoad: {
-              //       title: t("There are no choices")
-              //     }
-              //   }
-              // }
             ],
           },
           {
@@ -95,7 +113,7 @@ Brizy.registerComponent({
               title: "Colors",
               icon: {
                 style: {
-                  backgroundColor: "#000",
+                  backgroundColor: "#fff",
                 },
               },
             },
@@ -209,7 +227,7 @@ Brizy.registerComponent({
                 },
                 style: ({ value }) => {
                   return {
-                    "{{WRAPPER}} .brz-ui-ed-price": {
+                    "{{WRAPPER}} .brz-ui-ed-price:hover": {
                       width: `${value.value}${value.unit}`,
                     },
                   };
@@ -230,7 +248,7 @@ Brizy.registerComponent({
                 },
                 style: ({ value }) => {
                   return {
-                    "{{WRAPPER}}": {
+                    "{{WRAPPER}} .brz-ui-ed-price:hover": {
                       "min-height": `${value.value}${value.unit}`,
                     },
                   };
@@ -252,7 +270,7 @@ Brizy.registerComponent({
                 },
                 style: ({ value }) => {
                   return {
-                    "{{WRAPPER}} .brz-ui-ed-price": {
+                    "{{WRAPPER}} .brz-ui-ed-price:hover": {
                       "margin-right": `${value.value}${value.unit}`,
                     },
                   };
@@ -299,7 +317,100 @@ Brizy.registerComponent({
             ],
           },
         ],
-        sidebar: [],
+        sidebar: [
+          {
+            id: "sidebarTabs",
+            type: "sidebarTabs",
+            tabs: [
+              {
+                id: "styles",
+                title: "Styling",
+                label: "Styling",
+                options: [
+                  {
+                    id: "settingsTabs",
+                    type: "tabs",
+                    config: {
+                      align: "start",
+                    },
+                    devices: "desktop",
+                    tabs: [
+                      {
+                        id: "settingsStyling",
+                        label: "Basic",
+                        options: [
+                          {
+                            id: "eqwe",
+                            type: "inputText",
+                          },
+                          {
+                            id: "priceBorder",
+                            type: "corners",
+                            label: "Corner",
+                            position: 65,
+                            selector: "{{WRAPPER}} .brz-ui-ed-price:hover",
+                            default: {
+                              colorHex: "",
+                              bottomWidth: 1,
+                              colorOpacity: 1,
+                              colorPalette: "",
+                              leftWidth: 1,
+                              rightWidth: 1,
+                              style: "solid",
+                              topWidth: 1,
+                              width: 1,
+                              widthType: "grouped",
+                            },
+                          },
+                        ],
+                      },
+                      {
+                        id: "moreSettingsAdvanced",
+                        label: "Advanced",
+                        options: [
+                          {
+                            id: "hoverTransition",
+                            label: "Hover Transition",
+                            devices: "desktop",
+                            type: "slider",
+                            config: {
+                              min: 0,
+                              max: 99,
+                              units: [{ title: "ms", value: "ms" }],
+                            },
+                            default: {
+                              value: 50,
+                              suffix: "ms",
+                            },
+                            style: ({ value }) => {
+                              console.log(value);
+                              return {
+                                "{{WRAPPER}} .brz-ui-ed-price:hover": {
+                                  "transition-property": "filter, color, background, border-color, box-shadow;",
+                                  "transition-duration": `0.${value.value}s`,
+                                },
+                              };
+                            },
+                          },
+                          {
+                            id: "customCSS",
+                            label: "Custom CSS",
+                            type: "codeMirror",
+                            position: 45,
+                            display: "block",
+                            devices: "desktop",
+                            helper: { content: helperHTML },
+                            placeholder: `element { CSS goes here }`,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       {
         selector: ".brz-ui-ed-price-compare-at",
@@ -327,20 +438,6 @@ Brizy.registerComponent({
                   value: "style-1",
                 },
               },
-              // {
-              //   id: "sourceID",
-              //   type: "select",
-              //   label: t("Product"),
-              //   devices: "desktop",
-              //   disabled: !sourceItemsHandler,
-              //   placeholder: "Select",
-              //   choices: {
-              //     load: () => getSourceIds(sourceType, _config),
-              //     emptyLoad: {
-              //       title: t("There are no choices")
-              //     }
-              //   }
-              // }
             ],
           },
           {
@@ -372,11 +469,10 @@ Brizy.registerComponent({
             id: "toolbarColor",
             type: "popover",
             config: {
-              size: "auto",
               title: "Colors",
               icon: {
                 style: {
-                  backgroundColor: "#000",
+                  backgroundColor: "#fff",
                 },
               },
             },
@@ -393,14 +489,15 @@ Brizy.registerComponent({
                     options: [
                       {
                         id: "bgThroughPriceColor",
-                        type: "colorPicker",
+                        type: "backgroundColor",
                         states: [NORMAL, HOVER],
                         default: {
-                          hex: "#ffffff",
-                          opacity: 1,
-                          palette: "",
+                          bgColorHex: "#ffffff",
+                          bgColorOpacity: 1,
+                          bgColorPalette: "",
+                          bgColorType: "solid",
                         },
-                        selector: "{{WRAPPER}} .brz-ui-ed-price-compare-at",
+                        selector: "{{WRAPPER}} .brz-ui-ed-price-compare-at:hover",
                       },
                     ],
                   },
@@ -417,7 +514,7 @@ Brizy.registerComponent({
                           opacity: 1,
                           palette: "",
                         },
-                        selector: "{{WRAPPER}} .brz-ui-ed-price-compare-at",
+                        selector: "{{WRAPPER}} .brz-ui-ed-price-compare-at:hover",
                       },
                     ],
                   },
@@ -441,7 +538,7 @@ Brizy.registerComponent({
                           bottomWidth: 1,
                           leftWidth: 1,
                         },
-                        selector: "{{WRAPPER}} .brz-ui-ed-price-compare-at",
+                        selector: "{{WRAPPER}} .brz-ui-ed-price-compare-at:hover",
                       },
                     ],
                   },
@@ -461,7 +558,7 @@ Brizy.registerComponent({
                           colorHex: "#00000",
                           colorOpacity: 1,
                         },
-                        selector: "{{WRAPPER}} .brz-ui-ed-price-compare-at",
+                        selector: "{{WRAPPER}} .brz-ui-ed-price-compare-at:hover",
                       },
                     ],
                   },
@@ -490,7 +587,7 @@ Brizy.registerComponent({
                 },
                 style: ({ value }) => {
                   return {
-                    "{{WRAPPER}} .brz-ui-ed-price-compare-at": {
+                    "{{WRAPPER}} .brz-ui-ed-price-compare-at:hover": {
                       width: `${value.value}${value.unit}`,
                     },
                   };
@@ -512,7 +609,7 @@ Brizy.registerComponent({
                 style: ({ value }) => {
                   console.log("height", value);
                   return {
-                    "{{WRAPPER}} .brz-ui-ed-price-compare-at": {
+                    "{{WRAPPER}} .brz-ui-ed-price-compare-at:hover": {
                       "min-height": `${value.value}${value.unit}`,
                     },
                   };
@@ -534,7 +631,7 @@ Brizy.registerComponent({
                 },
                 style: ({ value }) => {
                   return {
-                    "{{WRAPPER}} .brz-ui-ed-price": {
+                    "{{WRAPPER}} .brz-ui-ed-price:hover": {
                       "margin-right": `${value.value}${value.unit}`,
                     },
                   };
@@ -573,6 +670,100 @@ Brizy.registerComponent({
                           text: "Effects",
                           icon: "nc-flash",
                         },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        sidebar: [
+          {
+            id: "sidebarTabs",
+            type: "sidebarTabs",
+            tabs: [
+              {
+                id: "styles",
+                title: "Styling",
+                label: "Styling",
+                options: [
+                  {
+                    id: "settingsTabs",
+                    type: "tabs",
+                    config: {
+                      align: "start",
+                    },
+                    devices: "desktop",
+                    tabs: [
+                      {
+                        id: "settingsStyling",
+                        label: "Basic",
+                        options: [
+                          {
+                            id: "eqwe",
+                            type: "inputText",
+                          },
+                          {
+                            id: "priceThroughBorder",
+                            type: "corners",
+                            label: "Corner",
+                            position: 65,
+                            selector: "{{WRAPPER}} .brz-ui-ed-price-compare-at:hover",
+                            default: {
+                              colorHex: "",
+                              bottomWidth: 1,
+                              colorOpacity: 1,
+                              colorPalette: "",
+                              leftWidth: 1,
+                              rightWidth: 1,
+                              style: "solid",
+                              topWidth: 1,
+                              width: 1,
+                              widthType: "grouped",
+                            },
+                          },
+                        ],
+                      },
+                      {
+                        id: "moreSettingsAdvanced",
+                        label: "Advanced",
+                        options: [
+                          {
+                            id: "hoverTransition",
+                            label: "Hover Transition",
+                            devices: "desktop",
+                            type: "slider",
+                            config: {
+                              min: 0,
+                              max: 99,
+                              units: [{ title: "ms", value: "ms" }],
+                            },
+                            default: {
+                              value: 50,
+                              suffix: "ms",
+                            },
+                            style: ({ value }) => {
+                              console.log(value);
+                              return {
+                                "{{WRAPPER}} .brz-ui-ed-price-compare-at:hover": {
+                                  "transition-property": "filter, color, background, border-color, box-shadow;",
+                                  "transition-duration": `0.${value.value}s`,
+                                },
+                              };
+                            },
+                          },
+                          {
+                            id: "customCSS",
+                            label: "Custom CSS",
+                            type: "codeMirror",
+                            position: 45,
+                            display: "block",
+                            devices: "desktop",
+                            helper: { content: helperHTML },
+                            placeholder: `element { CSS goes here }`,
+                          },
+                        ],
                       },
                     ],
                   },
