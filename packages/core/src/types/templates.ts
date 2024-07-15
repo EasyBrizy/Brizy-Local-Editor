@@ -145,7 +145,7 @@ export interface DefaultPopups extends DefaultTemplate<Popup> {
 
 type LayoutCategoryId = Symbol;
 
-interface Page {
+export interface Page {
   id: string;
   thumbnailWidth: number;
   thumbnailHeight: number;
@@ -163,18 +163,17 @@ interface Layout {
   styles: Record<string, unknown>; // The global styles
 }
 
-interface LayoutCategory {
-  id: LayoutCategoryId;
-  title: string;
-}
-
 export interface Template {
   templates: Array<Layout>;
-  categories: Array<LayoutCategory>;
+  categories: Array<Categories>;
 }
 
 export interface DefaultLayouts extends DefaultTemplate<Template> {
-  getData: (res: Response<Record<string, unknown>>, rej: Response<string>, id: string) => void;
+  getData: (
+    res: Response<Record<string, unknown>>,
+    rej: Response<string>,
+    page: { id: string; layoutId: string },
+  ) => void;
 }
 
 //#endregion

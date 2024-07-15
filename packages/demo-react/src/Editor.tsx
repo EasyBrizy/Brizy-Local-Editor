@@ -6,6 +6,7 @@ import { Config } from "./hooks/useEditor/types";
 import { DynamicContentModal } from "./modals/DynamicContent";
 import { reducer } from "./reducers";
 import { State } from "./reducers/types";
+import { asNewCategory, numCategoryToStringCategory, templateDetails } from "./utils";
 
 const token = "demo";
 
@@ -93,12 +94,17 @@ export const Editor = () => {
 
             const _kit = kits.find((item: Kits) => item.id === kit.id);
 
+            enum Theme {
+              light = 0,
+              dark = 1,
+            }
+
             const blocks = _kit?.blocks.map(
               ({ id, cat, pro, title, keywords, thumbnailWidth, thumbnailHeight, type, blank }: BlockWithThumbs) => ({
                 id,
-                cat,
+                cat: numCategoryToStringCategory({ cat, dict: _kit.categories }),
                 title,
-                type,
+                type: [Theme[type]],
                 keywords,
                 thumbnailHeight,
                 thumbnailWidth,
@@ -112,7 +118,7 @@ export const Editor = () => {
             res({
               id: kit.id,
               blocks,
-              categories: _kit.categories,
+              categories: asNewCategory(_kit.categories),
               types: _kit.types as KitType[],
               name: kit.title,
               styles: _kit.styles,
@@ -168,10 +174,15 @@ export const Editor = () => {
             const meta: Template = await fetch(`${layoutsUrl}/meta.json`).then((r) => r.json());
 
             const data = {
-              ...meta,
+              categories: asNewCategory(meta.categories),
               templates: meta.templates.map((item) => ({
                 ...item,
+                cat: numCategoryToStringCategory({
+                  cat: item.cat as unknown as number[],
+                  dict: meta.categories,
+                }) as unknown as Symbol[],
                 thumbnailSrc: `${layoutsUrl}/thumbs/${item.pages[0].id}.jpg`,
+                ...(templateDetails(item.pages) ?? {}),
                 pages: item.pages.map((page) => ({
                   ...page,
                   thumbnailSrc: `${layoutsUrl}/thumbs/${page.id}.jpg`,
@@ -184,7 +195,7 @@ export const Editor = () => {
             rej("Failed to load meta.json");
           }
         },
-        async getData(res, rej, id) {
+        async getData(res, rej, { id }) {
           const layoutsUrl = `${templates}/layouts`;
           try {
             const data = await fetch(`${layoutsUrl}/resolves/${id}.json`).then((r) => r.json());
