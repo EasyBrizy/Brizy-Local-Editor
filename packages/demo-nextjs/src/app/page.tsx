@@ -1,4 +1,5 @@
 import styles from "@/styles/Home.module.css";
+import { PageIds } from "@/utils/mock";
 import Link from "next/link";
 import React from "react";
 
@@ -15,7 +16,7 @@ export default function EditorPage() {
         <nav>
           <ul className={styles.navList}>
             <li>
-              <Link href="/admin/page/1">Page Builder</Link>
+              <Link href={`/admin/page/${PageIds.HomePage}`}>Page Builder</Link>
             </li>
             <li>
               <Link href="/admin/popup">Popup Builder</Link>

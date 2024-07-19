@@ -6,8 +6,29 @@ export const projectId = 1;
 
 //#region Pages
 
-export const pageId = "1";
+export enum PageIds {
+  HomePage = "1",
+  IntegrationsPage = "6",
+  CustomersPage = "7",
+  EnterprisePage = "8",
+  PricingPage = "9",
+  ContactPage = "10",
+  PreviewsPage = "11",
+  InfrastructurePage = "12",
+  NextjsPage = "13",
+  AnalyticsPage = "14",
+  EdgePage = "15",
+  StoragePage = "16",
+}
+
+//#region Story
+
 export const storyPageId = "2";
+
+//#endregion
+
+//#region Popups
+
 export const popupPageId = "3";
 
 //#endregion
