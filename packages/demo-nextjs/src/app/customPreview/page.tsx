@@ -23,7 +23,7 @@ const CustomPreview = async (): Promise<ReactElement> => {
     <div>
       <Styles styles={_styles} />
       <div dangerouslySetInnerHTML={{ __html: html }}></div>
-      <Scripts scripts={scripts} />
+      {scripts && <Scripts scripts={scripts} />}
     </div>
   );
 };

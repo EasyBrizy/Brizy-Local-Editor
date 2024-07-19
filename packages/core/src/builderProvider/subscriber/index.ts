@@ -51,7 +51,8 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         const dynamicContent = { ..._dynamicContent, ...configData.dynamicContent };
         const token = configData.token;
         const pageData = action.data.pageData ?? {};
-        const menuData = action.data.menu ?? _menuData;
+        const menuData = action.data.menuData ?? _menuData;
+
         const l10n = configData.l10n ?? {};
         const compiler = configData.compiler ?? defaultConfig.compiler;
 

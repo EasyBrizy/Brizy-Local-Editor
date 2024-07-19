@@ -22,6 +22,8 @@ const createMockHTML = ({ head = "", body }: Data): string => `
 interface Model {
   page?: PageJsonCompiledOutput;
   project?: ProjectJsonCompiledOutput;
+  headerPage?: PageJsonCompiledOutput;
+  footerPage?: PageJsonCompiledOutput;
 }
 
 const recordToAttributes = (attributes: Record<string, string | boolean>): string => {
@@ -30,15 +32,18 @@ const recordToAttributes = (attributes: Record<string, string | boolean>): strin
     .join(" ");
 };
 
-export const createHTML = ({ page, project }: Model): string => {
+export const createHTML = (model: Model): string => {
+  const { page, project, headerPage, footerPage } = model;
   const { styles, scripts, html } = page ?? {};
   const { styles: projectStyles } = project ?? {};
+  const { styles: headerStyles, scripts: headerScripts, html: headerHtml = "" } = headerPage ?? {};
+  const { styles: footerStyles, scripts: footerScripts, html: footerHtml = "" } = footerPage ?? {};
 
   if (!html) {
     return createMockHTML({ body: "<h1>Missing page</h1>" });
   }
 
-  const stylesStr = [...(styles ?? []), ...(projectStyles ?? [])]
+  const stylesStr = [...(styles ?? []), ...(projectStyles ?? []), ...(headerStyles ?? []), ...(footerStyles ?? [])]
     .map((style) => {
       const attrStr = recordToAttributes(style.attr ?? {});
 
@@ -52,23 +57,24 @@ export const createHTML = ({ page, project }: Model): string => {
     })
     .join("");
 
-  const scriptsStr =
-    scripts
-      ?.map((script) => {
-        if ("html" in script) {
-          const { html, attr = {} } = script;
-          const attrStr = recordToAttributes(attr);
-          return `<script ${attrStr}>${html}</script>`;
-        }
+  const scriptsStr = [...(scripts ?? []), ...(headerScripts ?? []), ...(footerScripts ?? [])]
+    .map((script) => {
+      if ("html" in script) {
+        const { html, attr = {} } = script;
+        const attrStr = recordToAttributes(attr);
+        return `<script ${attrStr}>${html}</script>`;
+      }
 
-        const attrStr = recordToAttributes(script.attr ?? {});
-        return `<script ${attrStr}></script>`;
-      })
-      .join("") ?? "";
+      const attrStr = recordToAttributes(script.attr ?? {});
+      return `<script ${attrStr}></script>`;
+    })
+    .join("");
 
   const body = `
     <!-- HTML -->
+    ${headerHtml}
     ${html}
+    ${footerHtml}
     <!-- Styles -->
     ${scriptsStr}
 `;

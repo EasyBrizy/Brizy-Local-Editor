@@ -13,22 +13,28 @@ const getProjectCompiled = (model: Record<string, string>) => {
 };
 
 interface Data {
-  pageId: string | number;
-  projectId: string | number;
+  pageId?: string | number;
+  projectId?: string | number;
 }
 
 export async function getPreview(data: Data): Promise<{
-  page: PageJsonCompiledOutput;
-  project: ProjectJsonCompiledOutput;
+  page?: PageJsonCompiledOutput;
+  project?: ProjectJsonCompiledOutput;
 }> {
   const { pageId, projectId } = data;
   await DBConnect();
+  let page;
+  let project;
 
-  const pageData = await Models.PageData.findOne({ id: pageId });
-  const projectData = await Models.ProjectData.findOne({ id: projectId });
+  if (projectId) {
+    const projectData = await Models.ProjectData.findOne({ id: projectId });
+    project = getProjectCompiled(projectData);
+  }
 
-  const page = getPageCompiled(pageData);
-  const project = getProjectCompiled(projectData);
+  if (pageId) {
+    const pageData = await Models.PageData.findOne({ id: pageId });
+    page = getPageCompiled(pageData);
+  }
 
   return { page, project };
 }

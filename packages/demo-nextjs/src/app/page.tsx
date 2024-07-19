@@ -15,7 +15,7 @@ export default function EditorPage() {
         <nav>
           <ul className={styles.navList}>
             <li>
-              <Link href="/admin/page">Page Builder</Link>
+              <Link href="/admin/page/1">Page Builder</Link>
             </li>
             <li>
               <Link href="/admin/popup">Popup Builder</Link>

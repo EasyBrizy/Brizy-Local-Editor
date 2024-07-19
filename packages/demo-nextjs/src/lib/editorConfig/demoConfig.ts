@@ -1,6 +1,121 @@
 import type { Config } from "@/hooks/useEditor/types";
 import { Modes } from "@builder/core/build/es/types/types";
 
+const menu: Config["menu"] = [
+  {
+    id: "5e8cc6634f6e2ee93b5137f134685896",
+    name: "Main Menu Top",
+    items: [
+      {
+        type: "MenuItem",
+        value: {
+          id: "da9dc0e53e7825c429ca9b22be1fa2cc",
+          url: "#",
+          title: "Features",
+          items: [
+            {
+              type: "MenuItem",
+              value: {
+                id: "413bff0e7a88eba33d250ac3ae99166a",
+                url: "/previews",
+                title: "Previews",
+              },
+            },
+            {
+              type: "MenuItem",
+              value: {
+                id: "2238dcd350ec2811d824ddfe546667ce",
+                url: "/analytics",
+                title: "Analytics",
+              },
+            },
+            {
+              type: "MenuItem",
+              value: {
+                id: "0783e8be271654da41071e1be23d10a3",
+                url: "/edge",
+                title: "Edge",
+              },
+            },
+            {
+              type: "MenuItem",
+              value: {
+                id: "3342071ce73ad1dbee9f560392da2549",
+                url: "/nextjs",
+                title: "Nextjs",
+              },
+            },
+            {
+              type: "MenuItem",
+              value: {
+                id: "0c0d9ec288588ccb2ae77c2d16996b2b",
+                url: "/infrastructure",
+                title: "Infrastructure",
+              },
+            },
+            {
+              type: "MenuItem",
+              value: {
+                id: "1f3b2eb7b9d89c1bc438af7b5a5f5e7e",
+                url: "/storage",
+                title: "Storage",
+              },
+            },
+          ],
+        },
+      },
+      {
+        type: "MenuItem",
+        value: {
+          id: "b664a1d33ab23a4cff2a98f5b759104e",
+          url: "/integrations",
+          title: "Integrations",
+        },
+      },
+      {
+        type: "MenuItem",
+        value: {
+          id: "f912e97e0ad9e83b7961445e3d2bc216",
+          url: "/customers",
+          title: "Customers",
+        },
+      },
+      {
+        type: "MenuItem",
+        value: {
+          id: "1709f54f60608c3c74ac63f08b2e657e",
+          url: "/enterprise",
+          title: "Enterprise",
+        },
+      },
+      {
+        type: "MenuItem",
+        value: {
+          id: "c513518d193e85fca4ce274368792dd2",
+          url: "/pricing",
+          title: "Pricing",
+        },
+      },
+      {
+        type: "MenuItem",
+        value: {
+          id: "2d8a064170643c3d1bc3572c0b094ea9",
+          url: "/blog-2",
+          title: "Blog",
+        },
+      },
+      {
+        type: "MenuItem",
+        value: {
+          id: "f28b0d24849fedf1bdda5be865b76fae",
+          url: "/contact",
+          title: "Contact",
+        },
+      },
+    ],
+  },
+];
+
 export const demoConfig: Config = {
   mode: Modes.page,
   container: null,
@@ -691,6 +806,7 @@ export const demoConfig: Config = {
       },
     },
   },
+  menu,
   integration: {
     form: {
       action: "https://reqbin.com/sample/post/json",

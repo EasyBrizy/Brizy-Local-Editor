@@ -17,7 +17,7 @@ const getPageData = (model: Record<string, string>): Config["pageData"] => {
 };
 
 interface Data {
-  pageId: number;
+  pageId: string;
   projectId: number;
   mode: Modes;
 }
@@ -44,7 +44,6 @@ export async function getEditorConfig(data: Data): Promise<Config> {
     return {
       ...demoConfig,
       mode,
-      pagePreview: `${getConfig().host}/preview/${pageId}`,
       ...(pageDataModel ? { pageData: getPageData(pageDataModel) } : {}),
       ...(projectDataModel ? { projectData: getProjectData(projectDataModel) } : {}),
     };
