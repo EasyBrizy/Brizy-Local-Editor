@@ -1,5 +1,5 @@
 import { getPreview } from "@/lib/preview";
-import { PageIds, projectId } from "@/utils/mock";
+import { getPageIds, projectId } from "@/utils/mock";
 import React, { ReactElement } from "react";
 import { Scripts } from "./components/Scripts";
 import { Styles } from "./components/Styles";
@@ -9,7 +9,8 @@ import { Styles } from "./components/Styles";
 // Header and Footer are declared inside Layout.tsx
 
 const CustomPreview = async (): Promise<ReactElement> => {
-  const { page, project } = await getPreview({ pageId: PageIds.HomePage, projectId });
+  const pages = getPageIds();
+  const { page, project } = await getPreview({ pageId: pages.HomePage, projectId });
   const { styles, scripts, html } = page ?? {};
   const { styles: projectStyles } = project ?? {};
 

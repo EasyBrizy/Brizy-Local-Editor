@@ -1,6 +1,8 @@
 import type { Config } from "@/hooks/useEditor/types";
-import { PageIds } from "@/utils/mock";
+import { getPageIds } from "@/utils/mock";
 import { Modes } from "@builder/core/build/es/types/types";
+
+const pages = getPageIds();
 
 const menu: Config["menu"] = [
   {
@@ -18,7 +20,7 @@ const menu: Config["menu"] = [
               type: "MenuItem",
               value: {
                 id: "413bff0e7a88eba33d250ac3ae99166a",
-                url: `/preview/page/${PageIds.PreviewsPage}`,
+                url: `/preview/page/${pages.PreviewsPage}`,
                 title: "Previews",
               },
             },
@@ -26,7 +28,7 @@ const menu: Config["menu"] = [
               type: "MenuItem",
               value: {
                 id: "2238dcd350ec2811d824ddfe546667ce",
-                url: `/preview/page/${PageIds.AnalyticsPage}`,
+                url: `/preview/page/${pages.AnalyticsPage}`,
                 title: "Analytics",
               },
             },
@@ -34,7 +36,7 @@ const menu: Config["menu"] = [
               type: "MenuItem",
               value: {
                 id: "0783e8be271654da41071e1be23d10a3",
-                url: `/preview/page/${PageIds.EdgePage}`,
+                url: `/preview/page/${pages.EdgePage}`,
                 title: "Edge",
               },
             },
@@ -42,7 +44,7 @@ const menu: Config["menu"] = [
               type: "MenuItem",
               value: {
                 id: "3342071ce73ad1dbee9f560392da2549",
-                url: `/preview/page/${PageIds.NextjsPage}`,
+                url: `/preview/page/${pages.NextjsPage}`,
                 title: "Nextjs",
               },
             },
@@ -50,7 +52,7 @@ const menu: Config["menu"] = [
               type: "MenuItem",
               value: {
                 id: "0c0d9ec288588ccb2ae77c2d16996b2b",
-                url: `/preview/page/${PageIds.InfrastructurePage}`,
+                url: `/preview/page/${pages.InfrastructurePage}`,
                 title: "Infrastructure",
               },
             },
@@ -58,7 +60,7 @@ const menu: Config["menu"] = [
               type: "MenuItem",
               value: {
                 id: "1f3b2eb7b9d89c1bc438af7b5a5f5e7e",
-                url: `/preview/page/${PageIds.StoragePage}`,
+                url: `/preview/page/${pages.StoragePage}`,
                 title: "Storage",
               },
             },
@@ -69,7 +71,7 @@ const menu: Config["menu"] = [
         type: "MenuItem",
         value: {
           id: "b664a1d33ab23a4cff2a98f5b759104e",
-          url: `/preview/page/${PageIds.IntegrationsPage}`,
+          url: `/preview/page/${pages.IntegrationsPage}`,
           title: "Integrations",
         },
       },
@@ -77,7 +79,7 @@ const menu: Config["menu"] = [
         type: "MenuItem",
         value: {
           id: "f912e97e0ad9e83b7961445e3d2bc216",
-          url: `/preview/page/${PageIds.CustomersPage}`,
+          url: `/preview/page/${pages.CustomersPage}`,
           title: "Customers",
         },
       },
@@ -85,7 +87,7 @@ const menu: Config["menu"] = [
         type: "MenuItem",
         value: {
           id: "1709f54f60608c3c74ac63f08b2e657e",
-          url: `/preview/page/${PageIds.EnterprisePage}`,
+          url: `/preview/page/${pages.EnterprisePage}`,
           title: "Enterprise",
         },
       },
@@ -93,7 +95,7 @@ const menu: Config["menu"] = [
         type: "MenuItem",
         value: {
           id: "c513518d193e85fca4ce274368792dd2",
-          url: `/preview/page/${PageIds.PricingPage}`,
+          url: `/preview/page/${pages.PricingPage}`,
           title: "Pricing",
         },
       },
@@ -101,7 +103,7 @@ const menu: Config["menu"] = [
         type: "MenuItem",
         value: {
           id: "f28b0d24849fedf1bdda5be865b76fae",
-          url: `/preview/page/${PageIds.ContactPage}`,
+          url: `/preview/page/${pages.ContactPage}`,
           title: "Contact",
         },
       },
