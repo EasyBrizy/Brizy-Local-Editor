@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
     await DBConnect();
 
-    await Models.ProjectData.findOneAndUpdate({ id }, schema, {
+    await Models.Project.findOneAndUpdate({ id }, schema, {
       new: true,
       upsert: true,
     });

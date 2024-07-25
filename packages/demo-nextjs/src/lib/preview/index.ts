@@ -27,12 +27,12 @@ export async function getPreview(data: Data): Promise<{
   let project;
 
   if (projectId) {
-    const projectData = await Models.ProjectData.findOne({ id: projectId });
+    const projectData = await Models.Project.findOne({ id: projectId });
     project = getProjectCompiled(projectData);
   }
 
   if (pageId) {
-    const pageData = await Models.PageData.findOne({ id: pageId });
+    const pageData = await Models.Pages.findOne({ id: pageId });
     page = getPageCompiled(pageData);
   }
 
