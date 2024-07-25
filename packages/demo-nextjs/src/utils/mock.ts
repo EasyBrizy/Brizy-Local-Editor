@@ -38,20 +38,20 @@ export enum NetlifyPageIds {
 
 //#region Story
 
-export const storyPageId = "2";
+export const storyPageId = "1";
 
 //#endregion
 
 //#region Popups
 
-export const popupPageId = "3";
+export const popupPageId = "1";
 
 //#endregion
 
 //#region Header & Footer
 
-export const headerId = "4";
-export const footerId = "5";
+export const headerId = "1";
+export const footerId = "1";
 
 //#endregion
 

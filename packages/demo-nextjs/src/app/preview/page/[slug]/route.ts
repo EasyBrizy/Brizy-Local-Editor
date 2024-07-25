@@ -5,13 +5,13 @@ import { NextResponse } from "next/server";
 
 interface Params {
   params: {
-    id: string;
+    slug: string;
   };
 }
 
 export async function GET(_: Request, { params }: Params) {
   try {
-    const pageId = params.id;
+    const pageId = params.slug;
     const { page, project } = await getPreview({ pageId, projectId });
     const { page: headerPage } = await getPreview({ pageId: headerId });
     const { page: footerPage } = await getPreview({ pageId: footerId });

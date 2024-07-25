@@ -4,6 +4,7 @@ import { DynamicContentModal } from "@/components/modals/DynamicContent";
 import { getConfig } from "@/config";
 import { useEditor } from "@/hooks/useEditor";
 import { Config } from "@/hooks/useEditor/types";
+import { LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { BlockWithThumbs, KitType, Kits, Popup, StoryTemplate, Template } from "@builder/core/build/es/types/templates";
 import React, { useReducer, useRef } from "react";
 import { reducer } from "./reducers";
@@ -47,6 +48,60 @@ export const Editor = (props: Props) => {
         res({ test: ["test1"] });
       },
     },
+
+    ui: {
+      leftSidebar: {
+        topTabsOrder: [
+          LeftSidebarOptionsIds.cms,
+          LeftSidebarOptionsIds.addElements,
+          LeftSidebarOptionsIds.reorderBlock,
+          LeftSidebarOptionsIds.globalStyle,
+        ],
+        [LeftSidebarOptionsIds.cms]: {
+          onClose() {},
+          onOpen() {
+            alert("Open Iframe");
+          },
+        },
+      },
+      publish: {
+        async handler(res, rej, data) {
+          try {
+            if (data.pageData) {
+              await fetch("/api/page", {
+                method: "POST",
+                body: JSON.stringify({
+                  id: baseConfig.pageData.id,
+                  pageData: data.pageData,
+                }),
+              });
+            }
+            if (data.projectData) {
+              await fetch("/api/project", {
+                method: "POST",
+                body: JSON.stringify({
+                  id: baseConfig.projectData.id,
+                  projectData: data.projectData,
+                }),
+              });
+            }
+
+            dispatch({
+              type: "update",
+              data: JSON.stringify(data),
+            });
+            res(data);
+          } catch (e) {
+            dispatch({
+              type: "error",
+              message: "Failed to update projectData, pageData",
+            });
+            rej("Failed to update projectData, pageData");
+          }
+        },
+      },
+    },
+
     // extensions: [{ host: "http://localhost:2222" }],
     api: {
       media: {
@@ -238,46 +293,9 @@ export const Editor = (props: Props) => {
         },
       },
     },
-    onSave: async (data) => {
-      try {
-        if (data.pageData) {
-          await fetch("/api/page", {
-            method: "POST",
-            body: JSON.stringify({
-              id: baseConfig.pageData.id,
-              pageData: data.pageData,
-            }),
-          });
-        }
-        if (data.projectData) {
-          await fetch("/api/project", {
-            method: "POST",
-            body: JSON.stringify({
-              id: baseConfig.projectData.id,
-              projectData: data.projectData,
-            }),
-          });
-        }
-
-        dispatch({
-          type: "update",
-          data: JSON.stringify(data),
-        });
-      } catch (e) {
-        dispatch({
-          type: "error",
-          message: "Failed to update projectData, pageData",
-        });
-      }
-    },
   };
 
-  const [builderState, builderInstance] = useEditor(token, config);
-
-  const handleUpdate = () => {
-    dispatch({ type: "loading" });
-    builderInstance?.save();
-  };
+  const [builderState] = useEditor(token, config);
 
   const handleAdd = (value: string) => {
     dispatch({
@@ -303,15 +321,7 @@ export const Editor = (props: Props) => {
         ) : (
           <div className="container__editor" ref={containerRef} />
         )}
-
         <DynamicContentModal opened={state.modal.opened} onAdd={handleAdd} onClose={handleClose} />
-
-        <div className="container__output">
-          <button className="btn" onClick={handleUpdate}>
-            {state.loading ? "Updating..." : "Update"}
-          </button>
-          <textarea className="output" defaultValue={state.output} />
-        </div>
       </div>
     </>
   );
