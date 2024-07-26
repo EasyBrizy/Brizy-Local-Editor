@@ -8,17 +8,30 @@ const styles = {
 
 export default async function AdminPage() {
   const items = await getItems();
+  const groups: { [k: string]: Array<{ collection: string; item: string }> } = {};
+
+  items.forEach((page) => {
+    const { collection, item } = page.slug;
+    const group = { collection, item };
+
+    if (groups[collection]) {
+      groups[collection].push(group);
+    } else {
+      groups[collection] = [group];
+    }
+  });
 
   return (
     <div>
-      {items.map((page) => {
-        const { item, collection } = page.slug;
-
+      {Object.entries(groups).map(([collection, items]) => {
         return (
-          <div key={page.id} style={styles}>
-            <a href={`/admin/${collection}/${item}`}>
-              {collection}: {item}
-            </a>
+          <div key={collection}>
+            <h4>{collection}: </h4>
+            {items.map((page) => (
+              <div key={page.item} style={styles}>
+                <a href={`/admin/${collection}/${page.item}`}>{page.item}</a>
+              </div>
+            ))}
           </div>
         );
       })}
