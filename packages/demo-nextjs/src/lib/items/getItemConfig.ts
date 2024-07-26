@@ -4,18 +4,21 @@ import { getPageData, getProjectData } from "@/lib/editorConfig";
 import { demoConfig } from "@/lib/editorConfig/demoConfig";
 import { getProject } from "@/lib/project/getProject";
 
-export async function getStories() {
-  await DBConnect();
-  return Models.Story.find();
+interface Data {
+  collection: string;
+  item: string;
 }
 
-export async function getStoryConfigById(id: string) {
+export async function getItemConfig(data: Data) {
+  const { item, collection } = data;
+  const query = {
+    "slug.collection": collection,
+    "slug.item": item,
+  };
+
   await DBConnect();
 
-  const query = {
-    id,
-  };
-  const page = await Models.Story.findOne(query);
+  const page = await Models.Items.findOne(query);
   const project = await getProject();
 
   return {

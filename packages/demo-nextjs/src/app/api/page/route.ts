@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
     await DBConnect();
 
-    await Models.Pages.findOneAndUpdate({ id }, schema, {
+    await Models.Items.findOneAndUpdate({ _id: id }, schema, {
       new: true,
       upsert: true,
     });

@@ -32,7 +32,7 @@ export async function getPreview(data: Data): Promise<{
   }
 
   if (pageId) {
-    const pageData = await Models.Pages.findOne({ id: pageId });
+    const pageData = await Models.Items.findOne({ id: pageId });
     page = getPageCompiled(pageData);
   }
 

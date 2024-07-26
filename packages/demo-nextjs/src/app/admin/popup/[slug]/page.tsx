@@ -1,18 +1,17 @@
 import { Editor } from "@/components/Editor";
 import { getConfig } from "@/config";
-import "@/lib/footer/getFooters";
-import { getPopupConfigById } from "@/lib/popup/getPopups";
+import { getItemConfig } from "@/lib/items/getItemConfig";
 import { Modes } from "@builder/core/build/es/types/types";
 import React from "react";
 
 interface Props {
-  params: { id: string };
+  params: { slug: string };
 }
 
 export default async function PopupPage(props: Props) {
   const { params } = props;
-  const popupId = params.id;
-  const pagePreview = `${getConfig().host}/preview/popup/${popupId}`;
-  const editorConfig = await getPopupConfigById(popupId);
+  const slug = params.slug;
+  const pagePreview = `${getConfig().host}/preview/popup/${slug}`;
+  const editorConfig = await getItemConfig({ collection: "popup", item: slug });
   return <Editor config={{ ...editorConfig, mode: Modes.popup, pagePreview }} />;
 }
