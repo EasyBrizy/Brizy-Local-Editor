@@ -3,6 +3,7 @@ sidebar_position: 3
 ---
 
 # Deployments
+[//]: # (///// TODO: de vazut cu asta unde de pus normal)
 
 ## CDN version
 The CDN version of Brizy Local is hosted on Brizy's servers. Choose this version if you don't want to host the editor. This will let you initialise the editor on your side, but Brizy will host it on its CDN infrastructure.
