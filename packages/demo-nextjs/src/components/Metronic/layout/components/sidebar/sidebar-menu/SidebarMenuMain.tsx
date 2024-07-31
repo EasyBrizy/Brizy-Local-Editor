@@ -6,38 +6,48 @@ const SidebarMenuMain = () => {
 
   return (
     <>
-      <SidebarMenuItem icon="element-11" to="/admin" title="Dashboard" active={pathname === "/admin"} />
+      <SidebarMenuItem icon="category" to="/admin" title="Dashboard" active={pathname === "/admin"} />
 
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-muted text-uppercase fs-8 ls-1">Website</span>
+          <span className="menu-heading uppercase text-2sm font-semibold text-gray-500">Website</span>
         </div>
       </div>
 
-      <SidebarMenuItem icon="element-11" to="/admin/pages" title="Pages" active={pathname === "/admin/pages"} />
+      <SidebarMenuItem icon="profile-circle" to="/admin/pages" title="Pages" active={pathname === "/admin/pages"} />
 
-      <SidebarMenuItem icon="element-11" to="/admin/blogs" title="Blog" active={pathname === "/admin/blogs"} />
+      <SidebarMenuItem icon="setting-2" to="/admin/blogs" title="Blog" active={pathname === "/admin/blogs"} />
 
-      <SidebarMenuItem icon="element-11" to="/admin/stories" title="Stories" active={pathname === "/admin/stories"} />
+      <SidebarMenuItem icon="profile-user" to="/admin/stories" title="Stories" active={pathname === "/admin/stories"} />
 
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-muted text-uppercase fs-8 ls-1">Sections</span>
+          <span className="menu-heading uppercase text-2sm font-semibold text-gray-500">Sections</span>
         </div>
       </div>
 
-      <SidebarMenuItem icon="element-11" to="/admin/headers" title="Headers" active={pathname === "/admin/headers"} />
-      <SidebarMenuItem icon="element-11" to="/admin/footers" title="Footer" active={pathname === "/admin/footers"} />
-
-      <div className="menu-item">
-        <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-muted text-uppercase fs-8 ls-1">Utilities</span>
-        </div>
-      </div>
-
-      <SidebarMenuItem icon="element-11" to="/admin/popups" title="Popups" active={pathname === "/admin/popups"} />
       <SidebarMenuItem
-        icon="element-11"
+        icon="security-user"
+        to="/admin/headers"
+        title="Headers"
+        active={pathname === "/admin/headers"}
+      />
+      <SidebarMenuItem
+        icon="questionnaire-tablet"
+        to="/admin/footers"
+        title="Footer"
+        active={pathname === "/admin/footers"}
+      />
+
+      <div className="menu-item">
+        <div className="menu-content pt-8 pb-2">
+          <span className="menu-heading uppercase text-2sm font-semibold text-gray-500">Utilities</span>
+        </div>
+      </div>
+
+      <SidebarMenuItem icon="handcart" to="/admin/popups" title="Popups" active={pathname === "/admin/popups"} />
+      <SidebarMenuItem
+        icon="some-files"
         to="/admin/popups"
         title="System Pages"
         active={pathname === "/admin/system-pages"}
