@@ -1,40 +1,52 @@
-import { getItems } from "@/lib/items/getItems";
+"use client";
+
+import { toAbsoluteUrl } from "@/components/Metronic/helpers";
+import Root from "@/components/Metronic/layout/Root";
+import { Content } from "@/components/Metronic/layout/components/content";
+import { CardsWidget7, CardsWidget20, EngageWidget10, TablesWidget10 } from "@/components/Metronic/partials/widgets";
 import React from "react";
 
-const styles = {
-  padding: "10px 10px",
-  borderBottom: "1px solid #ccc",
-};
-
-export default async function AdminPage() {
-  const items = await getItems();
-  const groups: { [k: string]: Array<{ collection: string; item: string }> } = {};
-
-  items.forEach((page) => {
-    const { collection, item } = page.slug;
-    const group = { collection, item };
-
-    if (groups[collection]) {
-      groups[collection].push(group);
-    } else {
-      groups[collection] = [group];
-    }
-  });
-
+export default function AdminPage() {
   return (
-    <div>
-      {Object.entries(groups).map(([collection, items]) => {
-        return (
-          <div key={collection}>
-            <h4>{collection}: </h4>
-            {items.map((page) => (
-              <div key={page.item} style={styles}>
-                <a href={`/admin/${collection}/${page.item}`}>{page.item}</a>
-              </div>
-            ))}
+    <Root>
+      <Content>
+        {/* begin::Row */}
+        <div className="row g-5 g-xl-10 mb-5 mb-xl-10">
+          {/* begin::Col */}
+          <div className="col-md-6 mb-xl-10">
+            <CardsWidget20
+              className="h-md-50 mb-5 mb-xl-10"
+              description="Active Projects"
+              color="#F1416C"
+              img={toAbsoluteUrl("media/patterns/vector-1.png")}
+            />
+            <CardsWidget7
+              className="h-md-50 mb-5 mb-xl-10"
+              description="Professionals"
+              icon={false}
+              stats={357}
+              labelColor="dark"
+              textColor="gray-300"
+            />
           </div>
-        );
-      })}
-    </div>
+          {/* end::Col */}
+
+          {/* begin::Col */}
+          <div className="col-md-6">
+            <EngageWidget10 className="h-md-100" />
+          </div>
+          {/* end::Col */}
+        </div>
+        {/* end::Row */}
+
+        {/* begin::Row */}
+        <div className="row gy-5 gx-xl-8">
+          <div className="col-xl-12">
+            <TablesWidget10 className="card-xxl-stretch mb-5 mb-xl-8" />
+          </div>
+        </div>
+        {/* end::Row */}
+      </Content>
+    </Root>
   );
 }

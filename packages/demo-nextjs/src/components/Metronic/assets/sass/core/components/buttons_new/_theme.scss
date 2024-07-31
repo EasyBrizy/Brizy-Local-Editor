@@ -1,0 +1,21 @@
+//
+// Buttons Theme
+//
+
+// Theme colors
+@each $name, $value in $theme-colors {
+	// Base
+	.btn.btn-#{$name} {
+		$color: var(--#{$prefix}#{$name}-inverse);
+		$icon-color: var(--#{$prefix}#{$name}-inverse);
+		$border-color: var(--#{$prefix}#{$name});
+		$bg-color: var(--#{$prefix}#{$name});
+
+		$color-active: var(--#{$prefix}#{$name}-inverse);
+		$icon-color-active: var(--#{$prefix}#{$name}-inverse);
+		$border-color-active: var(--#{$prefix}#{$name}-active);
+		$bg-color-active: var(--#{$prefix}#{$name}-active);
+
+		@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+	}
+}
