@@ -23,7 +23,7 @@ export async function getItemConfig(data: Data) {
 
   return {
     ...demoConfig,
-    ...(page ? { pageData: getPageData(page) } : {}),
-    ...(project ? { projectData: getProjectData(project) } : {}),
+    pageData: getPageData(page),
+    projectData: getProjectData(project),
   };
 }

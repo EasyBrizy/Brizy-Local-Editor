@@ -68,7 +68,7 @@ export const Editor = (props: Props) => {
         async handler(res, rej, data) {
           try {
             if (data.pageData) {
-              await fetch("/api/page", {
+              await fetch("/api/items", {
                 method: "POST",
                 body: JSON.stringify({
                   id: baseConfig.pageData.id,
