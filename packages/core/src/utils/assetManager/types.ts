@@ -13,6 +13,10 @@ interface Link {
 
 export type Styles = Style | Link;
 
+export function isStyle(style: Styles): style is Style {
+  return style.type === "style" && style.hasOwnProperty("html");
+}
+
 export interface Scripts {
   attr?: Record<string, string | boolean>;
   html?: string;

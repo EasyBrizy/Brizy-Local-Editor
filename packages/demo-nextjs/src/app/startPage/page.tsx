@@ -3,7 +3,7 @@ import { getPageIds } from "@/utils/mock";
 import Link from "next/link";
 import React from "react";
 
-export default function EditorPage() {
+export default function StarterPage() {
   const pages = getPageIds();
   return (
     <div className={styles.container}>
