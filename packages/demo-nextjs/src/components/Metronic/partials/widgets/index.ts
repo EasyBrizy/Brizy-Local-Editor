@@ -8,11 +8,6 @@ export * from "./feeds/FeedsWidget6";
 // tables
 export * from "./tables/TablesWidget10";
 
-// engage
-export * from "./engage/EngageWidget1";
-export * from "./engage/EngageWidget2";
-export * from "./engage/EngageWidget3";
-
 // feeds
 export * from "./feeds/FeedsWidget2";
 export * from "./feeds/FeedsWidget3";
