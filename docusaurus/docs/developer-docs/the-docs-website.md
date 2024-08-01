@@ -17,7 +17,7 @@ The top navigation bar is divided into three main sections:
 
 # Learning Through Code Examples
 
-At the end of each topic, you’ll find practical code examples that demonstrate how to apply what you’ve learned to create your own addons. These examples are designed to be hands-on and easy to follow, allowing you to see real-world applications of the concepts covered. Feel free to copy, modify, and expand upon this code to suit your specific needs and accelerate your development process. By leveraging these examples, you can quickly integrate new features and functionalities into your projects with confidence.
+Practical code examples are included at the end of each section to illustrate how to implement the concepts learned and create your own addons. These examples are designed to be hands-on and easy to follow, allowing you to see real-world applications of the concepts covered. Feel free to copy, modify, and expand upon this code to suit your specific needs and accelerate your development process. By leveraging these examples, you can quickly integrate new features and functionalities into your projects with confidence.
 
 [//]: # (# Contributing to the Docs)
 

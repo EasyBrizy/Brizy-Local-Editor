@@ -12,3 +12,13 @@ In the process of developing an addon, the developer is able to create a new wid
   <li>Defaults - the default values for controls</li>
   <li>CSS - dynamic styling based on control values</li>
 </ul>
+
+
+## Brizy Core 
+Brizy has matured into a robust platform that provides a foundation for third-party extensions to address niche market requirements and expand core functionalities. While some developers have focused on specialized features, others have reimagined existing components and integrated innovative capabilities.
+
+
+## Ideas
+The potential for developing innovative addons is vast and varied.
+From complex widgets to dynamic content, animations, custom typography, interactive sliders, navigation enhancements, 
+and conditional display features, the possibilities are nearly limitless. If you envision a unique addon, this guide provides the foundation for bringing your concept to life.

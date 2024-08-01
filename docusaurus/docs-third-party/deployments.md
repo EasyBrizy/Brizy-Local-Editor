@@ -1,12 +1,11 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Deployments
-[//]: # (///// TODO: de vazut cu asta unde de pus normal)
 
 ## CDN version
-The CDN version of Brizy Local is hosted on Brizy's servers. Choose this version if you don't want to host the editor. This will let you initialise the editor on your side, but Brizy will host it on its CDN infrastructure.
+The CDN version of Brizy is hosted on Brizy's servers. Choose this version if you don't want to host the editor. This will let you initialise the editor on your side, but Brizy will host it on its CDN infrastructure.
 
 [![video](/img/deployment.jpg)](https://user-images.githubusercontent.com/10077249/206906576-cc654003-9b6d-4661-88dd-affb63ba538d.mp4)
 
@@ -14,7 +13,7 @@ The CDN version of Brizy Local is hosted on Brizy's servers. Choose this version
 
 ## Self-hosted version
 
-The Self-hosted version of Brizy Local is hosted by you. Choose this version if you want to host the editor locally on your server.
+The Self-hosted version of Brizy is hosted by you. Choose this version if you want to host the editor locally on your server.
 
 [![video](/img/deployment.jpg)](https://user-images.githubusercontent.com/10077249/206906566-1d2087fc-847c-4530-8760-9b169dd3ed65.mp4)
 
@@ -22,7 +21,7 @@ The Self-hosted version of Brizy Local is hosted by you. Choose this version if 
 
 ## Vercel
 
-You can deploy a fresh Brizy Local project, with a Git repository set up for you, with the following Deploy Button:
+You can deploy a fresh Brizy project, with a Git repository set up for you, with the following Deploy Button:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/EasyBrizy/Brizy-Local-Editor&project-name=brizy-local-editor&repository-name=brizy-local-editor&output-directory=packages/demo/public)
 

@@ -20,15 +20,26 @@ The previous command will generate the following folder structure:
 ```shell
 # root directory of your thirdparty folder
 
-├── README.md
-├── node_modules
-├── package-lock.json
+├── node_modules/
 ├── package.json
+├── package-lock.json
+├── README.md
+├── prettier.config.js
+├── tsconfig.json
+├── README.md
+├── .editorconfig
 └── src
-    ├── Map
-    │   └── index.tsx
-    └── index.ts
+    ├── Map/
+    │    └── /* will contain all widget logic and style files */
+    ├── Counter/
+    │    └── /* will contain all widget logic and style files */
+    ├── types/
+    │    └── files.d.ts
+    └── config.json
+    └── index.editor.ts
+    └── index.view.ts
 ```
+
 
 To start the build, run the following command in your terminal:
 ```shell
@@ -45,13 +56,16 @@ Here's how you can do it:
 2. Obtain the HTTP URLs for the built JavaScript files (e.g., `main.js`).
 3. In the editor configuration, specify these URLs to load the library:
 
+[//]: # (///// TODO: ramane asta de vazut daca mai trebuie, pentru ca probabil deja trebuie peste `extensions` key)
+
 ```typescript
 const config = {
   // Other keys of the config...
-  
-  thirdPartyUrls: [
+
+  extensions: [
     {
-      scriptUrl: "https://<the-build-host-of-library>/main.js"
+      host: "https://<the-build-host-of-library>",
+      path: ""
     }
   ]
 };
@@ -60,7 +74,8 @@ const config = {
 > For more information about the config of the Editor, check the [`README`](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/self-hosted.MD#config).
 
 Replace `"http://<the-build-host-of-library>/main.js"` with the actual HTTP URL of your built library file. 
-By adding this URL to the `thirdPartyUrls` array in your editor configuration, the library will be loaded and available for use within the editor environment.
+By adding this URL to the `extensions` array in your editor configuration, the library will be loaded and available for use within the editor environment. <br />
+The `host` specifies the server's URL, while `path` indicates the server directory containing the bundles.
 
 To view the new component, follow these steps:
 
@@ -81,17 +96,17 @@ export function Button(): JSX.Element {
   return <div className="button">This button will be render in editor</div>;
 }
 
-export function Button(): JSX.Element {
-  return <div className="button">This button will be render in View</div>;
+export function ButtonView(): JSX.Element {
+  return <div className="button button-view">This button will be render in View</div>;
 }
 
 Brizy.registerComponent({
   id: "ThirdParty.Button",
   component:{
     editor:Button,
-    view:Button
+    view:ButtonView
   },
-  title: "My Button",
+  title: "My Button"
 });
 ```
 
@@ -141,7 +156,7 @@ Brizy.registerComponent({
             type: "popover",
             config: {
               icon: "nc-pin",
-              title: "Map",
+              title: "Map"
             },
             devices: "desktop",
             options: [
@@ -159,8 +174,8 @@ Brizy.registerComponent({
                         type: "inputText",
                         placeholder: "Enter address",
                         default: {
-                          value: "Chisinau",
-                        },
+                          value: "Chisinau"
+                        }
                       },
                       {
                         id: "zoom",
@@ -168,23 +183,23 @@ Brizy.registerComponent({
                         type: "slider",
                         config: {
                           min: 1,
-                          max: 21,
+                          max: 21
                         },
                         default: {
                           value: 9,
-                          suffix: "inch",
-                        },
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+                          suffix: "inch"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ];
-  },
+  }
 });
 ```
 
