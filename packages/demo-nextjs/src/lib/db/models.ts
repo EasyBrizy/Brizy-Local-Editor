@@ -1,6 +1,23 @@
+import { Scripts, Styles } from "@builder/core/build/es/utils/assetManager/types";
 import mongoose from "mongoose";
 
-const ItemSchema = new mongoose.Schema({
+export interface Slug {
+  collection: string;
+  item: string;
+}
+
+export interface CompiledData {
+  html: string;
+  scripts: Array<Scripts>;
+  styles: Array<Styles>;
+}
+export interface ParsedItemData {
+  // in future meybe need other keys from item
+  status: "publish" | "draft";
+  compiled: CompiledData;
+}
+
+const ItemSchemaType = {
   id: {
     type: String,
     required: true,
@@ -9,14 +26,29 @@ const ItemSchema = new mongoose.Schema({
     item: String,
     collection: String,
   },
+  config: {
+    hasPreview: Boolean,
+  },
   data: {
     type: String,
     required: false,
     trim: true,
   },
-});
+} as const;
 
-const ProjectSchema = new mongoose.Schema({
+type Item = typeof ItemSchemaType;
+export type ParsedItem = Omit<Item, "data"> & { data: ParsedItemData };
+
+const ItemSchema = new mongoose.Schema(ItemSchemaType);
+
+export interface Project {
+  id: string;
+  data: {
+    styles: Array<Styles>;
+  };
+}
+
+const ProjectSchema = new mongoose.Schema<Project>({
   id: {
     type: String,
     required: true,

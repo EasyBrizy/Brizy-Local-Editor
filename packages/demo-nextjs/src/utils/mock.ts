@@ -8,50 +8,28 @@ export const projectId = 1;
 
 export enum VercelPageIds {
   HomePage = "1",
-  IntegrationsPage = "6",
-  CustomersPage = "7",
-  EnterprisePage = "8",
-  PricingPage = "9",
-  ContactPage = "10",
-  PreviewsPage = "11",
-  InfrastructurePage = "12",
-  NextjsPage = "13",
-  AnalyticsPage = "14",
-  EdgePage = "15",
-  StoragePage = "16",
 }
 
 export enum NetlifyPageIds {
   HomePage = "17",
-  IntegrationsPage = "18",
-  CustomersPage = "19",
-  EnterprisePage = "20",
-  PricingPage = "21",
-  ContactPage = "22",
-  PreviewsPage = "23",
-  InfrastructurePage = "24",
-  NextjsPage = "25",
-  AnalyticsPage = "26",
-  EdgePage = "27",
-  StoragePage = "28",
 }
 
-//#region Story
+//#region Page
 
-export const storyPageId = "1";
+export const homePageId = { collection: "page", item: "home" };
 
 //#endregion
 
 //#region Popups
 
-export const popupPageId = "1";
+export const popupPageId = { collection: "popup", item: "popup-test" };
 
 //#endregion
 
 //#region Header & Footer
 
-export const headerId = "1";
-export const footerId = "1";
+export const headerId = { collection: "header", item: "home" };
+export const footerId = { collection: "footer", item: "home" };
 
 //#endregion
 

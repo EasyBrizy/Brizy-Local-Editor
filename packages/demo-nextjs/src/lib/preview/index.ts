@@ -1,40 +1,66 @@
 import DBConnect from "@/lib/db/connect";
-import Models from "@/lib/db/models";
-import { PageJsonCompiledOutput, ProjectJsonCompiledOutput } from "@builder/core/build/es/types/common";
-
-const getPageCompiled = (model: Record<string, string>) => {
-  const pageDataParsed = JSON.parse(model.data);
-  return pageDataParsed.compiled;
-};
+import Models, { CompiledData, ParsedItem, ParsedItemData, Slug } from "@/lib/db/models";
 
 const getProjectCompiled = (model: Record<string, string>) => {
   const projectDataParsed = JSON.parse(model.data);
   return projectDataParsed.compiled;
 };
 
-interface Data {
-  pageId?: string | number;
-  projectId?: string | number;
+export enum CollectionTypes {
+  System = "system",
+  Page = "page",
+  Popup = "popup",
+  Story = "story",
+}
+export type CollectionTypeValue = (typeof CollectionTypes)[keyof typeof CollectionTypes];
+
+function isCollectionType(value: unknown): value is CollectionTypes {
+  return Object.values(CollectionTypes).includes(value as CollectionTypes);
 }
 
-export async function getPreview(data: Data): Promise<{
-  page?: PageJsonCompiledOutput;
-  project?: ProjectJsonCompiledOutput;
-}> {
-  const { pageId, projectId } = data;
+// get data from Item based on slug from mongodb
+export async function getItem(slug: Slug): Promise<ParsedItem> {
   await DBConnect();
-  let page;
-  let project;
+  const { collection, item } = slug;
 
-  if (projectId) {
-    const projectData = await Models.Project.findOne({ id: projectId });
-    project = getProjectCompiled(projectData);
+  const response = await Models.Items.findOne({ "slug.collection": collection, "slug.item": item });
+  if (!response) {
+    throw new Error("Failed to get item");
   }
 
-  if (pageId) {
-    const pageData = await Models.Items.findOne({ id: pageId });
-    page = getPageCompiled(pageData);
+  const document = response.toObject();
+  return {
+    ...document,
+    ...(document.data ? { data: JSON.parse(document.data) } : {}),
+  };
+}
+
+export async function getAllPopups(): Promise<ParsedItem[]> {
+  await DBConnect();
+  const response = await Models.Items.find({ "slug.collection": CollectionTypes.Popup });
+  if (!response) {
+    throw new Error("Failed to get popups");
   }
 
-  return { page, project };
+  return response.map((_popup) => {
+    const popup = _popup.toObject();
+    return {
+      ...popup,
+      ...(popup.data ? { data: JSON.parse(popup.data) } : {}),
+    };
+  });
+}
+
+export function getCompiledData(documents: ParsedItem[]) {
+  return documents
+    .map((item) => {
+      return item?.data?.compiled;
+    })
+    .filter((item) => item !== undefined);
+}
+
+export async function getProject(id: string | number): Promise<CompiledData> {
+  await DBConnect();
+  const projectData = await Models.Project.findOne({ id: id });
+  return getProjectCompiled(projectData);
 }
