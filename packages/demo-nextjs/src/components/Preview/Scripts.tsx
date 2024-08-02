@@ -7,15 +7,15 @@ export interface Props {
 
 export const Scripts = (props: Props): Array<ReactElement> => {
   const { scripts } = props;
-  return scripts.map((script) => {
+  return scripts.map((script, i) => {
     const { attr = {} } = script;
     const { class: _class, ..._attr } = attr;
     const className = _class ? `${_class}` : undefined;
 
     if (script.html) {
-      return <script {..._attr} className={className} dangerouslySetInnerHTML={{ __html: script.html }} />;
+      return <script key={i} {..._attr} className={className} dangerouslySetInnerHTML={{ __html: script.html }} />;
     }
 
-    return <script {..._attr} className={className} />;
+    return <script key={i} {..._attr} className={className} />;
   });
 };

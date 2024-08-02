@@ -4,7 +4,7 @@ import { DynamicContentModal } from "@/components/modals/DynamicContent";
 import { getConfig } from "@/config";
 import { useEditor } from "@/hooks/useEditor";
 import { Config } from "@/hooks/useEditor/types";
-import { LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
+import { LeftSidebarMoreOptionsIds, LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { BlockWithThumbs, KitType, Kits, Popup, StoryTemplate, Template } from "@builder/core/build/es/types/templates";
 import React, { useReducer, useRef } from "react";
 import { reducer } from "./reducers";
@@ -32,6 +32,7 @@ export const Editor = (props: Props) => {
   const { config: baseConfig } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { host } = getConfig();
 
   const config: Config = {
     ...baseConfig,
@@ -63,13 +64,27 @@ export const Editor = (props: Props) => {
             alert("Open Iframe");
           },
         },
+        [LeftSidebarOptionsIds.more]: {
+          options: [
+            {
+              type: LeftSidebarMoreOptionsIds.shortcuts,
+              label: "Shortcuts",
+              link: "",
+            },
+            {
+              type: LeftSidebarMoreOptionsIds.link,
+              label: "Back to Dashboard",
+              link: `${host}/admin`,
+            },
+          ],
+        },
       },
       publish: {
         async handler(res, rej, data) {
           try {
             if (data.pageData) {
               await fetch("/api/items", {
-                method: "POST",
+                method: "PUT",
                 body: JSON.stringify({
                   id: baseConfig.pageData.id,
                   pageData: data.pageData,
@@ -78,7 +93,7 @@ export const Editor = (props: Props) => {
             }
             if (data.projectData) {
               await fetch("/api/project", {
-                method: "POST",
+                method: "PUT",
                 body: JSON.stringify({
                   id: baseConfig.projectData.id,
                   projectData: data.projectData,

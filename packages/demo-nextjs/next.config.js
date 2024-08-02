@@ -9,9 +9,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: IS_PRODUCTION ? "https" : "http",
-        hostname: "127.0.0.1"
-      }
-    ]
+        hostname: "localhost",
+      },
+    ],
   },
   rewrites() {
     return [
@@ -23,4 +23,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { FC } from "react";
 import { Row } from "react-table";
 import { Collection } from "../../core/_models";
@@ -15,7 +14,7 @@ const CustomRow: FC<Props> = ({ row }) => {
       {row.cells.map((cell) => {
         const { key, ...cellProps } = cell.getCellProps();
         return (
-          <td key={key} {...cellProps} className={clsx({ "text-end min-w-100px": cell.column.id === "actions" })}>
+          <td key={key} {...cellProps}>
             {cell.render("Cell")}
           </td>
         );

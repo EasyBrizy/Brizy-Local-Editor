@@ -175,7 +175,7 @@ const HelpDrawer = () => {
                     href="https://preview.keenthemes.com/metronic8/react/docs/changelog"
                     className="text-gray-900 text-hover-primary fw-bolder fs-6 fs-lg-4 mb-1"
                   >
-                    What's New
+                    What&apos;s New
                   </a>
                   {/* end::Title */}
                   {/* begin::Description */}

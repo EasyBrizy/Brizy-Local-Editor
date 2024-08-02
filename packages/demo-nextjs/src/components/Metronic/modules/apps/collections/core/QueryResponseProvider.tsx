@@ -16,10 +16,16 @@ import { getCollections } from "./_requests";
 
 const QueryResponseContext = createResponseContext<Collection>(initialQueryResponse);
 
-const QueryResponseProvider: FC<WithChildren> = ({ children }) => {
+interface Props extends WithChildren {
+  collection: string;
+}
+
+const QueryResponseProvider: FC<Props> = (props) => {
+  const { collection, children } = props;
   const { state } = useQueryRequest();
-  const [query, setQuery] = useState<string>(stringifyRequestQuery(state));
-  const updatedQuery = useMemo(() => stringifyRequestQuery(state), [state]);
+  const withFilter = { ...state, collection };
+  const [query, setQuery] = useState<string>(stringifyRequestQuery(withFilter));
+  const updatedQuery = useMemo(() => stringifyRequestQuery(withFilter), [withFilter]);
 
   useEffect(() => {
     if (query !== updatedQuery) {
@@ -44,7 +50,7 @@ const QueryResponseProvider: FC<WithChildren> = ({ children }) => {
   );
 
   return (
-    <QueryResponseContext.Provider value={{ isLoading: isFetching, refetch, response, query }}>
+    <QueryResponseContext.Provider value={{ isLoading: isFetching, refetch, response, collection, query }}>
       {children}
     </QueryResponseContext.Provider>
   );

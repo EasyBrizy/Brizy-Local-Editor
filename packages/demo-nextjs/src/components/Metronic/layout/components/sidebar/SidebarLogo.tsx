@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { ToggleComponent } from "../../../assets/ts/components";
@@ -49,30 +50,39 @@ const SidebarLogo = (props: PropsType) => {
     <div className="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
       <Link href="/admin">
         {config.layoutType === "dark-sidebar" ? (
-          <img
+          <Image
             alt="Logo"
             src={toAbsoluteUrl("media/logos/default-dark.svg")}
-            className="h-25px app-sidebar-logo-default"
+            width={100}
+            height={30}
+            className="app-sidebar-logo-default"
           />
         ) : (
           <>
-            <img
+            <Image
               alt="Logo"
               src={toAbsoluteUrl("media/logos/default.svg")}
-              className="h-25px app-sidebar-logo-default theme-light-show"
+              className="app-sidebar-logo-default theme-light-show"
+              width={100}
+              height={25}
             />
-            <img
+            <Image
               alt="Logo"
               src={toAbsoluteUrl("media/logos/default-dark.svg")}
-              className="h-25px app-sidebar-logo-default theme-dark-show"
+              className="app-sidebar-logo-default theme-dark-show"
+              width={100}
+              height={25}
+              style={{ height: "auto" }}
             />
           </>
         )}
 
-        <img
+        <Image
           alt="Logo"
           src={toAbsoluteUrl("media/logos/default-small.svg")}
-          className="h-20px app-sidebar-logo-minimize"
+          className="app-sidebar-logo-minimize"
+          width={100}
+          height={20}
         />
       </Link>
 

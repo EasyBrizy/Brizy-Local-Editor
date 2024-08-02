@@ -7,22 +7,20 @@ import { QueryRequestProvider } from "./core/QueryRequestProvider";
 import { QueryResponseProvider } from "./core/QueryResponseProvider";
 import { CollectionsTable } from "./table/CollectionsTable";
 
-const CollectionsList = () => {
-  return (
-    <KTCard>
-      <UsersListHeader />
-      <CollectionsTable />
-    </KTCard>
-  );
-};
-
 interface Props {
-  collection: "page" | "story" | "header" | "footer" | "popup";
+  collection: string;
 }
 
-const CollectionsListWrapper = (props: Props) => (
+const CollectionsList = () => (
+  <KTCard>
+    <UsersListHeader />
+    <CollectionsTable />
+  </KTCard>
+);
+
+const CollectionsListWrapper = ({ collection }: Props) => (
   <QueryRequestProvider>
-    <QueryResponseProvider>
+    <QueryResponseProvider collection={collection}>
       <ListViewProvider>
         <ToolbarWrapper />
         <Content>

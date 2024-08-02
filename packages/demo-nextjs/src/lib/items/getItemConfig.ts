@@ -19,6 +19,11 @@ export async function getItemConfig(data: Data) {
   await DBConnect();
 
   const page = await Models.Items.findOne(query);
+
+  if (!page) {
+    throw new Error("Fail to get page");
+  }
+
   const project = await getProject();
 
   return {

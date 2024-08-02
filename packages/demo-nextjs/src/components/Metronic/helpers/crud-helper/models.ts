@@ -1,11 +1,16 @@
 import { Dispatch, SetStateAction } from "react";
 
-export type ID = undefined | null | number;
+export type ID = undefined | null | number | string;
 
 export type PaginationState = {
   page: number;
-  items_per_page: 10 | 30 | 50 | 100;
-  links?: Array<{ label: string; active: boolean; url: string | null; page: number | null }>;
+  items_per_page: 10 | 20 | 30 | 50 | 100;
+  links?: Array<{
+    label: string;
+    active: boolean;
+    url: string | null;
+    page: number | null;
+  }>;
 };
 
 export type SortState = {
@@ -21,6 +26,10 @@ export type SearchState = {
   search?: string;
 };
 
+export type CollectionState = {
+  collection?: string;
+};
+
 export type Response<T> = {
   data?: T;
   payload?: {
@@ -32,7 +41,7 @@ export type Response<T> = {
   };
 };
 
-export type QueryState = PaginationState & SortState & FilterState & SearchState;
+export type QueryState = PaginationState & SortState & FilterState & SearchState & CollectionState;
 
 export type QueryRequestContextProps = {
   state: QueryState;
@@ -41,7 +50,7 @@ export type QueryRequestContextProps = {
 
 export const initialQueryState: QueryState = {
   page: 1,
-  items_per_page: 10,
+  items_per_page: 20,
 };
 
 export const initialQueryRequest: QueryRequestContextProps = {
@@ -51,12 +60,18 @@ export const initialQueryRequest: QueryRequestContextProps = {
 
 export type QueryResponseContextProps<T> = {
   response?: Response<Array<T>> | undefined;
+  collection: string;
   refetch: () => void;
   isLoading: boolean;
   query: string;
 };
 
-export const initialQueryResponse = { refetch: () => {}, isLoading: false, query: "" };
+export const initialQueryResponse = {
+  refetch: () => {},
+  collection: "page" as const,
+  isLoading: false,
+  query: "",
+};
 
 export type ListViewContextProps = {
   selected: Array<ID>;

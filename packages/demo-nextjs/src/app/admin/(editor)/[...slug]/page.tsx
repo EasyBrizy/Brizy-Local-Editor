@@ -25,7 +25,6 @@ export default async function EditorPage(props: Props) {
     const editorConfig = await getItemConfig({ item, collection });
     return <Editor config={{ ...editorConfig, mode: Modes.page, pagePreview }} />;
   } catch (e) {
-    console.log(e);
     return notFound();
   }
 }

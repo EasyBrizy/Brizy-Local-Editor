@@ -2,7 +2,7 @@ import DBConnect from "@/lib/db/connect";
 import Models from "@/lib/db/models";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function PUT(req: Request) {
   try {
     const { projectData, id } = await req.json();
     const schema = {

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { ColumnInstance, Row, useTable } from "react-table";
 import { KTCardBody } from "../../../../helpers";
 import { UsersListLoading } from "../components/loading/UsersListLoading";
-import { UsersListPagination } from "../components/pagination/UsersListPagination";
+import { Pagination } from "../components/pagination/Pagination";
 import { useCollectionQuery, useQueryResponseLoading } from "../core/QueryResponseProvider";
 import { Collection } from "../core/_models";
 import { CustomHeaderColumn } from "./columns/CustomHeaderColumn";
@@ -49,7 +49,7 @@ const CollectionsTable = () => {
           </tbody>
         </table>
       </div>
-      <UsersListPagination />
+      <Pagination />
       {isLoading && <UsersListLoading />}
     </KTCardBody>
   );

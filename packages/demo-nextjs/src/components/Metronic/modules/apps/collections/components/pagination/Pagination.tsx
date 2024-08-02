@@ -16,10 +16,12 @@ const mappedLabel = (label: string): string => {
   return label;
 };
 
-const UsersListPagination = () => {
+const Pagination = () => {
   const pagination = useQueryResponsePagination();
+
   const isLoading = useQueryResponseLoading();
   const { updateState } = useQueryRequest();
+
   const updatePage = (page: number | undefined | null) => {
     if (!page || isLoading || pagination.page === page) {
       return;
@@ -91,9 +93,7 @@ const UsersListPagination = () => {
               </a>
             </li>
             {paginationLinks
-              ?.map((link) => {
-                return { ...link, label: mappedLabel(link.label) };
-              })
+              ?.map((link) => ({ ...link, label: mappedLabel(link.label) }))
               .map((link) => (
                 <li
                   key={link.label}
@@ -136,4 +136,4 @@ const UsersListPagination = () => {
   );
 };
 
-export { UsersListPagination };
+export { Pagination };
