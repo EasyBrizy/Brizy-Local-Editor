@@ -6,6 +6,7 @@ import { useEditor } from "@/hooks/useEditor";
 import { Config } from "@/hooks/useEditor/types";
 import { LeftSidebarMoreOptionsIds, LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { BlockWithThumbs, KitType, Kits, Popup, StoryTemplate, Template } from "@builder/core/build/es/types/templates";
+import { useRouter } from "next/navigation";
 import React, { useReducer, useRef } from "react";
 import { reducer } from "./reducers";
 import { State } from "./reducers/types";
@@ -33,6 +34,7 @@ export const Editor = (props: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
   const { host } = getConfig();
+  const router = useRouter();
 
   const config: Config = {
     ...baseConfig,
@@ -61,7 +63,7 @@ export const Editor = (props: Props) => {
         [LeftSidebarOptionsIds.cms]: {
           onClose() {},
           onOpen() {
-            alert("Open Iframe");
+            router.push("/admin");
           },
         },
         [LeftSidebarOptionsIds.more]: {
