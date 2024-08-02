@@ -11,6 +11,7 @@ export interface CompiledData {
   scripts: Array<Scripts>;
   styles: Array<Styles>;
 }
+
 export interface ParsedItemData {
   // in future meybe need other keys from item
   status: "publish" | "draft";
@@ -18,10 +19,6 @@ export interface ParsedItemData {
 }
 
 const ItemSchemaType = {
-  id: {
-    type: String,
-    required: true,
-  },
   slug: {
     item: String,
     collection: String,
@@ -39,7 +36,9 @@ const ItemSchemaType = {
 type Item = typeof ItemSchemaType;
 export type ParsedItem = Omit<Item, "data"> & { data: ParsedItemData };
 
-const ItemSchema = new mongoose.Schema(ItemSchemaType);
+const ItemSchema = new mongoose.Schema(ItemSchemaType, {
+  timestamps: true,
+});
 
 export interface Project {
   id: string;
@@ -48,17 +47,22 @@ export interface Project {
   };
 }
 
-const ProjectSchema = new mongoose.Schema<Project>({
-  id: {
-    type: String,
-    required: true,
+const ProjectSchema = new mongoose.Schema<Project>(
+  {
+    id: {
+      type: String,
+      required: true,
+    },
+    data: {
+      type: String,
+      required: false,
+      trim: true,
+    },
   },
-  data: {
-    type: String,
-    required: false,
-    trim: true,
+  {
+    timestamps: true,
   },
-});
+);
 
 const Items = mongoose.models.Items || mongoose.model("Items", ItemSchema);
 const Project = mongoose.models.Project || mongoose.model("Project", ProjectSchema);

@@ -3,7 +3,15 @@ import Models from "@/lib/db/models";
 import { projectId } from "@/utils/mock";
 
 export async function getProject() {
-  const query = { id: projectId };
+  const query = { id: `${projectId}` };
+
   await DBConnect();
-  return Models.Project.findOne(query);
+
+  const project = await Models.Project.findOne(query);
+
+  if (!project) {
+    throw new Error("Fail to get Project");
+  }
+
+  return project;
 }

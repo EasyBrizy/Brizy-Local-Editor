@@ -1,10 +1,8 @@
 import styles from "@/styles/Home.module.css";
-import { getPageIds } from "@/utils/mock";
 import Link from "next/link";
 import React from "react";
 
 export default function StarterPage() {
-  const pages = getPageIds();
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -17,13 +15,7 @@ export default function StarterPage() {
         <nav>
           <ul className={styles.navList}>
             <li>
-              <Link href={`/admin/page/${pages.HomePage}`}>Page Builder</Link>
-            </li>
-            <li>
-              <Link href="/admin/popup">Popup Builder</Link>
-            </li>
-            <li>
-              <Link href="/admin/story">Story Builder</Link>
+              <Link href={"/admin"}>Dashboard</Link>
             </li>
           </ul>
         </nav>

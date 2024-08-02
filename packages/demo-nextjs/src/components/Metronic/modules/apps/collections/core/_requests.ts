@@ -1,21 +1,34 @@
+import { getConfig } from "@/config";
 import axios from "axios";
 import { ID } from "../../../../helpers";
-import { CollectionsQueryResponse } from "./_models";
+import { Collection, CollectionsQueryResponse } from "./_models";
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
+const API_URL = `${getConfig().host}/api`;
 const GET_COLLECTIONS_URL = `${API_URL}/items`;
 
 const getCollections = async (query: string): Promise<CollectionsQueryResponse> => {
-  const d = await axios.get(`${GET_COLLECTIONS_URL}?${query}`);
-  return d.data;
+  const reg = await axios.get(`${GET_COLLECTIONS_URL}?${query}`);
+  return reg.data;
 };
 
-const deleteUser = (userId: ID): Promise<void> => {
-  return Promise.reject("Not Implemented");
+const createCollection = async (collection: Collection): Promise<Collection> => {
+  return await axios.post(`${GET_COLLECTIONS_URL}`, {
+    slug: collection.slug,
+    config: collection.config,
+    pageData: collection.data,
+  });
 };
 
-const deleteSelectedUsers = (userIds: Array<ID>): Promise<void> => {
-  return Promise.reject("Not Implemented");
+const deleteItem = async (id: ID): Promise<void> => {
+  return await axios.delete(`${GET_COLLECTIONS_URL}`, {
+    data: { ids: [id] },
+  });
 };
 
-export { getCollections, deleteUser, deleteSelectedUsers };
+const deleteSelectedItems = async (ids: Array<ID>): Promise<void> => {
+  return await axios.delete(`${GET_COLLECTIONS_URL}`, {
+    data: { ids },
+  });
+};
+
+export { getCollections, deleteItem, deleteSelectedItems, createCollection };

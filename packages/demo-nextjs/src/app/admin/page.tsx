@@ -10,9 +10,7 @@ export default function AdminPage() {
   return (
     <Root>
       <Content>
-        {/* begin::Row */}
         <div className="row g-5 g-xl-10 mb-5 mb-xl-10">
-          {/* begin::Col */}
           <div className="col-md-6 mb-xl-10">
             <CardsWidget20
               className="h-md-50 mb-5 mb-xl-10"
@@ -29,23 +27,17 @@ export default function AdminPage() {
               textColor="gray-300"
             />
           </div>
-          {/* end::Col */}
 
-          {/* begin::Col */}
           <div className="col-md-6">
             <EngageWidget10 className="h-md-100" />
           </div>
-          {/* end::Col */}
         </div>
-        {/* end::Row */}
 
-        {/* begin::Row */}
         <div className="row gy-5 gx-xl-8">
           <div className="col-xl-12">
             <TablesWidget10 className="card-xxl-stretch mb-5 mb-xl-8" />
           </div>
         </div>
-        {/* end::Row */}
       </Content>
     </Root>
   );

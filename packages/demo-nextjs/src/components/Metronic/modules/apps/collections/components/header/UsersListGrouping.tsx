@@ -2,14 +2,17 @@ import { useMutation, useQueryClient } from "react-query";
 import { QUERIES } from "../../../../../helpers";
 import { useListView } from "../../core/ListViewProvider";
 import { useQueryResponse } from "../../core/QueryResponseProvider";
-import { deleteSelectedUsers } from "../../core/_requests";
+import { deleteSelectedItems } from "../../core/_requests";
 
 const UsersListGrouping = () => {
   const { selected, clearSelected } = useListView();
   const queryClient = useQueryClient();
   const { query } = useQueryResponse();
 
-  const deleteSelectedItems = useMutation(() => deleteSelectedUsers(selected), {
+  const handleDeleteItems = useMutation(() => deleteSelectedItems(selected), {
+    onError() {
+      alert("Fail to delete items");
+    },
     // 💡 response of the mutation is passed to onSuccess
     onSuccess: () => {
       // ✅ update detail view directly
@@ -24,8 +27,17 @@ const UsersListGrouping = () => {
         <span className="me-2">{selected.length}</span> Selected
       </div>
 
-      <button type="button" className="btn btn-danger" onClick={async () => await deleteSelectedItems.mutateAsync()}>
-        Delete Selected
+      <button
+        type="button"
+        className="btn btn-danger"
+        data-kt-indicator={handleDeleteItems.isLoading ? "on" : "off"}
+        onClick={async () => await handleDeleteItems.mutateAsync()}
+      >
+        <span className="indicator-label">Delete Selected</span>
+        <span className="indicator-progress">
+          Please wait...
+          <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
       </button>
     </div>
   );

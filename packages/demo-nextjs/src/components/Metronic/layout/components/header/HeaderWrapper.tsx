@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import { KTIcon, toAbsoluteUrl } from "../../../helpers";
 import { LayoutSetup, useLayout } from "../../core";
@@ -43,7 +44,7 @@ export function HeaderWrapper() {
                 </div>
                 <div className="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                   <Link href="/admin" className="d-lg-none">
-                    <img alt="Logo" src={toAbsoluteUrl("media/logos/default-small.svg")} className="h-30px" />
+                    <Image alt="Logo" src={toAbsoluteUrl("media/logos/default-small.svg")} width={100} height={30} />
                   </Link>
                 </div>
               </div>
@@ -55,22 +56,26 @@ export function HeaderWrapper() {
           <div className="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15">
             <Link href="/admin">
               {config.layoutType === "dark-header" ? (
-                <img
+                <Image
                   alt="Logo"
                   src={toAbsoluteUrl("media/logos/default-dark.svg")}
-                  className="h-20px h-lg-30px app-sidebar-logo-default"
+                  className="app-sidebar-logo-default"
+                  height={20}
+                  width={100}
                 />
               ) : (
                 <>
-                  <img
+                  <Image
                     alt="Logo"
                     src={toAbsoluteUrl("media/logos/default.svg")}
                     className="h-20px h-lg-30px app-sidebar-logo-default theme-light-show"
                   />
-                  <img
+                  <Image
                     alt="Logo"
                     src={toAbsoluteUrl("media/logos/default-dark.svg")}
-                    className="h-20px h-lg-30px app-sidebar-logo-default theme-dark-show"
+                    className="app-sidebar-logo-default theme-dark-show"
+                    height={30}
+                    width={100}
                   />
                 </>
               )}

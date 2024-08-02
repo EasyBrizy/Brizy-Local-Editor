@@ -5,13 +5,13 @@ import { PageTitle } from "@/components/Metronic/layout/core";
 import { CollectionsListWrapper } from "@/components/Metronic/modules/apps/collections/CollectionsList";
 import React, { FC } from "react";
 
-const Popups: FC = () => {
+const System: FC = () => {
   return (
     <Root>
-      <PageTitle>Popups</PageTitle>
-      <CollectionsListWrapper collection="popup" />
+      <PageTitle>System</PageTitle>
+      <CollectionsListWrapper collection="system" />
     </Root>
   );
 };
 
-export default Popups;
+export default System;

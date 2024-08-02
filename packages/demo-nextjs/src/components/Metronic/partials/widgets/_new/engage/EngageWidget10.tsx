@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { toAbsoluteUrl } from "../../../../helpers";
 
@@ -38,12 +39,16 @@ const EngageWidget10 = ({ className }: Props) => (
           <a href="#">Upgrade Now</a>
         </div>
       </div>
-      <img
+      <Image
+        width={150}
+        height={200}
         className="mx-auto h-150px h-lg-200px  theme-light-show"
         src={toAbsoluteUrl("media/illustrations/misc/upgrade.svg")}
         alt=""
       />
-      <img
+      <Image
+        width={150}
+        height={200}
         className="mx-auto h-150px h-lg-200px  theme-dark-show"
         src={toAbsoluteUrl("media/illustrations/misc/upgrade-dark.svg")}
         alt=""

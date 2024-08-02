@@ -1,32 +1,60 @@
-import { KTIcon } from "../../../../../helpers";
-import { useListView } from "../../core/ListViewProvider";
-import { UsersListFilter } from "./UsersListFilter";
+import { useMutation, useQueryClient } from "react-query";
+import { KTIcon, QUERIES } from "../../../../../helpers";
+import { useQueryResponse } from "../../core/QueryResponseProvider";
+import { createCollection } from "../../core/_requests";
 
-const UsersListToolbar = () => {
-  const { setItemIdForUpdate } = useListView();
-  const openAddUserModal = () => {
-    setItemIdForUpdate(null);
-  };
+const CollectionListToolbar = () => {
+  const { query, collection } = useQueryResponse();
+
+  const queryClient = useQueryClient();
+
+  const handleAdd = useMutation(
+    () => {
+      const id = Math.random().toString(36).slice(2);
+      return createCollection({
+        id,
+        slug: {
+          collection,
+          item: `${collection}-${id}`,
+        },
+        config: {
+          deletable: true,
+          hasPreview: true,
+        },
+      });
+    },
+    {
+      // 💡 response of the mutation is passed to onSuccess
+      onSuccess: () => {
+        // ✅ update detail view directly
+        queryClient.invalidateQueries([`${QUERIES.COLLECTIONS_LIST}-${query}`]);
+      },
+    },
+  );
 
   return (
     <div className="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-      <UsersListFilter />
-
-      {/* begin::Export */}
-      <button type="button" className="btn btn-light-primary me-3">
-        <KTIcon iconName="exit-up" className="fs-2" />
-        Export
+      <button
+        type="button"
+        className="btn btn-primary"
+        data-kt-indicator={handleAdd.isLoading ? "on" : "off"}
+        onClick={async () => await handleAdd.mutateAsync()}
+      >
+        <span className="indicator-label">
+          <span className="d-flex align-items-center">
+            <KTIcon iconName="plus" className="fs-2" />
+            <span>
+              Add <span className="capitalize">{collection}</span>
+            </span>
+          </span>
+        </span>
+        <span className="indicator-progress">
+          Please wait...
+          <span className="spinner-border spinner-border-sm align-middle ms-2" />
+        </span>
       </button>
-      {/* end::Export */}
-
-      {/* begin::Add user */}
-      <button type="button" className="btn btn-primary" onClick={openAddUserModal}>
-        <KTIcon iconName="plus" className="fs-2" />
-        Add User
-      </button>
-      {/* end::Add user */}
     </div>
   );
 };
 
-export { UsersListToolbar };
+export { CollectionListToolbar };
