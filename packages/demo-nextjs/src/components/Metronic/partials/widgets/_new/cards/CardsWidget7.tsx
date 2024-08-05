@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { toAbsoluteUrl } from "../../../../helpers";
+import { toStaticUrl } from "../../../../helpers";
 
 type Props = {
   className: string;
@@ -18,11 +18,11 @@ const items: Array<{
   state?: string;
 }> = [
   { name: "Alan Warden", initials: "A", state: "warning" },
-  { name: "Michael Eberon", src: toAbsoluteUrl("media/avatars/300-11.jpg") },
+  { name: "Michael Eberon", src: toStaticUrl("media/avatars/300-11.jpg") },
   { name: "Susan Redwood", initials: "S", state: "primary" },
-  { name: "Melody Macy", src: toAbsoluteUrl("media/avatars/300-2.jpg") },
+  { name: "Melody Macy", src: toStaticUrl("media/avatars/300-2.jpg") },
   { name: "Perry Matthew", initials: "P", state: "danger" },
-  { name: "Barry Walter", src: toAbsoluteUrl("media/avatars/300-12.jpg") },
+  { name: "Barry Walter", src: toStaticUrl("media/avatars/300-12.jpg") },
 ];
 
 const CardsWidget7 = ({ className, description, stats, labelColor, textColor }: Props) => (

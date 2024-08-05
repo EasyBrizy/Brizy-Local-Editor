@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { toAbsoluteUrl } from "../../../../helpers";
+import { toStaticUrl } from "../../../../helpers";
 
 type Props = {
   className: string;
@@ -12,7 +12,7 @@ const EngageWidget10 = ({ className }: Props) => (
       className="card-body d-flex flex-column justify-content-between mt-9 bgi-no-repeat bgi-size-cover bgi-position-x-center pb-0"
       style={{
         backgroundPosition: "100% 50%",
-        backgroundImage: `url('${toAbsoluteUrl("media/stock/900x600/42.png")}')`,
+        backgroundImage: `url('${toStaticUrl("media/stock/900x600/42.png")}')`,
       }}
     >
       <div className="mb-10">
@@ -43,14 +43,14 @@ const EngageWidget10 = ({ className }: Props) => (
         width={150}
         height={200}
         className="mx-auto h-150px h-lg-200px  theme-light-show"
-        src={toAbsoluteUrl("media/illustrations/misc/upgrade.svg")}
+        src={toStaticUrl("media/illustrations/misc/upgrade.svg")}
         alt=""
       />
       <Image
         width={150}
         height={200}
         className="mx-auto h-150px h-lg-200px  theme-dark-show"
-        src={toAbsoluteUrl("media/illustrations/misc/upgrade-dark.svg")}
+        src={toStaticUrl("media/illustrations/misc/upgrade-dark.svg")}
         alt=""
       />
     </div>

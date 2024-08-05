@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { KTIcon, toAbsoluteUrl } from "../../../helpers";
+import { KTIcon, toStaticUrl } from "../../../helpers";
 import { LayoutSetup, useLayout } from "../../core";
 import { Navbar } from "./Navbar";
 
@@ -44,7 +44,7 @@ export function HeaderWrapper() {
                 </div>
                 <div className="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                   <Link href="/admin" className="d-lg-none">
-                    <Image alt="Logo" src={toAbsoluteUrl("media/logos/default-small.svg")} width={100} height={30} />
+                    <Image alt="Logo" src={toStaticUrl("media/logos/default-small.svg")} width={100} height={30} />
                   </Link>
                 </div>
               </div>
@@ -58,7 +58,7 @@ export function HeaderWrapper() {
               {config.layoutType === "dark-header" ? (
                 <Image
                   alt="Logo"
-                  src={toAbsoluteUrl("media/logos/default-dark.svg")}
+                  src={toStaticUrl("media/logos/default-dark.svg")}
                   className="app-sidebar-logo-default"
                   height={20}
                   width={100}
@@ -67,12 +67,12 @@ export function HeaderWrapper() {
                 <>
                   <Image
                     alt="Logo"
-                    src={toAbsoluteUrl("media/logos/default.svg")}
+                    src={toStaticUrl("media/logos/default.svg")}
                     className="h-20px h-lg-30px app-sidebar-logo-default theme-light-show"
                   />
                   <Image
                     alt="Logo"
-                    src={toAbsoluteUrl("media/logos/default-dark.svg")}
+                    src={toStaticUrl("media/logos/default-dark.svg")}
                     className="app-sidebar-logo-default theme-dark-show"
                     height={30}
                     width={100}

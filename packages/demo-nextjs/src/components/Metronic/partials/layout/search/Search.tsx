@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
 import { SearchComponent } from "../../../assets/ts/components";
-import { KTIcon, toAbsoluteUrl } from "../../../helpers";
+import { KTIcon, toStaticUrl } from "../../../helpers";
 
 const Search: FC = () => {
   const [menuState, setMenuState] = useState<"main" | "advanced" | "preferences">("main");
@@ -145,7 +145,7 @@ const Search: FC = () => {
 
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
-                    <Image width={100} height={200} src={toAbsoluteUrl("media/avatars/300-6.jpg")} alt="" />
+                    <Image width={100} height={200} src={toStaticUrl("media/avatars/300-6.jpg")} alt="" />
                   </div>
 
                   <div className="d-flex flex-column justify-content-start fw-bold">
@@ -156,7 +156,7 @@ const Search: FC = () => {
 
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
-                    <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-2.jpg")} alt="" />
+                    <Image width={100} height={100} src={toStaticUrl("media/avatars/300-2.jpg")} alt="" />
                   </div>
 
                   <div className="d-flex flex-column justify-content-start fw-bold">
@@ -167,7 +167,7 @@ const Search: FC = () => {
 
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
-                    <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-9.jpg")} alt="" />
+                    <Image width={100} height={100} src={toStaticUrl("media/avatars/300-9.jpg")} alt="" />
                   </div>
 
                   <div className="d-flex flex-column justify-content-start fw-bold">
@@ -178,7 +178,7 @@ const Search: FC = () => {
 
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
-                    <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-14.jpg")} alt="" />
+                    <Image width={100} height={100} src={toStaticUrl("media/avatars/300-14.jpg")} alt="" />
                   </div>
 
                   <div className="d-flex flex-column justify-content-start fw-bold">
@@ -189,7 +189,7 @@ const Search: FC = () => {
 
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
-                    <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-11.jpg")} alt="" />
+                    <Image width={100} height={100} src={toStaticUrl("media/avatars/300-11.jpg")} alt="" />
                   </div>
 
                   <div className="d-flex flex-column justify-content-start fw-bold">
@@ -205,12 +205,7 @@ const Search: FC = () => {
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
                     <span className="symbol-label bg-light">
-                      <Image
-                        width={20}
-                        height={20}
-                        src={toAbsoluteUrl("media/svg/brand-logos/volicity-9.svg")}
-                        alt=""
-                      />
+                      <Image width={20} height={20} src={toStaticUrl("media/svg/brand-logos/volicity-9.svg")} alt="" />
                     </span>
                   </div>
 
@@ -223,7 +218,7 @@ const Search: FC = () => {
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
                     <span className="symbol-label bg-light">
-                      <Image width={20} height={20} src={toAbsoluteUrl("media/svg/brand-logos/tvit.svg")} alt="" />
+                      <Image width={20} height={20} src={toStaticUrl("media/svg/brand-logos/tvit.svg")} alt="" />
                     </span>
                   </div>
 
@@ -236,7 +231,7 @@ const Search: FC = () => {
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
                     <span className="symbol-label bg-light">
-                      <Image width={20} height={20} src={toAbsoluteUrl("media/svg/misc/infography.svg")} alt="" />
+                      <Image width={20} height={20} src={toStaticUrl("media/svg/misc/infography.svg")} alt="" />
                     </span>
                   </div>
 
@@ -249,7 +244,7 @@ const Search: FC = () => {
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
                     <span className="symbol-label bg-light">
-                      <Image width={20} height={20} src={toAbsoluteUrl("media/svg/brand-logos/leaf.svg")} alt="" />
+                      <Image width={20} height={20} src={toStaticUrl("media/svg/brand-logos/leaf.svg")} alt="" />
                     </span>
                   </div>
 
@@ -262,7 +257,7 @@ const Search: FC = () => {
                 <a href="/#" className="d-flex text-gray-900 text-hover-primary align-items-center mb-5">
                   <div className="symbol symbol-40px me-4">
                     <span className="symbol-label bg-light">
-                      <Image width={20} height={20} src={toAbsoluteUrl("media/svg/brand-logos/tower.svg")} alt="" />
+                      <Image width={20} height={20} src={toStaticUrl("media/svg/brand-logos/tower.svg")} alt="" />
                     </span>
                   </div>
 

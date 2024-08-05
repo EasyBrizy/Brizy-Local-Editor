@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
-import { toAbsoluteUrl } from "../../../helpers";
+import { toStaticUrl } from "../../../helpers";
 
 const HeaderUserMenu: FC = () => {
   return (
@@ -11,7 +11,7 @@ const HeaderUserMenu: FC = () => {
       <div className="menu-item px-3">
         <div className="menu-content d-flex align-items-center px-3">
           <div className="symbol symbol-50px me-5">
-            <Image width={100} height={100} alt="Logo" src={toAbsoluteUrl("media/avatars/300-3.jpg")} />
+            <Image width={100} height={100} alt="Logo" src={toStaticUrl("media/avatars/300-3.jpg")} />
           </div>
 
           <div className="d-flex flex-column">

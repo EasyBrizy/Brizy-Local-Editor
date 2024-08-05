@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
-import { KTIcon, toAbsoluteUrl } from "../../../helpers";
+import { KTIcon, toStaticUrl } from "../../../helpers";
 
 const Item1: FC = () => {
   return (
@@ -27,7 +27,7 @@ const Item1: FC = () => {
               data-bs-placement="top"
               title="Nina Nilson"
             >
-              <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-14.jpg")} alt="img" />
+              <Image width={100} height={100} src={toStaticUrl("media/avatars/300-14.jpg")} alt="img" />
             </div>
           </div>
         </div>
@@ -44,11 +44,11 @@ const Item1: FC = () => {
 
             <div className="symbol-group symbol-hover flex-nowrap flex-grow-1 min-w-100px pe-2">
               <div className="symbol symbol-circle symbol-25px">
-                <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-2.jpg")} alt="img" />
+                <Image width={100} height={100} src={toStaticUrl("media/avatars/300-2.jpg")} alt="img" />
               </div>
 
               <div className="symbol symbol-circle symbol-25px">
-                <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-14.jpg")} alt="img" />
+                <Image width={100} height={100} src={toStaticUrl("media/avatars/300-14.jpg")} alt="img" />
               </div>
 
               <div className="symbol symbol-circle symbol-25px">
@@ -76,7 +76,7 @@ const Item1: FC = () => {
 
             <div className="symbol-group symbol-hover flex-nowrap flex-grow-1 min-w-100px">
               <div className="symbol symbol-circle symbol-25px">
-                <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-20.jpg")} alt="img" />
+                <Image width={100} height={100} src={toStaticUrl("media/avatars/300-20.jpg")} alt="img" />
               </div>
 
               <div className="symbol symbol-circle symbol-25px">

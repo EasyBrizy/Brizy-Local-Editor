@@ -1,7 +1,7 @@
 import { ThemeModeComponent } from "../assets/ts/layout";
 import { useLayout } from "../layout/core";
 
-export const toAbsoluteUrl = (pathname: string) => `${process.env.NEXT_PUBLIC_URL}/${pathname}`;
+export const toStaticUrl = (pathname: string) => `/${pathname}`;
 
 export const useIllustrationsPath = (illustrationName: string): string => {
   const { config } = useLayout();
@@ -11,5 +11,5 @@ export const useIllustrationsPath = (illustrationName: string): string => {
     ThemeModeComponent.getMode() === "dark"
       ? `${illustrationName.substring(0, illustrationName.lastIndexOf("."))}-dark`
       : illustrationName.substring(0, illustrationName.lastIndexOf("."));
-  return toAbsoluteUrl(`media/illustrations/${config.illustrations?.set}/${illustration}${extension}`);
+  return toStaticUrl(`media/illustrations/${config.illustrations?.set}/${illustration}${extension}`);
 };
