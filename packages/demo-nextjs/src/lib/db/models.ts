@@ -25,6 +25,10 @@ const ItemSchemaType = {
   },
   config: {
     hasPreview: Boolean,
+    deletable: {
+      type: Boolean,
+      required: false,
+    },
   },
   data: {
     type: String,
