@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
-import { KTIcon, toAbsoluteUrl } from "../../../helpers";
+import { KTIcon, toStaticUrl } from "../../../helpers";
 
 const Item3: FC = () => {
   return (
@@ -29,7 +29,7 @@ const Item3: FC = () => {
               data-bs-placement="top"
               title="Jan Hummer"
             >
-              <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-23.jpg")} alt="img" />
+              <Image width={100} height={100} src={toStaticUrl("media/avatars/300-23.jpg")} alt="img" />
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@ const Item3: FC = () => {
         <div className="overflow-auto pb-5">
           <div className="d-flex align-items-center border border-dashed border-gray-300 rounded min-w-700px p-5">
             <div className="d-flex flex-aligns-center pe-10 pe-lg-20">
-              <Image width="100" height="100" alt="" className="me-3" src={toAbsoluteUrl("media/svg/files/pdf.svg")} />
+              <Image width="100" height="100" alt="" className="me-3" src={toStaticUrl("media/svg/files/pdf.svg")} />
 
               <div className="ms-1 fw-bold">
                 <a href="#" className="fs-6 text-hover-primary fw-bolder">
@@ -49,7 +49,7 @@ const Item3: FC = () => {
             </div>
 
             <div className="d-flex flex-aligns-center pe-10 pe-lg-20">
-              <Image width={30} height={30} alt="" className="me-3" src={toAbsoluteUrl("media/svg/files/doc.svg")} />
+              <Image width={30} height={30} alt="" className="me-3" src={toStaticUrl("media/svg/files/doc.svg")} />
 
               <div className="ms-1 fw-bold">
                 <a href="#" className="fs-6 text-hover-primary fw-bolder">
@@ -66,7 +66,7 @@ const Item3: FC = () => {
                 height={30}
                 alt=""
                 className="w-30px me-3"
-                src={toAbsoluteUrl("media/svg/files/css.svg")}
+                src={toStaticUrl("media/svg/files/css.svg")}
               />
 
               <div className="ms-1 fw-bold">

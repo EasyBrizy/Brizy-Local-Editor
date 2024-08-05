@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { KTIcon, toAbsoluteUrl } from "../../../helpers";
+import { KTIcon, toStaticUrl } from "../../../helpers";
 import { HeaderUserMenu, Search, ThemeModeSwitcher } from "../../../partials";
 import { useLayout } from "../../core";
 
@@ -27,7 +27,7 @@ const Navbar = () => {
           data-kt-menu-attach="parent"
           data-kt-menu-placement="bottom-end"
         >
-          <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-3.jpg")} alt="" />
+          <Image width={100} height={100} src={toStaticUrl("media/avatars/300-3.jpg")} alt="" />
         </div>
         <HeaderUserMenu />
       </div>

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { ThemeModeComponent } from "../../../assets/ts/layout";
-import { toAbsoluteUrl } from "../../../helpers";
+import { toStaticUrl } from "../../../helpers";
 
 export type ThemeModeType = "dark" | "light" | "system";
 export const themeModelSKey = "kt_theme_mode_value";
@@ -19,7 +19,7 @@ const themeModeSwitchHelper = (_mode: ThemeModeType) => {
   // change background image url
   const mode = _mode !== "system" ? _mode : systemMode;
   const imageUrl = "media/patterns/header-bg" + (mode === "light" ? ".jpg" : "-dark.jpg");
-  document.body.style.backgroundImage = `url("${toAbsoluteUrl(imageUrl)}")`;
+  document.body.style.backgroundImage = `url("${toStaticUrl(imageUrl)}")`;
 };
 
 const getThemeModeFromLocalStorage = (lsKey: string): ThemeModeType => {

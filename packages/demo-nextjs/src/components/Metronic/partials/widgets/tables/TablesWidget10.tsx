@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
-import { KTIcon, toAbsoluteUrl } from "../../../helpers";
+import { KTIcon, toStaticUrl } from "../../../helpers";
 
 type Props = {
   className: string;
@@ -72,7 +72,7 @@ const TablesWidget10: FC<Props> = ({ className }) => {
                 <td>
                   <div className="d-flex align-items-center">
                     <div className="symbol symbol-45px me-5">
-                      <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-14.jpg")} alt="" />
+                      <Image width={100} height={100} src={toStaticUrl("media/avatars/300-14.jpg")} alt="" />
                     </div>
                     <div className="d-flex justify-content-start flex-column">
                       <a href="#" className="text-gray-900 fw-bold text-hover-primary fs-6">
@@ -121,7 +121,7 @@ const TablesWidget10: FC<Props> = ({ className }) => {
                 <td>
                   <div className="d-flex align-items-center">
                     <div className="symbol symbol-45px me-5">
-                      <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-2.jpg")} alt="" />
+                      <Image width={100} height={100} src={toStaticUrl("media/avatars/300-2.jpg")} alt="" />
                     </div>
                     <div className="d-flex justify-content-start flex-column">
                       <a href="#" className="text-gray-900 fw-bold text-hover-primary fs-6">
@@ -170,7 +170,7 @@ const TablesWidget10: FC<Props> = ({ className }) => {
                 <td>
                   <div className="d-flex align-items-center">
                     <div className="symbol symbol-45px me-5">
-                      <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-5.jpg")} alt="" />
+                      <Image width={100} height={100} src={toStaticUrl("media/avatars/300-5.jpg")} alt="" />
                     </div>
                     <div className="d-flex justify-content-start flex-column">
                       <a href="#" className="text-gray-900 fw-bold text-hover-primary fs-6">
@@ -219,7 +219,7 @@ const TablesWidget10: FC<Props> = ({ className }) => {
                 <td>
                   <div className="d-flex align-items-center">
                     <div className="symbol symbol-45px me-5">
-                      <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-20.jpg")} alt="" />
+                      <Image width={100} height={100} src={toStaticUrl("media/avatars/300-20.jpg")} alt="" />
                     </div>
                     <div className="d-flex justify-content-start flex-column">
                       <a href="#" className="text-gray-900 fw-bold text-hover-primary fs-6">
@@ -270,7 +270,7 @@ const TablesWidget10: FC<Props> = ({ className }) => {
                 <td>
                   <div className="d-flex align-items-center">
                     <div className="symbol symbol-45px me-5">
-                      <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-23.jpg")} alt="" />
+                      <Image width={100} height={100} src={toStaticUrl("media/avatars/300-23.jpg")} alt="" />
                     </div>
                     <div className="d-flex justify-content-start flex-column">
                       <a href="#" className="text-gray-900 fw-bold text-hover-primary fs-6">

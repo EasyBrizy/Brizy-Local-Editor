@@ -1,6 +1,6 @@
 "use client";
 
-import { toAbsoluteUrl } from "@/components/Metronic/helpers";
+import { toStaticUrl } from "@/components/Metronic/helpers";
 import Root from "@/components/Metronic/layout/Root";
 import { Content } from "@/components/Metronic/layout/components/content";
 import { CardsWidget7, CardsWidget20, EngageWidget10, TablesWidget10 } from "@/components/Metronic/partials/widgets";
@@ -16,7 +16,7 @@ export default function AdminPage() {
               className="h-md-50 mb-5 mb-xl-10"
               description="Active Projects"
               color="#F1416C"
-              img={toAbsoluteUrl("media/patterns/vector-1.png")}
+              img={toStaticUrl("media/patterns/vector-1.png")}
             />
             <CardsWidget7
               className="h-md-50 mb-5 mb-xl-10"

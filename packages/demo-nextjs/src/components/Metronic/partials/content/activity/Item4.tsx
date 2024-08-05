@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
-import { KTIcon, toAbsoluteUrl } from "../../../helpers";
+import { KTIcon, toStaticUrl } from "../../../helpers";
 
 const Item4: FC = () => {
   return (
@@ -37,7 +37,7 @@ const Item4: FC = () => {
               data-bs-placement="top"
               title="Nina Nilson"
             >
-              <Image width={100} height={100} src={toAbsoluteUrl("media/avatars/300-14.jpg")} alt="img" />
+              <Image width={100} height={100} src={toStaticUrl("media/avatars/300-14.jpg")} alt="img" />
             </div>
           </div>
         </div>
