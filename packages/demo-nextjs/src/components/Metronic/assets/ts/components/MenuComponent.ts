@@ -979,7 +979,7 @@ class MenuComponent {
       ".menu-item:not([data-kt-menu-trigger]) > .menu-link",
       "click",
       function (this: HTMLElement, e: Event) {
-        e.stopPropagation();
+        // e.stopPropagation();
         const menu = MenuComponent.getInstance(this);
         if (menu && menu.link) {
           return menu.link(this, e);
