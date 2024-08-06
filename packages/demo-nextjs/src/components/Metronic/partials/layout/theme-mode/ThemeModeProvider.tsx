@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { ThemeModeComponent } from "../../../assets/ts/layout";
-import { toStaticUrl } from "../../../helpers";
 
 export type ThemeModeType = "dark" | "light" | "system";
 export const themeModelSKey = "kt_theme_mode_value";
@@ -13,13 +12,6 @@ type ThemeModeContextType = {
   menuMode: ThemeModeType;
   updateMode: (_mode: ThemeModeType) => void;
   updateMenuMode: (_mode: ThemeModeType) => void;
-};
-
-const themeModeSwitchHelper = (_mode: ThemeModeType) => {
-  // change background image url
-  const mode = _mode !== "system" ? _mode : systemMode;
-  const imageUrl = "media/patterns/header-bg" + (mode === "light" ? ".jpg" : "-dark.jpg");
-  document.body.style.backgroundImage = `url("${toStaticUrl(imageUrl)}")`;
 };
 
 const getThemeModeFromLocalStorage = (lsKey: string): ThemeModeType => {
@@ -96,4 +88,4 @@ const ThemeModeProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export { ThemeModeProvider, useThemeMode, systemMode, themeModeSwitchHelper };
+export { ThemeModeProvider, useThemeMode, systemMode };
