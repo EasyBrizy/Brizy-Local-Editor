@@ -47,9 +47,9 @@ const SidebarMenuMain = () => {
 
       <SidebarMenuItem icon="handcart" to="/admin/popups" title="Popups" active={pathname === "/admin/popups"} />
       <SidebarMenuItem
-        icon="some-files"
+        icon="setting-2"
         to="/admin/system"
-        title="System Pages"
+        title="Project Settings"
         active={pathname === "/admin/system"}
       />
     </>

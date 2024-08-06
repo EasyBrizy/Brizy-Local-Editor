@@ -1,7 +1,7 @@
+import { Loading } from "@/components/Metronic/helpers/components/Loading";
 import { useMemo } from "react";
 import { ColumnInstance, Row, useTable } from "react-table";
 import { KTCardBody } from "../../../../helpers";
-import { UsersListLoading } from "../components/loading/UsersListLoading";
 import { Pagination } from "../components/pagination/Pagination";
 import { useCollectionQuery, useQueryResponseLoading } from "../core/QueryResponseProvider";
 import { Collection } from "../core/_models";
@@ -50,7 +50,7 @@ const CollectionsTable = () => {
         </table>
       </div>
       <Pagination />
-      {isLoading && <UsersListLoading />}
+      {isLoading && <Loading />}
     </KTCardBody>
   );
 };

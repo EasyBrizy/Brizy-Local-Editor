@@ -1,15 +1,92 @@
 "use client";
 
+import { KTCard } from "@/components/Metronic/helpers";
+import { KTTabs } from "@/components/Metronic/helpers/components/KTTabs";
+import { Loading } from "@/components/Metronic/helpers/components/Loading";
 import Root from "@/components/Metronic/layout/Root";
-import { PageTitle } from "@/components/Metronic/layout/core";
-import { CollectionsListWrapper } from "@/components/Metronic/modules/apps/collections/CollectionsList";
-import React, { FC } from "react";
+import { projectId } from "@/utils/mock";
+import clsx from "clsx";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { ProjectSettingsContext } from "./Context";
+import { ContextData } from "./types";
+import { componentsTabs, tabs } from "./utils";
 
 const System: FC = () => {
+  const [data, setData] = useState<ContextData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/projectSettings?id=${projectId}`);
+        const { data } = await response.json();
+        setData(data);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleUpdateSettings = useCallback(
+    async (settings: ContextData) => {
+      try {
+        const projectSettings = {
+          ...data,
+          ...settings,
+        };
+
+        const response = await fetch("/api/projectSettings", {
+          method: "PUT",
+          body: JSON.stringify({
+            projectSettings,
+            id: projectId,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to update settings");
+        }
+
+        setData(projectSettings);
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : "Failed to update settings";
+
+        alert(message);
+      }
+    },
+    [data],
+  );
+
+  const contextValue = useMemo(() => ({ data, updateSettings: handleUpdateSettings }), [data, handleUpdateSettings]);
+
   return (
     <Root>
-      <PageTitle>System</PageTitle>
-      <CollectionsListWrapper collection="system" />
+      <ProjectSettingsContext.Provider value={contextValue}>
+        <KTCard className="d-flex w-75 flex-column gap-10 align-self-center px-5 py-5">
+          <KTTabs tabs={tabs} className="nav-line-tabs-2x border-0 fs-4 fw-semibold" />
+          <div className="tab-content position-relative">
+            {isLoading ? (
+              <Loading />
+            ) : (
+              componentsTabs.map(({ id, Component }, index) => (
+                <div
+                  key={id}
+                  id={id}
+                  className={clsx("tab-pane", {
+                    active: index === 0,
+                  })}
+                >
+                  <Component />
+                </div>
+              ))
+            )}
+          </div>
+        </KTCard>
+      </ProjectSettingsContext.Provider>
     </Root>
   );
 };
