@@ -1,13 +1,7 @@
+import { UpdateButton } from "@/app/admin/(cms)/system/components/updateButton";
 import { KTSwitch } from "@/components/Metronic/helpers/components/KTSwitch";
 import React, { ChangeEvent, FC, useCallback, useContext, useMemo, useState } from "react";
 import { ProjectSettingsContext } from "../../Context";
-
-const SavingIndicator = () => (
-  <>
-    Saving...
-    <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-  </>
-);
 
 export const Seo: FC = () => {
   const { data, updateSettings } = useContext(ProjectSettingsContext);
@@ -55,7 +49,7 @@ export const Seo: FC = () => {
           className="form-control h-16 px-6 py-3 fs-6 fw-bold"
           placeholder="Enter the site title"
         />
-        <span className="fs-7 text-gray-600 fw-bold">
+        <span className="fs-7 text-gray-600">
           The site title is adding SEO benefits (recommended length 50-70 characters)
         </span>
         {!title.length && <span className="fs-7 fw-bold text-red-500">Title is required</span>}
@@ -68,21 +62,19 @@ export const Seo: FC = () => {
           placeholder="Enter the site description"
           className="form-control resize-none h-40 px-6 py-6 fs-6 fw-bold"
         />
-        <span className="fs-7 text-gray-600 fw-bold">
+        <span className="fs-7 text-gray-600">
           The description is used as metadata for SEO (recommended length is 150-160 characters)
         </span>
       </div>
       <div className="d-flex flex-column gap-3">
         <label className="fw-bold">Search Engine Visibility</label>
         <KTSwitch value={searchVisibility} onChange={handleChangeSearchVisibility} />
-        <span className="fs-7 text-gray-600 fw-bold">
+        <span className="fs-7 text-gray-600">
           If set to ON, your site will show up in search results. Turn OFF to discourage search engines from indexing
           the site.
         </span>
       </div>
-      <button className="btn btn-primary w-fit" onClick={handleSaveChanges} disabled={needDisableButton}>
-        {isFetching ? <SavingIndicator /> : "Save Changes"}
-      </button>
+      <UpdateButton isFetching={isFetching} disabled={needDisableButton} onClick={handleSaveChanges} />
     </div>
   );
 };
