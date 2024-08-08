@@ -35,7 +35,7 @@ export const Sharing = () => {
 
   const needDisableButton = useMemo(() => {
     const areValuesEqual = title === sharing?.title && description === sharing?.description;
-    return isFetching || areValuesEqual;
+    return !title || isFetching || areValuesEqual;
   }, [title, description, isFetching, sharing]);
 
   const { sharingTitle, sharingDescription } = useMemo(
