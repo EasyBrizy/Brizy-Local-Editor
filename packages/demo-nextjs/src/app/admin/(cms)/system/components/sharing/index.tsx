@@ -3,6 +3,7 @@ import { KTCard } from "@/components/Metronic/helpers";
 import { KTSwitch } from "@/components/Metronic/helpers/components/KTSwitch";
 import React, { ChangeEvent, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { ProjectSettingsContext } from "../../Context";
+import { Description } from "../decsription";
 
 export const Sharing = () => {
   const { data, isFetching, updateSettings } = useContext(ProjectSettingsContext);
@@ -34,7 +35,7 @@ export const Sharing = () => {
 
   const needDisableButton = useMemo(() => {
     const areValuesEqual = title === sharing?.title && description === sharing?.description;
-    return !title || isFetching || areValuesEqual;
+    return isFetching || areValuesEqual;
   }, [title, description, isFetching, sharing]);
 
   const { sharingTitle, sharingDescription } = useMemo(
@@ -85,9 +86,7 @@ export const Sharing = () => {
     <div className="d-flex flex-column gap-10">
       <div className="d-flex flex-column gap-2">
         <label className="fw-bold">Social Information</label>
-        <span className="fs-7">
-          When sharing your pages on social networks, we'll use this content to display in links.
-        </span>
+        <Description title="When sharing your pages on social networks, we'll use this content to display in links." />
       </div>
       <div className="d-flex flex-column gap-2">
         <label className="fw-bold">Social Sharing Title</label>
@@ -101,7 +100,7 @@ export const Sharing = () => {
         />
         <div className="d-flex align-items-center">
           <KTSwitch value={preserveSeoTitle} onChange={handleChangeTitleVisibility} />
-          <span>Set the same as SEO Title</span>
+          <span className="fw-bolder text-gray-600">Set the same as SEO Title</span>
         </div>
       </div>
       <div className="d-flex flex-column gap-2">
@@ -116,7 +115,7 @@ export const Sharing = () => {
         />
         <div className="d-flex align-items-center">
           <KTSwitch value={preserveSeoDescription} onChange={handleChangeDescriptionVisibility} />
-          <span>Set the same as SEO Title</span>
+          <span className="fw-bolder text-gray-600">Set the same as SEO Description</span>
         </div>
       </div>
       <KTCard className="d-flex w-100 flex-column gap-10 align-self-center px-5 py-5">
