@@ -1,16 +1,23 @@
 import { UpdateButton } from "@/app/admin/(cms)/system/components/updateButton";
 import { KTSwitch } from "@/components/Metronic/helpers/components/KTSwitch";
-import React, { ChangeEvent, FC, useCallback, useContext, useMemo, useState } from "react";
+import React, { ChangeEvent, FC, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { ProjectSettingsContext } from "../../Context";
 
 export const Seo: FC = () => {
-  const { data, updateSettings } = useContext(ProjectSettingsContext);
+  const { data, updateSettings, isFetching } = useContext(ProjectSettingsContext);
   const { seo } = data || {};
 
-  const [title, setTitle] = useState(seo?.title ?? "");
-  const [description, setDescription] = useState(seo?.description ?? "");
-  const [searchVisibility, setSearchVisibility] = useState(seo?.searchVisibility ?? true);
-  const [isFetching, setIsFetching] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [searchVisibility, setSearchVisibility] = useState(true);
+
+  useEffect(() => {
+    if (seo) {
+      setTitle(seo.title);
+      setDescription(seo.description);
+      setSearchVisibility(seo.searchVisibility);
+    }
+  }, [seo]);
 
   const needDisableButton = useMemo(() => {
     const areValuesEqual =
@@ -31,13 +38,10 @@ export const Seo: FC = () => {
     setSearchVisibility((prev) => !prev);
   }, []);
 
-  const handleSaveChanges = useCallback(async () => {
-    setIsFetching(true);
-
-    await updateSettings({ seo: { title, description, searchVisibility } });
-
-    setIsFetching(false);
-  }, [title, description, searchVisibility, updateSettings]);
+  const handleSaveChanges = useCallback(
+    () => updateSettings({ seo: { title, description, searchVisibility } }),
+    [title, description, searchVisibility, updateSettings],
+  );
 
   return (
     <div className="d-flex flex-column gap-10">

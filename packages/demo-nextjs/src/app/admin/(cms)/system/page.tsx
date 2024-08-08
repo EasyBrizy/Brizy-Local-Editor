@@ -8,23 +8,24 @@ import { projectId } from "@/utils/mock";
 import clsx from "clsx";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { ProjectSettingsContext } from "./Context";
-import { ContextData } from "./types";
+import { ContextData, ContextDataItem } from "./types";
 import { componentsTabs, tabs } from "./utils";
 
 const System: FC = () => {
   const [data, setData] = useState<ContextData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsFetching(true);
         const response = await fetch(`/api/projectSettings?id=${projectId}`);
         const { data } = await response.json();
         setData(data);
       } catch (e) {
         console.error(e);
       } finally {
-        setIsLoading(false);
+        setIsFetching(false);
       }
     };
 
@@ -32,13 +33,14 @@ const System: FC = () => {
   }, []);
 
   const handleUpdateSettings = useCallback(
-    async (settings: ContextData) => {
+    async (settings: ContextDataItem) => {
       try {
         const projectSettings = {
           ...data,
           ...settings,
-        };
+        } as ContextData;
 
+        setIsFetching(true);
         const response = await fetch("/api/projectSettings", {
           method: "PUT",
           body: JSON.stringify({
@@ -54,14 +56,18 @@ const System: FC = () => {
         setData(projectSettings);
       } catch (e: unknown) {
         const message = e instanceof Error ? e.message : "Failed to update settings";
-
         alert(message);
+      } finally {
+        setIsFetching(false);
       }
     },
     [data],
   );
 
-  const contextValue = useMemo(() => ({ data, updateSettings: handleUpdateSettings }), [data, handleUpdateSettings]);
+  const contextValue = useMemo(
+    () => ({ data, updateSettings: handleUpdateSettings, isFetching }),
+    [data, handleUpdateSettings, isFetching],
+  );
 
   return (
     <Root>
@@ -69,7 +75,7 @@ const System: FC = () => {
         <KTCard className="d-flex w-75 flex-column gap-10 align-self-center px-5 py-5">
           <KTTabs tabs={tabs} className="nav-line-tabs-2x border-0 fs-4 fw-semibold" />
           <div className="tab-content position-relative">
-            {isLoading ? (
+            {!data && isFetching ? (
               <Loading />
             ) : (
               componentsTabs.map(({ id, Component }, index) => (
