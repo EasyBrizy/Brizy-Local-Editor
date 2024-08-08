@@ -20,21 +20,29 @@ import { productPreviousPrice } from "./toolbars/products/productPreviousPrice";
 import { productPrice } from "./toolbars/products/productPrice";
 import { productRemoveButton } from "./toolbars/products/productRemoveButton";
 import { productTitle } from "./toolbars/products/productTitle";
+import { JSX } from "react"
 
-export const Cart = () => {
-  return (
-    <AlphaCart
-      items={products}
-      alertMessage="You are eligible for free shipping!"
-      onClose={() => {}}
-      onCheckout={() => {}}
-    />
-  );
-};
+export const CartEditor = (): JSX.Element => (
+  <AlphaCart
+    items={products}
+    alertMessage="You are eligible for free shipping!"
+    onClose={() => {}}
+    onCheckout={() => {}}
+  />
+)
+
+export const CartPreview = (): JSX.Element => (
+  <AlphaCart
+    items={products}
+    alertMessage="You are eligible for free shipping!"
+    onClose={() => {}}
+    onCheckout={() => {}}
+    isPreview
+/>)
 
 Brizy.registerComponent({
   id: "ThirdParty.Cart",
-  component: { editor: Cart, view: Cart },
+  component: { editor: CartEditor, view: CartEditor },
   title: "Cart",
   category: "custom",
   // @ts-ignore

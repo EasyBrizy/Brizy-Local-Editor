@@ -1,2 +1,2 @@
 export { mapComponent } from "./Map";
-export { Cart } from "./Cart"
+export { CartEditor, CartPreview } from "./Cart"
