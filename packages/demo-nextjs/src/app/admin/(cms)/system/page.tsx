@@ -78,30 +78,28 @@ const System: FC = () => {
       <PageTitle breadcrumbs={Breadcrumbs}>Project Settings</PageTitle>
       <ToolbarWrapper />
       <Content>
-        <KTCard>
-          <KTCardBody className="py-4 d-flex flex-column gap-8">
-            <KTTabs tabs={tabs} className="nav-line-tabs-2x border-0 fs-4 fw-semibold" />
-            <ProjectSettingsContext.Provider value={contextValue}>
-              <div className="tab-content position-relative">
-                {!data && isFetching ? (
-                  <Loading />
-                ) : (
-                  componentsTabs.map(({ id, Component }, index) => (
-                    <div
-                      key={id}
-                      id={id}
-                      className={clsx("tab-pane", {
-                        active: index === 0,
-                      })}
-                    >
-                      <Component />
-                    </div>
-                  ))
-                )}
-              </div>
-            </ProjectSettingsContext.Provider>
-          </KTCardBody>
-        </KTCard>
+        <KTCardBody className="py-4 d-flex flex-column gap-8">
+          <KTTabs tabs={tabs} className="nav-line-tabs-2x border-0 fs-4 fw-semibold" />
+          <ProjectSettingsContext.Provider value={contextValue}>
+            <div className="tab-content position-relative">
+              {!data && isFetching ? (
+                <Loading />
+              ) : (
+                componentsTabs.map(({ id, Component }, index) => (
+                  <div
+                    key={id}
+                    id={id}
+                    className={clsx("tab-pane", {
+                      active: index === 0,
+                    })}
+                  >
+                    <Component />
+                  </div>
+                ))
+              )}
+            </div>
+          </ProjectSettingsContext.Provider>
+        </KTCardBody>
       </Content>
     </Root>
   );

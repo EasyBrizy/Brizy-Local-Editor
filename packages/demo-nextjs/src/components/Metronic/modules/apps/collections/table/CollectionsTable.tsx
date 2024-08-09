@@ -1,19 +1,21 @@
 import { Loading } from "@/components/Metronic/helpers/components/Loading";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { ColumnInstance, Row, useTable } from "react-table";
 import { KTCardBody } from "../../../../helpers";
 import { Pagination } from "../components/pagination/Pagination";
-import { useCollectionQuery, useQueryResponseLoading } from "../core/QueryResponseProvider";
+import { QueryResponseContext, useCollectionQuery, useQueryResponseLoading } from "../core/QueryResponseProvider";
 import { Collection } from "../core/_models";
 import { CustomHeaderColumn } from "./columns/CustomHeaderColumn";
 import { CustomRow } from "./columns/CustomRow";
-import { usersColumns } from "./columns/_columns";
+import { getUsersColumns } from "./columns/_columns";
 
 const CollectionsTable = () => {
+  const { extraOptions } = useContext(QueryResponseContext);
+  const { shouldRenderInfoFields } = extraOptions;
   const collections = useCollectionQuery();
   const isLoading = useQueryResponseLoading();
   const data = useMemo(() => collections, [collections]);
-  const columns = useMemo(() => usersColumns, []);
+  const columns = useMemo(() => getUsersColumns(shouldRenderInfoFields ?? true), [shouldRenderInfoFields]);
   const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({ columns, data });
 
   return (
@@ -49,7 +51,7 @@ const CollectionsTable = () => {
           </tbody>
         </table>
       </div>
-      <Pagination />
+      {shouldRenderInfoFields && <Pagination />}
       {isLoading && <Loading />}
     </KTCardBody>
   );

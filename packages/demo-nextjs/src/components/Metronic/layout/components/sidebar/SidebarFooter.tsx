@@ -10,7 +10,7 @@ const SidebarFooter = () => {
         data-bs-toggle="tooltip"
         data-bs-trigger="hover"
         data-bs-dismiss-="click"
-        title="Metronic Docs & Components"
+        title="Docs & Components"
       >
         <span className="btn-label">Docs & Components</span>
         <KTIcon iconName="document" className="btn-icon fs-2 m-0" />

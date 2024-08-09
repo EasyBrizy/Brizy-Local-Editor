@@ -34,7 +34,6 @@ const MasterLayout = ({ children }: Props) => {
 
       {/* begin:: Drawers */}
       <ActivityDrawer />
-      <RightToolbar />
       <DrawerMessenger />
       {/* end:: Drawers */}
 

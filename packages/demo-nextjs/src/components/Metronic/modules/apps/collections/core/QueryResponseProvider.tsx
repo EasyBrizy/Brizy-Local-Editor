@@ -14,14 +14,16 @@ import { useQueryRequest } from "./QueryRequestProvider";
 import { Collection } from "./_models";
 import { getCollections } from "./_requests";
 
-const QueryResponseContext = createResponseContext<Collection>(initialQueryResponse);
+export const QueryResponseContext = createResponseContext<Collection>(initialQueryResponse);
 
 interface Props extends WithChildren {
   collection: string;
+  shouldRenderSearch?: boolean;
+  shouldRenderInfoFields?: boolean;
 }
 
 const QueryResponseProvider: FC<Props> = (props) => {
-  const { collection, children } = props;
+  const { collection, children, shouldRenderInfoFields, shouldRenderSearch } = props;
   const { state } = useQueryRequest();
   const withFilter = { ...state, collection };
   const [query, setQuery] = useState<string>(stringifyRequestQuery(withFilter));
@@ -50,7 +52,19 @@ const QueryResponseProvider: FC<Props> = (props) => {
   );
 
   return (
-    <QueryResponseContext.Provider value={{ isLoading: isFetching, refetch, response, collection, query }}>
+    <QueryResponseContext.Provider
+      value={{
+        isLoading: isFetching,
+        refetch,
+        response,
+        collection,
+        query,
+        extraOptions: {
+          shouldRenderSearch,
+          shouldRenderInfoFields,
+        },
+      }}
+    >
       {children}
     </QueryResponseContext.Provider>
   );

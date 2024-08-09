@@ -64,6 +64,10 @@ export type QueryResponseContextProps<T> = {
   refetch: () => void;
   isLoading: boolean;
   query: string;
+  extraOptions: {
+    shouldRenderSearch?: boolean;
+    shouldRenderInfoFields?: boolean;
+  };
 };
 
 export const initialQueryResponse = {

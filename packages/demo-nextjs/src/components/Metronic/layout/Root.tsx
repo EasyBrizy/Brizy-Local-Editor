@@ -7,6 +7,7 @@ import "@/components/Metronic/assets/keenicons/solid/style.css";
 import "@/components/Metronic/assets/sass/style.react.scss";
 import "@/components/Metronic/assets/sass/style.scss";
 import { MasterLayout } from "@/components/Metronic/layout/MasterLayout";
+import { Content } from "@/components/Metronic/layout/components/content";
 import { LayoutProvider } from "@/components/Metronic/layout/core";
 import { ThemeModeProvider } from "@/components/Metronic/partials";
 import dynamic from "next/dynamic";
@@ -32,7 +33,9 @@ const Layout: FC<Props> = (props) => {
     <QueryClientProvider client={queryClient}>
       <LayoutProvider>
         <ThemeModeProvider>
-          <MasterLayout>{props.children}</MasterLayout>
+          <MasterLayout>
+            <Content>{props.children}</Content>
+          </MasterLayout>
           <MasterInit />
         </ThemeModeProvider>
       </LayoutProvider>

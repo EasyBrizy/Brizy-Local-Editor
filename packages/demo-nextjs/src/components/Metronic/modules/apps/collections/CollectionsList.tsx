@@ -10,23 +10,32 @@ import { CollectionsTable } from "./table/CollectionsTable";
 interface Props {
   collection: string;
   shouldRenderToolbar?: boolean;
+  shouldRenderSearch?: boolean;
+  shouldRenderInfoFields?: boolean;
 }
 
-const CollectionsList = () => (
+const CollectionsList = ({ shouldRenderHeader }: { shouldRenderHeader: boolean }) => (
   <KTCard>
-    <UsersListHeader />
+    {shouldRenderHeader && <UsersListHeader />}
     <CollectionsTable />
   </KTCard>
 );
 
-const CollectionsListWrapper = ({ collection, shouldRenderToolbar = true }: Props) => (
+const CollectionsListWrapper = ({
+  collection,
+  shouldRenderToolbar = true,
+  shouldRenderSearch = true,
+  shouldRenderInfoFields = true,
+}: Props) => (
   <QueryRequestProvider>
-    <QueryResponseProvider collection={collection}>
+    <QueryResponseProvider
+      collection={collection}
+      shouldRenderInfoFields={shouldRenderInfoFields}
+      shouldRenderSearch={shouldRenderSearch}
+    >
       <ListViewProvider>
         {shouldRenderToolbar && <ToolbarWrapper />}
-        <Content>
-          <CollectionsList />
-        </Content>
+        <CollectionsList shouldRenderHeader={shouldRenderSearch} />
       </ListViewProvider>
     </QueryResponseProvider>
   </QueryRequestProvider>

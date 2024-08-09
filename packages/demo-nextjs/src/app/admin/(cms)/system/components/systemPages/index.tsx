@@ -2,7 +2,10 @@ import { CollectionsListWrapper } from "@/components/Metronic/modules/apps/colle
 import React from "react";
 
 export const SystemPages = () => (
-  <div className="-mt-8">
-    <CollectionsListWrapper collection="system" shouldRenderToolbar={false} />
-  </div>
+  <CollectionsListWrapper
+    collection="system"
+    shouldRenderToolbar={false}
+    shouldRenderInfoFields={false}
+    shouldRenderSearch={false}
+  />
 );

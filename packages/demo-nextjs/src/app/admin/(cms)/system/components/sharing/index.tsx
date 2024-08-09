@@ -114,7 +114,7 @@ export const Sharing = () => {
         <input
           value={title}
           onChange={handleChangeTitle}
-          className="form-control h-16 px-6 py-3 fs-6 fw-bold"
+          className="form-control h-16 px-6 py-3 fs-6 fw-bold w-75"
           placeholder="Enter the Social Sharing Title"
           disabled={preserveSeoTitle}
         />
@@ -129,7 +129,7 @@ export const Sharing = () => {
           value={description}
           onChange={handleChangeDescription}
           placeholder="Enter the Social Sharing Description"
-          className="form-control resize-none h-40 px-6 py-6 fs-6 fw-bold"
+          className="form-control resize-none h-40 px-6 py-6 fs-6 fw-bold w-75"
           disabled={preserveSeoDescription}
         />
         <div className="d-flex align-items-center">
@@ -137,11 +137,7 @@ export const Sharing = () => {
           <Description>Set the same as SEO Description</Description>
         </div>
       </div>
-      <KTCard className="d-flex w-100 flex-column gap-10 align-self-center px-5 py-5">
-        <a href={host}>{host}</a>
-        <h1>{sharingTitle}</h1>
-        <span>{sharingDescription}</span>
-      </KTCard>
+
       <UpdateButton isFetching={isFetching} onClick={handleUpdateSettings} disabled={needDisableButton} />
     </div>
   );
