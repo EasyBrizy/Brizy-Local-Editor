@@ -1,9 +1,12 @@
-import { UpdateButton } from "@/app/admin/(cms)/system/components/updateButton";
 import { KTCard } from "@/components/Metronic/helpers";
 import { KTSwitch } from "@/components/Metronic/helpers/components/KTSwitch";
+import { getConfig } from "@/config";
 import React, { ChangeEvent, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { ProjectSettingsContext } from "../../Context";
-import { Description } from "../decsription";
+import { Description } from "../description";
+import { UpdateButton } from "../updateButton";
+
+const { host } = getConfig();
 
 export const Sharing = () => {
   const { data, isFetching, updateSettings } = useContext(ProjectSettingsContext);
@@ -16,10 +19,23 @@ export const Sharing = () => {
 
   useEffect(() => {
     if (sharing) {
-      setTitle(sharing.title);
-      setDescription(sharing.description);
-      setPreserveSeoTitle(sharing.preserveSeoTitle);
-      setPreserveSeoDescription(sharing.preserveSeoDescription);
+      const { title, description, preserveSeoTitle, preserveSeoDescription } = sharing;
+
+      if (title) {
+        setTitle(title);
+      }
+
+      if (description) {
+        setDescription(description);
+      }
+
+      if (preserveSeoTitle !== undefined) {
+        setPreserveSeoTitle(preserveSeoTitle);
+      }
+
+      if (preserveSeoDescription !== undefined) {
+        setPreserveSeoDescription(preserveSeoDescription);
+      }
     }
   }, [sharing]);
 
@@ -78,7 +94,10 @@ export const Sharing = () => {
   );
 
   const handleUpdateSettings = useCallback(
-    () => updateSettings({ sharing: { title, description, preserveSeoTitle, preserveSeoDescription } }),
+    () =>
+      updateSettings({
+        sharing: { title: title.trim(), description: description.trim(), preserveSeoTitle, preserveSeoDescription },
+      }),
     [title, description, preserveSeoTitle, preserveSeoDescription, updateSettings],
   );
 
@@ -86,21 +105,22 @@ export const Sharing = () => {
     <div className="d-flex flex-column gap-10">
       <div className="d-flex flex-column gap-2">
         <label className="fw-bold">Social Information</label>
-        <Description title="When sharing your pages on social networks, we'll use this content to display in links." />
+        <Description>
+          When sharing your pages on social networks, we&apos;ll use this content to display in links.
+        </Description>
       </div>
       <div className="d-flex flex-column gap-2">
         <label className="fw-bold">Social Sharing Title</label>
         <input
           value={title}
           onChange={handleChangeTitle}
-          className={`form-control h-16 px-6 py-3 fs-6 fw-bold ${
-            preserveSeoTitle ? "opacity-50 pointer-events-none" : ""
-          }`}
+          className="form-control h-16 px-6 py-3 fs-6 fw-bold"
           placeholder="Enter the Social Sharing Title"
+          disabled={preserveSeoTitle}
         />
         <div className="d-flex align-items-center">
           <KTSwitch value={preserveSeoTitle} onChange={handleChangeTitleVisibility} />
-          <span className="fw-bolder text-gray-600">Set the same as SEO Title</span>
+          <Description>Set the same as SEO Title</Description>
         </div>
       </div>
       <div className="d-flex flex-column gap-2">
@@ -109,17 +129,16 @@ export const Sharing = () => {
           value={description}
           onChange={handleChangeDescription}
           placeholder="Enter the Social Sharing Description"
-          className={`form-control resize-none h-40 px-6 py-6 fs-6 fw-bold ${
-            preserveSeoDescription ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className="form-control resize-none h-40 px-6 py-6 fs-6 fw-bold"
+          disabled={preserveSeoDescription}
         />
         <div className="d-flex align-items-center">
           <KTSwitch value={preserveSeoDescription} onChange={handleChangeDescriptionVisibility} />
-          <span className="fw-bolder text-gray-600">Set the same as SEO Description</span>
+          <Description>Set the same as SEO Description</Description>
         </div>
       </div>
       <KTCard className="d-flex w-100 flex-column gap-10 align-self-center px-5 py-5">
-        <a href="https://blueberry20992034.temporary-demo.site">https://blueberry20992034.temporary-demo.site</a>
+        <a href={host}>{host}</a>
         <h1>{sharingTitle}</h1>
         <span>{sharingDescription}</span>
       </KTCard>

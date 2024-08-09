@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import React from "react";
 import { ToolbarType, useLayout } from "../../core";
 import { PageTitleWrapper } from "./page-title";
 

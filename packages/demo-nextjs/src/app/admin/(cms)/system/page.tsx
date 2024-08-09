@@ -1,9 +1,13 @@
 "use client";
 
-import { KTCard } from "@/components/Metronic/helpers";
+import { KTCard, KTCardBody } from "@/components/Metronic/helpers";
 import { KTTabs } from "@/components/Metronic/helpers/components/KTTabs";
 import { Loading } from "@/components/Metronic/helpers/components/Loading";
 import Root from "@/components/Metronic/layout/Root";
+import { Content } from "@/components/Metronic/layout/components/content";
+import { ToolbarWrapper } from "@/components/Metronic/layout/components/toolbar";
+import { PageTitle } from "@/components/Metronic/layout/core";
+import { Breadcrumbs } from "@/constants/Breadcrumbs";
 import { projectId } from "@/utils/mock";
 import clsx from "clsx";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
@@ -71,28 +75,34 @@ const System: FC = () => {
 
   return (
     <Root>
-      <ProjectSettingsContext.Provider value={contextValue}>
-        <KTCard className="d-flex w-75 flex-column gap-10 align-self-center px-5 py-5">
-          <KTTabs tabs={tabs} className="nav-line-tabs-2x border-0 fs-4 fw-semibold" />
-          <div className="tab-content position-relative">
-            {!data && isFetching ? (
-              <Loading />
-            ) : (
-              componentsTabs.map(({ id, Component }, index) => (
-                <div
-                  key={id}
-                  id={id}
-                  className={clsx("tab-pane", {
-                    active: index === 0,
-                  })}
-                >
-                  <Component />
-                </div>
-              ))
-            )}
-          </div>
+      <PageTitle breadcrumbs={Breadcrumbs}>Project Settings</PageTitle>
+      <ToolbarWrapper />
+      <Content>
+        <KTCard>
+          <KTCardBody className="py-4 d-flex flex-column gap-8">
+            <KTTabs tabs={tabs} className="nav-line-tabs-2x border-0 fs-4 fw-semibold" />
+            <ProjectSettingsContext.Provider value={contextValue}>
+              <div className="tab-content position-relative">
+                {!data && isFetching ? (
+                  <Loading />
+                ) : (
+                  componentsTabs.map(({ id, Component }, index) => (
+                    <div
+                      key={id}
+                      id={id}
+                      className={clsx("tab-pane", {
+                        active: index === 0,
+                      })}
+                    >
+                      <Component />
+                    </div>
+                  ))
+                )}
+              </div>
+            </ProjectSettingsContext.Provider>
+          </KTCardBody>
         </KTCard>
-      </ProjectSettingsContext.Provider>
+      </Content>
     </Root>
   );
 };

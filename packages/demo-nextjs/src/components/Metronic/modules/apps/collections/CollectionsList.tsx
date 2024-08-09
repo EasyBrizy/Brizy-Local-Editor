@@ -9,6 +9,7 @@ import { CollectionsTable } from "./table/CollectionsTable";
 
 interface Props {
   collection: string;
+  shouldRenderToolbar?: boolean;
 }
 
 const CollectionsList = () => (
@@ -18,11 +19,11 @@ const CollectionsList = () => (
   </KTCard>
 );
 
-const CollectionsListWrapper = ({ collection }: Props) => (
+const CollectionsListWrapper = ({ collection, shouldRenderToolbar = true }: Props) => (
   <QueryRequestProvider>
     <QueryResponseProvider collection={collection}>
       <ListViewProvider>
-        <ToolbarWrapper />
+        {shouldRenderToolbar && <ToolbarWrapper />}
         <Content>
           <CollectionsList />
         </Content>

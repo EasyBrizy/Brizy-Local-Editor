@@ -1,8 +1,8 @@
-import { UpdateButton } from "@/app/admin/(cms)/system/components/updateButton";
 import { KTSwitch } from "@/components/Metronic/helpers/components/KTSwitch";
 import React, { ChangeEvent, FC, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { ProjectSettingsContext } from "../../Context";
-import { Description } from "../decsription";
+import { Description } from "../description";
+import { UpdateButton } from "../updateButton";
 
 export const Seo: FC = () => {
   const { data, updateSettings, isFetching } = useContext(ProjectSettingsContext);
@@ -14,16 +14,26 @@ export const Seo: FC = () => {
 
   useEffect(() => {
     if (seo) {
-      setTitle(seo.title);
-      setDescription(seo.description);
-      setSearchVisibility(seo.searchVisibility);
+      const { title, description, searchVisibility } = seo;
+
+      if (title) {
+        setTitle(title);
+      }
+
+      if (description) {
+        setDescription(description);
+      }
+
+      if (searchVisibility !== undefined) {
+        setSearchVisibility(searchVisibility);
+      }
     }
   }, [seo]);
 
   const needDisableButton = useMemo(() => {
     const areValuesEqual =
       title === seo?.title && description === seo?.description && searchVisibility === seo?.searchVisibility;
-    return isFetching || areValuesEqual;
+    return !title || isFetching || areValuesEqual;
   }, [seo, title, description, searchVisibility, isFetching]);
 
   const handleChangeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +50,7 @@ export const Seo: FC = () => {
   }, []);
 
   const handleSaveChanges = useCallback(
-    () => updateSettings({ seo: { title, description, searchVisibility } }),
+    () => updateSettings({ seo: { title: title.trim(), description: description.trim(), searchVisibility } }),
     [title, description, searchVisibility, updateSettings],
   );
 
@@ -54,8 +64,7 @@ export const Seo: FC = () => {
           className="form-control h-16 px-6 py-3 fs-6 fw-bold"
           placeholder="Enter the site title"
         />
-        <Description title="The site title is adding SEO benefits (recommended length 50-70 characters)"/>
-        {!title.length && <span className="fs-7 fw-bold text-red-500">Title is required</span>}
+        <Description>The site title is adding SEO benefits (recommended length 50-70 characters)</Description>
       </div>
       <div className="d-flex flex-column gap-2">
         <label className="fw-bold">Site Description</label>
@@ -65,13 +74,17 @@ export const Seo: FC = () => {
           placeholder="Enter the site description"
           className="form-control resize-none h-40 px-6 py-6 fs-6 fw-bold"
         />
-        <Description title="The description is used as metadata for SEO (recommended length is 150-160 characters)" />
+        <Description>
+          The description is used as metadata for SEO (recommended length is 150-160 characters)
+        </Description>
       </div>
       <div className="d-flex flex-column gap-3">
         <label className="fw-bold">Search Engine Visibility</label>
         <KTSwitch value={searchVisibility} onChange={handleChangeSearchVisibility} />
-        <Description title="If set to ON, your site will show up in search results. Turn OFF to discourage search engines from indexing
-          the site." />
+        <Description>
+          If set to ON, your site will show up in search results. Turn OFF to discourage search engines from indexing
+          the site.
+        </Description>
       </div>
       <UpdateButton isFetching={isFetching} disabled={needDisableButton} onClick={handleSaveChanges} />
     </div>
