@@ -78,7 +78,7 @@ export const DefaultConfig: ILayout = {
       display: true,
       layout: "classic",
       class: "py-3 py-lg-6",
-      container: "fluid",
+      container: "fixed",
       containerClass: "d-flex flex-stack",
       fixed: {
         desktop: false,
@@ -100,7 +100,7 @@ export const DefaultConfig: ILayout = {
     },
     content: {
       componentName: "content",
-      container: "fluid",
+      container: "fixed",
     },
     footer: {
       componentName: "footer",
