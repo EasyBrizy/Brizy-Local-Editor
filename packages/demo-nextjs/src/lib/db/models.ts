@@ -49,6 +49,7 @@ export interface Project {
   data: {
     styles: Array<Styles>;
   };
+  settings: string;
 }
 
 const ProjectSchema = new mongoose.Schema<Project>(
@@ -60,6 +61,11 @@ const ProjectSchema = new mongoose.Schema<Project>(
     data: {
       type: String,
       required: false,
+      trim: true,
+    },
+    settings: {
+      type: String,
+      default: "",
       trim: true,
     },
   },
