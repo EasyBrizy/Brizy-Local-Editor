@@ -1,8 +1,21 @@
 import { Scripts, Styles } from "@builder/core/build/es/utils/assetManager/types";
 import mongoose from "mongoose";
 
+export enum CollectionTypes {
+  system = "system",
+  page = "page",
+  popup = "popup",
+  story = "story",
+  menu = "menu",
+}
+export type CollectionTypeValue = (typeof CollectionTypes)[keyof typeof CollectionTypes];
+
+function isCollectionType(value: unknown): value is CollectionTypes {
+  return Object.values(CollectionTypes).includes(value as CollectionTypes);
+}
+
 export interface Slug {
-  collection: string;
+  collection: CollectionTypeValue;
   item: string;
 }
 
@@ -64,12 +77,23 @@ const ProjectSchema = new mongoose.Schema<Project>(
   },
 );
 
+// const MenuSchemaType = {
+//   data: String,
+//   // id: { type: String, required: true },
+//   // children: Array,
+// };
+// export type Menu = typeof MenuSchemaType;
+//
+// const MenuSchema = new mongoose.Schema(MenuSchemaType);
+
 const Items = mongoose.models.Items || mongoose.model("Items", ItemSchema);
 const Project = mongoose.models.Project || mongoose.model("Project", ProjectSchema);
+// const Menu = mongoose.models.Menu || mongoose.model("Menu", MenuSchema);
 
 const models = {
   Items,
   Project,
+  // Menu,
 };
 
 export default models;

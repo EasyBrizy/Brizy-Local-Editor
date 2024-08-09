@@ -52,6 +52,7 @@ const SidebarMenuMain = () => {
         title="System Pages"
         active={pathname === "/admin/system"}
       />
+      <SidebarMenuItem icon="abstract-14" to="/admin/menu" title="Setup Menu" active={pathname === "/admin/menu"} />
     </>
   );
 };

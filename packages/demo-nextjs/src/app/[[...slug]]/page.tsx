@@ -1,17 +1,11 @@
 import { Page as PageComponent } from "@/components/Preview/Page";
-import {
-  CollectionTypeValue,
-  CollectionTypes,
-  getAllPopups,
-  getCompiledData,
-  getItem,
-  getProject,
-} from "@/lib/preview";
+import { CollectionTypeValue, CollectionTypes } from "@/lib/db/models";
+import { getAllPopups, getCompiledData, getItem, getProject } from "@/lib/preview";
 import { assemblePages } from "@/utils";
 import { footerId, headerId, projectId } from "@/utils/mock";
 import { notFound } from "next/navigation";
 
-const excludeCatchAllCollection = [CollectionTypes.System, CollectionTypes.Popup, CollectionTypes.Story];
+const excludeCatchAllCollection = [CollectionTypes.system, CollectionTypes.popup, CollectionTypes.story];
 
 export default async function Page({
   params,
@@ -19,7 +13,7 @@ export default async function Page({
   params: { slug: string[]; searchParams: { [key: string]: string | string[] | undefined } };
 }) {
   const [collection, item] = (params.slug ?? []) as [CollectionTypeValue, string];
-  let slug = { collection: CollectionTypes.Page, item: "home" };
+  let slug = { collection: CollectionTypes.page, item: "home" };
 
   if (typeof collection !== "undefined" && typeof item === "undefined") {
     slug = { ...slug, item: collection };
