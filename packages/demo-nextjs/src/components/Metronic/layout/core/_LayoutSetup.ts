@@ -94,14 +94,11 @@ class LayoutSetup {
     document.body.className = "";
     // clear body attributes
 
-    const bodyAttributes = document.body.getAttributeNames().filter((t) => t.indexOf("data-") > -1);
-
-    bodyAttributes.forEach((attr) => document.body.removeAttribute(attr));
+    // const bodyAttributes = document.body.getAttributeNames().filter((t) => t.indexOf("data-") > -1);
+    // bodyAttributes.forEach((attr) => document.body.removeAttribute(attr));
 
     document.body.setAttribute("style", "");
     document.body.setAttribute("id", "kt_app_body");
-
-    console.log("layoutType", updatedConfig.layoutType);
 
     document.body.setAttribute("data-kt-app-layout", updatedConfig.layoutType);
     document.body.classList.add("app-default");
