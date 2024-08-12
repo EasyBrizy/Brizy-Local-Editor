@@ -11,6 +11,7 @@ type Props = {
   fontIcon?: string;
   active?: boolean;
   hasBullet?: boolean;
+  iconClassName?: string;
 };
 
 const SidebarMenuItem: FC<Props & WithChildren> = ({
@@ -20,10 +21,13 @@ const SidebarMenuItem: FC<Props & WithChildren> = ({
   icon,
   fontIcon,
   active,
+  iconClassName,
   hasBullet = false,
 }) => {
   const { config } = useLayout();
   const { app } = config;
+
+  const _iconClassName = clsx("fs-2", iconClassName);
 
   return (
     <div className="menu-item">
@@ -36,7 +40,7 @@ const SidebarMenuItem: FC<Props & WithChildren> = ({
         {icon && app?.sidebar?.default?.menu?.iconType === "svg" && (
           <span className="menu-icon">
             {" "}
-            <KTIcon iconName={icon} className="fs-2" iconType="outline" />
+            <KTIcon iconName={icon} className={_iconClassName} iconType="outline" />
           </span>
         )}
         {fontIcon && app?.sidebar?.default?.menu?.iconType === "font" && <i className={clsx("bi fs-3", fontIcon)}></i>}
