@@ -13,10 +13,11 @@ type Props = {
     collection: string;
   };
   deletable?: boolean;
+  editable?: boolean;
 };
 
 const CollectionActionsCell: FC<Props> = (props) => {
-  const { id, slug, deletable } = props;
+  const { id, slug, deletable, editable } = props;
   const { query } = useQueryResponse();
   const queryClient = useQueryClient();
 
@@ -34,12 +35,14 @@ const CollectionActionsCell: FC<Props> = (props) => {
 
   return (
     <div className="d-flex justify-content-end flex-shrink-0">
-      <Link
-        href={`/admin/${slug.collection}/${slug.item}`}
-        className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
-      >
-        <KTIcon iconName="pencil" className="fs-3" />
-      </Link>
+      {editable && (
+        <Link
+          href={`/admin/${slug.collection}/${slug.item}`}
+          className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
+        >
+          <KTIcon iconName="pencil" className="fs-3" />
+        </Link>
+      )}
       {deletable && (
         <span
           className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"

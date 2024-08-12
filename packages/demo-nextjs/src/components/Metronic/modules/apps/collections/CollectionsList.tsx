@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { KTCard } from "../../../helpers";
 import { Content } from "../../../layout/components/content";
 import { ToolbarWrapper } from "../../../layout/components/toolbar";
@@ -6,25 +7,27 @@ import { ListViewProvider } from "./core/ListViewProvider";
 import { QueryRequestProvider } from "./core/QueryRequestProvider";
 import { QueryResponseProvider } from "./core/QueryResponseProvider";
 import { CollectionsTable } from "./table/CollectionsTable";
+import { Config } from "./types";
 
 interface Props {
   collection: string;
+  config?: Config;
 }
 
-const CollectionsList = () => (
+const CollectionsList: FC<Pick<Props, "config">> = ({ config }) => (
   <KTCard>
-    <UsersListHeader />
-    <CollectionsTable />
+    {!config?.disableHeader && <UsersListHeader />}
+    <CollectionsTable config={config} />
   </KTCard>
 );
 
-const CollectionsListWrapper = ({ collection }: Props) => (
+const CollectionsListWrapper = ({ collection, config }: Props) => (
   <QueryRequestProvider>
     <QueryResponseProvider collection={collection}>
       <ListViewProvider>
         <ToolbarWrapper />
         <Content>
-          <CollectionsList />
+          <CollectionsList config={config} />
         </Content>
       </ListViewProvider>
     </QueryResponseProvider>

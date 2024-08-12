@@ -1,20 +1,31 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { ColumnInstance, Row, useTable } from "react-table";
 import { KTCardBody } from "../../../../helpers";
 import { UsersListLoading } from "../components/loading/UsersListLoading";
 import { Pagination } from "../components/pagination/Pagination";
 import { useCollectionQuery, useQueryResponseLoading } from "../core/QueryResponseProvider";
 import { Collection } from "../core/_models";
+import { Config } from "../types";
 import { CustomHeaderColumn } from "./columns/CustomHeaderColumn";
 import { CustomRow } from "./columns/CustomRow";
-import { usersColumns } from "./columns/_columns";
+import { getUsersColumns } from "./columns/_columns";
 
-const CollectionsTable = () => {
+interface Props {
+  config?: Config;
+}
+
+const CollectionsTable: FC<Props> = ({ config }) => {
   const collections = useCollectionQuery();
   const isLoading = useQueryResponseLoading();
+  const { disabledFields = [], disablePagination, editable = true } = config ?? {};
   const data = useMemo(() => collections, [collections]);
-  const columns = useMemo(() => usersColumns, []);
-  const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({ columns, data });
+
+  const columns = useMemo(() => getUsersColumns(disabledFields, editable), [disabledFields, editable]);
+  const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
+    columns,
+    data,
+    autoResetHiddenColumns: false,
+  });
 
   return (
     <KTCardBody className="py-4">
@@ -49,7 +60,7 @@ const CollectionsTable = () => {
           </tbody>
         </table>
       </div>
-      <Pagination />
+      {!disablePagination && <Pagination />}
       {isLoading && <UsersListLoading />}
     </KTCardBody>
   );
