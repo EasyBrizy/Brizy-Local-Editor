@@ -1,0 +1,34 @@
+{
+  "version.label": {
+    "message": "最新版本",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Brizy Editor": {
+    "message": "Brizy 編輯器",
+    "description": "The label for category Brizy Editor in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Using Controls": {
+    "message": "使用控制器",
+    "description": "The label for category Using Controls in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Editor Controls": {
+    "message": "編輯器設定",
+    "description": "The label for category Editor Controls in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Containers": {
+    "message": "容器",
+    "description": "The label for category Containers in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Controls": {
+    "message": "控制",
+    "description": "The label for category Controls in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Control Arguments": {
+    "message": "控制參數",
+    "description": "The label for category Control Arguments in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Icons": {
+    "message": "圖示",
+    "description": "The label for category Icons in sidebar tutorialSidebar"
+  }
+}
