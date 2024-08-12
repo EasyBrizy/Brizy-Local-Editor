@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { KTIcon, toStaticUrl } from "../../../helpers";
-import { HeaderUserMenu, Search, ThemeModeSwitcher } from "../../../partials";
+import { ThemeModeSwitcher } from "../../../partials";
 import { useLayout } from "../../core";
 
 const itemClass = "ms-1 ms-md-4";
@@ -12,10 +12,6 @@ const Navbar = () => {
   const { config } = useLayout();
   return (
     <div className="app-navbar flex-shrink-0">
-      <div className={clsx("app-navbar-item align-items-stretch", itemClass)}>
-        <Search />
-      </div>
-
       <div className={clsx("app-navbar-item", itemClass)}>
         <ThemeModeSwitcher toggleBtnClass={clsx("btn-active-light-primary btn-custom")} />
       </div>
@@ -29,7 +25,6 @@ const Navbar = () => {
         >
           <Image width={100} height={100} src={toStaticUrl("media/avatars/300-3.jpg")} alt="" />
         </div>
-        <HeaderUserMenu />
       </div>
 
       {config.app?.header?.default?.menu?.display && (

@@ -1,7 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { reInitMenu } from "../helpers";
 import { ActivityDrawer, DrawerMessenger } from "../partials";
-import { RightToolbar } from "../partials/layout/RightToolbar";
 import { FooterWrapper } from "./components/footer";
 import { HeaderWrapper } from "./components/header";
 import { ScrollTop } from "./components/scroll-top";
@@ -34,7 +33,6 @@ const MasterLayout = ({ children }: Props) => {
 
       {/* begin:: Drawers */}
       <ActivityDrawer />
-      <RightToolbar />
       <DrawerMessenger />
       {/* end:: Drawers */}
 

@@ -9,7 +9,7 @@ import React, { FC } from "react";
 const Headers: FC = () => {
   return (
     <Root>
-      <PageTitle breadcrumbs={Breadcrumbs}>Headers</PageTitle>
+      <PageTitle breadcrumbs={Breadcrumbs}>Header</PageTitle>
       <CollectionsListWrapper collection="header" />
     </Root>
   );

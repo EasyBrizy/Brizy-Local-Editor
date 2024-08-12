@@ -14,29 +14,25 @@ const SidebarMenuMain = () => {
         </div>
       </div>
 
-      <SidebarMenuItem icon="profile-circle" to="/admin/pages" title="Pages" active={pathname === "/admin/pages"} />
+      <SidebarMenuItem icon="book" to="/admin/pages" title="Pages" active={pathname === "/admin/pages"} />
 
-      <SidebarMenuItem icon="setting-2" to="/admin/blogs" title="Blog" active={pathname === "/admin/blogs"} />
+      <SidebarMenuItem icon="text-bold" to="/admin/blogs" title="Blog" active={pathname === "/admin/blogs"} />
 
-      <SidebarMenuItem icon="profile-user" to="/admin/stories" title="Stories" active={pathname === "/admin/stories"} />
+      <SidebarMenuItem icon="book-open" to="/admin/stories" title="Stories" active={pathname === "/admin/stories"} />
 
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
-          <span className="menu-heading uppercase text-2sm font-semibold text-gray-500">Sections</span>
+          <span className="menu-heading uppercase text-2sm font-semibold text-gray-500">Template</span>
         </div>
       </div>
 
+      <SidebarMenuItem icon="element-9" to="/admin/headers" title="Header" active={pathname === "/admin/headers"} />
       <SidebarMenuItem
-        icon="security-user"
-        to="/admin/headers"
-        title="Headers"
-        active={pathname === "/admin/headers"}
-      />
-      <SidebarMenuItem
-        icon="questionnaire-tablet"
+        icon="element-9"
         to="/admin/footers"
         title="Footer"
         active={pathname === "/admin/footers"}
+        iconClassName="rotate-180"
       />
 
       <div className="menu-item">
@@ -45,13 +41,13 @@ const SidebarMenuMain = () => {
         </div>
       </div>
 
-      <SidebarMenuItem icon="handcart" to="/admin/popups" title="Popups" active={pathname === "/admin/popups"} />
       <SidebarMenuItem
-        icon="some-files"
-        to="/admin/system"
-        title="System Pages"
-        active={pathname === "/admin/system"}
+        icon="notification-status"
+        to="/admin/popups"
+        title="Popup"
+        active={pathname === "/admin/popups"}
       />
+      <SidebarMenuItem icon="filter" to="/admin/leads" title="Leads" active={pathname === "/admin/leads"} />
     </>
   );
 };

@@ -6,13 +6,13 @@ import { CollectionsListWrapper } from "@/components/Metronic/modules/apps/colle
 import { Breadcrumbs } from "@/constants/Breadcrumbs";
 import React, { FC } from "react";
 
-const Footers: FC = () => {
+const Leads: FC = () => {
   return (
     <Root>
-      <PageTitle breadcrumbs={Breadcrumbs}>Footer</PageTitle>
-      <CollectionsListWrapper collection="footer" />
+      <PageTitle breadcrumbs={Breadcrumbs}>Leads</PageTitle>
+      <CollectionsListWrapper collection="page" />
     </Root>
   );
 };
 
-export default Footers;
+export default Leads;
