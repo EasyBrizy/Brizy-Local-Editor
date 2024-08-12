@@ -53,7 +53,7 @@ const SidebarLogo = (props: PropsType) => {
           <Image
             alt="Logo"
             src={toStaticUrl("media/logos/default-dark.svg")}
-            width={100}
+            width={120}
             height={30}
             className="app-sidebar-logo-default"
           />

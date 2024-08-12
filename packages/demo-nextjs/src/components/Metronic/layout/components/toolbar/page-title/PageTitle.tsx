@@ -67,7 +67,7 @@ const PageTitle = () => {
                 )}
               </li>
             ))}
-            <li className="breadcrumb-item text-gray-900">{pageTitle}</li>
+            <li className="breadcrumb-item text-muted">{pageTitle}</li>
           </ul>
         </>
       )}

@@ -1,3 +1,4 @@
+import { defaultThemeAttr } from "@/components/Metronic/layout/core/_LayoutConfig";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
@@ -13,8 +14,8 @@ interface Props {
 
 export default function RootLayout({ children }: Readonly<Props>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" data-bs-theme="light">
+      <body {...defaultThemeAttr}>{children}</body>
     </html>
   );
 }
