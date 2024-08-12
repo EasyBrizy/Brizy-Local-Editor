@@ -6,11 +6,17 @@ import { CollectionsListWrapper } from "@/components/Metronic/modules/apps/colle
 import { Breadcrumbs } from "@/constants/Breadcrumbs";
 import React, { FC } from "react";
 
+const config = {
+  disabledFields: ["author", "status", "selection"],
+  disableHeader: true,
+  editable: false,
+};
+
 const Leads: FC = () => {
   return (
     <Root>
       <PageTitle breadcrumbs={Breadcrumbs}>Leads</PageTitle>
-      <CollectionsListWrapper collection="page" />
+      <CollectionsListWrapper collection="page" config={config} />
     </Root>
   );
 };
