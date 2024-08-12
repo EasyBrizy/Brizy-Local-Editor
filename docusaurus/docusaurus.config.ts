@@ -24,7 +24,7 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: "en",
-    locales: ["en"],
+    locales: ["en","zh-Hant"],
   },
 
   presets: [
@@ -56,7 +56,7 @@ const config: Config = {
         {
           to: "/docs/getting-started/what-is-brizy",
           label: "Getting Started",
-          position: "right",
+          position: "left",
           activeBaseRegex: `/docs/`,
         },
 
@@ -67,7 +67,7 @@ const config: Config = {
         {
           to: "/docs-internals/brizy-editor/introduction",
           label: "Internals???",
-          position: "right",
+          position: "left",
           activeBaseRegex: `/docs-internals/`,
         },
 
@@ -78,7 +78,7 @@ const config: Config = {
         {
           to: "/docs-third-party/brizy-widgets/introduction",
           label: "Third Party",
-          position: "right",
+          position: "left",
           activeBaseRegex: `/docs-third-party/`,
         },
 
@@ -86,6 +86,11 @@ const config: Config = {
 
         //#region Others
 
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
+        
         {
           href: "https://github.com/EasyBrizy/Brizy-Local-Editor",
           label: "GitHub",
