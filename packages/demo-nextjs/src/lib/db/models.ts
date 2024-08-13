@@ -1,3 +1,4 @@
+import { ProjectSettings } from "@/lib/db/types";
 import { Scripts, Styles } from "@builder/core/build/es/utils/assetManager/types";
 import mongoose from "mongoose";
 
@@ -49,6 +50,7 @@ export interface Project {
   data: {
     styles: Array<Styles>;
   };
+  settings: ProjectSettings;
 }
 
 const ProjectSchema = new mongoose.Schema<Project>(
@@ -60,6 +62,10 @@ const ProjectSchema = new mongoose.Schema<Project>(
     data: {
       type: String,
       required: false,
+      trim: true,
+    },
+    settings: {
+      type: String,
       trim: true,
     },
   },

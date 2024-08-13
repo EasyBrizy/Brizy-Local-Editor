@@ -5,4 +5,5 @@ export interface Config {
   disablePagination?: boolean;
   disabledFields?: ID[];
   editable?: boolean;
+  disableToolbar?: boolean;
 }

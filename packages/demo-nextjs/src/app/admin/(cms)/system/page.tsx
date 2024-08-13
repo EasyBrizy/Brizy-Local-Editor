@@ -1,24 +1,12 @@
-"use client";
-
 import Root from "@/components/Metronic/layout/Root";
-import { PageTitle } from "@/components/Metronic/layout/core";
-import { CollectionsListWrapper } from "@/components/Metronic/modules/apps/collections/CollectionsList";
-import { Breadcrumbs } from "@/constants/Breadcrumbs";
-import React, { FC } from "react";
+import System from "./components/core/System";
 
-const config = {
-  disabledFields: ["author", "status", "date", "selection"],
-  disableHeader: true,
-  disablePagination: true,
-};
-
-const System: FC = () => {
+const Page = () => {
   return (
     <Root>
-      <PageTitle breadcrumbs={Breadcrumbs}>System</PageTitle>
-      <CollectionsListWrapper collection="system" config={config} />
+      <System />
     </Root>
   );
 };
 
-export default System;
+export default Page;

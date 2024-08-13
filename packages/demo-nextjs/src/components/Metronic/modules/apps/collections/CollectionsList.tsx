@@ -25,7 +25,7 @@ const CollectionsListWrapper = ({ collection, config }: Props) => (
   <QueryRequestProvider>
     <QueryResponseProvider collection={collection}>
       <ListViewProvider>
-        <ToolbarWrapper />
+        {!config?.disableToolbar && <ToolbarWrapper />}
         <Content>
           <CollectionsList config={config} />
         </Content>
