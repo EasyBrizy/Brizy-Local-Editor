@@ -32,7 +32,43 @@ import { subscriber } from "./subscriber";
     },
     editorVersion: "no-verify",
     menuData: [],
-    platform: "cms",
+    platform: "shopify",
+    templateType: "shopify-page",
+    contentDefaults: {
+      ProductMetafield: {
+        sourceType: "shopify-product",
+      },
+      PostTitle: {
+        textPopulation: "{{brizy_dc_post_title}}",
+        textPopulationEntityType: "",
+        textPopulationEntityId: "",
+        _population: {
+          name: "brizy_dc_post_title",
+          placeholder: "{{brizy_dc_post_title}}",
+        },
+      },
+      PostContent: {
+        textPopulation: "{{brizy_dc_post_content}}",
+        textPopulationEntityType: "",
+        textPopulationEntityId: "",
+        _population: {
+          name: "brizy_dc_post_content",
+          placeholder: "{{brizy_dc_post_content}}",
+        },
+      },
+      AddToCart: {
+        sourceType: "shopify-product",
+      },
+      Quantity: {
+        sourceType: "shopify-product",
+      },
+      Variant: {
+        sourceType: "shopify-product",
+      },
+      FeaturedImage: {
+        linkSource: "shopify-page",
+      },
+    },
     cms: {},
     pro: {
       urls: {

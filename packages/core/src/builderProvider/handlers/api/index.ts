@@ -1,3 +1,4 @@
+import { getCollectionItemsIds } from "@/builderProvider/handlers/api/collectionItems/getCollectionItemsIds";
 import { HandlerData } from "@/builderProvider/types/type";
 import { Obj, Str } from "@brizy/readers";
 import { getIn, setIn } from "timm";
@@ -20,9 +21,18 @@ interface Data extends HandlerData {
   api: Record<string, unknown>;
 }
 
+const CollectionTypes = [
+  { title: "Auto", value: "auto" },
+  {
+    title: "Products",
+    value: "product",
+  },
+];
+
 export const getApi = (data: Data) => {
   const { uid, target, event, api: _api } = data;
   let api = _api;
+
   const media = api.media ?? {};
   const customFile = api.customFile ?? {};
   const enabledDefaultKits = getIn(api, ["defaultKits", "enable"]);
@@ -77,6 +87,16 @@ export const getApi = (data: Data) => {
     customFile: {
       ...customFile,
       addFile: { handler: addCustomFileHandler({ event, target, uid }) },
+    },
+    collectionItems: {
+      getCollectionItemsIds,
+    },
+    collectionTypes: {
+      loadCollectionTypes: {
+        handler: (res) => {
+          res(CollectionTypes);
+        },
+      },
     },
   };
 };

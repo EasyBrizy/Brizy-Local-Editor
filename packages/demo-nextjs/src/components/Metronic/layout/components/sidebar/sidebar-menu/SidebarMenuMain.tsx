@@ -19,6 +19,7 @@ const SidebarMenuMain = () => {
       <SidebarMenuItem icon="text-bold" to="/admin/blogs" title="Blog" active={pathname === "/admin/blogs"} />
 
       <SidebarMenuItem icon="book-open" to="/admin/stories" title="Stories" active={pathname === "/admin/stories"} />
+      <SidebarMenuItem icon="handcart" to="/admin/products" title="Products" active={pathname === "/admin/products"} />
 
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">

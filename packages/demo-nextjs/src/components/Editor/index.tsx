@@ -4,6 +4,7 @@ import { DynamicContentModal } from "@/components/modals/DynamicContent";
 import { getConfig } from "@/config";
 import { useEditor } from "@/hooks/useEditor";
 import { Config } from "@/hooks/useEditor/types";
+import { resolvePlaceholders } from "@/lib/dynamicContent";
 import { LeftSidebarMoreOptionsIds, LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { BlockWithThumbs, KitType, Kits, Popup, StoryTemplate, Template } from "@builder/core/build/es/types/templates";
 import { useRouter } from "next/navigation";
@@ -46,9 +47,45 @@ export const Editor = (props: Props) => {
             dispatch({ type: "modal", res, rej });
           },
         },
+        image: [
+          {
+            label: "Featured Image",
+            optgroup: [
+              {
+                label: "Custom",
+                placeholder: '{{brizy_dc_collection_item_field size="custom"}}',
+                attr: {
+                  size: "custom",
+                },
+                varyAttr: [],
+                alias: "{{brizy_dc_img_featured_image}}",
+              },
+              {
+                label: "Original",
+                placeholder: '{{brizy_dc_collection_item_field size="original"}}',
+                attr: {
+                  size: "original",
+                },
+                varyAttr: [],
+                alias: null,
+              },
+            ],
+          },
+        ],
       },
-      getPlaceholderData(res, rej, extra) {
-        res({ test: ["test1"] });
+      async getPlaceholderData(res, rej, extra) {
+        try {
+          const { placeholders } = extra;
+          const { reference } = baseConfig.pageData;
+          const placeholderData = await resolvePlaceholders(placeholders, reference);
+
+          res(placeholderData);
+        } catch (e) {
+          rej("Failed to get placeholder data");
+        }
+      },
+      handler: {
+        enable: true,
       },
     },
 

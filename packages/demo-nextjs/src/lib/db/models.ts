@@ -30,6 +30,11 @@ const ItemSchemaType = {
       type: Boolean,
       required: false,
     },
+    reference: {
+      type: String,
+      required: false,
+      trim: true,
+    },
   },
   data: {
     type: String,

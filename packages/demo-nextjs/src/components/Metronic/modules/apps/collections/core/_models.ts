@@ -9,6 +9,7 @@ export type Collection = {
   config?: {
     hasPreview: boolean;
     deletable?: boolean;
+    reference?: string;
   };
   data?: Record<string, unknown>;
   createdAt?: string;

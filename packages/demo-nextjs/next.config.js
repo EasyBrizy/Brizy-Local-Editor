@@ -11,6 +11,10 @@ const nextConfig = {
         protocol: IS_PRODUCTION ? "https" : "http",
         hostname: "localhost",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.shopify.com",
+      },
     ],
   },
   rewrites() {

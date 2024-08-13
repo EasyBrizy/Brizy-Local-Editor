@@ -42,6 +42,7 @@ export const Editor = () => {
         },
       },
       getPlaceholderData(res, rej, extra) {
+        console.log("Requesting placeholder data", extra);
         res({ test: ["test1"] });
       },
     },

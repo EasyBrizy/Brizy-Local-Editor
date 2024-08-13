@@ -43,20 +43,21 @@ const CollectionsTable: FC<Props> = ({ config }) => {
             </tr>
           </thead>
           <tbody className="text-gray-600 fw-bold" {...getTableBodyProps()}>
-            {rows.length > 0 ? (
-              rows.map((row: Row<Collection>, i) => {
-                prepareRow(row);
-                return <CustomRow row={row} key={`row-${i}-${row.id}`} />;
-              })
-            ) : (
-              <tr>
-                <td colSpan={7}>
-                  <div className="d-flex text-center w-100 align-content-center justify-content-center">
-                    No matching records found
-                  </div>
-                </td>
-              </tr>
-            )}
+            {rows.length > 0
+              ? rows.map((row: Row<Collection>, i) => {
+                  prepareRow(row);
+                  return <CustomRow row={row} key={`row-${i}-${row.id}`} />;
+                })
+              : !rows.length &&
+                !isLoading && (
+                  <tr>
+                    <td colSpan={7}>
+                      <div className="d-flex text-center w-100 align-content-center justify-content-center">
+                        No matching records found
+                      </div>
+                    </td>
+                  </tr>
+                )}
           </tbody>
         </table>
       </div>

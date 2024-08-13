@@ -19,6 +19,20 @@ interface Payload {
 export async function POST(req: Request) {
   try {
     const { pageData, config, slug } = await req.json();
+
+    const reference = JSON.parse(config?.reference ?? "null");
+
+    if (reference) {
+      const { collectionId } = reference;
+
+      // if already an item with the same collectionId exist, then we return that item instead of creating a new one
+      const item = await Models.Items.findOne({ "config.reference.collectionId": collectionId });
+
+      if (item) {
+        return NextResponse.json({ success: true, data: item.toObject() }, { status: 200 });
+      }
+    }
+
     const schema = {
       ...(config && { config }),
       ...(slug && { slug }),
@@ -33,7 +47,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: "Fail to create item" }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true, data: item.toObject() }, { status: 200 });
+    return NextResponse.json({ success: true, data: item.toObject() }, { status: 201 });
   } catch (e) {
     console.error(e);
     return NextResponse.json({ success: false, error: "Fail to update page" }, { status: 400 });
@@ -67,6 +81,7 @@ export async function GET(req: NextRequest) {
   try {
     const collection = req.nextUrl.searchParams.get("collection");
     const search = req.nextUrl.searchParams.get("search");
+    const referenceId = req.nextUrl.searchParams.get("referenceId");
     const _page = parseInt(req.nextUrl.searchParams.get("page") ?? "1");
     const currentPage = _page >= 1 ? _page : 1;
     const skip = currentPage - 1;
@@ -85,6 +100,10 @@ export async function GET(req: NextRequest) {
 
     if (search) {
       queries.set("slug.item", new RegExp(search, "i"));
+    }
+
+    if (referenceId) {
+      queries.set("config.reference", new RegExp(referenceId));
     }
 
     const qs: Record<string, string | RegExp> = {};

@@ -1,3 +1,4 @@
+import { metafieldsLoad } from "@/builderProvider/handlers/api/shopify/metafield";
 import { AutoSaveOutput, HtmlOutputType } from "@/types/types";
 import { Obj } from "@brizy/readers";
 import { mPipe } from "fp-utilities";
@@ -80,6 +81,14 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         window.__VISUAL_CONFIG__.dynamicContent = getDCConfig({ uid, target, event, dynamicContent });
         window.__VISUAL_CONFIG__.integration = getIntegration({ uid, target, event, integration });
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
+        window.__VISUAL_CONFIG__.modules = {
+          shop: {
+            api: {
+              metafieldsLoad,
+            },
+            type: "shopify",
+          },
+        };
         window.__VISUAL_CONFIG__.l10n = l10n;
 
         window.__VISUAL_CONFIG__.onLoad = () => {

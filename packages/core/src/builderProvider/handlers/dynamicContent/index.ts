@@ -46,5 +46,11 @@ export function getDCConfig(data: DC) {
       unknown
     >;
 
+  const dcHandler = getIn(dynamicContent, ["handler"]) as undefined | Record<string, unknown>;
+
+  if (dcHandler) {
+    dc = setIn(dc, ["handler"], () => {}) as Record<string, unknown>;
+  }
+
   return dc;
 }

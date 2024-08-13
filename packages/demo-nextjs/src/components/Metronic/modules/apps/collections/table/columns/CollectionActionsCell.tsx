@@ -18,6 +18,7 @@ type Props = {
 
 const CollectionActionsCell: FC<Props> = (props) => {
   const { id, slug, deletable, editable } = props;
+
   const { query } = useQueryResponse();
   const queryClient = useQueryClient();
 

@@ -11,7 +11,7 @@ import { assemblePages } from "@/utils";
 import { footerId, headerId, projectId } from "@/utils/mock";
 import { notFound } from "next/navigation";
 
-const excludeCatchAllCollection = [CollectionTypes.System, CollectionTypes.Popup, CollectionTypes.Story];
+const excludeCatchAllCollection = [CollectionTypes.Popup, CollectionTypes.Story];
 
 export default async function Page({
   params,
