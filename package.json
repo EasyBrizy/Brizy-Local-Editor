@@ -19,6 +19,7 @@
     "tsc:demo": "turbo run tsc --filter=@builder/demo"
   },
   "workspaces": [
+    "demo/*",
     "packages/*",
     "docusaurus",
     "plugins/*"
