@@ -1,8 +1,23 @@
 import { Scripts, Styles } from "@builder/core/build/es/utils/assetManager/types";
 import mongoose from "mongoose";
 
+export enum CollectionTypes {
+  system = "system",
+  page = "page",
+  popup = "popup",
+  story = "story",
+  menu = "menu",
+  header = "header",
+  footer = "footer",
+}
+export type CollectionTypeValue = (typeof CollectionTypes)[keyof typeof CollectionTypes];
+
+function isCollectionType(value: unknown): value is CollectionTypes {
+  return Object.values(CollectionTypes).includes(value as CollectionTypes);
+}
+
 export interface Slug {
-  collection: string;
+  collection: CollectionTypeValue;
   item: string;
 }
 
