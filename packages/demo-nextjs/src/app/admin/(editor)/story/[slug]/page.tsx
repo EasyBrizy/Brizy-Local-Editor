@@ -1,5 +1,4 @@
 import { Editor } from "@/components/Editor";
-import { getConfig } from "@/config";
 import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
 import { getOrigin } from "@/utils";
 import { Modes } from "@builder/core/build/es/types/types";

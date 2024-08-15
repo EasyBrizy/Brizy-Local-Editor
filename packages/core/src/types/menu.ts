@@ -1,4 +1,4 @@
-interface MenuItem {
+export interface MenuItem {
   type: "MenuItem";
   value: {
     id: string;

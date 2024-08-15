@@ -1,5 +1,5 @@
-import { FlattenedItem, TreeItem, TreeItems } from "@/components/Menu/types";
-import { DropAnimation, UniqueIdentifier, defaultDropAnimation } from "@dnd-kit/core";
+import { BaseTreeItem, FlattenedItem, TreeItem, TreeItems } from "@/components/Menu/types";
+import { DragOverEvent, DropAnimation, Over, UniqueIdentifier, defaultDropAnimation } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -99,16 +99,16 @@ export function removeChildrenOf(items: FlattenedItem[], ids: UniqueIdentifier[]
 }
 
 export function buildTree(flattenedItems: FlattenedItem[]): TreeItems {
-  const root: TreeItem = { id: "root", children: [], name: "Root Item" };
-  const nodes: Record<UniqueIdentifier, TreeItem> = { [root.id]: root };
+  const root = { id: "root", children: [] };
+  const nodes: Record<UniqueIdentifier, BaseTreeItem | TreeItem> = { [root.id]: root };
   const items = flattenedItems.map((item) => ({ ...item, children: [] }));
 
   for (const item of items) {
-    const { id, children, name } = item;
+    const { id, children, ...rest } = item;
     const parentId = item.parentId ?? root.id;
     const parent = nodes[parentId] ?? findItem(items, parentId);
 
-    nodes[id] = { id, children, name };
+    nodes[id] = { id, children, ...rest };
     parent.children.push(item);
   }
 
@@ -196,45 +196,69 @@ export const dropAnimationConfig: DropAnimation = {
   },
 };
 
-export enum MenuActions {
-  setActiveId = "SET_ACTIVE_ID",
-  setOverId = "SET_OVER_ID",
-  setOffsetLeft = "SET_OFFSET_LEFT",
-  dragStart = "DRAG_START",
-  resetDragState = "RESET_DRAG_STATE",
-  setItems = "SET_ITEMS",
-}
-type MenuAction =
-  | { type: MenuActions.resetDragState }
-  | { type: MenuActions.setOffsetLeft; payload: number }
-  | { type: MenuActions.setItems; payload: TreeItems }
-  | { type: MenuActions.dragStart; payload: { activeId: UniqueIdentifier; overId: UniqueIdentifier } }
-  | {
-      type: MenuActions.setActiveId | MenuActions.setOverId;
-      payload: UniqueIdentifier | null;
-    };
-
 export interface MenuState {
   activeId: UniqueIdentifier | null;
   overId: UniqueIdentifier | null;
   offsetLeft: number;
   items: TreeItems;
+  saveState: APIActionStateType;
 }
+
+export enum MenuActions {
+  setActiveId = "SET_ACTIVE_ID",
+  setOverId = "SET_OVER_ID",
+  setOffsetLeft = "SET_OFFSET_LEFT",
+  dragStart = "DRAG_START",
+  dragEnd = "DRAG_END",
+  resetDragState = "RESET_DRAG_STATE",
+  setSaveState = "SAVE_STATE",
+  addMenuItem = "ADD_MENU_ITEM",
+  removeMenuItem = "REMOVE_MENU_ITEM",
+}
+
+export enum APIActionState {
+  idle = "idle",
+  loading = "loading",
+  success = "success",
+  error = "error",
+}
+
+export type APIActionStateType = keyof typeof APIActionState;
+
+type MenuAction =
+  | { type: MenuActions.setSaveState; payload: APIActionStateType }
+  | { type: MenuActions.resetDragState }
+  | { type: MenuActions.setOffsetLeft; payload: number }
+  | { type: MenuActions.addMenuItem; payload: TreeItem }
+  | { type: MenuActions.removeMenuItem; payload: UniqueIdentifier }
+  | { type: MenuActions.dragStart; payload: { activeId: UniqueIdentifier; overId: UniqueIdentifier } }
+  | { type: MenuActions.dragEnd; payload: TreeItems }
+  | { type: MenuActions.setOverId; payload: DragOverEvent["over"] };
 
 export function menuReducer(state: MenuState, action: MenuAction) {
   switch (action.type) {
     case MenuActions.dragStart:
       return { ...state, activeId: action.payload.activeId, overId: action.payload.overId };
-    case MenuActions.setActiveId:
-      return { ...state, activeId: action.payload };
+    case MenuActions.dragEnd:
+      return { ...state, items: action.payload };
     case MenuActions.setOverId:
-      return { ...state, overId: action.payload };
+      const overId = action.payload?.id ?? null;
+      return { ...state, overId };
     case MenuActions.setOffsetLeft:
       return { ...state, offsetLeft: action.payload };
-    case MenuActions.setItems:
-      return { ...state, items: action.payload };
+
     case MenuActions.resetDragState:
-      return { ...state, activeId: null, overId: null, offsetLeft: 0 };
+      return { ...state, activeId: null, overId: null, offsetLeft: 0, saveState: APIActionState.idle };
+    case MenuActions.setSaveState:
+      return { ...state, saveState: action.payload };
+    case MenuActions.addMenuItem:
+      const id = crypto.randomUUID();
+      const item = { ...action.payload, id };
+      return { ...state, items: [...state.items, item], saveState: APIActionState.idle };
+    case MenuActions.removeMenuItem:
+      const items = removeItem(state.items, action.payload);
+      return { ...state, items, saveState: APIActionState.idle };
+
     default:
       return state;
   }

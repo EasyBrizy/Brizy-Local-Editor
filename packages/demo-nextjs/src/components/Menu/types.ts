@@ -1,11 +1,15 @@
 import type { UniqueIdentifier } from "@dnd-kit/core";
 import type { MutableRefObject } from "react";
 
-export interface TreeItem {
+export interface BaseTreeItem {
   id: UniqueIdentifier;
   children: TreeItem[];
-  name: string;
   collapsed?: boolean;
+}
+export interface TreeItem extends BaseTreeItem {
+  title: string;
+  slug: string;
+  url: string;
 }
 
 export type TreeItems = TreeItem[];

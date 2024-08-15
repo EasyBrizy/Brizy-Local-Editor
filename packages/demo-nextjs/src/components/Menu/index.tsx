@@ -1,9 +1,11 @@
 "use client";
 
 import { Pages } from "@/components/Menu/components/Pages";
+import { SaveButton } from "@/components/Menu/components/SaveButton";
 import { SortableMenuItem } from "@/components/Menu/item";
 import { FlattenedItem, TreeItem, TreeItems } from "@/components/Menu/types";
 import {
+  APIActionState,
   MenuActions,
   buildTree,
   dropAnimationConfig,
@@ -12,10 +14,10 @@ import {
   getProjection,
   menuReducer,
   removeChildrenOf,
-  removeItem,
 } from "@/components/Menu/utils";
 import MenuItemOverlay from "@/components/modals/MenuItemOverlay";
 import { updateMenu } from "@/lib/admin";
+import type { Item } from "@/lib/db/types";
 import {
   DndContext,
   DragEndEvent,
@@ -32,10 +34,11 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import React, { useMemo, useReducer } from "react";
+import type { Props as SaveButtonProps } from "./components/SaveButton/SaveButton";
 
 interface Props {
   items: TreeItems;
-  updateMenu?: (menu: TreeItems) => Promise<void>;
+  updateMenu?: (menu: TreeItems) => Promise<Item>;
   getMenu?: () => Promise<TreeItems>;
   allItems: TreeItems;
 }
@@ -49,7 +52,19 @@ export function Menu(props: Props) {
     overId: null,
     offsetLeft: 0,
     items: props.items,
+    saveState: APIActionState.idle,
   });
+
+  const saveButtonType: SaveButtonProps["type"] = useMemo(() => {
+    switch (state.saveState) {
+      case "success":
+        return "success";
+      case "error":
+        return "error";
+      default:
+        return "primary";
+    }
+  }, [state.saveState]);
 
   const flattenedItems = useMemo(() => {
     if (!Array.isArray(state.items)) {
@@ -81,70 +96,64 @@ export function Menu(props: Props) {
     <div className="row">
       <Pages items={props.allItems} addMenuItem={handleAddMenuItem} />
 
-      <div className="col-md-6 card ">
-        <div className="card-header">
-          <h3 className="card-title fs-1">Menu</h3>
-        </div>
+      <div className="col-md-6">
+        <div className="card">
+          <div className="card-header">
+            <h3 className="card-title fs-1">Menu</h3>
+          </div>
 
-        <div className="card-body ">
-          {state.items && (
-            <DndContext
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-              onDragMove={handleDragMove}
-              onDragOver={handleDragOver}
-              onDragCancel={handleDragCancel}
-              collisionDetection={closestCenter}
-              sensors={sensors}
-            >
-              <SortableContext items={state.items}>
-                {flattenedItems.map(({ id, name, children, collapsed, depth }) => {
-                  return (
-                    <SortableMenuItem
-                      key={id}
-                      id={id}
-                      depth={id === state.activeId && projected ? projected.depth : depth}
-                      indentationWidth={indentationWidth}
-                      value={name}
-                      collapsed={Boolean(collapsed && children.length)}
-                      onRemove={removable ? () => handleRemove(id) : undefined}
-                    />
-                  );
-                })}
-                <MenuItemOverlay>
-                  <DragOverlay dropAnimation={dropAnimationConfig}>
-                    {state.activeId && activeItem ? (
+          <div className="card-body ">
+            {state.items && (
+              <DndContext
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                onDragMove={handleDragMove}
+                onDragOver={handleDragOver}
+                onDragCancel={handleDragCancel}
+                collisionDetection={closestCenter}
+                sensors={sensors}
+              >
+                <SortableContext items={state.items}>
+                  {flattenedItems.map(({ id, title, children, collapsed, depth }) => {
+                    return (
                       <SortableMenuItem
-                        clone
-                        id={state.activeId}
-                        depth={activeItem.depth}
-                        key={state.activeId}
-                        value={activeItem.name}
-                        childCount={getChildCount(state.items, state.activeId) + 1}
+                        key={id}
+                        id={id}
+                        depth={id === state.activeId && projected ? projected.depth : depth}
                         indentationWidth={indentationWidth}
+                        value={title}
+                        collapsed={Boolean(collapsed && children.length)}
+                        onRemove={removable ? () => handleRemove(id) : undefined}
                       />
-                    ) : null}
-                  </DragOverlay>
-                </MenuItemOverlay>
-              </SortableContext>
-            </DndContext>
-          )}
+                    );
+                  })}
+                  <MenuItemOverlay>
+                    <DragOverlay dropAnimation={dropAnimationConfig}>
+                      {state.activeId && activeItem ? (
+                        <SortableMenuItem
+                          clone
+                          id={state.activeId}
+                          depth={activeItem.depth}
+                          key={state.activeId}
+                          value={activeItem.title}
+                          childCount={getChildCount(state.items, state.activeId) + 1}
+                          indentationWidth={indentationWidth}
+                        />
+                      ) : null}
+                    </DragOverlay>
+                  </MenuItemOverlay>
+                </SortableContext>
+              </DndContext>
+            )}
+            <SaveButton type={saveButtonType} onClick={handleSaveMenu} loading={state.saveState === "loading"} />
+          </div>
         </div>
       </div>
     </div>
   );
 
-  async function handleAddMenuItem(_item: TreeItem) {
-    const id = crypto.randomUUID();
-    const item = { ..._item, id };
-    const newItems = [...state.items, item];
-    dispatch({ type: MenuActions.setItems, payload: newItems });
-
-    try {
-      await updateMenu(newItems);
-    } catch (e) {
-      console.error("Update Menu: " + e);
-    }
+  async function handleAddMenuItem(item: TreeItem) {
+    dispatch({ type: MenuActions.addMenuItem, payload: item });
   }
 
   function handleDragStart({ active: { id: activeId } }: DragStartEvent) {
@@ -157,9 +166,8 @@ export function Menu(props: Props) {
     dispatch({ type: MenuActions.setOffsetLeft, payload: delta.x });
   }
 
-  function handleDragOver(props: DragOverEvent) {
-    const { over } = props;
-    dispatch({ type: MenuActions.setOverId, payload: over?.id ?? null });
+  function handleDragOver({ over }: DragOverEvent) {
+    dispatch({ type: MenuActions.setOverId, payload: over });
   }
 
   async function handleDragEnd({ active, over }: DragEndEvent) {
@@ -177,13 +185,7 @@ export function Menu(props: Props) {
       const sortedItems = arrayMove(clonedItems, activeIndex, overIndex);
       const newItems = buildTree(sortedItems);
 
-      dispatch({ type: MenuActions.setItems, payload: newItems });
-
-      try {
-        await updateMenu(newItems);
-      } catch (e) {
-        console.error("Update Menu: " + e);
-      }
+      dispatch({ type: MenuActions.dragEnd, payload: newItems });
     }
   }
 
@@ -192,20 +194,25 @@ export function Menu(props: Props) {
   }
 
   async function handleRemove(id: UniqueIdentifier) {
-    const newItems = removeItem(state.items, id);
-
-    dispatch({ type: MenuActions.setItems, payload: newItems });
-
-    try {
-      await updateMenu(newItems);
-    } catch (e) {
-      console.error("Update Menu: " + e);
-    }
+    dispatch({ type: MenuActions.removeMenuItem, payload: id });
   }
 
   function resetState() {
     dispatch({ type: MenuActions.resetDragState });
 
     document.body.style.setProperty("cursor", "");
+  }
+
+  async function handleSaveMenu() {
+    dispatch({ type: MenuActions.setSaveState, payload: APIActionState.loading });
+    try {
+      const response = await updateMenu(state.items);
+      if (response) {
+        dispatch({ type: MenuActions.setSaveState, payload: APIActionState.success });
+      }
+    } catch (e) {
+      console.error("Update Menu: " + e);
+      dispatch({ type: MenuActions.setSaveState, payload: APIActionState.error });
+    }
   }
 }

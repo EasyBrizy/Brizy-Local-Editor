@@ -1,5 +1,7 @@
 import { Editor } from "@/components/Editor";
+import { CollectionTypes } from "@/lib/db/types";
 import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
+import { getMenuItems } from "@/lib/itemConfig/getMenuItems";
 import { getOrigin } from "@/utils";
 import { Modes } from "@builder/core/build/es/types/types";
 import { headers } from "next/headers";
@@ -20,14 +22,17 @@ export default async function EditorPage(props: Props) {
   // Rollback to page collection when the item is missing
   if (!item) {
     item = collection;
-    collection = "page";
+    collection = CollectionTypes.page;
   }
 
-  const pagePreview = `${origin}/${collection}/${item}`;
+  const pagePreview = collection === CollectionTypes.page ? `${origin}/${item}` : `${origin}/${collection}/${item}`;
 
   try {
     const editorConfig = await getItemConfig({ item, collection });
-    return <Editor config={{ ...editorConfig, mode: Modes.page, pagePreview }} origin={origin} />;
+
+    const menu = [...(editorConfig?.menu ?? []), ...(await getMenuItems())];
+
+    return <Editor config={{ ...editorConfig, menu, mode: Modes.page, pagePreview }} origin={origin} />;
   } catch (e) {
     return notFound();
   }
