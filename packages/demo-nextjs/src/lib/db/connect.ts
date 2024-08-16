@@ -1,10 +1,14 @@
 import { getConfig } from "@/config";
 import mongoose from "mongoose";
 
-const MONGODB_URI = getConfig().dbUrl;
+const { dbUrl: MONGODB_URI, dbName: MONGODB_DATABASE } = getConfig();
 
 if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable inside .env");
+}
+
+if (!MONGODB_DATABASE) {
+  throw new Error("Please define the MONGODB_DATABASE environment variable inside .env");
 }
 
 let cached = global.mongoose;
@@ -24,7 +28,7 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      dbName: "brizy",
+      dbName: MONGODB_DATABASE,
     };
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose;

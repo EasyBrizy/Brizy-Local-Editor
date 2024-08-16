@@ -2,7 +2,8 @@ import { Config } from "@/hooks/useEditor/types";
 
 export const getProjectData = (model: Record<string, string>): Config["projectData"] => {
   const projectDataParsed = JSON.parse(model.data);
-  return projectDataParsed.data;
+  const id = model.id;
+  return { ...projectDataParsed.data, id: `${id}` };
 };
 
 export const getPageData = (model: Record<string, string>): Config["pageData"] => {
