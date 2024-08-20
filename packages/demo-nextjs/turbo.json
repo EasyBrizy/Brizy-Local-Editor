@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "//"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "env": [
+        "MONGODB_URI",
+        "MONGODB_DATABASE_NAME"
+      ]
+    },
+    "start": {
+      "dependsOn": [
+        "build"
+      ],
+      "env": [
+        "NEXT_PUBLIC_URL",
+        "NEXT_PUBLIC_EDITOR_TOKEN",
+        "NEXT_PUBLIC_EDITOR_URL",
+        "NEXT_PUBLIC_EDITOR_ICON_URL"
+      ]
+    }
+  }
+}

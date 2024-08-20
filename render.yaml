@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: NextJS App Deploy
+    region: frankfurt
+    runtime: node
+    plan: free
+    buildCommand: npm i && npm run build:demonextjs
+    startCommand: npm run start:demonextjs
+    branch: master
+    envVars:
+      - key: NEXT_PUBLIC_URL
+        sync: false
+      - key: NEXT_PUBLIC_EDITOR_URL
+        value: https://cdn.brizylocal.com/pages/3.1.8/index.js
+      - key: NEXT_PUBLIC_EDITOR_ICON_URL
+        value: https://cdn.brizylocal.com/pages/3.1.8/dist/free/editor/icons
+      - key: NEXT_PUBLIC_EDITOR_TOKEN
+        value: demo
+      - key: NEXT_PUBLIC_APP_PURCHASE_URL
+        value: https://brizy.io
+      - key: NEXT_PUBLIC_APP_PREVIEW_DOCS_URL
+        value: https://brizy.io
+      - key: MONGODB_DATABASE_NAME
+        value: brizy # Possible to be: "netlify" | "render"
+      - key: MONGODB_URI
+        value: mongodb+srv://guest:NOczraPgpfXCcwFm@brizy.bhrbdoy.mongodb.net/?retryWrites=true&w=majority&appName=brizy
+      - key: NODE_VERSION
+        value: 18.20.3

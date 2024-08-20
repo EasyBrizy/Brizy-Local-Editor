@@ -6,11 +6,6 @@
         "^build"
       ]
     },
-    "start:demonextjs": {
-      "dependsOn": [
-        "^build"
-      ]
-    },
     "start:demoreact": {
       "dependsOn": [
         "^build"
