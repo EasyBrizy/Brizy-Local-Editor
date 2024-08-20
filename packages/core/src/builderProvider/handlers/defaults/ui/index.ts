@@ -178,6 +178,7 @@ const defaultUI = (mode: string): Record<string, unknown> => {
             BaseElementTypes.Map,
             BaseElementTypes.Form2,
             BaseElementTypes.Line,
+            BaseElementTypes.Menu,
           ],
         },
         {

@@ -1,22 +1,10 @@
 import DBConnect from "@/lib/db/connect";
-import Models, { CompiledData, ParsedItem, ParsedItemData, Slug } from "@/lib/db/models";
+import Models, { CollectionTypes, CompiledData, ParsedItem, Slug } from "@/lib/db/models";
 
 const getProjectCompiled = (model: Record<string, string>) => {
   const projectDataParsed = JSON.parse(model.data);
   return projectDataParsed.compiled;
 };
-
-export enum CollectionTypes {
-  System = "system",
-  Page = "page",
-  Popup = "popup",
-  Story = "story",
-}
-export type CollectionTypeValue = (typeof CollectionTypes)[keyof typeof CollectionTypes];
-
-function isCollectionType(value: unknown): value is CollectionTypes {
-  return Object.values(CollectionTypes).includes(value as CollectionTypes);
-}
 
 // get data from Item based on slug from mongodb
 export async function getItem(slug: Slug): Promise<ParsedItem> {
@@ -37,7 +25,7 @@ export async function getItem(slug: Slug): Promise<ParsedItem> {
 
 export async function getAllPopups(): Promise<ParsedItem[]> {
   await DBConnect();
-  const response = await Models.Items.find({ "slug.collection": CollectionTypes.Popup });
+  const response = await Models.Items.find({ "slug.collection": CollectionTypes.popup });
   if (!response) {
     throw new Error("Failed to get popups");
   }

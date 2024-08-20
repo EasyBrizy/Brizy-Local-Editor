@@ -1,5 +1,6 @@
 import { Page as PageComponent } from "@/components/Preview/Page";
-import { CollectionTypes, getItem, getProject } from "@/lib/preview";
+import { CollectionTypes } from "@/lib/db/models";
+import { getItem, getProject } from "@/lib/preview";
 import { assemblePages } from "@/utils";
 import { projectId } from "@/utils/mock";
 import { notFound } from "next/navigation";
@@ -12,7 +13,7 @@ export default async function Page({
 }) {
   try {
     const project = await getProject(projectId);
-    const _page = await getItem({ collection: CollectionTypes.Story, item: params.slug }).then(
+    const _page = await getItem({ collection: CollectionTypes.story, item: params.slug }).then(
       (document) => document.data.compiled,
     );
 
