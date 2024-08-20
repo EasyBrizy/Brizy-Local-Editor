@@ -6,17 +6,17 @@ https://user-images.githubusercontent.com/5760683/206679891-8209b498-5905-42db-8
 
 ## See Brizy in action
 
-- Vercel marketing page: https://Brizy-local-editor-demo-nextjs.vercel.app
+- Vercel marketing page: https://vercel-marketing-page.vercel.app
 - Netlify marketing page: https://netlify-marketing-page.vercel.app
 - Render marketing page: https://render-marketing-page.vercel.app
-- Shopify headless storefront: https://Brizy-local-editor-demo-nextjs.vercel.app/products/1
-- CMS integration: https://Brizy-local-editor-demo-nextjs.vercel.app/admin
+- Shopify headless storefront: https://shopify-headless-storefront.vercel.app/products/1
+- CMS integration (MongoDB Atlas): https://cms-integration-mongodb-atlas.vercel.app/admin
 - Story: https://story.demo.Brizylocal.com
 - Popup: https://popup.demo.Brizylocal.com
 - Pages: https://pages.demo.Brizylocal.com
 
 ## Integrations
-- Next.js: https://Brizy-local-editor-demo-nextjs.vercel.app
+- Next.js: https://vercel-marketing-page.vercel.app
 - React: https://Brizy-local-editor-react.vercel.app
 - HTML: https://pages.demo.Brizylocal.com
 
