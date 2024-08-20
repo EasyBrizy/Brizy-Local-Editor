@@ -23,12 +23,6 @@ const Footer = () => {
         </li>
 
         <li className="menu-item">
-          <a href="https://devs.keenthemes.com/" target="_blank" className="menu-link px-2">
-            Support
-          </a>
-        </li>
-
-        <li className="menu-item">
           <a
             href="https://support.brizy.io/hc/en-us/categories/11455555357585-Brizy-Local"
             target="_blank"

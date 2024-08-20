@@ -9,6 +9,25 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const { pageData, config, slug } = await req.json();
+
+    const reference = JSON.parse(config?.reference ?? "null");
+
+    if (reference) {
+      try {
+        const { collectionId } = reference;
+
+        // if already an item with the same collectionId exist, then we return that item instead of creating a new one
+        const item = await getItem({
+          type: slug.collection,
+          reference: collectionId,
+        });
+
+        return NextResponse.json({ success: true, data: item }, { status: 200 });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
     const schema = {
       ...(config && { config }),
       ...(slug && { slug }),
@@ -51,6 +70,7 @@ export async function GET(req: NextRequest) {
     }
 
     const search = req.nextUrl.searchParams.get("search");
+    const referenceId = req.nextUrl.searchParams.get("referenceId");
     const _page = parseInt(req.nextUrl.searchParams.get("page") ?? "1");
     const currentPage = _page >= 1 ? _page : 1;
     const skip = currentPage - 1;
@@ -63,6 +83,7 @@ export async function GET(req: NextRequest) {
     const qs = {
       type: collection,
       ...(search && { search }),
+      ...(referenceId && { reference: referenceId }),
     };
 
     const { items, total } = await getItems(qs, pagination);

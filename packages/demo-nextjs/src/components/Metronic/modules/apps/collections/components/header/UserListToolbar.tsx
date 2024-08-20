@@ -8,29 +8,13 @@ const CollectionListToolbar = () => {
 
   const queryClient = useQueryClient();
 
-  const handleAdd = useMutation(
-    () => {
-      const id = Math.random().toString(36).slice(2);
-      return createCollection({
-        id,
-        slug: {
-          collection,
-          item: `${collection}-${id}`,
-        },
-        config: {
-          deletable: true,
-          hasPreview: true,
-        },
-      });
+  const handleAdd = useMutation(() => createCollection(collection), {
+    // 💡 response of the mutation is passed to onSuccess
+    onSuccess: () => {
+      // ✅ update detail view directly
+      queryClient.invalidateQueries([`${QUERIES.COLLECTIONS_LIST}-${query}`]);
     },
-    {
-      // 💡 response of the mutation is passed to onSuccess
-      onSuccess: () => {
-        // ✅ update detail view directly
-        queryClient.invalidateQueries([`${QUERIES.COLLECTIONS_LIST}-${query}`]);
-      },
-    },
-  );
+  });
 
   return (
     <div className="d-flex justify-content-end" data-kt-user-table-toolbar="base">

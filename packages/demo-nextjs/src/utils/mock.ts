@@ -10,3 +10,7 @@ export const headerQuery = { type: CollectionTypes.header, item: "home" };
 export const footerQuery = { type: CollectionTypes.footer, item: "home" };
 
 //#endregion
+
+//#region Shopify
+export const SHOPIFY_BASE_URL = "https://admin.shopify.com/store";
+//#endregion

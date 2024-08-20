@@ -16,6 +16,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@fortawesome/fontawesome-free": "^6.6.0",
     "@netlify/plugin-nextjs": "^5.7.0",
+    "@shopify/storefront-api-client": "^1.0.1",
     "@types/react-copy-to-clipboard": "^5.0.7",
     "animate.css": "^4.1.1",
     "axios": "^1.7.2",
