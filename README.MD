@@ -52,6 +52,8 @@ You can try Brizy without installing it. Simply use one of the demos to deploy i
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/EasyBrizy/Brizy-Local-Editor/)
 
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/EasyBrizy/Brizy-Local-Editor)
+
 ## Bring your own React components
 
 You can register your own arbitrary custom React components for use as building blocks within Brizy.
