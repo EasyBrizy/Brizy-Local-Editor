@@ -14,6 +14,7 @@
     "start:demo": "npm run start --workspace=@builder/demo",
     "start:demoreact": "npm run start --workspace=demo-react",
     "start:demonextjs": "npm run start --workspace=demo-nextjs",
+    "dev:demonextjs": "npm run dev --workspace=demo-nextjs",
     "start:thirdparty": "npm run start --workspace=thirdparty-widgets",
     "tsc": "turbo run tsc",
     "tsc:core": "turbo run tsc --filter=@builder/core",

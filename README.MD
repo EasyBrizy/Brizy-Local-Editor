@@ -7,8 +7,8 @@ https://user-images.githubusercontent.com/5760683/206679891-8209b498-5905-42db-8
 ## See Brizy in action
 
 - Vercel marketing page: https://Brizy-local-editor-demo-nextjs.vercel.app
-- Netlify marketing page: https://example.com
-- Render marketing page: https://example.com
+- Netlify marketing page: https://netlify-marketing-page.vercel.app
+- Render marketing page: https://render-marketing-page.vercel.app
 - Shopify headless storefront: https://Brizy-local-editor-demo-nextjs.vercel.app/products/1
 - CMS integration: https://Brizy-local-editor-demo-nextjs.vercel.app/admin
 - Story: https://story.demo.Brizylocal.com
