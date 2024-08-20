@@ -47,7 +47,7 @@ export const Editor = () => {
     },
     api: {
       media: {
-        mediaResizeUrl: "https://media.brizylocal.com/media",
+        mediaResizeUrl: "https://cloud-1de12d.b-cdn.net/media",
         imagePatterns: {
           full: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}&{{ oX=[oX] }}&{{ oY=[oY] }}&{{ cW=[cW] }}&{{ cH=[cH] }}/{{ [uid] }}/{{ [fileName] }}",
           original: "{{ [baseUrl] }}/{{ [sizeType] }}/{{ [uid] }}/{{ [fileName] }}",
