@@ -1,8 +1,8 @@
-import DBConnect from "@/lib/db/connect";
-import Models from "@/lib/db/models";
+import { getItem } from "@/lib/db/item/getItem";
+import { getProject } from "@/lib/db/project/getProject";
 import { getPageData, getProjectData } from "@/lib/editorConfig";
 import { demoConfig } from "@/lib/editorConfig/demoConfig";
-import { getProject } from "@/lib/project/getProject";
+import { projectId } from "@/utils/mock";
 
 interface Data {
   collection: string;
@@ -16,15 +16,8 @@ export async function getItemConfig(data: Data) {
     "slug.item": item,
   };
 
-  await DBConnect();
-
-  const page = await Models.Items.findOne(query);
-
-  if (!page) {
-    throw new Error("Fail to get page");
-  }
-
-  const project = await getProject();
+  const page = await getItem(query);
+  const project = await getProject({ id: `${projectId}` });
 
   return {
     ...demoConfig,

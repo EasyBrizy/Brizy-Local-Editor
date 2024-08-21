@@ -1,21 +1,29 @@
 "use client";
 
-import { CompiledData } from "@/lib/db/models";
+import { ItemDataParsed } from "@/utils/converters/item";
+import { ProjectDataParsed } from "@/utils/converters/project";
 import { appendStylesheet } from "@/utils/dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 type Props = {
-  project: CompiledData;
-  pageData: CompiledData;
+  project: ProjectDataParsed["data"];
+  item: ItemDataParsed["data"];
 };
 
 export function NotFound(props: Props) {
-  const { project, pageData } = props;
+  const project = useMemo(() => props.project.compiled, [props.project]);
+  const item = useMemo(() => props.item.compiled, [props.item]);
+  const projectStyles = useMemo(() => project?.styles ?? [], [project]);
+  const itemStyles = useMemo(() => item?.styles ?? [], [item]);
 
   useEffect(() => {
-    project.styles.forEach(appendStylesheet);
-    pageData.styles.forEach(appendStylesheet);
-  }, [pageData.styles, project.styles]);
+    projectStyles.forEach(appendStylesheet);
+    itemStyles.forEach(appendStylesheet);
+  }, [projectStyles, itemStyles]);
 
-  return <div dangerouslySetInnerHTML={{ __html: pageData.html }} />;
+  if (!item?.html) {
+    return <h1>Not found</h1>;
+  }
+
+  return <div dangerouslySetInnerHTML={{ __html: item.html }} />;
 }

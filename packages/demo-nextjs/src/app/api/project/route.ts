@@ -1,5 +1,4 @@
-import DBConnect from "@/lib/db/connect";
-import Models from "@/lib/db/models";
+import { updateProject } from "@/lib/db/project/updateProject";
 import { NextResponse } from "next/server";
 
 export async function PUT(req: Request) {
@@ -10,12 +9,7 @@ export async function PUT(req: Request) {
       data: JSON.stringify(projectData),
     };
 
-    await DBConnect();
-
-    await Models.Project.findOneAndUpdate({ id }, schema, {
-      new: true,
-      upsert: true,
-    });
+    await updateProject(id, schema);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {

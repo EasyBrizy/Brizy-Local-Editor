@@ -2,7 +2,13 @@ import React from "react";
 import { Scripts } from "./Scripts";
 import { Styles } from "./Styles";
 
-export function Page({ html, scripts, styles }: { html: any; scripts: any; styles: any }) {
+interface Props {
+  html: any;
+  scripts: any;
+  styles: any;
+}
+
+export function Page({ html, scripts, styles }: Props) {
   return (
     <div>
       <Styles styles={styles} />

@@ -18,7 +18,8 @@
     "start:thirdparty": "npm run start --workspace=thirdparty-widgets",
     "tsc": "turbo run tsc",
     "tsc:core": "turbo run tsc --filter=@builder/core",
-    "tsc:demo": "turbo run tsc --filter=@builder/demo"
+    "tsc:demo": "turbo run tsc --filter=@builder/demo",
+    "lint": "turbo run lint"
   },
   "workspaces": [
     "demo/*",

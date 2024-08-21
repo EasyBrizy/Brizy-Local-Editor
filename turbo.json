@@ -19,6 +19,11 @@
         "^build"
       ]
     },
+    "lint": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
     "build": {
       "dependsOn": [
         "^build"

@@ -22,3 +22,40 @@ export interface ProjectSettings {
   sharing: Sharing;
   code: Code;
 }
+
+export interface Project {
+  id: string;
+  data: string;
+  settings?: string;
+}
+
+export interface Item {
+  _id: string;
+  slug: {
+    collection: string;
+    item: string;
+  };
+  config?: {
+    hasPreview?: boolean;
+    deletable?: boolean;
+  };
+  data?: string;
+  createdAt?: string;
+}
+
+export enum CollectionTypes {
+  system = "system",
+  page = "page",
+  popup = "popup",
+  story = "story",
+  menu = "menu",
+  header = "header",
+  footer = "footer",
+}
+
+export type CollectionTypeValue = (typeof CollectionTypes)[keyof typeof CollectionTypes];
+
+export interface Slug {
+  collection: CollectionTypeValue;
+  item: string;
+}

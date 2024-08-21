@@ -1,5 +1,8 @@
-import DBConnect from "@/lib/db/connect";
-import Models from "@/lib/db/models";
+import { deleteItem } from "@/lib/db/item/deleteItem";
+import { getItem } from "@/lib/db/item/getItem";
+import { getItems } from "@/lib/db/item/getItems";
+import { newItem } from "@/lib/db/item/newItem";
+import { updateItem } from "@/lib/db/item/updateItem";
 import { NextRequest, NextResponse } from "next/server";
 
 interface Payload {
@@ -25,15 +28,9 @@ export async function POST(req: Request) {
       ...(pageData && { data: JSON.stringify(pageData) }),
     };
 
-    await DBConnect();
+    const item = await newItem(schema);
 
-    const item = await Models.Items.create(schema);
-
-    if (!item) {
-      return NextResponse.json({ success: false, error: "Fail to create item" }, { status: 400 });
-    }
-
-    return NextResponse.json({ success: true, data: item.toObject() }, { status: 200 });
+    return NextResponse.json({ success: true, data: item }, { status: 200 });
   } catch (e) {
     console.error(e);
     return NextResponse.json({ success: false, error: "Fail to update page" }, { status: 400 });
@@ -49,12 +46,7 @@ export async function PUT(req: Request) {
       ...(pageData && { data: JSON.stringify(pageData) }),
     };
 
-    await DBConnect();
-
-    await Models.Items.findOneAndUpdate({ _id: id }, schema, {
-      new: true,
-      upsert: true,
-    });
+    await updateItem(id, schema);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (e) {
@@ -93,15 +85,7 @@ export async function GET(req: NextRequest) {
       qs[key] = value;
     });
 
-    await DBConnect();
-
-    const items = await Models.Items.find(qs, {}, pagination).limit(pagination.limit).skip(pagination.skip);
-
-    if (!items) {
-      return NextResponse.json({ success: false, error: "Fail to find items" }, { status: 400 });
-    }
-
-    const total = await Models.Items.countDocuments(qs);
+    const { items, total } = await getItems(qs, pagination);
 
     const payload: Payload = {
       pagination: {
@@ -161,7 +145,6 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: Request) {
   try {
     const data = await req.json();
-    await DBConnect();
 
     const ids = data.ids;
 
@@ -169,17 +152,15 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ success: false, error: "Invalid id" }, { status: 400 });
     }
 
-    await DBConnect();
-
     for (const _id of ids) {
-      const item = await Models.Items.findOne({ _id });
+      const item = await getItem({ _id: _id });
 
       if (!item) {
         return NextResponse.json({ success: false, error: "Item not found" }, { status: 400 });
       }
 
-      if (item.config.deletable) {
-        await Models.Items.deleteOne({ _id });
+      if (item.config?.deletable) {
+        await deleteItem(_id);
         continue;
       }
 

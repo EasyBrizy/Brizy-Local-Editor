@@ -1,8 +1,13 @@
 import { Page as PageComponent } from "@/components/Preview/Page";
-import { CollectionTypeValue, CollectionTypes } from "@/lib/db/models";
-import { getAllPopups, getCompiledData, getItem, getProject } from "@/lib/preview";
+import { getItem } from "@/lib/db/item/getItem";
+import { getItems } from "@/lib/db/item/getItems";
+import { getProject } from "@/lib/db/project/getProject";
+import { CollectionTypeValue, CollectionTypes } from "@/lib/db/types";
 import { assemblePages } from "@/utils";
-import { footerId, headerId, projectId } from "@/utils/mock";
+import { convertItem } from "@/utils/converters/item";
+import { convertProject } from "@/utils/converters/project";
+import { footerQuery, headerQuery, projectId } from "@/utils/mock";
+import { isT } from "fp-utilities";
 import { notFound } from "next/navigation";
 
 const excludeCatchAllCollection = [CollectionTypes.system, CollectionTypes.popup, CollectionTypes.story];
@@ -26,25 +31,30 @@ export default async function Page({
   if (excludeCatchAllCollection.includes(slug.collection)) {
     notFound();
   }
-  try {
-    const { page, hasPreview } = await getItem(slug).then((document) => ({
-      page: document.data.compiled,
-      hasPreview: document.config.hasPreview,
-    }));
 
-    if (!page || !hasPreview) {
+  try {
+    const page = await getItem({ "slug.collection": slug.collection, "slug.item": slug.item }).then(convertItem);
+
+    if (!page.data.compiled || !page.config?.hasPreview) {
       notFound();
     }
 
-    const project = await getProject(projectId);
-    const headerPage = await getItem(headerId).then((document) => document.data.compiled);
-    const footerPage = await getItem(footerId).then((document) => document.data.compiled);
+    const project = await getProject({ id: `${projectId}` }).then(convertProject);
 
-    const popups = getCompiledData(await getAllPopups());
+    if (!project.data.compiled) {
+      notFound();
+    }
+
+    const headerPage = await getItem(headerQuery).then(convertItem);
+    const footerPage = await getItem(footerQuery).then(convertItem);
+    const popups = await getItems({ "slug.collection": CollectionTypes.popup }).then((i) =>
+      i.items.map(convertItem).map((i) => i.data.compiled),
+    );
+    const items = [headerPage.data.compiled, page.data.compiled, footerPage.data.compiled, ...popups].filter(isT);
 
     const { html, scripts, styles, projectStyles } = assemblePages({
-      items: [headerPage, page, footerPage, ...popups],
-      project,
+      items,
+      project: project.data.compiled,
     });
     const _styles = [...projectStyles, ...styles];
     return <PageComponent html={html} scripts={scripts} styles={_styles} />;
