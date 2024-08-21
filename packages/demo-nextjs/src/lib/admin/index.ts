@@ -1,35 +1,33 @@
 "use server";
 
 import { TreeItems } from "@/components/Menu/types";
-import DBConnect from "@/lib/db/connect";
-import Models, { CollectionTypes } from "@/lib/db/models";
+import { getItem } from "@/lib/db/item/getItem";
+import { getItems } from "@/lib/db/item/getItems";
+import { updateItem } from "@/lib/db/item/updateItem";
+import { CollectionTypes } from "@/lib/db/types";
 
 enum Menu {
   main = "main",
 }
 
-const menuFilter = { "slug.collection": CollectionTypes.menu, "slug.item": Menu.main };
+const query = {
+  "slug.collection": CollectionTypes.menu,
+  "slug.item": Menu.main,
+};
 
 export async function getAllPagesWithPreview() {
-  await DBConnect();
-  const response = await Models.Items.find({ "config.showInMenu": true });
-  if (!response) {
-    throw new Error("no response from DB");
-  }
-  return response;
+  return await getItems({ "config.showInMenu": true });
 }
 
-export async function getMenu() {
+export async function getMenu(): Promise<TreeItems> {
   try {
-    await DBConnect();
+    const item = await getItem(query);
 
-    const response = await Models.Items.findOne(menuFilter);
-
-    if (!response) {
-      throw new Error("Error Menu not found");
+    if (!item.data) {
+      return [];
     }
 
-    return response.data;
+    return JSON.parse(item.data);
   } catch (e) {
     console.log("Get Menu Error: ", e);
     return [];
@@ -38,8 +36,12 @@ export async function getMenu() {
 
 export async function updateMenu(menu: TreeItems) {
   try {
-    await DBConnect();
-    await Models.Items.findOneAndUpdate(menuFilter, { data: JSON.stringify(menu) }, { new: true, upsert: true });
+    const item = await getItem(query);
+    const data = {
+      id: item._id,
+      data: JSON.stringify(menu),
+    };
+    await updateItem(item._id, data);
   } catch (e) {
     console.log("Update menu error: ", e);
   }

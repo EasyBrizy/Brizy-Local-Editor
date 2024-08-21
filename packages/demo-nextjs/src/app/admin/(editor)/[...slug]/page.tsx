@@ -1,6 +1,6 @@
 import { Editor } from "@/components/Editor";
 import { getConfig } from "@/config";
-import { getItemConfig } from "@/lib/items/getItemConfig";
+import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
 import { Modes } from "@builder/core/build/es/types/types";
 import { notFound } from "next/navigation";
 import React from "react";

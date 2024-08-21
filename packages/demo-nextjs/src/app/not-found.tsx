@@ -1,13 +1,17 @@
 import { NotFound as NotFoundComponent } from "@/components/Preview/NotFound";
-import { CollectionTypes } from "@/lib/db/models";
-import { getItem, getProject } from "@/lib/preview";
+import { getItem } from "@/lib/db/item/getItem";
+import { getProject } from "@/lib/db/project/getProject";
+import { CollectionTypes } from "@/lib/db/types";
+import { convertItem } from "@/utils/converters/item";
+import { convertProject } from "@/utils/converters/project";
 import { projectId } from "@/utils/mock";
 
 export default async function NotFound() {
-  const project = await getProject(projectId);
-  const pageData = await getItem({ collection: CollectionTypes.system, item: "404" }).then(
-    (document) => document.data.compiled,
-  );
+  const project = await getProject({ id: `${projectId}` });
+  const item = await getItem({
+    "slug.collection": CollectionTypes.system,
+    "slug.item": "404",
+  });
 
-  return <NotFoundComponent project={project} pageData={pageData} />;
+  return <NotFoundComponent project={convertProject(project).data} item={convertItem(item).data} />;
 }

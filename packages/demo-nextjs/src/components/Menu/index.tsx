@@ -33,12 +33,14 @@ import {
 import { SortableContext, arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import React, { useMemo, useReducer } from "react";
 
-export function Menu(props: {
+interface Props {
   items: TreeItems;
   updateMenu?: (menu: TreeItems) => Promise<void>;
   getMenu?: () => Promise<TreeItems>;
   allItems: TreeItems;
-}) {
+}
+
+export function Menu(props: Props) {
   const indentationWidth = 50;
   const removable = true;
 

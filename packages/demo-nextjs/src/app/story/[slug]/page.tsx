@@ -1,23 +1,34 @@
 import { Page as PageComponent } from "@/components/Preview/Page";
-import { CollectionTypes } from "@/lib/db/models";
-import { getItem, getProject } from "@/lib/preview";
+import { getItem } from "@/lib/db/item/getItem";
+import { getProject } from "@/lib/db/project/getProject";
+import { CollectionTypes } from "@/lib/db/types";
 import { assemblePages } from "@/utils";
+import { convertItem } from "@/utils/converters/item";
+import { convertProject } from "@/utils/converters/project";
 import { projectId } from "@/utils/mock";
 import { notFound } from "next/navigation";
 
-export default async function Page({
-  params,
-}: {
+interface Props {
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  try {
-    const project = await getProject(projectId);
-    const _page = await getItem({ collection: CollectionTypes.story, item: params.slug }).then(
-      (document) => document.data.compiled,
-    );
+}
 
-    const { html, scripts, styles, projectStyles } = assemblePages({ items: [_page], project });
+export default async function Page({ params }: Props) {
+  try {
+    const project = await getProject({ id: `${projectId}` }).then(convertProject);
+    const page = await getItem({
+      "slug.collection": CollectionTypes.story,
+      "slug.item": params.slug,
+    }).then(convertItem);
+
+    if (!page.data.compiled || !project.data.compiled) {
+      notFound();
+    }
+
+    const { html, scripts, styles, projectStyles } = assemblePages({
+      items: [page.data.compiled],
+      project: project.data.compiled,
+    });
     const _styles = [...projectStyles, ...styles];
 
     return <PageComponent html={html} scripts={scripts} styles={_styles} />;
