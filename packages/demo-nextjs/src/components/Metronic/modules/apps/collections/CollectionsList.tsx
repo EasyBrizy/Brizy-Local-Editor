@@ -5,7 +5,12 @@ import { ToolbarWrapper } from "../../../layout/components/toolbar";
 import { UsersListHeader } from "./components/header/UsersListHeader";
 import { ListViewProvider } from "./core/ListViewProvider";
 import { QueryRequestProvider } from "./core/QueryRequestProvider";
-import { QueryResponseProvider, useCollectionQuery, useQueryResponse } from "./core/QueryResponseProvider";
+import {
+  QueryResponseProvider,
+  useCollectionQuery,
+  useQueryResponse,
+  useQueryResponseLoading,
+} from "./core/QueryResponseProvider";
 import { CollectionsTable } from "./table/CollectionsTable";
 import { Config } from "./types";
 
@@ -14,12 +19,17 @@ interface Props {
   config?: Config;
 }
 
-const CollectionsList: FC<Pick<Props, "config">> = ({ config }) => (
-  <KTCard>
-    {!config?.disableHeader && <UsersListHeader />}
-    <CollectionsTable config={config} />
-  </KTCard>
-);
+const CollectionsList: FC<Pick<Props, "config">> = ({ config }) => {
+  const collections = useCollectionQuery();
+  const isLoading = useQueryResponseLoading();
+
+  return (
+    <KTCard>
+      {!config?.disableHeader && <UsersListHeader />}
+      <CollectionsTable config={config} collections={collections} isLoading={isLoading} />
+    </KTCard>
+  );
+};
 
 const ListViewWrapper: FC<WithChildren> = ({ children }) => {
   const data = useCollectionQuery();

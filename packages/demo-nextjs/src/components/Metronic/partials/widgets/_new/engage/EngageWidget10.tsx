@@ -36,7 +36,9 @@ const EngageWidget10 = ({ className }: Props) => (
         </div>
 
         <div className="text-center">
-          <a href="#">Upgrade Now</a>
+          <a href="#" className="btn btn-sm btn-dark fw-bold">
+            Upgrade Now
+          </a>
         </div>
       </div>
       <Image
