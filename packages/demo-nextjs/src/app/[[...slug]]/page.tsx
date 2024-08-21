@@ -10,7 +10,7 @@ import { footerQuery, headerQuery, projectId } from "@/utils/mock";
 import { isT } from "fp-utilities";
 import { notFound } from "next/navigation";
 
-const excludeCatchAllCollection = [ CollectionTypes.popup, CollectionTypes.story];
+const excludeCatchAllCollection = [CollectionTypes.popup, CollectionTypes.story];
 
 export default async function Page({
   params,
@@ -35,6 +35,9 @@ export default async function Page({
   try {
     const page = await getItem({ type: slug.collection, item: slug.item }).then(convertItem);
 
+    const { reference } = page.config ?? {};
+    const referenceValue = reference ? JSON.parse(reference) : null;
+
     if (!page.data.compiled || !page.config?.hasPreview) {
       notFound();
     }
@@ -52,10 +55,12 @@ export default async function Page({
     );
     const items = [headerPage.data.compiled, page.data.compiled, footerPage.data.compiled, ...popups].filter(isT);
 
-    const { html, scripts, styles, projectStyles } = assemblePages({
+    const { html, scripts, styles, projectStyles } = await assemblePages({
       items,
       project: project.data.compiled,
+      reference: referenceValue,
     });
+
     const _styles = [...projectStyles, ...styles];
     return <PageComponent html={html} scripts={scripts} styles={_styles} />;
   } catch (e) {

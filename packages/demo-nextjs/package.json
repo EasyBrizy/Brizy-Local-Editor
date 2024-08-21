@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "turbo run dev:widgets dev:nextjs",
-    "dev:nextjs":"next dev",
+    "dev:nextjs": "next dev",
     "dev:widgets": "brizy-scripts start --webpack-build-dir=public/widgets --webpack-src-dir=src/widgets --no-server",
     "build": "next build",
     "build:widgets": "brizy-scripts build --webpack-build-dir=public/widgets --webpack-src-dir=src/widgets",
@@ -13,7 +13,8 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "@brizy/content-placeholder": "^1.0.2",
+    "@brizy/content-placeholder": "^1.0.6",
+    "@brizy/readers": "^1.0.3",
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/sortable": "^8.0.0",
     "@fortawesome/fontawesome-free": "^6.6.0",
@@ -42,6 +43,7 @@
     "react-query": "^3.39.3",
     "react-table": "^7.8.0",
     "socicon": "^3.0.5",
+    "timm": "^1.7.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {

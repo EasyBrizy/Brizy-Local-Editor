@@ -52,6 +52,10 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         const l10n = configData.l10n ?? {};
         const compiler = configData.compiler ?? defaultConfig.compiler;
 
+        const platform = configData.platform ?? defaultConfig.platform;
+        const contentDefaults = configData.contentDefaults ?? {};
+        const templateType = configData.templateType;
+
         window.__VISUAL_CONFIG__.mode = mode;
         window.__VISUAL_CONFIG__.projectData = {
           dataVersion: 1,
@@ -77,6 +81,12 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         window.__VISUAL_CONFIG__.integrations = getIntegration({ uid, target, event, integration });
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
         window.__VISUAL_CONFIG__.l10n = l10n;
+        window.__VISUAL_CONFIG__.contentDefaults = contentDefaults;
+        window.__VISUAL_CONFIG__.platform = platform;
+
+        if (templateType) {
+          window.__VISUAL_CONFIG__.templateType = templateType;
+        }
 
         window.__VISUAL_CONFIG__.onLoad = () => {
           const data = JSON.stringify({ type: `${target}_on_load` });

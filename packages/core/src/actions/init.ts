@@ -99,6 +99,10 @@ const createDCContent = <T extends HtmlOutputType>(config: Config<T>): BuilderDC
     dc = setIn(dc, ["getPlaceholderData"], { enable: true }) as BuilderDCOption;
   }
 
+  if (typeof dynamicContent.handler === "function") {
+    dc = setIn(dc, ["handler"], { enable: true }) as BuilderDCOption;
+  }
+
   return { ...dc, groups };
 };
 
@@ -264,6 +268,9 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, t
       autoSaveInterval: config.autoSaveInterval,
       urls: config.urls,
       l10n: config.l10n,
+      contentDefaults: config.contentDefaults,
+      platform: config.platform,
+      templateType: config.templateType,
     },
   }),
 });

@@ -1,3 +1,5 @@
+import { getCollectionItemsIds } from "@/builderProvider/handlers/api/collectionItems";
+import { loadCollectionTypes } from "@/builderProvider/handlers/api/collectionTypes";
 import { HandlerData } from "@/builderProvider/types/type";
 import { Obj, Str } from "@brizy/readers";
 import { getIn, setIn } from "timm";
@@ -77,6 +79,12 @@ export const getApi = (data: Data) => {
     customFile: {
       ...customFile,
       addFile: { handler: addCustomFileHandler({ event, target, uid }) },
+    },
+    collectionTypes: {
+      loadCollectionTypes: loadCollectionTypes({ event, target, uid }),
+    },
+    collectionItems: {
+      getCollectionItemsIds: getCollectionItemsIds({ event, target, uid }),
     },
   };
 };

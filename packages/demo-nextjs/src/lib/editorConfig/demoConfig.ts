@@ -1,4 +1,6 @@
 import type { Config } from "@/hooks/useEditor/types";
+import { PlaceholderType } from "@/placeholders/types/types";
+import { DCTypes } from "@builder/core/build/es/types/dynamicContent";
 import { Modes } from "@builder/core/build/es/types/types";
 
 const menu: Config["menu"] = [
@@ -806,5 +808,38 @@ export const demoConfig: Config = {
   },
   urls: {
     compileTemplateIcons: "/api/icons",
+  },
+  dynamicContent: {
+    groups: {
+      [DCTypes.image]: [
+        {
+          label: "Featured Image",
+          optgroup: [
+            {
+              label: "Custom",
+              placeholder: `{{${PlaceholderType.FeaturedImage} size="custom"}}`,
+            },
+            {
+              label: "Original",
+              placeholder: `{{${PlaceholderType.FeaturedImage} size="master"}}`,
+            },
+          ],
+          placeholder: `{{${PlaceholderType.FeaturedImage}}}`,
+        },
+      ],
+      [DCTypes.link]: [],
+    },
+  },
+  contentDefaults: {
+    PostTitle: {
+      textPopulation: `{{${PlaceholderType.Title}}}`,
+      textPopulationEntityType: "",
+      textPopulationEntityId: "",
+    },
+    PostContent: {
+      textPopulation: `{{${PlaceholderType.Description}}}`,
+      textPopulationEntityType: "",
+      textPopulationEntityId: "",
+    },
   },
 };

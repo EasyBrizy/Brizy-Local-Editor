@@ -8,6 +8,8 @@ import {
   autoSave,
   createScreenshotsRej,
   createScreenshotsRes,
+  dcHandlerRej,
+  dcHandlerRes,
   dcImageRej,
   dcImageRes,
   dcLinkRej,
@@ -18,8 +20,12 @@ import {
   dcRichTextRes,
   formFieldsRej,
   formFieldsRes,
+  getCollectionItemsIdsRej,
+  getCollectionItemsIdsRes,
   init,
   leftSidebarOpenCMSClose,
+  loadCollectionRej,
+  loadCollectionRes,
   publishRej,
   publishRes,
   save,
@@ -45,7 +51,13 @@ import {
 import { templateKitsRej, templateKitsRes } from "@/actions/templates";
 import { ActionTypes } from "@/actions/types";
 import { AddFileData, AddFileExtra } from "@/types/customFile";
-import { BaseDCItem, DCHandlerExtra, DCPlaceholdersExtra } from "@/types/dynamicContent";
+import {
+  BaseDCHandlerExtra,
+  BaseDCItem,
+  ConfigDCItem,
+  DCHandlerExtra,
+  DCPlaceholdersExtra,
+} from "@/types/dynamicContent";
 import { FormFieldsOption } from "@/types/form";
 import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@/types/media";
@@ -75,6 +87,8 @@ const actions = {
   dcLinkRej,
   dcPlaceholderRes,
   dcPlaceholderRej,
+  dcHandlerRes,
+  dcHandlerRej,
   templateKitsRes,
   templateKitsRej,
   templateKitsMetaRes,
@@ -100,6 +114,10 @@ const actions = {
   leftSidebarOpenCMSClose,
   publishRej,
   publishRes,
+  loadCollectionRes,
+  loadCollectionRej,
+  getCollectionItemsIdsRes,
+  getCollectionItemsIdsRej,
 };
 
 const savedNodeCB = new Map<HTMLElement, OnSave<HtmlOutputType>>();
@@ -275,6 +293,19 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             };
 
             link.handler(res, rej, extra);
+          },
+          [ActionTypes.dcHandler]: (extra: BaseDCHandlerExtra) => {
+            const { dynamicContent = {} } = config;
+            const { handler } = dynamicContent;
+
+            const res = (r: ConfigDCItem[]) => {
+              iframeWindow.postMessage(actions.dcHandlerRes(r, uid), targetOrigin);
+            };
+            const rej = (r: string) => {
+              iframeWindow.postMessage(actions.dcHandlerRej(r, uid), targetOrigin);
+            };
+
+            handler?.(res, rej, extra);
           },
           [ActionTypes.dcPlaceholderData]: (extra: DCPlaceholdersExtra) => {
             const { getPlaceholderData } = config.dynamicContent ?? {};
@@ -495,6 +526,36 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
 
               config.onSave?.(output);
               handler(res, rej, output);
+            }
+          },
+          [ActionTypes.loadCollectionTypes]: () => {
+            const { collectionTypes } = config.api ?? {};
+            const handler = collectionTypes?.loadCollectionTypes.handler;
+
+            if (typeof handler === "function") {
+              const res = (r: any) => {
+                iframeWindow.postMessage(actions.loadCollectionRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.loadCollectionRej(r, uid), targetOrigin);
+              };
+
+              handler(res, rej);
+            }
+          },
+          [ActionTypes.getCollectionItemsIds]: (extra: { id: string }) => {
+            const { collectionItems } = config.api ?? {};
+            const handler = collectionItems?.getCollectionItemsIds.handler;
+
+            if (typeof handler === "function") {
+              const res = (r: any) => {
+                iframeWindow.postMessage(actions.getCollectionItemsIdsRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.getCollectionItemsIdsRej(r, uid), targetOrigin);
+              };
+
+              handler(res, rej, extra);
             }
           },
         };

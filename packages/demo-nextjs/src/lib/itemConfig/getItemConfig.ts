@@ -17,10 +17,13 @@ export async function getItemConfig(data: Data) {
   };
 
   const page = await getItem(query);
+  const { reference } = page.config ?? {};
+  const parsedReference = reference ? JSON.parse(reference) : null;
   const project = await getProject(projectId);
 
   return {
     ...demoConfig,
+    ...(parsedReference ? { reference: parsedReference } : {}),
     pageData: getPageData(page),
     projectData: getProjectData(project),
   };

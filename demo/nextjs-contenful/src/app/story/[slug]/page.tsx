@@ -25,7 +25,7 @@ export default async function Page({ params }: Props) {
       notFound();
     }
 
-    const { html, scripts, styles, projectStyles } = assemblePages({
+    const { html, scripts, styles, projectStyles } = await assemblePages({
       items: [page.data.compiled],
       project: project.data.compiled,
     });

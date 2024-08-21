@@ -1,5 +1,6 @@
+import { addDCHandler } from "@/builderProvider/handlers/dynamicContent/handler";
 import { HandlerData } from "@/builderProvider/types/type";
-import { getIn, setIn } from "timm";
+import { getIn, set, setIn } from "timm";
 import { addImageDCHandler } from "./image";
 import { addLinkDCHandler } from "./link";
 import { getPlaceholderDataHandler } from "./placeholder";
@@ -18,6 +19,8 @@ export function getDCConfig(data: DC) {
   const richTextDC = getIn(dynamicContent, ["groups", "richText", "handler"]) as undefined | Record<string, unknown>;
   const imageDC = getIn(dynamicContent, ["groups", "image", "handler"]) as undefined | Record<string, unknown>;
   const linkDC = getIn(dynamicContent, ["groups", "link", "handler"]) as undefined | Record<string, unknown>;
+  const handler = getIn(dynamicContent, ["handler"]) as undefined | Record<string, unknown>;
+
   if (richTextDC && richTextDC.enable) {
     dc = setIn(dc, ["groups", "richText"], {
       handler: addRichTextDCHandler({ uid, target, event }),
@@ -34,6 +37,10 @@ export function getDCConfig(data: DC) {
     dc = setIn(dc, ["groups", "link"], {
       handler: addLinkDCHandler({ uid, target, event }),
     }) as Record<string, unknown>;
+  }
+
+  if (handler && handler.enable) {
+    dc = set(dc, "handler", addDCHandler({ uid, target, event }));
   }
 
   //#endregion

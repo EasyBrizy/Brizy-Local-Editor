@@ -186,3 +186,8 @@ export type ProjectDataOutput<T extends HtmlOutputType> = {
 };
 
 //#endregion
+
+export type Choice = {
+  title: string;
+  value: string | number;
+};

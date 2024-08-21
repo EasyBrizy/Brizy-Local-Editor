@@ -21,13 +21,17 @@ export default async function Page({ params }: Props) {
       item: params.slug,
     }).then(convertItem);
 
+    const { reference } = page.config ?? {};
+    const referenceValue = reference ? JSON.parse(reference) : null;
+
     if (!page.data.compiled || !project.data.compiled) {
       notFound();
     }
 
-    const { html, scripts, styles, projectStyles } = assemblePages({
+    const { html, scripts, styles, projectStyles } = await assemblePages({
       items: [page.data.compiled],
       project: project.data.compiled,
+      reference: referenceValue,
     });
     const _styles = [...projectStyles, ...styles];
 

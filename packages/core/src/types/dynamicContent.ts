@@ -21,6 +21,11 @@ export interface DCHandlerExtra {
   placeholder: string;
 }
 
+export interface BaseDCHandlerExtra {
+  entityType: string;
+  groupType: DCTypes;
+}
+
 interface DCItemHandler {
   handler: (res: Response<BaseDCItem>, rej: Response<string>, extra?: DCHandlerExtra) => void;
 }
@@ -39,4 +44,5 @@ export interface DCPlaceholdersExtra {
 export interface DynamicContent {
   groups?: DCGroups;
   getPlaceholderData?: (res: Response<Dictionary<string>>, rej: Response<string>, extra: DCPlaceholdersExtra) => void;
+  handler?: (res: Response<ConfigDCItem[]>, rej: Response<string>, extraData: BaseDCHandlerExtra) => void;
 }

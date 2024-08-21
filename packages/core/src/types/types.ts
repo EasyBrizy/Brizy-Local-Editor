@@ -1,4 +1,6 @@
 import { BuilderModes } from "@/actions/init";
+import { CollectionItems } from "./collectionItems";
+import { CollectionTypes } from "./collectionTypes";
 import { PageData, PageDataOutput, ProjectData, ProjectDataOutput } from "./common";
 import { CustomFile } from "./customFile";
 import { DynamicContent } from "./dynamicContent";
@@ -25,6 +27,14 @@ export enum Modes {
   popup = "popup",
   page = "page",
   story = "story",
+}
+
+export enum ShopifyTemplate {
+  Product = "shopify-product",
+  Page = "shopify-page",
+  Collection = "shopify-collection",
+  Article = "shopify-article",
+  Blog = "shopify-blog",
 }
 
 export interface BuilderOutput<T extends HtmlOutputType> {
@@ -154,6 +164,12 @@ export interface Config<T extends HtmlOutputType> {
 
     // Screenshots
     screenshots?: Screenshots;
+
+    // CollectionTypes
+    collectionTypes?: CollectionTypes;
+
+    // CollectionItems
+    collectionItems?: CollectionItems;
   };
 
   //#endregion
@@ -166,6 +182,58 @@ export interface Config<T extends HtmlOutputType> {
   onLoad?: VoidFunction;
 
   //#endregion
+
+  // #region platform
+  platform?: "shopify" | "cms";
+
+  // #endregion
+
+  // #region contentDefaults
+  contentDefaults?: {
+    PostTitle?: {
+      textPopulation?: string;
+      textPopulationEntityType?: string;
+      textPopulationEntityId?: string;
+      linkSource?: string;
+      linkType?: string;
+    };
+    PostContent?: {
+      textPopulation?: string;
+      textPopulationEntityType?: string;
+      textPopulationEntityId?: string;
+    };
+    Quantity?: {
+      sourceType?: string;
+    };
+    Price?: {
+      sourceType?: string;
+    };
+    AddToCart?: {
+      sourceType?: string;
+    };
+    Vendor?: {
+      sourceType?: string;
+      linkSource?: string;
+      linkType?: string;
+    };
+    Variant?: {
+      sourceType?: string;
+    };
+    FeaturedImage?: {
+      linkSource?: string;
+      linkType?: string;
+    };
+  };
+
+  // #endregion
+
+  // #region templateType
+  templateType?: {
+    id: string;
+    type: ShopifyTemplate;
+  };
+
+  // #endregion
 }
 
 export interface API {
