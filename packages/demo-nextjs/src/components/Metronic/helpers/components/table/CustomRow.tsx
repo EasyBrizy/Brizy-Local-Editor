@@ -1,12 +1,10 @@
-import { FC } from "react";
 import { Row } from "react-table";
-import { Collection } from "../../core/_models";
 
-type Props = {
-  row: Row<Collection>;
-};
+interface Props<T extends Record<string, unknown>> {
+  row: Row<T>;
+}
 
-const CustomRow: FC<Props> = ({ row }) => {
+const CustomRow = <T extends Record<string, unknown>>({ row }: Props<T>): JSX.Element => {
   const { key, ...rowProps } = row.getRowProps();
 
   return (
@@ -22,5 +20,4 @@ const CustomRow: FC<Props> = ({ row }) => {
     </tr>
   );
 };
-
 export { CustomRow };

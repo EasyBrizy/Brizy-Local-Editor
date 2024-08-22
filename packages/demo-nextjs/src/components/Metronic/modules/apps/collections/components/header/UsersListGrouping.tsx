@@ -1,3 +1,5 @@
+import { ListGrouping } from "@/components/Metronic/helpers/components/list/ListGrouping";
+import { useCallback } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { QUERIES } from "../../../../../helpers";
 import { useListView } from "../../core/ListViewProvider";
@@ -21,26 +23,11 @@ const UsersListGrouping = () => {
     },
   });
 
-  return (
-    <div className="d-flex justify-content-end align-items-center">
-      <div className="fw-bolder me-5">
-        <span className="me-2">{selected.length}</span> Selected
-      </div>
+  const handleDelete = useCallback(async () => {
+    await handleDeleteItems.mutateAsync();
+  }, [handleDeleteItems]);
 
-      <button
-        type="button"
-        className="btn btn-danger"
-        data-kt-indicator={handleDeleteItems.isLoading ? "on" : "off"}
-        onClick={async () => await handleDeleteItems.mutateAsync()}
-      >
-        <span className="indicator-label">Delete Selected</span>
-        <span className="indicator-progress">
-          Please wait...
-          <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-        </span>
-      </button>
-    </div>
-  );
+  return <ListGrouping count={selected.length} isLoading={handleDeleteItems.isLoading} onDelete={handleDelete} />;
 };
 
 export { UsersListGrouping };

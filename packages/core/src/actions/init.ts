@@ -9,7 +9,7 @@ import { ActionTypes } from "./types";
 
 //#region Integration
 
-type IntegrationConfig = Config<HtmlOutputType>["integration"];
+type IntegrationConfig = Config<HtmlOutputType>["integrations"];
 type BuilderIntegrationConfig = IntegrationConfig & {
   form?: {
     fields?: {
@@ -19,13 +19,13 @@ type BuilderIntegrationConfig = IntegrationConfig & {
 };
 
 const createIntegration = <T extends HtmlOutputType>(config: Config<T>): BuilderIntegrationConfig => {
-  const { integration = {} } = config;
-  const integrationForm = integration.form ?? {};
+  const { integrations = {} } = config;
+  const integrationForm = integrations.form ?? {};
 
-  let _integration = integration;
+  let _integration = integrations;
 
   if (integrationForm.fields?.handler) {
-    _integration = mergeIn(integration, ["form", "fields"], { enable: true }) as BuilderIntegrationConfig;
+    _integration = mergeIn(integrations, ["form", "fields"], { enable: true }) as BuilderIntegrationConfig;
   }
 
   return _integration;
@@ -259,7 +259,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, t
       thirdPartyUrls: config.thirdPartyUrls,
       extensions: config.extensions,
       api: createApi(config),
-      integration: createIntegration(config),
+      integrations: createIntegration(config),
       dynamicContent: createDCContent(config),
       autoSaveInterval: config.autoSaveInterval,
       urls: config.urls,

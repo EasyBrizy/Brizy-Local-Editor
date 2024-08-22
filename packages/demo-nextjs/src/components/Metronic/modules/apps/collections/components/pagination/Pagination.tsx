@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { PaginationState } from "../../../../../helpers";
 import { useQueryRequest } from "../../core/QueryRequestProvider";
 import { useQueryResponseLoading, useQueryResponsePagination } from "../../core/QueryResponseProvider";
@@ -17,12 +17,13 @@ const mappedLabel = (label: string): string => {
   return label;
 };
 
-const Pagination = () => {
-  const pagination = useQueryResponsePagination();
+interface Props {
+  pagination: PaginationState;
+  isLoading: boolean;
+  updateState: (updates: Partial<PaginationState>) => void;
+}
 
-  const isLoading = useQueryResponseLoading();
-  const { updateState } = useQueryRequest();
-
+const Pagination: FC<Props> = ({ pagination, isLoading, updateState }) => {
   const updatePage = useCallback(
     (page: number | undefined | null) => {
       if (!page || isLoading || pagination.page === page) {

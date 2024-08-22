@@ -78,9 +78,9 @@ export interface Config<T extends HtmlOutputType> {
 
   //#endregion
 
-  //#region Integration
+  //#region Integrations
 
-  integration?: {
+  integrations?: {
     form?: Form;
   };
 

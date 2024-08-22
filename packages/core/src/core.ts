@@ -210,8 +210,8 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             }
           },
           [ActionTypes.formFields]: () => {
-            const { integration = {} } = config;
-            const { form = {} } = integration;
+            const { integrations = {} } = config;
+            const { form = {} } = integrations;
             const handler = form.fields?.handler;
 
             if (typeof handler === "function") {

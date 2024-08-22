@@ -3,21 +3,8 @@ import { getItem } from "@/lib/db/item/getItem";
 import { getItems } from "@/lib/db/item/getItems";
 import { newItem } from "@/lib/db/item/newItem";
 import { updateItem } from "@/lib/db/item/updateItem";
+import { getPaginationData } from "@/utils/pagination";
 import { NextRequest, NextResponse } from "next/server";
-
-interface Payload {
-  pagination: {
-    page: number;
-    items_per_page: number;
-    total: number;
-    links: Array<{
-      label: string;
-      active: boolean;
-      url: string | null;
-      page: number | null;
-    }>;
-  };
-}
 
 export async function POST(req: Request) {
   try {
@@ -72,7 +59,6 @@ export async function GET(req: NextRequest) {
       limit: itemsPerPage,
       skip: itemsPerPage * skip,
     };
-    const endIndex = pagination.skip + pagination.limit;
 
     const qs = {
       type: collection,
@@ -81,40 +67,12 @@ export async function GET(req: NextRequest) {
 
     const { items, total } = await getItems(qs, pagination);
 
-    const payload: Payload = {
-      pagination: {
-        total,
-        page: currentPage,
-        items_per_page: itemsPerPage,
-        links: [],
-      },
-    };
-
-    const startLink =
-      currentPage > 0
-        ? { url: `/?page=${currentPage - 1}`, active: false, page: currentPage - 1, label: "Previous" }
-        : { url: null, active: false, page: null, label: "Previous" };
-
-    payload.pagination.links.push(startLink);
-
-    const pages = Array(Math.ceil(total / pagination.limit)).fill(0);
-
-    pages.forEach((_, i) => {
-      const page = i + 1;
-      payload.pagination.links.push({
-        page,
-        active: page === skip,
-        label: `${page}`,
-        url: `/?page=${page}`,
-      });
+    const payload = getPaginationData({
+      total,
+      currentPage,
+      itemsPerPage,
+      skip,
     });
-
-    const endLink =
-      endIndex < total
-        ? { url: `/?page=${currentPage + 1}`, active: false, page: currentPage + 1, label: "Next" }
-        : { url: null, active: false, page: null, label: "Next" };
-
-    payload.pagination.links.push(endLink);
 
     return NextResponse.json(
       {

@@ -1,22 +1,21 @@
 "use client";
 
+import { LeadsContent } from "@/app/admin/(cms)/leads/components/Content";
 import Root from "@/components/Metronic/layout/Root";
-import { PageTitle } from "@/components/Metronic/layout/core";
-import { CollectionsListWrapper } from "@/components/Metronic/modules/apps/collections/CollectionsList";
-import { Breadcrumbs } from "@/constants/Breadcrumbs";
+import { QueryRequestProvider } from "@/components/Metronic/modules/apps/collections/core/QueryRequestProvider";
+import { LeadsProvider } from "@/components/Metronic/modules/apps/leads/core/LeadsProvider";
 import React, { FC } from "react";
-
-const config = {
-  disabledFields: ["author", "status", "selection"],
-  disableHeader: true,
-  editable: false,
-};
+import { Header } from "./components/Header";
 
 const Leads: FC = () => {
   return (
     <Root>
-      <PageTitle breadcrumbs={Breadcrumbs}>Leads</PageTitle>
-      <CollectionsListWrapper collection="page" config={config} />
+      <QueryRequestProvider>
+        <LeadsProvider>
+          <Header />
+          <LeadsContent />
+        </LeadsProvider>
+      </QueryRequestProvider>
     </Root>
   );
 };
