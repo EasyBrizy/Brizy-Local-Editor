@@ -1,7 +1,8 @@
 import { Editor } from "@/components/Editor";
-import { getConfig } from "@/config";
 import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
+import { getOrigin } from "@/utils";
 import { Modes } from "@builder/core/build/es/types/types";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -10,6 +11,9 @@ interface Props {
 }
 
 export default async function EditorPage(props: Props) {
+  const headersList = headers();
+  const origin = getOrigin(headersList);
+
   const { params } = props;
   let [collection, item] = params.slug;
 
@@ -19,11 +23,11 @@ export default async function EditorPage(props: Props) {
     collection = "page";
   }
 
-  const pagePreview = `${getConfig().host}/preview/${collection}/${item}`;
+  const pagePreview = `${origin}/${collection}/${item}`;
 
   try {
     const editorConfig = await getItemConfig({ item, collection });
-    return <Editor config={{ ...editorConfig, mode: Modes.page, pagePreview }} />;
+    return <Editor config={{ ...editorConfig, mode: Modes.page, pagePreview }} origin={origin} />;
   } catch (e) {
     return notFound();
   }

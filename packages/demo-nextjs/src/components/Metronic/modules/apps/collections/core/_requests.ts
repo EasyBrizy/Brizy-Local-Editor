@@ -1,9 +1,8 @@
-import { getConfig } from "@/config";
 import axios from "axios";
 import { ID } from "../../../../helpers";
 import { Collection, CollectionsQueryResponse } from "./_models";
 
-const API_URL = `${getConfig().host}/api`;
+const API_URL = `/api`;
 const GET_COLLECTIONS_URL = `${API_URL}/items`;
 
 const getCollections = async (query: string): Promise<CollectionsQueryResponse> => {

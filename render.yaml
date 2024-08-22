@@ -8,8 +8,6 @@ services:
     startCommand: npm run start:demonextjs
     branch: master
     envVars:
-      - key: NEXT_PUBLIC_URL
-        sync: false
       - key: NEXT_PUBLIC_EDITOR_URL
         value: https://cdn.brizylocal.com/pages/3.1.8/index.js
       - key: NEXT_PUBLIC_EDITOR_ICON_URL
