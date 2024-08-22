@@ -1,7 +1,6 @@
-import { getConfig } from "@/config";
 import axios from "axios";
 
-const API_URL = `${getConfig().host}/api`;
+const API_URL = `/api`;
 
 export const getProjectSettings = async (projectId: number) => {
   const response = await axios.get(`${API_URL}/projectSettings?id=${projectId}`);

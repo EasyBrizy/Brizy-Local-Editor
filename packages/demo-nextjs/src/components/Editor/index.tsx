@@ -33,7 +33,6 @@ export const Editor = (props: Props) => {
   const { config: baseConfig } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { host } = getConfig();
   const router = useRouter();
 
   const config: Config = {
@@ -76,7 +75,7 @@ export const Editor = (props: Props) => {
             {
               type: LeftSidebarMoreOptionsIds.link,
               label: "Back to Dashboard",
-              link: `${host}/admin`,
+              link: `${origin}/admin`,
             },
           ],
         },

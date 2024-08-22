@@ -1,6 +1,7 @@
 import { NavPlaceholder } from "@/utils/placeholder";
 import { EmptyContext, Registry, Replacer } from "@brizy/content-placeholder";
 import { PageJsonCompiledOutput, ProjectJsonCompiledOutput } from "@builder/core/build/es/types/common";
+import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 
 export function assemblePages(data: { items: Array<PageJsonCompiledOutput>; project: ProjectJsonCompiledOutput }) {
   const projectStyles = data.project?.styles ?? [];
@@ -24,4 +25,11 @@ function _replacePlaceholders(html: string): string {
   registry.registerPlaceholder(new NavPlaceholder("Navigation Placeholder", "placeholder"));
   const replacer = new Replacer(registry);
   return replacer.replacePlaceholders(html, new EmptyContext());
+}
+
+export function getOrigin(headers: ReadonlyHeaders): string {
+  const protocol = headers.get("x-forwarded-proto");
+  const host = headers.get("x-forwarded-host");
+  const url = `${protocol}://${host}`;
+  return URL.canParse(url) ? new URL(url).origin : "";
 }
