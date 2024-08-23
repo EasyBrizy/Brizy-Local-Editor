@@ -1,6 +1,6 @@
 [build]
   publish = "packages/demo-nextjs/.next"
-  comand = "npm run build:demonextjs"
+  command = "npm run build:demonextjs"
 
 [build.environment]
   NEXT_PUBLIC_EDITOR_URL='https://cdn.brizylocal.com/pages/3.1.8/index.js'
