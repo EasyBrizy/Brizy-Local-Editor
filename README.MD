@@ -52,7 +52,7 @@ You can try Brizy without installing it. Simply use one of the demos to deploy i
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/EasyBrizy/Brizy-Local-Editor/)
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/EasyBrizy/Brizy-Local-Editor)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/EasyBrizy/Brizy-Local-Editor#NEXT_PUBLIC_EDITOR_URL=https://cdn.brizylocal.com/pages/3.1.9/index.js&NEXT_PUBLIC_EDITOR_TOKEN=demo&NEXT_PUBLIC_EDITOR_ICON_URL=https://cdn.brizylocal.com/pages/3.1.9/dist/free/editor/icons&MONGODB_URI=mongodb%2Bsrv%3A%2F%2Fbrizy_nextjs%3Anextjs_brizy_test%40brizy.bhrbdoy.mongodb.net%2F%3FretryWrites%3Dtrue%26w%3Dmajority%26appName%3Dbrizy&MONGODB_DATABASE_NAME=brizy&NEXT_PUBLIC_VITE_APP_BASE_LAYOUT_CONFIG_KEY=metronic-react-demo1-8150)
 
 ## Bring your own React components
 
