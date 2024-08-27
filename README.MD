@@ -48,7 +48,7 @@ The release notes can be found [here](https://github.com/EasyBrizy/Brizy-Local-E
 You can try Brizy without installing it. Simply use one of the demos to deploy it:
 
 #### Deploy Next.js to Vercel, Netlify, Render
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FEasyBrizy%2Fbuilder%2F&root-directory=examples%2Fnextjs&env=API_URL&envDescription=API_URL%20is%20need%20to%20know%20where%20editor%20shoult%20to%20upload%20files&project-name=Brizy-builder-client&repository-name=Brizy-builder-client)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FEasyBrizy%2FBrizy-Local-Editor%2Ftree%2F27067-fix-vercel-deploy-button&env=NEXT_PUBLIC_EDITOR_URL,NEXT_PUBLIC_EDITOR_TOKEN,NEXT_PUBLIC_EDITOR_ICON_URL,MONGODB_URI,MONGODB_DATABASE_NAME,NEXT_PUBLIC_VITE_APP_BASE_LAYOUT_CONFIG_KEY&envDescription=API%20keys%20needed%20to%20run%20App&envLink=https%3A//github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/demo-nextjs/.env.example&project-name=brizy-nextjs&repository-name=brizy-nextjs)
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/EasyBrizy/Brizy-Local-Editor/)
 
