@@ -9,9 +9,9 @@ services:
     branch: master
     envVars:
       - key: NEXT_PUBLIC_EDITOR_URL
-        value: https://cdn.brizylocal.com/pages/3.1.8/index.js
+        value: https://cdn.brizylocal.com/pages/3.1.9/index.js
       - key: NEXT_PUBLIC_EDITOR_ICON_URL
-        value: https://cdn.brizylocal.com/pages/3.1.8/dist/free/editor/icons
+        value: https://cdn.brizylocal.com/pages/3.1.9/dist/free/editor/icons
       - key: NEXT_PUBLIC_EDITOR_TOKEN
         value: demo
       - key: NEXT_PUBLIC_APP_PURCHASE_URL

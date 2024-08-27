@@ -2,12 +2,5 @@
   publish = "packages/demo-nextjs/.next"
   command = "npm run build:demonextjs"
 
-[build.environment]
-  NEXT_PUBLIC_EDITOR_URL='https://cdn.brizylocal.com/pages/3.1.8/index.js'
-  NEXT_PUBLIC_EDITOR_ICON_URL='https://cdn.brizylocal.com/pages/3.1.8/dist/free/editor/icons'
-  NEXT_PUBLIC_EDITOR_TOKEN='demo'
-  MONGODB_URI='mongodb+srv://guest:NOczraPgpfXCcwFm@brizy.bhrbdoy.mongodb.net/?retryWrites=true&w=majority&appName=brizy'
-  MONGODB_DATABASE_NAME="brizy"
-  NEXT_PUBLIC_APP_PURCHASE_URL="https://brizy.io"
-  NEXT_PUBLIC_APP_PREVIEW_DOCS_URL="https://brizy.io"
-  NEXT_PUBLIC_VITE_APP_BASE_LAYOUT_CONFIG_KEY='metronic-react-demo1-8150'
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
