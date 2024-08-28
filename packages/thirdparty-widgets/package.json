@@ -9,13 +9,10 @@
     "tsc": "tsc"
   },
   "license": "MIT",
-  "dependencies": {
-    "@brizy/core": "^1.0.7"
-  },
   "devDependencies": {
-    "@brizy/scripts": "^1.0.5",
-    "@types/react": "^18.3.3",
-    "prettier": "^3.3.1",
-    "typescript": "^5.4.5"
+    "@brizy/scripts": "^1.1.1",
+    "@types/react": "^18.3.4",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
   }
 }
