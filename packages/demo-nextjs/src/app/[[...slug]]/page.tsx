@@ -33,13 +33,13 @@ export default async function Page({
   }
 
   try {
-    const page = await getItem({ "slug.collection": slug.collection, "slug.item": slug.item }).then(convertItem);
+    const page = await getItem({ type: slug.collection, item: slug.item }).then(convertItem);
 
     if (!page.data.compiled || !page.config?.hasPreview) {
       notFound();
     }
 
-    const project = await getProject({ id: `${projectId}` }).then(convertProject);
+    const project = await getProject(projectId).then(convertProject);
 
     if (!project.data.compiled) {
       notFound();
@@ -47,7 +47,7 @@ export default async function Page({
 
     const headerPage = await getItem(headerQuery).then(convertItem);
     const footerPage = await getItem(footerQuery).then(convertItem);
-    const popups = await getItems({ "slug.collection": CollectionTypes.popup }).then((i) =>
+    const popups = await getItems({ type: CollectionTypes.popup }).then((i) =>
       i.items.map(convertItem).map((i) => i.data.compiled),
     );
     const items = [headerPage.data.compiled, page.data.compiled, footerPage.data.compiled, ...popups].filter(isT);

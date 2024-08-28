@@ -3,6 +3,7 @@
 import DBConnect from "../mongoose/connect";
 import Models from "../mongoose/models";
 import { Project } from "../types";
+import { toCollectionConvertor, toProjectConvertor } from "./utils";
 
 interface Data {
   id?: string;
@@ -12,7 +13,7 @@ interface Data {
 
 export async function updateProject(id: string, data: Data): Promise<Project> {
   await DBConnect();
-  const project = await Models.Project.findOneAndUpdate({ id }, data, {
+  const project = await Models.Project.findOneAndUpdate({ id }, toCollectionConvertor(data), {
     new: true,
     upsert: true,
   }).lean<Project>();
@@ -21,5 +22,5 @@ export async function updateProject(id: string, data: Data): Promise<Project> {
     throw new Error("Project not found");
   }
 
-  return project;
+  return toProjectConvertor(project);
 }

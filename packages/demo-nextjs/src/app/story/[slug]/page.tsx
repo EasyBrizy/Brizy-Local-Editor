@@ -15,10 +15,10 @@ interface Props {
 
 export default async function Page({ params }: Props) {
   try {
-    const project = await getProject({ id: `${projectId}` }).then(convertProject);
+    const project = await getProject(projectId).then(convertProject);
     const page = await getItem({
-      "slug.collection": CollectionTypes.story,
-      "slug.item": params.slug,
+      type: CollectionTypes.story,
+      item: params.slug,
     }).then(convertItem);
 
     if (!page.data.compiled || !project.data.compiled) {

@@ -3,16 +3,42 @@
 import DBConnect from "../mongoose/connect";
 import Models from "../mongoose/models";
 import { Item } from "../types";
+import { toItemConvertor } from "./utils";
 
-type Query = Record<string, string | RegExp | boolean>;
+type ById = {
+  id: string;
+};
+
+type ByItem = {
+  type: string;
+  item: string;
+};
+
+type Query = ById | ByItem;
+
+const isById = (q: Query): q is ById => "id" in q;
 
 export async function getItem(query: Query): Promise<Item> {
   await DBConnect();
-  const item = await Models.Items.findOne(query).lean<Item>();
+
+  if (isById(query)) {
+    const item = await Models.Items.findById(query.id).lean<Item>();
+
+    if (!item) {
+      throw new Error(`Failed to get item, ${JSON.stringify(query)}`);
+    }
+
+    return toItemConvertor(item);
+  }
+
+  const item = await Models.Items.findOne({
+    "slug.collection": query.type,
+    "slug.item": query.item,
+  }).lean<Item>();
 
   if (!item) {
     throw new Error(`Failed to get item, ${JSON.stringify(query)}`);
   }
 
-  return item;
+  return toItemConvertor(item);
 }

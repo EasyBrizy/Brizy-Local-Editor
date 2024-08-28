@@ -1,14 +1,15 @@
 import { Menu as MenuComponent } from "@/components/Menu";
 import { TreeItems } from "@/components/Menu/types";
-import { getAllPagesWithPreview, getMenu, updateMenu } from "@/lib/admin";
+import { getMenu, updateMenu } from "@/lib/admin";
+import { getAllPages } from "@/lib/db/item/getItems";
 import React from "react";
 
 async function getAllPagesAsMenuItems(): Promise<TreeItems> {
-  const { items } = await getAllPagesWithPreview();
+  const items = await getAllPages();
 
   return items.map((item) => {
     const name = `${item.slug.collection} / ${item.slug.item}`;
-    return { id: crypto.randomUUID(), pageId: `${item._id}`, name, children: [] };
+    return { id: crypto.randomUUID(), pageId: `${item.id}`, name, children: [] };
   });
 }
 

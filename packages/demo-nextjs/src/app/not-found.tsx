@@ -7,10 +7,10 @@ import { convertProject } from "@/utils/converters/project";
 import { projectId } from "@/utils/mock";
 
 export default async function NotFound() {
-  const project = await getProject({ id: `${projectId}` });
+  const project = await getProject(projectId);
   const item = await getItem({
-    "slug.collection": CollectionTypes.system,
-    "slug.item": "404",
+    type: CollectionTypes.system,
+    item: "404",
   });
 
   return <NotFoundComponent project={convertProject(project).data} item={convertItem(item).data} />;

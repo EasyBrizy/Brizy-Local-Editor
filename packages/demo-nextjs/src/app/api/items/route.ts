@@ -58,6 +58,11 @@ export async function PUT(req: Request) {
 export async function GET(req: NextRequest) {
   try {
     const collection = req.nextUrl.searchParams.get("collection");
+
+    if (!collection) {
+      return NextResponse.json({ success: false, error: "Invalid collection" }, { status: 400 });
+    }
+
     const search = req.nextUrl.searchParams.get("search");
     const _page = parseInt(req.nextUrl.searchParams.get("page") ?? "1");
     const currentPage = _page >= 1 ? _page : 1;
@@ -69,21 +74,10 @@ export async function GET(req: NextRequest) {
     };
     const endIndex = pagination.skip + pagination.limit;
 
-    const queries = new Map<string, string | RegExp>();
-
-    if (collection) {
-      queries.set("slug.collection", collection);
-    }
-
-    if (search) {
-      queries.set("slug.item", new RegExp(search, "i"));
-    }
-
-    const qs: Record<string, string | RegExp> = {};
-
-    queries.forEach((value, key) => {
-      qs[key] = value;
-    });
+    const qs = {
+      type: collection,
+      ...(search && { search }),
+    };
 
     const { items, total } = await getItems(qs, pagination);
 
@@ -126,7 +120,7 @@ export async function GET(req: NextRequest) {
       {
         success: true,
         data: items.map((i) => ({
-          id: i._id,
+          id: i.id,
           slug: i.slug,
           config: i.config,
           data: i.data,
@@ -153,7 +147,7 @@ export async function DELETE(req: Request) {
     }
 
     for (const _id of ids) {
-      const item = await getItem({ _id: _id });
+      const item = await getItem({ id: _id });
 
       if (!item) {
         return NextResponse.json({ success: false, error: "Item not found" }, { status: 400 });
