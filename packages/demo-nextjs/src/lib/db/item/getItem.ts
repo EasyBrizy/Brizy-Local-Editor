@@ -22,7 +22,7 @@ export async function getItem(query: Query): Promise<Item> {
   await DBConnect();
 
   if (isById(query)) {
-    const item = await Models.Items.findById(query.id).lean<Item>();
+    const item = await Models.Items.findById(query.id).lean();
 
     if (!item) {
       throw new Error(`Failed to get item, ${JSON.stringify(query)}`);
@@ -34,7 +34,7 @@ export async function getItem(query: Query): Promise<Item> {
   const item = await Models.Items.findOne({
     "slug.collection": query.type,
     "slug.item": query.item,
-  }).lean<Item>();
+  }).lean();
 
   if (!item) {
     throw new Error(`Failed to get item, ${JSON.stringify(query)}`);
