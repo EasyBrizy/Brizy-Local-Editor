@@ -5,6 +5,27 @@ const IS_PRODUCTION = env.NODE_ENV === "production";
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/extensions/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET,OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "X-Requested-With, Content-Type, Accept",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

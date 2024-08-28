@@ -1,1 +1,0 @@
-export { mapComponent } from "./Map";

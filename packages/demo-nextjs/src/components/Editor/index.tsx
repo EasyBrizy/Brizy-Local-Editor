@@ -117,8 +117,7 @@ export const Editor = (props: Props) => {
         },
       },
     },
-
-    // extensions: [{ host: "http://localhost:2222" }],
+    extensions: [{ host: origin, path: "/extensions" }],
     api: {
       media: {
         mediaResizeUrl: "https://cloud-1de12d.b-cdn.net/media",

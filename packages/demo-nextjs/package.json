@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:extensions": "brizy-scripts build --webpack-build-dir=public/extensions --webpack-src-dir=src/extensions",
     "start": "next start",
     "lint": "next lint",
     "tsc": "tsc --noEmit"
@@ -41,6 +42,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@brizy/scripts": "^1.1.1",
     "@builder/core": "*",
     "@types/bootstrap": "^5.2.10",
     "@types/node": "^20",

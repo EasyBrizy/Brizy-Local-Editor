@@ -5,7 +5,8 @@
   "tasks": {
     "build": {
       "dependsOn": [
-        "^build"
+        "^build",
+        "build:extensions"
       ],
       "env": [
         "MONGODB_URI",
@@ -22,6 +23,15 @@
         "NEXT_PUBLIC_EDITOR_URL",
         "NEXT_PUBLIC_EDITOR_ICON_URL"
       ]
+    },
+    "dev": {
+      "dependsOn": [
+        "^build",
+        "build:extensions"
+      ]
+    },
+    "build:extensions": {
+      "dependsOn": ["^build"]
     }
   }
 }
