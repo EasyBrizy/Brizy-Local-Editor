@@ -30,7 +30,7 @@ const initialState: State = {
 };
 
 export const Editor = (props: Props) => {
-  const { config: baseConfig } = props;
+  const { origin, config: baseConfig } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
   const router = useRouter();

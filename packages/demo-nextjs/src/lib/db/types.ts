@@ -30,7 +30,8 @@ export interface Project {
 }
 
 export interface Item {
-  _id: string;
+  id: string;
+  title: string;
   slug: {
     collection: string;
     item: string;

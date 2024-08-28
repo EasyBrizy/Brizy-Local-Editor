@@ -12,12 +12,12 @@ interface Data {
 export async function getItemConfig(data: Data) {
   const { item, collection } = data;
   const query = {
-    "slug.collection": collection,
-    "slug.item": item,
+    type: collection,
+    item,
   };
 
   const page = await getItem(query);
-  const project = await getProject({ id: `${projectId}` });
+  const project = await getProject(projectId);
 
   return {
     ...demoConfig,

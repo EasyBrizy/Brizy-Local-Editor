@@ -2,7 +2,6 @@
 
 import { TreeItems } from "@/components/Menu/types";
 import { getItem } from "@/lib/db/item/getItem";
-import { getItems } from "@/lib/db/item/getItems";
 import { updateItem } from "@/lib/db/item/updateItem";
 import { CollectionTypes } from "@/lib/db/types";
 
@@ -11,13 +10,9 @@ enum Menu {
 }
 
 const query = {
-  "slug.collection": CollectionTypes.menu,
-  "slug.item": Menu.main,
+  type: CollectionTypes.menu,
+  item: Menu.main,
 };
-
-export async function getAllPagesWithPreview() {
-  return await getItems({ "config.showInMenu": true });
-}
 
 export async function getMenu(): Promise<TreeItems> {
   try {
@@ -38,10 +33,10 @@ export async function updateMenu(menu: TreeItems) {
   try {
     const item = await getItem(query);
     const data = {
-      id: item._id,
+      id: item.id,
       data: JSON.stringify(menu),
     };
-    await updateItem(item._id, data);
+    await updateItem(item.id, data);
   } catch (e) {
     console.log("Update menu error: ", e);
   }

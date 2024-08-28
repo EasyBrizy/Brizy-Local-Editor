@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id") ?? "";
-    const project = await getProject({ id });
+    const project = await getProject(id);
     const parsedSettings = JSON.parse(project.settings || "{}");
 
     return NextResponse.json(
