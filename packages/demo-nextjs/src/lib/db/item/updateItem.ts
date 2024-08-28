@@ -17,7 +17,7 @@ export async function updateItem(id: string, data: Data): Promise<Item> {
   const item = await Models.Items.findOneAndUpdate({ _id: id }, toCollectionConvertor(data), {
     new: true,
     upsert: true,
-  }).lean<Item>();
+  }).lean();
 
   if (!item) {
     throw new Error("No item found");

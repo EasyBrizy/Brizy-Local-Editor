@@ -37,7 +37,7 @@ export async function getItems(query: Query, pagination?: Pagination): Promise<D
       .skip(pagination.skip)
       .lean<Array<Item>>();
   } else {
-    items = await Models.Items.find(dbQuery).lean<Array<Item>>();
+    items = await Models.Items.find(dbQuery).lean();
   }
 
   if (!items) {

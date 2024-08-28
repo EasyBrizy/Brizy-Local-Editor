@@ -6,6 +6,9 @@ import { ReactNode } from "react";
 export const metadata: Metadata = {
   title: "Next App + Brizy Local",
   description: "Brizy Local Builder",
+  icons: {
+    icon: "/media/logos/favicon.ico",
+  },
 };
 
 interface Props {
