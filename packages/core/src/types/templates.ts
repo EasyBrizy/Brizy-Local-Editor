@@ -122,6 +122,7 @@ interface PopupBlock {
   thumbnailWidth: number;
   thumbnailHeight: number;
   thumbnailSrc: string;
+  type: Literal;
 }
 
 interface PopupCategory {
