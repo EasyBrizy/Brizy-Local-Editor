@@ -140,6 +140,10 @@ export const Editor = () => {
       defaultPopups: {
         async getMeta(res, rej) {
           const popupsUrl = `${templates}/popups`;
+          enum Theme {
+            light = 0,
+            dark = 1,
+          }
 
           try {
             const meta: Popup = await fetch(`${popupsUrl}/meta.json`).then((r) => r.json());
@@ -149,6 +153,7 @@ export const Editor = () => {
               blocks: meta.blocks.map((item) => ({
                 ...item,
                 thumbnailSrc: `${popupsUrl}/thumbs/${item.id}.jpg`,
+                type: Theme[item.type],
               })),
             };
 
