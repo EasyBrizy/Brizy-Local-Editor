@@ -1,11 +1,11 @@
-# What is an Brizy addon?
+# What is a Brizy Widget ?
 
-Before embarking on Brizy addon creation, it's crucial to grasp the nature and role of addons within the Brizy ecosystem. <br/>
-Brizy addons are custom-built extensions that enhance Brizy's core functionality. Brizy provide a platform for developers to introduce new widgets, new features, integrate external services, and tailor the platform to specific user needs.
+Before embarking on Brizy widget creation, it's crucial to grasp the nature and role of widgets within the Brizy ecosystem. <br/>
+Brizy widgets are custom-built extensions that enhance Brizy's core functionality. Brizy provide a platform for developers to introduce new widgets, new features, integrate external services, and tailor the platform to specific user needs.
 
 ## Process
 
-In the process of developing an addon, the developer is able to create a new widget in which he can customize:
+In the process of developing an widget, the developer is able to create a new widget in which he can customize:
 
 <ul>
   <li>Toolbar - the controls displayed in the toolbar.</li>
@@ -21,6 +21,6 @@ Brizy has matured into a robust platform that provides a foundation for third-pa
 
 ## Ideas
 
-The potential for developing innovative addons is vast and varied.
+The potential for developing innovative widgets is vast and varied.
 From complex widgets to dynamic content, animations, custom typography, interactive sliders, navigation enhancements,
-and conditional display features, the possibilities are nearly limitless. If you envision a unique addon, this guide provides the foundation for bringing your concept to life.
+and conditional display features, the possibilities are nearly limitless. If you envision a unique widget, this guide provides the foundation for bringing your concept to life.

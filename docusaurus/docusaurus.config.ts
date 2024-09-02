@@ -4,7 +4,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
   title: "Brizy",
-  tagline: "White label self-hosted builder",
+  tagline: "White label Cloud and Self-hosted builder",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -66,7 +66,7 @@ const config: Config = {
 
         {
           to: "/docs-internals/brizy-editor/introduction",
-          label: "Internals???",
+          label: "Internals",
           position: "right",
           activeBaseRegex: `/docs-internals/`,
         },

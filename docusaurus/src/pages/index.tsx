@@ -28,13 +28,10 @@ function HomepageHeader() {
 export default function Home(): JSX.Element {
   return (
     <Layout
-      title={"Brizy Local Website Builder"}
+      title={"Brizy Website Builder"}
       description="Create Highly Converting Websites & Landing Pages in a Breeze. Next-gen website builder for agencies, web pros & SaaS businesses, hosting included."
     >
       <HomepageHeader />
-      <main>
-        <HomepageFeatures />
-      </main>
     </Layout>
   );
 }

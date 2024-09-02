@@ -2,9 +2,9 @@
 sidebar_position: 2
 ---
 
-# Creating Your First Addon
+# Creating Your First Widget
 
-Let's create a simple Brizy third-party addon that introduces two new widgets to Brizy.
+Let's create a simple Brizy third-party widget that introduces two new widgets to Brizy.
 The first will be a basic **Button** widget, and the second will be a more complex widget
 with options contained within the toolbar.
 
@@ -126,8 +126,10 @@ interface Props {
   address: string;
   zoom: number;
 }
+
 const URL = "https://www.google.com/maps/embed/v1/place";
 const KEY = "AIzaSyCcywKcxXeMZiMwLDcLgyEnNglcLOyB_qw";
+
 export function Map(props: Props): JSX.Element {
   const { address, zoom } = props;
   const iframeSrc = `${URL}?key=${KEY}&q=${address}&zoom=${zoom}`;
@@ -201,4 +203,4 @@ Brizy.registerComponent({
 });
 ```
 
-You've now experienced the simplicity of creating your first Brizy addon.
+You've now experienced the simplicity of creating your first Brizy widget.
