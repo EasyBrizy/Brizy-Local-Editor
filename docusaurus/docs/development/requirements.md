@@ -1,15 +1,15 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 # Requirements
 
 Before starting to work, make sure you meet the requirements as outlined below.
 
-## Brizy local editor
-To start working, you’ll need a Brizy local server. 
+## Brizy Editor
+To start working, you’ll need a Brizy server. 
 
-You can see how to start the Brizy local server here.
+You can see how to start the Brizy server [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/cdn.MD).
 
 ## Node.js Version
 
