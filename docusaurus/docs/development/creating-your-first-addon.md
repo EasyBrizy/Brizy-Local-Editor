@@ -56,7 +56,7 @@ After building the third-party library, you can send it to the editor configurat
 Here's how you can do it:
 
 1. Host the built library files on a server accessible via HTTP.
-2. Obtain the HTTP URLs for the built JavaScript files (e.g., `main.js`).
+2. Obtain the HTTP URLs for the built JavaScript files (e.g., `index.editor.js`).
 3. In the editor configuration, specify these URLs to load the library:
 
 [//]: # "///// TODO: ramane asta de vazut daca mai trebuie, pentru ca probabil deja trebuie peste `extensions` key"
@@ -75,7 +75,7 @@ const config = {
 ```
 
 > For more information about the config of the Editor, check the [`README`](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/self-hosted.MD#config).
-> Replace `"http://<the-build-host-of-library>/main.js"` with the actual HTTP URL of your built library file.
+> Replace `"http://<the-build-host-of-library>"` with the actual HTTP URL of your built library file.
 > By adding this URL to the `extensions` array in your editor configuration, the library will be loaded and available for use within the editor environment. <br />
 > The `host` specifies the server's URL, while `path` indicates the server directory containing the bundles.
 
