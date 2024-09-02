@@ -1,13 +1,17 @@
 ---
+sidebar_position: 5
 toc_max_heading_level: 4
 ---
+
 # Icons
 
 import { SvgComponent } from '@site/src/components/SvgComponent';
 
 #### Usage
+
 To specify which `icon` you want to include in the control, pass the icon's name to the icon parameter in the control definition.<br/>
 Example:
+
 ```ts
 {
   id: "test",

@@ -8,7 +8,7 @@ Welcome to the Brizy Documentation Center! This resource is designed to support 
 
 # How to use this Documentation
 
-Our documentation site offers comprehensive explanations of Brizy concepts and components, detailing their functions and customization options. Each section provides in-depth information to help you understand how to effectively utilize and modify Brizy's features. With these resources at your disposal, you'll gain the knowledge and skills needed to develop your own addons quickly and efficiently, allowing you to enhance your projects and tailor them to your specific needs.
+Our documentation site offers comprehensive explanations of Brizy concepts and components, detailing their functions and customization options. Each section provides in-depth information to help you understand how to effectively utilize and modify Brizy's features. With these resources at your disposal, you'll gain the knowledge and skills needed to develop your own widgets quickly and efficiently, allowing you to enhance your projects and tailor them to your specific needs.
 
 # Documentation Structure
 
@@ -20,7 +20,7 @@ The top navigation bar is divided into three main sections:
 
 # Learning Through Code Examples
 
-Practical code examples are included at the end of each section to illustrate how to implement the concepts learned and create your own addons. These examples are designed to be hands-on and easy to follow, allowing you to see real-world applications of the concepts covered. Feel free to copy, modify, and expand upon this code to suit your specific needs and accelerate your development process. By leveraging these examples, you can quickly integrate new features and functionalities into your projects with confidence.
+Practical code examples are included at the end of each section to illustrate how to implement the concepts learned and create your own widgets. These examples are designed to be hands-on and easy to follow, allowing you to see real-world applications of the concepts covered. Feel free to copy, modify, and expand upon this code to suit your specific needs and accelerate your development process. By leveraging these examples, you can quickly integrate new features and functionalities into your projects with confidence.
 
 [//]: # "# Contributing to the Docs"
 [//]: # "Our documentation platform utilizes a static site generator built with markdown pages (*.md files). If you discover an error or wish to contribute improvements, you can use the “Edit this page on GitHub” link located at the bottom of every page."
