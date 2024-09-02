@@ -6,13 +6,16 @@
     "build": {
       "dependsOn": [
         "^build",
-        "build:extensions"
+        "build:widgets"
       ],
       "env": [
         "MONGODB_URI",
         "MONGODB_DATABASE_NAME",
         "NEXT_PUBLIC_EDITOR_URL"
       ]
+    },
+    "build:widgets": {
+      "dependsOn": ["^build"]
     },
     "start": {
       "dependsOn": [
@@ -24,14 +27,13 @@
         "NEXT_PUBLIC_EDITOR_ICON_URL"
       ]
     },
-    "dev": {
-      "dependsOn": [
-        "^build",
-        "build:extensions"
-      ]
+    "dev:nextjs": {
+      "dependsOn": ["^build"],
+      "persistent": true
     },
-    "build:extensions": {
-      "dependsOn": ["^build"]
+    "dev:widgets": {
+      "dependsOn": [],
+      "persistent": true
     }
   }
 }

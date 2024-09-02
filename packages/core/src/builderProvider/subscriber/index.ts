@@ -1,15 +1,11 @@
 import { AutoSaveOutput, HtmlOutputType } from "@/types/types";
-import { Obj } from "@brizy/readers";
-import { mPipe } from "fp-utilities";
 import { mergeDeep } from "timm";
 import { getApi } from "../handlers/api";
 import { getPage } from "../handlers/defaults/page";
 import { getUi } from "../handlers/defaults/ui";
 import { getDCConfig } from "../handlers/dynamicContent";
 import { getIntegration } from "../handlers/integration";
-import { getViewScripts, getViewStyles, prepareThirdPartyAssets, replaceThirdParty } from "../utils/thirdParty";
-
-const getPageData = mPipe(Obj.read, Obj.readKey("pageData"), Obj.read);
+import { addThirdPartyAssets, getAssetsType, prepareThirdPartyAssets, replaceThirdParty } from "../utils/thirdParty";
 
 export async function subscriber(event: MessageEvent): Promise<void> {
   const data = event.data;
@@ -131,27 +127,13 @@ export async function subscriber(event: MessageEvent): Promise<void> {
           const configData = action.data && "configData" in action.data ? action.data : {};
           const mode = window.__VISUAL_CONFIG__.mode;
 
-          Config.onUpdate((_res: Record<string, unknown>) => {
-            let res = _res;
-            const pageData = getPageData(res);
-
-            if (pageData && window.__THIRD_PARTY_ASSETS__.length > 0) {
-              const newStyles = getViewStyles(window.__THIRD_PARTY_ASSETS__, pageData);
-              const newScripts = getViewScripts(window.__THIRD_PARTY_ASSETS__, pageData);
-
-              res = mergeDeep(res, {
-                pageData: {
-                  compiled: {
-                    styles: newStyles,
-                    scripts: newScripts,
-                  },
-                },
-              }) as Record<string, unknown>;
-            }
+          Config.onUpdate((_extra: Record<string, unknown>) => {
+            const assetsType = getAssetsType(Config);
+            let extra = addThirdPartyAssets({ data: _extra, assetsType });
 
             const data = JSON.stringify({
               type: `${target}_save`,
-              payload: { mode, ...res },
+              payload: { mode, ...extra },
             });
 
             // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions

@@ -1,4 +1,5 @@
-import { Handler, HandlerData } from "@/builderProvider/types/type";
+import { Handler, HandlerData, PublishHandlerData } from "@/builderProvider/types/type";
+import { addThirdPartyAssets } from "@/builderProvider/utils/thirdParty";
 import { Response } from "@/types/common";
 import { Publish, PublishData } from "@/types/publish";
 import { HtmlOutputType } from "@/types/types";
@@ -37,10 +38,12 @@ function handlePublish(data: PublishHandler<HtmlOutputType>) {
   };
 }
 
-export const getPublish = <T extends HtmlOutputType>(data: HandlerData): Publish<T> => {
-  const { target, uid, event } = data;
+export const getPublish = <T extends HtmlOutputType>(data: PublishHandlerData): Publish<T> => {
+  const { target, uid, event, assetsType } = data;
 
-  const handler: Handler<PublishData<T>, string, PublishData<T>> = (res, rej, extra) => {
+  const handler: Handler<PublishData<T>, string, PublishData<T>> = (res, rej, _extra) => {
+    let extra = addThirdPartyAssets({ data: _extra, assetsType });
+
     const data = JSON.stringify({
       type: `${target}_ui_publish`,
       payload: extra,

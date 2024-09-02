@@ -40,4 +40,4 @@ next-env.d.ts
 
 
 # This path is ignored, becaus it is generated automate by thirdparty scripts
-public/extensions
+public/widgets
