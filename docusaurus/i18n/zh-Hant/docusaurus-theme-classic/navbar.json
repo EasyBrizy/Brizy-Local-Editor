@@ -1,0 +1,22 @@
+{
+  "logo.alt": {
+    "message": "Brizy",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Getting Started": {
+    "message": "入門指南",
+    "description": "Navbar item with label Getting Started"
+  },
+  "item.label.Internals???": {
+    "message": "構造",
+    "description": "Navbar item with label Internals???"
+  },
+  "item.label.Third Party": {
+    "message": "小工具",
+    "description": "Navbar item with label Third Party"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

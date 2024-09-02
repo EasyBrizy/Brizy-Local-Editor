@@ -1,0 +1,18 @@
+{
+  "version.label": {
+    "message": "最新版本",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Brizy Widgets": {
+    "message": "Brizy 小工具",
+    "description": "The label for category Brizy Widgets in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Managing Widgets": {
+    "message": "管理小工具",
+    "description": "The label for category Managing Widgets in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Creating Widgets": {
+    "message": "建立小工具",
+    "description": "The label for category Creating Widgets in sidebar tutorialSidebar"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "version.label": {
+    "message": "最新版本",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Getting Started": {
+    "message": "入門指南",
+    "description": "The label for category Getting Started in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Developer Docs": {
+    "message": "開發者文檔",
+    "description": "The label for category Developer Docs in sidebar tutorialSidebar"
+  }
+}

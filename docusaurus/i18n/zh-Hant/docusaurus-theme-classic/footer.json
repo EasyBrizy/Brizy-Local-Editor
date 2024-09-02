@@ -1,0 +1,30 @@
+{
+  "link.title.Docs": {
+    "message": "文檔",
+    "description": "The title of the footer links column with title=Docs in the footer"
+  },
+  "link.title.Community": {
+    "message": "社群",
+    "description": "The title of the footer links column with title=Community in the footer"
+  },
+  "link.title.Social": {
+    "message": "社群媒體",
+    "description": "The title of the footer links column with title=Social in the footer"
+  },
+  "link.item.label.Get Started": {
+    "message": "入門指南",
+    "description": "The label of footer link with label=Get Started linking to /docs/getting-started/what-is-brizy"
+  },
+  "link.item.label.Support": {
+    "message": "支援",
+    "description": "The label of footer link with label=Support linking to https://support.brizy.io/hc/en-us"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/EasyBrizy/Brizy-Local-Editor"
+  },
+  "copyright": {
+    "message": "版權所有 © 2024 Brizy",
+    "description": "The footer copyright"
+  }
+}
