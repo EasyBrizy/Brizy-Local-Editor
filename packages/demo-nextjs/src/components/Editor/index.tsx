@@ -76,6 +76,7 @@ export const Editor = (props: Props) => {
               type: LeftSidebarMoreOptionsIds.link,
               label: "Back to Dashboard",
               link: `${origin}/admin`,
+              linkTarget: "_parent",
             },
           ],
         },

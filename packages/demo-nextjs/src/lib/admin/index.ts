@@ -30,14 +30,10 @@ export async function getMenu(): Promise<TreeItems> {
 }
 
 export async function updateMenu(menu: TreeItems) {
-  try {
-    const item = await getItem(query);
-    const data = {
-      id: item.id,
-      data: JSON.stringify(menu),
-    };
-    await updateItem(item.id, data);
-  } catch (e) {
-    console.log("Update menu error: ", e);
-  }
+  const item = await getItem(query);
+  const data = {
+    id: item.id,
+    data: JSON.stringify(menu),
+  };
+  return await updateItem(item.id, data);
 }
