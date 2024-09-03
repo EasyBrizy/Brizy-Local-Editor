@@ -689,7 +689,7 @@ export const demoConfig: Config = {
       },
     },
   },
-  integration: {
+  integrations: {
     form: {
       action: "https://reqbin.com/sample/post/json",
       fields: {

@@ -47,7 +47,7 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
         const mode = configData.mode ?? _mode;
         const api = configData.api ? configData.api : _api;
-        const integration = configData.integration ?? {};
+        const integration = configData.integrations ?? {};
         const dynamicContent = { ..._dynamicContent, ...configData.dynamicContent };
         const token = configData.token;
         const pageData = action.data.pageData ?? {};
@@ -78,7 +78,7 @@ export async function subscriber(event: MessageEvent): Promise<void> {
         window.__VISUAL_CONFIG__.pageData = getPage(pageData);
         window.__VISUAL_CONFIG__.ui = getUi({ uid, target, event, mode, config: configData });
         window.__VISUAL_CONFIG__.dynamicContent = getDCConfig({ uid, target, event, dynamicContent });
-        window.__VISUAL_CONFIG__.integration = getIntegration({ uid, target, event, integration });
+        window.__VISUAL_CONFIG__.integrations = getIntegration({ uid, target, event, integration });
         window.__VISUAL_CONFIG__.api = getApi({ uid, target, event, api });
         window.__VISUAL_CONFIG__.l10n = l10n;
 

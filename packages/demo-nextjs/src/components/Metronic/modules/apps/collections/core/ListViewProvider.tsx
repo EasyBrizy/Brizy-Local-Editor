@@ -9,15 +9,18 @@ import {
   groupingOnSelectAll,
   initialListView,
 } from "../../../../helpers";
-import { useCollectionQuery, useQueryResponse } from "./QueryResponseProvider";
+import { useQueryResponse } from "./QueryResponseProvider";
 
 const ListViewContext = createContext<ListViewContextProps>(initialListView);
 
-const ListViewProvider: FC<WithChildren> = ({ children }) => {
+interface ListViewProviderProps extends WithChildren {
+  data: Array<any>;
+  isLoading: boolean;
+}
+
+const ListViewProvider: FC<ListViewProviderProps> = ({ children, data, isLoading }) => {
   const [selected, setSelected] = useState<Array<ID>>(initialListView.selected);
   const [itemIdForUpdate, setItemIdForUpdate] = useState<ID>(initialListView.itemIdForUpdate);
-  const { isLoading } = useQueryResponse();
-  const data = useCollectionQuery();
   const disabled = useMemo(() => calculatedGroupingIsDisabled(isLoading, data), [isLoading, data]);
   const isAllSelected = useMemo(() => calculateIsAllDataSelected(data, selected), [data, selected]);
 

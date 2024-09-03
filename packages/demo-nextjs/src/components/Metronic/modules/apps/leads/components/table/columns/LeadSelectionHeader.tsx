@@ -1,17 +1,17 @@
 import { SelectionHeader } from "@/components/Metronic/helpers/components/table/SelectionHeader";
+import { useListView } from "@/components/Metronic/modules/apps/collections/core/ListViewProvider";
 import { FC, PropsWithChildren } from "react";
 import { HeaderProps } from "react-table";
-import { useListView } from "../../core/ListViewProvider";
-import { Collection } from "../../core/_models";
+import { Lead } from "../../../core/types";
 
 type Props = {
-  tableProps: PropsWithChildren<HeaderProps<Collection>>;
+  tableProps: PropsWithChildren<HeaderProps<Lead>>;
 };
 
-const UserSelectionHeader: FC<Props> = ({ tableProps }) => {
+const LeadSelectionHeader: FC<Props> = ({ tableProps }) => {
   const { isAllSelected, onSelectAll } = useListView();
 
   return <SelectionHeader tableProps={tableProps} isAllSelected={isAllSelected} onSelectAll={onSelectAll} />;
 };
 
-export { UserSelectionHeader };
+export { LeadSelectionHeader };

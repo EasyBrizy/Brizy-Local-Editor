@@ -30,6 +30,10 @@ export type CollectionState = {
   collection?: string;
 };
 
+export type ProjectState = {
+  project_id?: string;
+};
+
 export type Response<T> = {
   data?: T;
   payload?: {
@@ -41,7 +45,7 @@ export type Response<T> = {
   };
 };
 
-export type QueryState = PaginationState & SortState & FilterState & SearchState & CollectionState;
+export type QueryState = PaginationState & SortState & FilterState & SearchState & CollectionState & ProjectState;
 
 export type QueryRequestContextProps = {
   state: QueryState;

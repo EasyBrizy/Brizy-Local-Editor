@@ -44,12 +44,31 @@ const ProjectSchema = new mongoose.Schema(
   },
 );
 
+const LeadSchema = new mongoose.Schema(
+  {
+    projectId: {
+      type: String,
+      required: true,
+    },
+    data: {
+      type: String,
+      required: false,
+      trim: true,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
 const Items = mongoose.models.Items || mongoose.model("Items", ItemSchema);
 const Project = mongoose.models.Project || mongoose.model("Project", ProjectSchema);
+const Leads = mongoose.models.Leads || mongoose.model("Leads", LeadSchema);
 
 const models = {
   Items,
   Project,
+  Leads,
 };
 
 export default models;

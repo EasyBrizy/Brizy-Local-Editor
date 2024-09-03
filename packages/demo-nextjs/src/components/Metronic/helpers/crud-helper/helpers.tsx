@@ -16,6 +16,7 @@ function stringifyRequestQuery(state: QueryState): string {
   const sort = qs.stringify(state, { filter: ["sort", "order"], skipNulls: true });
   const search = isNotEmpty(state.search) ? qs.stringify(state, { filter: ["search"], skipNulls: true }) : "";
   const collection = qs.stringify(state, { filter: ["collection"], skipNulls: true });
+  const projectId = qs.stringify(state, { filter: ["project_id"], skipNulls: true });
 
   const filter = state.filter
     ? Object.entries(state.filter)
@@ -26,7 +27,7 @@ function stringifyRequestQuery(state: QueryState): string {
         .join("&")
     : "";
 
-  return [collection, pagination, sort, search, filter]
+  return [collection, pagination, sort, search, filter, projectId]
     .filter((f) => f)
     .join("&")
     .toLowerCase();
