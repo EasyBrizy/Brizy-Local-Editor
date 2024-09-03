@@ -1,4 +1,5 @@
 import { HandlerData } from "@/builderProvider/types/type";
+import { getAssetsType } from "@/builderProvider/utils/thirdParty";
 import {
   BaseElementTypes,
   LeftSidebarMoreOptionsIds,
@@ -229,6 +230,7 @@ export const getUi = (data: Data): Record<string, unknown> => {
   const enabledCMS = getIn(leftSidebar, ["cms", "enable"]);
   const enabledPublish = getIn(ui, ["publish", "enable"]);
   let publish: Partial<Publish<HtmlOutputType>> = {};
+  const assetsType = getAssetsType(config);
 
   if (enabledCMS) {
     leftSidebar = setIn(leftSidebar, ["cms"], {
@@ -238,7 +240,7 @@ export const getUi = (data: Data): Record<string, unknown> => {
   }
 
   if (enabledPublish) {
-    publish = getPublish({ event, target, uid });
+    publish = getPublish({ event, target, uid, assetsType });
   }
 
   return {

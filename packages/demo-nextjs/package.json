@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "turbo run dev:widgets dev:nextjs",
+    "dev:nextjs":"next dev",
+    "dev:widgets": "brizy-scripts start --webpack-build-dir=public/widgets --webpack-src-dir=src/widgets --no-server",
     "build": "next build",
-    "build:extensions": "brizy-scripts build --webpack-build-dir=public/extensions --webpack-src-dir=src/extensions",
+    "build:widgets": "brizy-scripts build --webpack-build-dir=public/widgets --webpack-src-dir=src/widgets",
     "start": "next start",
     "lint": "next lint",
     "tsc": "tsc --noEmit"

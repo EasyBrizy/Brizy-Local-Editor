@@ -1,9 +1,10 @@
 // These placeholder is added inside public/index.html
-import { Extension } from "@/types/types";
+import { PublishData } from "@/types/publish";
+import { Extension, HtmlOutputType } from "@/types/types";
 import { MValue } from "@/utils/types";
 import { Arr, Err, Obj, Str, pipe } from "@brizy/readers";
 import { mPipe, parseStrict } from "fp-utilities";
-import { getIn } from "timm";
+import { getIn, updateIn } from "timm";
 
 const stylesPlaceholder = "{{ third_party_styles }}";
 const scriptsPlaceholder = "{{ third_party_scripts }}";
@@ -126,18 +127,116 @@ export async function prepareThirdPartyAssets(extensions: Array<Extension>): Pro
   return assets;
 }
 
-export function getViewStyles(assets: Array<ParsedThirdParty>, pageData: Record<string, unknown>) {
-  const thirdPartyStyles = assets
-    .map(({ viewStyles }) => viewStyles.map((href) => `<link href="${href}" rel="stylesheet">`))
-    .flat();
-  const styles = (getIn(pageData, ["compiled", "styles"]) as MValue<Array<string>>) ?? [];
-  return [...styles, ...thirdPartyStyles];
+export function getJSONViewAssets(assets: Array<ParsedThirdParty>) {
+  return assets.reduce(
+    (acc, asset) => {
+      const { viewScripts, viewStyles } = asset;
+
+      return {
+        scripts: [...acc.scripts, ...viewScripts.map(jsonScriptTemplate)],
+        styles: [...acc.styles, ...viewStyles.map(jsonStyleTemplate)],
+      };
+    },
+    { scripts: [], styles: [] },
+  );
 }
 
-export function getViewScripts(assets: Array<ParsedThirdParty>, pageData: Record<string, unknown>) {
-  const thirdPartyScripts = assets
-    .map(({ viewScripts }) => viewScripts.map((src) => `<script src="${src}"></script>`))
-    .flat();
-  const scripts = (getIn(pageData, ["compiled", "scripts"]) as MValue<Array<string>>) ?? [];
-  return [...scripts, ...thirdPartyScripts];
+export function getHTMLViewAssets(assets: Array<ParsedThirdParty>) {
+  return assets.reduce(
+    (acc, asset) => {
+      const { viewScripts, viewStyles } = asset;
+      return {
+        scripts: [...acc.scripts, ...viewScripts.map(htmlScriptTemplate)],
+        styles: [...acc.styles, ...viewStyles.map(htmlStyleTemplate)],
+      };
+    },
+    { scripts: [], styles: [] },
+  );
+}
+
+interface Props {
+  data: MValue<PublishData<HtmlOutputType>>;
+  assetsType: HtmlOutputType;
+}
+
+export function addThirdPartyAssets({ data, assetsType }: Props) {
+  const { __THIRD_PARTY_ASSETS__: assets } = window ?? {};
+
+  if (assets === undefined || assets.length === 0) {
+    return data;
+  }
+
+  switch (assetsType) {
+    case "html": {
+      const { scripts, styles } = getHTMLViewAssets(assets);
+
+      data = updateIn(data, ["pageData", "compiled", "scripts"], (oldScripts) => [...oldScripts, scripts]) as MValue<
+        PublishData<"html">
+      >;
+      data = updateIn(data, ["pageData", "compiled", "styles"], (oldStyles) => [...oldStyles, styles]) as MValue<
+        PublishData<"html">
+      >;
+
+      return data;
+    }
+    case "json": {
+      const { scripts, styles } = getJSONViewAssets(assets);
+
+      data = updateIn(data, ["pageData", "compiled", "assets", "freeStyles", "generic"], (oldStyles) => [
+        ...oldStyles,
+        ...styles,
+      ]) as MValue<PublishData<"json">>;
+      data = updateIn(data, ["pageData", "compiled", "assets", "freeScripts", "generic"], (oldScripts) => [
+        ...oldScripts,
+        ...scripts,
+      ]) as MValue<PublishData<"json">>;
+
+      return data;
+    }
+    default:
+      return data;
+  }
+}
+
+function htmlStyleTemplate(href: string) {
+  return `<link href="${href}" rel="stylesheet">`;
+}
+
+function htmlScriptTemplate(src: string) {
+  return `<script src="${src}"></script>`;
+}
+
+function jsonScriptTemplate(url: string) {
+  return {
+    name: "thirdPartyScript",
+    pro: false,
+    score: 60,
+    content: {
+      type: "file",
+      url,
+      attr: {
+        class: "brz-script brz-script-thirdparty",
+      },
+    },
+  };
+}
+
+function jsonStyleTemplate(url: string) {
+  return {
+    name: "thirdPartyStyle",
+    pro: false,
+    score: 60,
+    content: {
+      type: "file",
+      url,
+      attr: {
+        class: "brz-link brz-link-thirdparty",
+        rel: "stylesheet",
+      },
+    },
+  };
+}
+
+export function getAssetsType(config: Record<string, unknown>): HtmlOutputType {
+  return (getIn(config, ["compiler", "assets"]) as MValue<HtmlOutputType>) ?? "json";
 }

@@ -19,7 +19,8 @@
     "tsc": "turbo run tsc",
     "tsc:core": "turbo run tsc --filter=@builder/core",
     "tsc:demo": "turbo run tsc --filter=@builder/demo",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "check": "turbo run lint tsc"
   },
   "workspaces": [
     "demo/*",
@@ -30,5 +31,8 @@
   "devDependencies": {
     "turbo": "^2.0.6"
   },
-  "packageManager": "npm@10.2.4"
+  "packageManager": "npm@10.2.4",
+  "engines": {
+    "node": ">=18"
+  }
 }
