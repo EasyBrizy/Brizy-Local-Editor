@@ -43,6 +43,13 @@ const CollectionActionsCell: FC<Props> = (props) => {
           <KTIcon iconName="pencil" className="fs-3" />
         </Link>
       )}
+      <Link
+        href={`/${slug.collection}/${slug.item}`}
+        className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
+        target="_blank"
+      >
+        <KTIcon iconName="exit-right-corner" className="fs-3" />
+      </Link>
       {deletable && (
         <span
           className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"

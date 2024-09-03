@@ -1,5 +1,5 @@
 // tables
-export * from "./tables/TablesWidget10";
+export * from "./tables/LatestCreatedItems";
 
 // new
 export * from "./_new/cards/CardsWidget7";

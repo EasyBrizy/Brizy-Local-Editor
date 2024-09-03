@@ -3,7 +3,12 @@
 import { toStaticUrl } from "@/components/Metronic/helpers";
 import Root from "@/components/Metronic/layout/Root";
 import { Content } from "@/components/Metronic/layout/components/content";
-import { CardsWidget7, CardsWidget20, EngageWidget10, TablesWidget10 } from "@/components/Metronic/partials/widgets";
+import {
+  CardsWidget7,
+  CardsWidget20,
+  EngageWidget10,
+  LatestCreatedItems,
+} from "@/components/Metronic/partials/widgets";
 import React from "react";
 
 export default function AdminPage() {
@@ -35,7 +40,7 @@ export default function AdminPage() {
 
         <div className="row gy-5 gx-xl-8">
           <div className="col-xl-12">
-            <TablesWidget10 className="card-xxl-stretch mb-5 mb-xl-8" />
+            <LatestCreatedItems className="card-xxl-stretch mb-5 mb-xl-8" />
           </div>
         </div>
       </Content>

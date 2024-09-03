@@ -799,7 +799,7 @@ export const demoConfig: Config = {
     },
   },
   menu,
-  integration: {
+  integrations: {
     form: {
       action: "https://reqbin.com/sample/post/json",
     },
