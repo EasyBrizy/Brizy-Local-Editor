@@ -619,6 +619,28 @@ const config = {
 }
 ```
 
+Example:
+
+```ts
+const config = {
+  api: {
+    media: {
+      mediaResizeUrl: "https://ik.imagekit.io/demo",
+      imagePatterns: {
+        full: "{{ [baseUrl] }}/tr:{{ w-[cW] }},{{ h-[cH] }},c-maintain-ratio/{{ [fileName] }}",
+        split: "{{ [baseUrl] }}/tr:{{ w-[iW] }},c-at_max/{{ [fileName] }}",
+        original: "{{ [baseUrl] }}/tr:orig-true/{{ [fileName] }}",
+      },
+      addMedia: {
+        async handler(resolve, reject, extra) {
+          resolve({ uid: "example_fashion_1.jpg" });
+        }
+      }
+    }
+  }
+};
+```
+
 **Full**: Used inside the Image element where cropping or resizing of the image is needed.
 **Original**: Used when the builder tries to access the original URL of the image, for example, as a background for Section, Column, or Row.
 **Split**: Used when the builder tries to access the resized URL for the image, for example, as a background.
@@ -848,13 +870,15 @@ const config = {
       async getMeta(res, rej, kit) {
         try {
           const meta = await fetch(`https://example.com/kits/${id}`).then((r) => r.json());
+          const Theme = ["light", "dark"];
+
           res({
             blocks: [
               {
                 id: "Kit2Starter",
                 cat: [0],
                 title: "Kit2Starter0Dark",
-                type: 1,
+                type: Theme[type],
                 keywords: "start",
                 thumbnailHeight: 311,
                 thumbnailWidth: 600,
@@ -867,7 +891,7 @@ const config = {
                 id: "block2kit9081",
                 cat: [2, 16],
                 title: "block2kit9081",
-                type: 1,
+                type: Theme[type],
                 keywords: "forms,hero,image",
                 thumbnailHeight: 327,
                 thumbnailWidth: 600,
@@ -954,6 +978,7 @@ const config = {
       async getMeta(res, rej) {
         try {
           const popups = await fetch("https://example.com/popups").then((r) => r.json());
+          const Theme = ["light", "dark"];
 
           res({
             blocks: [
@@ -964,7 +989,7 @@ const config = {
                 title: "popup2000",
                 keywords: "",
                 cat: [1493],
-                type: 0,
+                type: Theme[type],
                 pro: true,
                 thumbnailSrc: "https://example.com/popups/images/thumb_1.jpg",
               },
@@ -975,7 +1000,7 @@ const config = {
                 title: "popup1773",
                 keywords: "",
                 cat: [1579],
-                type: 0,
+                type: Theme[type],
                 pro: true,
                 thumbnailSrc: "https://example.com/popups/images/thumb_2.jpg",
               },
