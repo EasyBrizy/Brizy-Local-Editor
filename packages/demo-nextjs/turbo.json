@@ -11,11 +11,15 @@
       "env": [
         "MONGODB_URI",
         "MONGODB_DATABASE_NAME",
-        "NEXT_PUBLIC_EDITOR_URL"
+        "NEXT_PUBLIC_EDITOR_URL",
+        "SHOPIFY_STORE_URL",
+        "SHOPIFY_ACCESS_TOKEN"
       ]
     },
     "build:widgets": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "start": {
       "dependsOn": [
@@ -28,7 +32,9 @@
       ]
     },
     "dev:nextjs": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "persistent": true
     },
     "dev:widgets": {
