@@ -52,6 +52,7 @@ export enum CollectionTypes {
   menu = "menu",
   header = "header",
   footer = "footer",
+  product = "product",
 }
 
 export type CollectionTypeValue = (typeof CollectionTypes)[keyof typeof CollectionTypes];

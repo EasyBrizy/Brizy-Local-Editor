@@ -20,6 +20,8 @@ const SidebarMenuMain = () => {
 
       <SidebarMenuItem icon="book-open" to="/admin/stories" title="Stories" active={pathname === "/admin/stories"} />
 
+      <SidebarMenuItem icon="handcart" to="/admin/products" title="Products" active={pathname === "/admin/products"} />
+
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-heading uppercase text-2sm font-semibold text-gray-500">Template</span>

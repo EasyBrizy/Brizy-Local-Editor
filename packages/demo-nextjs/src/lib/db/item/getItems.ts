@@ -9,6 +9,7 @@ type ByCollectionType = {
   type: string;
   item?: string;
   search?: string;
+  reference?: string;
 };
 
 type AllCollections = {
@@ -44,6 +45,7 @@ export async function getItems(query: Query, pagination?: Pagination): Promise<D
     : {
         "slug.collection": type,
         ...(query.search ? { "slug.item": new RegExp(query.search, "i") } : { item: query.item }),
+        ...(query.reference ? { "config.reference": new RegExp(query.reference) } : {}),
       };
 
   await DBConnect();

@@ -10,7 +10,7 @@ import { footerQuery, headerQuery, projectId } from "@/utils/mock";
 import { isT } from "fp-utilities";
 import { notFound } from "next/navigation";
 
-const excludeCatchAllCollection = [CollectionTypes.system, CollectionTypes.popup, CollectionTypes.story];
+const excludeCatchAllCollection = [ CollectionTypes.popup, CollectionTypes.story];
 
 export default async function Page({
   params,

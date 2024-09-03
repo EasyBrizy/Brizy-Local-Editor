@@ -2,9 +2,11 @@ import { Dispatch, SetStateAction } from "react";
 
 export type ID = undefined | null | number | string;
 
+export type ItemsPerPage = 10 | 20 | 30 | 50 | 100;
+
 export type PaginationState = {
   page: number;
-  items_per_page: 10 | 20 | 30 | 50 | 100;
+  items_per_page: ItemsPerPage;
   links?: Array<{
     label: string;
     active: boolean;
