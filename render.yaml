@@ -22,5 +22,9 @@ services:
         value: brizy # Possible to be: "netlify" | "render"
       - key: MONGODB_URI
         value: mongodb+srv://guest:NOczraPgpfXCcwFm@brizy.bhrbdoy.mongodb.net/?retryWrites=true&w=majority&appName=brizy
+      - key: SHOPIFY_STORE_URL
+        value: https://abracadabra20.myshopify.com
+      - key: SHOPIFY_ACCESS_TOKEN
+        value: 3b47750ab922efb31d3e7d268ed3ea93
       - key: NODE_VERSION
         value: 18.20.3
