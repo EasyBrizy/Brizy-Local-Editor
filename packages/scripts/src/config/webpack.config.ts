@@ -196,6 +196,7 @@ const baseFactory = (env: "production" | "development"): Configuration => {
     externals: {
       react: "React",
       "react-dom": "ReactDOM",
+      "react-dom/server": "ReactDOM",
     },
   };
 };

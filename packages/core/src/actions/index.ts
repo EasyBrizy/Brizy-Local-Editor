@@ -42,4 +42,4 @@ export { createScreenshotsRes, createScreenshotsRej, updateScreenshotsRes, updat
 export { leftSidebarOpenCMSClose } from "./leftSidebar";
 export { publishRes, publishRej } from "./publish";
 export { loadCollectionRes, loadCollectionRej } from "./collectionTypes";
-export { getCollectionItemsIdsRes, getCollectionItemsIdsRej } from "./collectionItems";
+export { getCollectionItemsRes, getCollectionItemsRej } from "./collectionItems";
