@@ -19,12 +19,12 @@ function handleCollectionItems(data: CollectionItemsHandler) {
       const action = JSON.parse(data.data);
 
       switch (action.type) {
-        case `${target}_get_collection_items_ids_res`: {
+        case `${target}_get_collection_items_res`: {
           res(action.data);
           window.removeEventListener("message", emitter);
           break;
         }
-        case `${target}_get_collection_items_ids_rej`: {
+        case `${target}_get_collection_items_rej`: {
           rej(action.data);
           window.removeEventListener("message", emitter);
           break;
@@ -36,12 +36,12 @@ function handleCollectionItems(data: CollectionItemsHandler) {
   };
 }
 
-export const getCollectionItemsIds = (data: HandlerData) => {
+export const getCollectionItems = (data: HandlerData) => {
   const { target, uid, event } = data;
 
   const handler: Handler<Choice[], string, unknown> = (res, rej, extra) => {
     const data = JSON.stringify({
-      type: `${target}_get_collection_items_ids`,
+      type: `${target}_get_collection_items`,
       payload: extra,
     });
 
