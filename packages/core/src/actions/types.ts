@@ -93,7 +93,7 @@ export enum ActionTypes {
   loadCollectionTypesRes = "@builder_load_collection_types_res",
   loadCollectionTypesRej = "@builder_load_collection_types_rej",
 
-  getCollectionItemsIds = "@builder_get_collection_items_ids",
-  getCollectionItemsIdsRes = "@builder_get_collection_items_ids_res",
-  getCollectionItemsIdsRej = "@builder_get_collection_items_ids_rej",
+  getCollectionItems = "@builder_get_collection_items",
+  getCollectionItemsRes = "@builder_get_collection_items_res",
+  getCollectionItemsRej = "@builder_get_collection_items_rej",
 }
