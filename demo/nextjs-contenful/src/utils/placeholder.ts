@@ -33,7 +33,7 @@ export class NavPlaceholder extends ContentPlaceholder {
     return false;
   }
 
-  public getValue(context: ContextInterface, placeholder: any): string {
+  public async getValue(context: ContextInterface, placeholder: any): Promise<string> {
     // console.log("context__: ", context);
     // console.log("Placeholder__: ", placeholder);
     return "";

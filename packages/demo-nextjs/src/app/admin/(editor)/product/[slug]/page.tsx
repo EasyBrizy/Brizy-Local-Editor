@@ -1,4 +1,6 @@
 import { Editor } from "@/components/Editor";
+import { ConfigProvider } from "@/components/Editor/contexts";
+import { ShopifyProvider } from "@/components/Editor/contexts/shopify";
 import { CollectionTypes } from "@/lib/db/types";
 import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
 import { getOrigin } from "@/utils";
@@ -20,5 +22,18 @@ export default async function ProductPage(props: Props) {
   const pagePreview = `${origin}/product/${slug}`;
 
   const editorConfig = await getItemConfig({ collection: CollectionTypes.product, item: slug });
-  return <Editor config={{ ...editorConfig, mode: Modes.page, pagePreview }} origin={origin} />;
+
+  const baseConfig = {
+    ...editorConfig,
+    mode: Modes.page,
+    pagePreview,
+  };
+
+  return (
+    <ConfigProvider config={baseConfig} origin={origin}>
+      <ShopifyProvider>
+        <Editor />
+      </ShopifyProvider>
+    </ConfigProvider>
+  );
 }

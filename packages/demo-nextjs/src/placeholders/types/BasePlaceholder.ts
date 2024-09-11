@@ -1,6 +1,8 @@
-import { ContentPlaceholder, ContextInterface } from "@brizy/content-placeholder";
+import { ContentPlaceholder, ContextInterface, Replacer } from "@brizy/content-placeholder";
 
-export class NavPlaceholder extends ContentPlaceholder {
+export class BasePlaceholder extends ContentPlaceholder {
+  private replacer: Replacer | null = null;
+
   constructor(name: string, placeholder: string) {
     super(name, placeholder);
   }
@@ -33,9 +35,15 @@ export class NavPlaceholder extends ContentPlaceholder {
     return false;
   }
 
-  public getValue(context: ContextInterface, placeholder: any): string {
-    // console.log("context__: ", context);
-    // console.log("Placeholder__: ", placeholder);
+  setReplacer(replacer: Replacer) {
+    this.replacer = replacer;
+  }
+
+  getReplacer() {
+    return this.replacer;
+  }
+
+  public async getValue(context: ContextInterface, placeholder: ContentPlaceholder): Promise<string> {
     return "";
   }
 }

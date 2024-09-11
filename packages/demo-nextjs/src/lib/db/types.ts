@@ -39,6 +39,7 @@ export interface Item {
   config?: {
     hasPreview?: boolean;
     deletable?: boolean;
+    reference?: string;
   };
   data?: string;
   createdAt?: string;

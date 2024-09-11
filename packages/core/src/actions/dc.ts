@@ -1,4 +1,4 @@
-import { BaseDCItem } from "@/types/dynamicContent";
+import { BaseDCItem, ConfigDCItem } from "@/types/dynamicContent";
 import { ActionResolve, Target } from "@/types/types";
 import { Dictionary } from "@/utils/types";
 import { ActionTypes } from "./types";
@@ -49,4 +49,16 @@ export const dcPlaceholderRej = (r: string, uid: string) => ({
   uid,
   target: Target.builder,
   data: JSON.stringify({ type: ActionTypes.dcPlaceholderDataRej, data: r }),
+});
+
+export const dcHandlerRes = (r: ConfigDCItem[], uid: string) => ({
+  uid,
+  target: Target.builder,
+  data: JSON.stringify({ type: ActionTypes.dcHandlerRes, data: r }),
+});
+
+export const dcHandlerRej = (r: string, uid: string) => ({
+  uid,
+  target: Target.builder,
+  data: JSON.stringify({ type: ActionTypes.dcHandlerRej, data: r }),
 });

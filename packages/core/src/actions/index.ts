@@ -12,6 +12,8 @@ export {
   dcImageRej,
   dcPlaceholderRes,
   dcPlaceholderRej,
+  dcHandlerRes,
+  dcHandlerRej,
 } from "./dc";
 export { autoSave } from "./autoSave";
 export {
@@ -35,3 +37,5 @@ export {
 export { createScreenshotsRes, createScreenshotsRej, updateScreenshotsRes, updateScreenshotsRej } from "./screenshots";
 export { leftSidebarOpenCMSClose } from "./leftSidebar";
 export { publishRes, publishRej } from "./publish";
+export { loadCollectionRes, loadCollectionRej } from "./collectionTypes";
+export { getCollectionItemsIdsRes, getCollectionItemsIdsRej } from "./collectionItems";

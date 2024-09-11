@@ -1,0 +1,16 @@
+export enum PlaceholderType {
+  Price = "price",
+  CompareAtPrice = "compareAtPrice",
+  Title = "brizy_dc_post_title",
+  Description = "brizy_dc_post_content",
+  CollectionItemField = "brizy_dc_collection_item_field",
+  VariantOptions = "variant_options",
+  VariantTitle = "variantTitle",
+  VariantOptionValues = "variant_option_values",
+  VariantOptionTitle = "variantOptionTitle",
+  VariantOptionValue = "variantOptionValue",
+  FeaturedImage = "brizy_dc_img_featured_image",
+  NavItem = "nav_item",
+  Translation = "translation_switcher",
+  Builder = "placeholder",
+}

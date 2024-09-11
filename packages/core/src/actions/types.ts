@@ -28,6 +28,10 @@ export enum ActionTypes {
   dcLinkRes = "@builder_dc_link_res",
   dcLinkRej = "@builder_dc_link_rej",
 
+  dcHandler = "@builder_dc_handler",
+  dcHandlerRes = "@builder_dc_handler_res",
+  dcHandlerRej = "@builder_dc_handler_rej",
+
   dcPlaceholderData = "@builder_dc_placeholder_data",
   dcPlaceholderDataRes = "@builder_dc_placeholder_data_res",
   dcPlaceholderDataRej = "@builder_dc_placeholder_data_rej",
@@ -78,4 +82,12 @@ export enum ActionTypes {
   uiPublish = "@builder_ui_publish",
   uiPublishRes = "@builder_ui_publish_res",
   uiPublishRej = "@builder_ui_publish_rej",
+
+  loadCollectionTypes = "@builder_load_collection_types",
+  loadCollectionTypesRes = "@builder_load_collection_types_res",
+  loadCollectionTypesRej = "@builder_load_collection_types_rej",
+
+  getCollectionItemsIds = "@builder_get_collection_items_ids",
+  getCollectionItemsIdsRes = "@builder_get_collection_items_ids_res",
+  getCollectionItemsIdsRej = "@builder_get_collection_items_ids_rej",
 }

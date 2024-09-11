@@ -27,3 +27,31 @@ export interface QueryResponse {
     };
   };
 }
+
+export interface ProductVariant {
+  name: string;
+  values: string[];
+}
+
+export interface Variant {
+  name: string;
+  value: string;
+}
+
+export interface VariantQueryResponse {
+  edges: {
+    node: {
+      id: string;
+      title: string;
+      selectedOptions: {
+        name: string;
+        value: string;
+      }[];
+      availableForSale: boolean;
+      price: {
+        amount: number;
+        currencyCode: string;
+      };
+    };
+  }[];
+}

@@ -1,5 +1,5 @@
 import { Editor } from "@/components/Editor";
-import { getConfig } from "@/config";
+import { ConfigProvider } from "@/components/Editor/contexts";
 import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
 import { getOrigin } from "@/utils";
 import { Modes } from "@builder/core/build/es/types/types";
@@ -17,5 +17,15 @@ export default async function PopupPage(props: Props) {
 
   const slug = params.slug;
   const editorConfig = await getItemConfig({ collection: "popup", item: slug });
-  return <Editor config={{ ...editorConfig, mode: Modes.popup }} origin={origin} />;
+
+  const baseConfig = {
+    ...editorConfig,
+    mode: Modes.popup,
+  };
+
+  return (
+    <ConfigProvider config={baseConfig} origin={origin}>
+      <Editor />
+    </ConfigProvider>
+  );
 }

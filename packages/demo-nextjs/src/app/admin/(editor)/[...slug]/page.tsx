@@ -1,4 +1,5 @@
 import { Editor } from "@/components/Editor";
+import { ConfigProvider } from "@/components/Editor/contexts";
 import { CollectionTypes } from "@/lib/db/types";
 import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
 import { getMenuItems } from "@/lib/itemConfig/getMenuItems";
@@ -32,7 +33,18 @@ export default async function EditorPage(props: Props) {
 
     const menu = [...(editorConfig?.menu ?? []), ...(await getMenuItems())];
 
-    return <Editor config={{ ...editorConfig, menu, mode: Modes.page, pagePreview }} origin={origin} />;
+    const baseConfig = {
+      ...editorConfig,
+      mode: Modes.page,
+      pagePreview,
+      menu,
+    };
+
+    return (
+      <ConfigProvider config={baseConfig} origin={origin}>
+        <Editor />
+      </ConfigProvider>
+    );
   } catch (e) {
     return notFound();
   }

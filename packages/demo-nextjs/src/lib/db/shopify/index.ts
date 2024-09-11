@@ -1,3 +1,5 @@
+"use server";
+
 import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 
 const storeFrontClient = createStorefrontApiClient({
