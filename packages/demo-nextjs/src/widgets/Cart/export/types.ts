@@ -25,10 +25,11 @@ export interface ProductVariant {
     title: string;
     available: boolean;
     options: string[];
-  };
+  }[];
 }
 
-export interface BrizyProduct {
-  [key: string]: ProductVariant | string;
+export type BrizyProduct = {
+  [key: string]: ProductVariant;
+} & {
   moneyFormat: string;
-}
+};
