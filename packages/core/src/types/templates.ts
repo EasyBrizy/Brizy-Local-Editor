@@ -62,6 +62,24 @@ export interface Style {
 }
 
 //#region DefaultKits
+export interface Categories {
+  id: Literal;
+  slug: string;
+  title: string;
+  hidden?: boolean;
+}
+
+export type Kit = {
+  categories: string;
+  pro: string;
+  theme: string;
+  slug: string;
+  thumbnail: string;
+  keywords: string;
+  thumbnailHeight: number;
+  thumbnailWidth: number;
+  blank?: string;
+};
 
 export interface Kits {
   blocks: Array<Block>;
@@ -78,17 +96,6 @@ export interface BlockWithThumbs extends Block {
 export interface KitsWithThumbs extends Omit<Kits, "blocks"> {
   blocks: Array<BlockWithThumbs>;
 }
-
-export type Kit = {
-  categories: string;
-  pro: string;
-  theme: string;
-  slug: string;
-  thumbnail: string;
-  keywords: string;
-  thumbnailHeight: number;
-  thumbnailWidth: number;
-};
 
 export type KitType = {
   title: string;
@@ -112,6 +119,18 @@ export interface DefaultKits {
 //#endregion
 
 //#region DefaultPopups
+
+export type APIPopup = {
+  id: string;
+  categories: string;
+  blank?: string;
+  order: number;
+  pro: string;
+  thumbnail: string;
+  thumbnailHeight: number;
+  thumbnailWidth: number;
+  title: string;
+};
 
 type PopupCategoryId = Symbol;
 

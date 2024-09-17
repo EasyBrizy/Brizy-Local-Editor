@@ -4,11 +4,15 @@ import { Response } from "@/api/types";
 import { ConfigWithReference } from "@/components/Editor/contexts/types";
 import { asNewCategory, numCategoryToStringCategory, templateDetails } from "@/components/Editor/utils";
 import { replacePlaceholders } from "@/placeholders";
+import { pipe } from "@brizy/readers";
 import { BaseDCHandlerExtra, ConfigDCItem, DCPlaceholdersExtra } from "@builder/core/build/es/types/dynamicContent";
 import { LeftSidebarMoreOptionsIds, LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@builder/core/build/es/types/media";
 import {
+  APIPopup,
   BlockWithThumbs,
+  Categories,
+  Kit,
   KitItem,
   KitType,
   Kits,
@@ -18,8 +22,66 @@ import {
   Template,
 } from "@builder/core/build/es/types/templates";
 import { Dictionary } from "@builder/core/build/es/utils/types";
+import { flatten, uniq, upperFirst } from "lodash";
 
 const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
+const templatesImageUrl = "https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/";
+
+type CatTypes = Kit | APIPopup;
+
+export const getUniqueKitCategories = (collections: CatTypes[]): Categories[] =>
+  pipe(
+    (collections: CatTypes[]) => collections.map((collection: CatTypes) => collection.categories),
+    (categories) => categories.map((category) => category.split(",")),
+    flatten,
+    (categories2) => categories2.map((category2) => category2.trim()),
+    uniq,
+    (allCats) => allCats.filter((cat) => cat && cat.length),
+    (cats) =>
+      cats.map((cat) => ({
+        title: upperFirst(cat),
+        slug: cat,
+        id: cat,
+      })),
+  )(collections);
+
+export const converterKit = (
+  kit: Kit[],
+  url: string,
+  kitId: string,
+): {
+  blocks: BlockWithThumbs[];
+  categories: Categories[];
+  types: KitType[];
+} => {
+  const categories = getUniqueKitCategories(kit);
+  const types = getUniqueKitTypes(kit);
+
+  const blocks: BlockWithThumbs[] = kit.map(
+    ({ slug, categories, pro, thumbnail, keywords, thumbnailWidth, thumbnailHeight, blank, theme }) => ({
+      id: slug,
+      cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+      title: slug,
+      type: theme
+        .split(",")
+        .map((item) => item.trim())
+        .map((i1) => i1.toLowerCase()),
+      keywords: keywords ?? "",
+      thumbnailHeight,
+      thumbnailWidth,
+      thumbnailSrc: `${url}${thumbnail}`,
+      pro: pro === PRO,
+      kitId,
+      blank,
+    }),
+  );
+
+  return {
+    blocks,
+    categories,
+    types,
+  };
+};
 
 export const getApi = () => ({
   collectionTypes: {
@@ -50,18 +112,74 @@ export const getApi = () => ({
   defaultKits: {
     async getKits(res: Response<Array<KitItem>>, rej: Response<string>) {
       try {
-        const kits = await fetch(`${templates}/kits/meta.json`)
-          .then((r) => r.json())
-          .then((data) =>
-            data.map((kit: { id: string; name: string }) => ({
-              id: kit.id,
-              title: kit.name,
-            })),
-          );
+        const kits = await fetch("https://template-mk.b-cdn.net/api/get-kits");
 
-        res(kits);
+        if (kits) {
+          const res = await kits.json();
+
+          const parsedKits = res.collections.map((item: { slug: string; title: string }) => ({
+            ...item,
+            id: item.slug,
+          }));
+
+          res(parsedKits);
+        }
+
+        throw new Error("Failed to load kits");
+
+        // res(kits);
       } catch (e) {
         rej("Failed to load Kits");
+      }
+    },
+    // async getKits(res: Response<Array<KitItem>>, rej: Response<string>) {
+    //   try {
+    //     const kits = await fetch(`${templates}/kits/meta.json`)
+    //       .then((r) => r.json())
+    //       .then((data) =>
+    //         data.map((kit: { id: string; name: string }) => ({
+    //           id: kit.id,
+    //           title: kit.name,
+    //         })),
+    //       );
+    //
+    //     res(kits);
+    //   } catch (e) {
+    //     rej("Failed to load Kits");
+    //   }
+    // },
+    async getMeta(res: Response<KitsWithThumbs>, rej: Response<string>, kit: KitItem) {
+      try {
+        // const data = await getDefaultKits(blocksChunkUrl, kit.id);
+
+        const response = await fetch(
+          `https://template-mk.b-cdn.net/api/get-kit-collections-chunk?project_id=${kit.id}`,
+        );
+
+        if (response) {
+          const res = await response.json();
+
+          // return {
+          //   blocks: res.collections,
+          //   categories: res.categories,
+          //   styles: res.styles,
+          // };
+
+          const { types, blocks } = converterKit(res.collections, templatesImageUrl, kit.id);
+
+          res({
+            id: kit.id,
+            blocks,
+            categories: convertToCategories(res.categories),
+            types,
+            name: kit.title,
+            styles: [res.styles],
+          });
+        }
+
+        throw new Error(t("Failed to load kits"));
+      } catch (e) {
+        rej("Failed to load meta.json");
       }
     },
     async getMeta(res: Response<KitsWithThumbs>, rej: Response<string>, kit: KitItem) {
