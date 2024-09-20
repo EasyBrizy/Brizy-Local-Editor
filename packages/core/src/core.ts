@@ -63,7 +63,7 @@ import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { PublishData } from "@/types/publish";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
-import { KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
+import { DefaultBlockWithID, KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
 import { AutoSaveOutput, BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
 import { createOutput } from "@/utils/createOutput";
 import { Dictionary } from "@/utils/types";
@@ -389,7 +389,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const getData = defaultPopups?.getData;
 
             if (typeof getData === "function") {
-              const res = (r: Record<string, unknown>) => {
+              const res = (r: DefaultBlockWithID) => {
                 iframeWindow.postMessage(actions.templatePopupsDataRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
