@@ -62,6 +62,10 @@ export interface Style {
 }
 
 //#region DefaultKits
+export interface BlockWithThumbs extends Block {
+  thumbnailSrc: string;
+}
+
 export interface Categories {
   id: Literal;
   slug: string;

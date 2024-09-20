@@ -1,87 +1,26 @@
 import { getCollectionItemsIds } from "@/api/collections/collectionItems/getCollectionItemsIds";
 import { loadCollectionTypes } from "@/api/collections/collectionTypes/loadCollectionTypes";
 import { Response } from "@/api/types";
+import { convertToCategories, converterKit } from "@/components/Editor/contexts/converters";
 import { ConfigWithReference } from "@/components/Editor/contexts/types";
 import { asNewCategory, numCategoryToStringCategory, templateDetails } from "@/components/Editor/utils";
 import { replacePlaceholders } from "@/placeholders";
-import { pipe } from "@brizy/readers";
 import { BaseDCHandlerExtra, ConfigDCItem, DCPlaceholdersExtra } from "@builder/core/build/es/types/dynamicContent";
 import { LeftSidebarMoreOptionsIds, LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@builder/core/build/es/types/media";
 import {
-  APIPopup,
   BlockWithThumbs,
-  Categories,
-  Kit,
   KitItem,
-  KitType,
-  Kits,
   KitsWithThumbs,
   Popup,
   StoryTemplate,
   Template,
 } from "@builder/core/build/es/types/templates";
 import { Dictionary } from "@builder/core/build/es/utils/types";
-import { flatten, uniq, upperFirst } from "lodash";
 
 const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
+const newTemplates = "https://template-mk.b-cdn.net/api";
 const templatesImageUrl = "https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/";
-
-type CatTypes = Kit | APIPopup;
-
-export const getUniqueKitCategories = (collections: CatTypes[]): Categories[] =>
-  pipe(
-    (collections: CatTypes[]) => collections.map((collection: CatTypes) => collection.categories),
-    (categories) => categories.map((category) => category.split(",")),
-    flatten,
-    (categories2) => categories2.map((category2) => category2.trim()),
-    uniq,
-    (allCats) => allCats.filter((cat) => cat && cat.length),
-    (cats) =>
-      cats.map((cat) => ({
-        title: upperFirst(cat),
-        slug: cat,
-        id: cat,
-      })),
-  )(collections);
-
-export const converterKit = (
-  kit: Kit[],
-  url: string,
-  kitId: string,
-): {
-  blocks: BlockWithThumbs[];
-  categories: Categories[];
-  types: KitType[];
-} => {
-  const categories = getUniqueKitCategories(kit);
-  const types = getUniqueKitTypes(kit);
-
-  const blocks: BlockWithThumbs[] = kit.map(
-    ({ slug, categories, pro, thumbnail, keywords, thumbnailWidth, thumbnailHeight, blank, theme }) => ({
-      id: slug,
-      cat: categories.split(",").map((item) => item.trim().toLowerCase()),
-      title: slug,
-      type: theme
-        .split(",")
-        .map((item) => item.trim())
-        .map((i1) => i1.toLowerCase()),
-      keywords: keywords ?? "",
-      thumbnailHeight,
-      thumbnailWidth,
-      thumbnailSrc: `${url}${thumbnail}`,
-      pro: pro === PRO,
-      kitId,
-      blank,
-    }),
-  );
-
-  return {
-    blocks,
-    categories,
-    types,
-  };
-};
 
 export const getApi = () => ({
   collectionTypes: {
@@ -112,121 +51,59 @@ export const getApi = () => ({
   defaultKits: {
     async getKits(res: Response<Array<KitItem>>, rej: Response<string>) {
       try {
-        const kits = await fetch("https://template-mk.b-cdn.net/api/get-kits");
+        const kits = await fetch(`${newTemplates}/get-kits`);
 
         if (kits) {
-          const res = await kits.json();
+          const response = await kits.json();
 
-          const parsedKits = res.collections.map((item: { slug: string; title: string }) => ({
+          const parsedKits = response.collections.map((item: { slug: string; title: string }) => ({
             ...item,
             id: item.slug,
           }));
 
           res(parsedKits);
         }
-
-        throw new Error("Failed to load kits");
-
-        // res(kits);
       } catch (e) {
         rej("Failed to load Kits");
       }
     },
-    // async getKits(res: Response<Array<KitItem>>, rej: Response<string>) {
-    //   try {
-    //     const kits = await fetch(`${templates}/kits/meta.json`)
-    //       .then((r) => r.json())
-    //       .then((data) =>
-    //         data.map((kit: { id: string; name: string }) => ({
-    //           id: kit.id,
-    //           title: kit.name,
-    //         })),
-    //       );
-    //
-    //     res(kits);
-    //   } catch (e) {
-    //     rej("Failed to load Kits");
-    //   }
-    // },
     async getMeta(res: Response<KitsWithThumbs>, rej: Response<string>, kit: KitItem) {
       try {
-        // const data = await getDefaultKits(blocksChunkUrl, kit.id);
-
-        const response = await fetch(
-          `https://template-mk.b-cdn.net/api/get-kit-collections-chunk?project_id=${kit.id}`,
-        );
+        const response = await fetch(`${newTemplates}/get-kit-collections-chunk?project_id=${kit.id}`);
 
         if (response) {
-          const res = await response.json();
+          const data = await response.json();
 
-          // return {
-          //   blocks: res.collections,
-          //   categories: res.categories,
-          //   styles: res.styles,
-          // };
-
-          const { types, blocks } = converterKit(res.collections, templatesImageUrl, kit.id);
+          const { types, blocks } = converterKit(data.collections, templatesImageUrl, kit.id);
 
           res({
             id: kit.id,
             blocks,
-            categories: convertToCategories(res.categories),
+            categories: convertToCategories(data.categories),
             types,
             name: kit.title,
-            styles: [res.styles],
+            styles: [data.styles],
           });
         }
-
-        throw new Error(t("Failed to load kits"));
       } catch (e) {
         rej("Failed to load meta.json");
       }
     },
-    async getMeta(res: Response<KitsWithThumbs>, rej: Response<string>, kit: KitItem) {
+    async getData(res: Response<Record<string, unknown>>, rej: Response<string>, kit: BlockWithThumbs) {
       try {
-        const kitsUrl = `${templates}/kits`;
-        const kits = await fetch(`${kitsUrl}/meta.json`).then((r) => r.json());
-
-        const _kit = kits.find((item: Kits) => item.id === kit.id);
-
-        enum Theme {
-          light = 0,
-          dark = 1,
-        }
-
-        const blocks = _kit?.blocks.map(
-          ({ id, cat, pro, title, keywords, thumbnailWidth, thumbnailHeight, type, blank }: BlockWithThumbs) => ({
-            id,
-            cat: numCategoryToStringCategory({ cat, dict: _kit.categories }),
-            title,
-            type: [Theme[type]],
-            keywords,
-            thumbnailHeight,
-            thumbnailWidth,
-            thumbnailSrc: `${templates}/kits/thumbs/${id}.jpg`,
-            pro: pro ?? false,
-            kitId: kit.id,
-            blank,
-          }),
-        );
-
-        res({
-          id: kit.id,
-          blocks,
-          categories: asNewCategory(_kit.categories),
-          types: _kit.types as KitType[],
-          name: kit.title,
-          styles: _kit.styles,
+        const response = await fetch(`${newTemplates}/get-item?project_id=${kit.kitId}&page_slug=${kit.id}`, {
+          method: "GET",
         });
-      } catch (e) {
-        rej("Failed to load meta.json");
-      }
-    },
-    async getData(res: Response<Record<string, unknown>>, rej: Response<string>, kit: KitItem) {
-      const kitsUrl = `${templates}/kits`;
-      try {
-        const data = await fetch(`${kitsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
-        res(data);
+
+        if (response) {
+          const data = await response.json();
+
+          const collection = data.collection.pop();
+
+          const x = JSON.parse(collection.pageData).items.pop();
+
+          res(x);
+        }
       } catch (e) {
         rej("Failed to load resolves for selected DefaultTemplate");
       }
