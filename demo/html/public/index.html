@@ -952,8 +952,10 @@
                     const data = await response.json();
 
                     function deepFlatten(arr) {
-                      return arr.reduce((acc, val) =>
-                        Array.isArray(val) ? acc.concat(deepFlatten(val)) : acc.concat(val), []);
+                      return arr.reduce(
+                        (acc, val) => (Array.isArray(val) ? acc.concat(deepFlatten(val)) : acc.concat(val)),
+                        [],
+                      );
                     }
 
                     function uniq(arr) {
@@ -971,27 +973,43 @@
                       return result;
                     }
 
-                    const flattenType = deepFlatten(data.collections.map((collection) => collection.theme).map((type) => type.split(",")))
-                    const uniqTypes = uniq(flattenType.map(flatType=> flatType.toLowerCase()))
-                    const finalTypes = uniqTypes.filter((type) => type && type.length).map(
-                      (u) => ({
+                    const flattenType = deepFlatten(
+                      data.collections.map((collection) => collection.theme).map((type) => type.split(",")),
+                    );
+                    const uniqTypes = uniq(flattenType.map((flatType) => flatType.toLowerCase()));
+                    const finalTypes = uniqTypes
+                      .filter((type) => type && type.length)
+                      .map((u) => ({
                         title: u.charAt(0).toUpperCase() + u.slice(1),
                         id: u,
                         name: u,
                         icon: u === "light" ? "nc-light" : "nc-dark",
-                      })
-                    )
+                      }));
 
-                    const cats = data.collections.map((collection) => collection.categories).map((category) => category.split(","))
-                    const flattenCats = deepFlatten(cats).map((category2) => category2.trim())
-                    const categories = uniq(flattenCats).filter((cat) => cat && cat.length).map((cat) => ({
-                      title: cat,
-                      slug: cat.toLowerCase(),
-                      id: cat.toLowerCase(),
-                    }))
+                    const cats = data.collections
+                      .map((collection) => collection.categories)
+                      .map((category) => category.split(","));
+                    const flattenCats = deepFlatten(cats).map((category2) => category2.trim());
+                    const categories = uniq(flattenCats)
+                      .filter((cat) => cat && cat.length)
+                      .map((cat) => ({
+                        title: cat,
+                        slug: cat.toLowerCase(),
+                        id: cat.toLowerCase(),
+                      }));
 
                     const blocks = data.collections.map(
-                      ({ slug, categories, pro, thumbnail, keywords, thumbnailWidth, thumbnailHeight, blank, theme }) => ({
+                      ({
+                        slug,
+                        categories,
+                        pro,
+                        thumbnail,
+                        keywords,
+                        thumbnailWidth,
+                        thumbnailHeight,
+                        blank,
+                        theme,
+                      }) => ({
                         id: slug,
                         cat: categories.split(",").map((item) => item.trim().toLowerCase()),
                         title: slug,
@@ -1023,24 +1041,24 @@
                 }
               },
               async getData(res, rej, kit) {
-              try {
-                const response = await fetch(`${newTemplates}/get-item?project_id=${kit.kitId}&page_slug=${kit.id}`, {
-                  method: "GET",
-                });
+                try {
+                  const response = await fetch(`${newTemplates}/get-item?project_id=${kit.kitId}&page_slug=${kit.id}`, {
+                    method: "GET",
+                  });
 
-                if (response) {
-                  const data = await response.json();
+                  if (response) {
+                    const data = await response.json();
 
-                  const collection = data.collection.pop();
+                    const collection = data.collection.pop();
 
-                  const x = JSON.parse(collection.pageData).items.pop();
+                    const x = JSON.parse(collection.pageData).items.pop();
 
-                  res(x);
+                    res(x);
+                  }
+                } catch (e) {
+                  rej("Failed to load resolves for selected DefaultTemplate");
                 }
-              } catch (e) {
-                rej("Failed to load resolves for selected DefaultTemplate");
-              }
-            },
+              },
             },
             defaultPopups: {
               async getMeta(res, rej) {
@@ -1069,7 +1087,7 @@
                     const convertedCategories = res2.categories.map((item) => ({
                       ...item,
                       id: item.title.toLowerCase(),
-                    }))
+                    }));
 
                     res({ blocks: data, categories: convertedCategories });
                   }
@@ -1084,10 +1102,10 @@
                   if (data) {
                     const res2 = await data.json();
 
-                    const pageData = res2.pop()?.pageData
-                    const pageDataWithItems = JSON.parse(pageData)
-                    const items = pageDataWithItems.items
-                    const lastItem = items.pop()
+                    const pageData = res2.pop()?.pageData;
+                    const pageDataWithItems = JSON.parse(pageData);
+                    const items = pageDataWithItems.items;
+                    const lastItem = items.pop();
 
                     if (lastItem) {
                       res(lastItem);
@@ -1100,57 +1118,107 @@
             },
             defaultLayouts: {
               async getMeta(res, rej) {
-                const layoutsUrl = `${templates}/layouts`;
                 try {
-                  const meta = await fetch(`${layoutsUrl}/meta.json`).then((r) => r.json());
+                  const response = await fetch(`${newTemplates}/get-layouts-chunk`, {
+                    method: "GET",
+                  });
 
-                  const data = {
-                    categories: meta.categories
-                      .filter(({ id }) => id !== 0)
-                      .map(({ title }) => ({
-                        title,
-                        slug: title.replace(/\s\/?\s?/g, "-"),
-                        id: title.toLowerCase(),
-                      })),
-                    templates: meta.templates.map((item) => ({
-                      ...item,
-                      cat: item.cat.reduce((acc, catId) => {
-                        const category = meta.categories.filter(({ id }) => id === catId);
+                  if (response) {
+                    const data = await response.json();
 
-                        if (!category.length) {
-                          return acc;
-                        }
-                        return [...acc, category[0].title.toLowerCase()];
-                      }, []),
+                    if (data.collections && data.categories) {
+                      const templates = data.collections.map(
+                        ({
+                          title,
+                          categories,
+                          pagesCount,
+                          pro,
+                          keywords,
+                          thumbnailWidth,
+                          thumbnailHeight,
+                          thumbnail,
+                          slug,
+                        }) => {
+                          return {
+                            name: title,
+                            cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+                            pagesCount: pagesCount ?? 0,
+                            pro: pro === "PRO",
+                            keywords,
+                            thumbnailWidth,
+                            thumbnailHeight,
+                            thumbnailSrc: `${templatesImageUrl}${thumbnail}`,
+                            layoutId: slug,
+                          };
+                        },
+                      );
 
-                      thumbnailSrc: `${layoutsUrl}/thumbs/${item.pages[0].id}.jpg`,
-                      ...(item.pages.length
-                        ? {
-                            pagesCount: item.pages.length,
-                            thumbnailHeight: item.pages[0].thumbnailHeight,
-                            thumbnailWidth: item.pages[0].thumbnailWidth,
-                          }
-                        : {}),
-                      pages: item.pages.map((page) => ({
-                        ...page,
-                        thumbnailSrc: `${layoutsUrl}/thumbs/${page.id}.jpg`,
-                      })),
-                    })),
-                  };
+                      const categories = data.categories.map((item) => ({
+                        ...item,
+                        id: item.title.toLowerCase(),
+                      }));
 
-                  res(data);
+                      res({
+                        templates,
+                        categories,
+                      });
+                    }
+                  }
                 } catch (e) {
                   rej("Failed to load meta.json");
                 }
               },
-              async getData(res, rej, { id }) {
-                const layoutsUrl = `${templates}/layouts`;
+              async getData(res, rej, { id, layoutId }) {
                 try {
-                  const data = await fetch(`${layoutsUrl}/resolves/${id}.json`).then((r) => r.json());
+                  const response = await fetch(
+                    `${newTemplates}/get-layouts-page?project_id=${layoutId}&page_slug=${id}`,
+                    {
+                      method: "GET",
+                    },
+                  );
 
-                  res(data);
+                  if (response.ok) {
+                    const data = await response.json();
+
+                    const pageData = data[0].pageData;
+                    const parsedResult = JSON.parse(pageData);
+
+                    if (parsedResult && parsedResult.items) {
+                      const result = {
+                        blocks: [...parsedResult.items],
+                      };
+
+                      res(result);
+                    }
+                  }
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");
+                }
+              },
+              async getPages(res, rej, id) {
+                try {
+                  const response = await fetch(`${newTemplates}/get-layouts-pages?project_id=${id}&per_page=20`, {
+                    method: "GET",
+                  });
+
+                  if (response) {
+                    const data = await response.json();
+
+                    const parsedData = data.collections.map(
+                      ({ slug, title, thumbnailHeight, thumbnailWidth, thumbs }) => ({
+                        id: slug,
+                        title,
+                        thumbnailWidth,
+                        thumbnailHeight,
+                        thumbnailSrc: `${templatesImageUrl}${thumbs}`,
+                        layoutId: id,
+                      }),
+                    );
+
+                    res({ pages: parsedData, styles: [data.styles] });
+                  }
+                } catch (e) {
+                  rej("Failed to load pages for selected Layout");
                 }
               },
             },

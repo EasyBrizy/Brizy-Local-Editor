@@ -12,6 +12,7 @@ import {
   getKitsMeta,
   getLayoutsData,
   getLayoutsMeta,
+  getLayoutsPages,
   getPopupsData,
   getPopupsMeta,
   getStoriesData,
@@ -52,6 +53,7 @@ export const getApi = (data: Data) => {
     api = setIn(api, ["defaultLayouts"], {
       getMeta: getLayoutsMeta({ event, target, uid }),
       getData: getLayoutsData({ event, target, uid }),
+      getPages: getLayoutsPages({ event, target, uid }),
     }) as Record<string, unknown>;
   }
 

@@ -29,6 +29,8 @@ export {
   templateLayoutsMetaRej,
   templateLayoutsDataRes,
   templateLayoutsDataRej,
+  templateLayoutsPagesRes,
+  templateLayoutsPagesRej,
   templateStoriesMetaRes,
   templateStoriesMetaRej,
   templateStoriesDataRes,

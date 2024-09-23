@@ -1,6 +1,12 @@
 import { Literal } from "@/utils/types";
 import { Response } from "./common";
 
+interface ThumbnailWithDimensions {
+  thumbnail: string;
+  thumbnailWidth: number;
+  thumbnailHeight: number;
+}
+
 interface DefaultTemplate<T1> {
   label?: string;
   getMeta: (res: Response<T1>, rej: Response<string>) => void;
@@ -188,6 +194,79 @@ export interface DefaultPopups extends DefaultTemplate<Popup> {
 //#endregion
 
 //#region DefaultLayouts
+export interface LayoutsPageAPI {
+  title: string;
+  slug: string;
+  thumbs: string;
+  thumbnailWidth: number;
+  thumbnailHeight: number;
+}
+
+export interface LayoutsAPI extends ThumbnailWithDimensions {
+  title: string;
+  pro: string;
+  categories: string;
+  pagesCount: string;
+  slug: string;
+  keywords: string;
+}
+
+export interface DefaultBlock {
+  type: string;
+  value: Record<string, unknown>;
+}
+
+export interface DefaultBlockWithID extends DefaultBlock {
+  blockId: string;
+}
+
+export interface BlocksArray<T> {
+  blocks: Array<T>;
+}
+
+export interface LayoutTemplate {
+  blank?: boolean;
+  name: string;
+  cat: Array<Literal>;
+  pagesCount: number;
+  pro: boolean;
+  keywords: string;
+}
+
+export interface LayoutTemplateWithThumbs extends LayoutTemplate {
+  thumbnailSrc: string;
+  thumbnailWidth: number;
+  thumbnailHeight: number;
+}
+
+export interface Layouts {
+  templates: Array<LayoutTemplateWithThumbs>;
+  categories: Pick<Categories, "id" | "title">[];
+}
+
+export interface LayoutsWithThumbs extends Omit<Layouts, "templates"> {
+  templates: Array<LayoutTemplateWithThumbs>;
+}
+
+export interface LayoutsPages {
+  pages: CustomTemplatePage[];
+  styles: Style[];
+}
+
+export interface TemplatePage {
+  id: string;
+  title: string;
+  thumbnailWidth: number;
+  thumbnailHeight: number;
+}
+
+export interface TemplatePageWithThumbs extends TemplatePage {
+  thumbnailSrc: string;
+}
+
+export type CustomTemplatePage = TemplatePageWithThumbs & {
+  [key: string]: Literal;
+};
 
 type LayoutCategoryId = Symbol;
 
@@ -214,12 +293,14 @@ export interface Template {
   categories: Array<Categories>;
 }
 
-export interface DefaultLayouts extends DefaultTemplate<Template> {
+export interface DefaultLayouts {
+  getMeta: (res: Response<LayoutsWithThumbs>, rej: Response<string>) => void;
   getData: (
-    res: Response<Record<string, unknown>>,
+    res: Response<BlocksArray<DefaultBlockWithID>>,
     rej: Response<string>,
     page: { id: string; layoutId: string },
   ) => void;
+  getPages: (res: Response<LayoutsPages>, rej: Response<string>, id: string) => void;
 }
 
 //#endregion

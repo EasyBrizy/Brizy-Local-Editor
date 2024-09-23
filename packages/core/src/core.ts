@@ -37,6 +37,8 @@ import {
   templateLayoutsDataRes,
   templateLayoutsMetaRej,
   templateLayoutsMetaRes,
+  templateLayoutsPagesRej,
+  templateLayoutsPagesRes,
   templatePopupsDataRej,
   templatePopupsDataRes,
   templatePopupsMetaRej,
@@ -63,7 +65,17 @@ import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { PublishData } from "@/types/publish";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
-import { BlockWithThumbs, DefaultBlockWithID, KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
+import {
+  BlockWithThumbs,
+  BlocksArray,
+  DefaultBlockWithID,
+  KitItem,
+  KitsWithThumbs,
+  LayoutsPages,
+  LayoutsWithThumbs,
+  Popup,
+  StoryTemplate,
+} from "@/types/templates";
 import { AutoSaveOutput, BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
 import { createOutput } from "@/utils/createOutput";
 import { Dictionary } from "@/utils/types";
@@ -103,6 +115,8 @@ const actions = {
   templateLayoutsMetaRej,
   templateLayoutsDataRes,
   templateLayoutsDataRej,
+  templateLayoutsPagesRes,
+  templateLayoutsPagesRej,
   templateStoriesMetaRes,
   templateStoriesMetaRej,
   templateStoriesDataRes,
@@ -404,7 +418,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const getMeta = defaultLayouts?.getMeta;
 
             if (typeof getMeta === "function") {
-              const res = (r: Template) => {
+              const res = (r: LayoutsWithThumbs) => {
                 iframeWindow.postMessage(actions.templateLayoutsMetaRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
@@ -419,13 +433,28 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const getData = defaultLayouts?.getData;
 
             if (typeof getData === "function") {
-              const res = (r: Record<string, unknown>) => {
+              const res = (r: BlocksArray<DefaultBlockWithID>) => {
                 iframeWindow.postMessage(actions.templateLayoutsDataRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.templateLayoutsDataRej(r, uid), targetOrigin);
               };
               getData(res, rej, page);
+            }
+          },
+          [ActionTypes.templateLayoutsPages]: (id: string) => {
+            const { api = {} } = config;
+            const { defaultLayouts } = api;
+            const getPages = defaultLayouts?.getPages;
+
+            if (typeof getPages === "function") {
+              const res = (r: LayoutsPages) => {
+                iframeWindow.postMessage(actions.templateLayoutsPagesRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateLayoutsPagesRej(r, uid), targetOrigin);
+              };
+              getPages(res, rej, id);
             }
           },
           [ActionTypes.templateStoriesMeta]: () => {

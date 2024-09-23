@@ -59,6 +59,9 @@ export enum ActionTypes {
   templateLayoutsData = "@builder_template_layouts_data",
   templateLayoutsDataRes = "@builder_template_layouts_data_res",
   templateLayoutsDataRej = "@builder_template_layouts_data_rej",
+  templateLayoutsPages = "@builder_template_layouts_pages",
+  templateLayoutsPagesRes = "@builder_template_layouts_pages_res",
+  templateLayoutsPagesRej = "@builder_template_layouts_pages_rej",
 
   templateStoriesMeta = "@builder_template_stories_meta",
   templateStoriesMetaRes = "@builder_template_stories_meta_res",
