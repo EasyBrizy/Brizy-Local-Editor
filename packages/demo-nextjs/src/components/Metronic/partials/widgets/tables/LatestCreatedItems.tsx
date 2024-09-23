@@ -1,3 +1,4 @@
+import { QUERIES } from "@/components/Metronic/helpers";
 import { CollectionsTable } from "@/components/Metronic/modules/apps/collections/table/CollectionsTable";
 import { FC, useState } from "react";
 import { useQuery } from "react-query";
@@ -15,7 +16,7 @@ const tableConfig = {
 const LatestCreatedItems: FC<Props> = ({ className }) => {
   const [items, setItems] = useState([]);
 
-  const { isLoading } = useQuery("lastItems", () => getLastItemsCreated(LIMIT), {
+  const { isLoading } = useQuery(QUERIES.LAST_ITEMS, () => getLastItemsCreated(LIMIT), {
     onSuccess: ({ data }) => {
       setItems(data);
     },
