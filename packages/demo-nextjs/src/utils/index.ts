@@ -1,8 +1,9 @@
+import { getProjectSettings } from "@/app/admin/(cms)/system/core/requests";
 import { Reference } from "@/components/Editor/contexts/types";
 import { replacePlaceholders } from "@/placeholders";
+import { projectId } from "@/utils/mock";
 import { PageJsonCompiledOutput, ProjectJsonCompiledOutput } from "@builder/core/build/es/types/common";
 import { Scripts, Styles } from "@builder/core/build/es/utils/assetManager/types";
-import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 
 export async function assemblePages(data: {
   items: Array<PageJsonCompiledOutput>;
@@ -10,8 +11,22 @@ export async function assemblePages(data: {
   reference?: Reference;
 }) {
   const projectStyles = data.project?.styles ?? [];
+  const { code } = (await getProjectSettings(projectId)) || {};
+  const { customCss, codeInjectionHeader, codeInjectionFooter } = code || {};
 
-  let html = "";
+  const customCssStyles: Styles[] = [];
+
+  if (customCss) {
+    customCssStyles.push({
+      type: "style",
+      attr: {
+        class: "custom-css",
+      },
+      html: customCss,
+    });
+  }
+
+  let html = codeInjectionHeader ?? "";
   const styles: Styles[] = [];
   const scripts: Scripts[] = [];
 
@@ -27,12 +42,14 @@ export async function assemblePages(data: {
     }
   }
 
-  return { projectStyles, html, styles, scripts };
-}
+  if (codeInjectionFooter) {
+    html += codeInjectionFooter;
+  }
 
-export function getOrigin(headers: ReadonlyHeaders): string {
-  const protocol = headers.get("x-forwarded-proto");
-  const host = headers.get("x-forwarded-host");
-  const url = `${protocol}://${host}`;
-  return URL.canParse(url) ? new URL(url).origin : "";
+  return {
+    projectStyles,
+    html,
+    styles: [...styles, ...customCssStyles],
+    scripts,
+  };
 }
