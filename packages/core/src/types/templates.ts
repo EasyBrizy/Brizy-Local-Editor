@@ -120,9 +120,37 @@ export interface DefaultKits {
   getData: (res: Response<Record<string, unknown>>, rej: Response<string>, id: KitItem) => void;
 }
 
+export interface KitDataItems {
+  items: Array<DefaultBlock>;
+}
 //#endregion
 
 //#region DefaultPopups
+export interface PopupBlock {
+  id: string;
+  cat: Array<Literal>;
+  title: string;
+  keywords: string;
+  thumbnailWidth: number;
+  thumbnailHeight: number;
+  type: Array<Literal>;
+  blank?: string;
+  position?: number;
+  pro?: boolean;
+}
+
+export interface DefaultBlockWithID extends DefaultBlock {
+  blockId: string;
+}
+
+export interface DefaultBlock {
+  type: string;
+  value: Record<string, unknown>;
+}
+
+export interface PopupBlockWithThumbs extends PopupBlock {
+  thumbnailSrc: string;
+}
 
 export type APIPopup = {
   id: string;
@@ -136,17 +164,11 @@ export type APIPopup = {
   title: string;
 };
 
-type PopupCategoryId = Symbol;
+export type PopupDataResult = Array<{
+  pageData: string;
+}>;
 
-interface PopupBlock {
-  id: string;
-  cat: Array<PopupCategoryId>;
-  title: string;
-  thumbnailWidth: number;
-  thumbnailHeight: number;
-  thumbnailSrc: string;
-  type: Literal;
-}
+type PopupCategoryId = Symbol;
 
 interface PopupCategory {
   id: PopupCategoryId;
@@ -160,7 +182,7 @@ export interface Popup {
 }
 
 export interface DefaultPopups extends DefaultTemplate<Popup> {
-  getData: (res: Response<Record<string, unknown>>, rej: Response<string>, id: KitItem) => void;
+  getData: (res: Response<DefaultBlockWithID>, rej: Response<string>, kit: KitItem) => void;
 }
 
 //#endregion

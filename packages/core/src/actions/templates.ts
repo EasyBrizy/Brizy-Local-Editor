@@ -1,4 +1,4 @@
-import { Kit, KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
+import { DefaultBlockWithID, Kit, KitItem, KitsWithThumbs, Popup, StoryTemplate, Template } from "@/types/templates";
 import { ActionResolve, Target } from "@/types/types";
 import { ActionTypes } from "./types";
 
@@ -54,7 +54,7 @@ export const templatePopupsMetaRej = (r: string, uid: string): ActionResolve => 
   data: JSON.stringify({ type: ActionTypes.templatePopupsMetaRej, data: r }),
 });
 
-export const templatePopupsDataRes = (r: Record<string, unknown>, uid: string): ActionResolve => ({
+export const templatePopupsDataRes = (r: DefaultBlockWithID, uid: string): ActionResolve => ({
   uid,
   target: Target.builder,
   data: JSON.stringify({ type: ActionTypes.templatePopupsDataRes, data: r }),

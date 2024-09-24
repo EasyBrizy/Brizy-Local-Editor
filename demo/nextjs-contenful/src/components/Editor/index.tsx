@@ -4,10 +4,29 @@ import { DynamicContentModal } from "@/components/modals/DynamicContent";
 import { getConfig } from "@/config";
 import { useEditor } from "@/hooks/useEditor";
 import { Config } from "@/hooks/useEditor/types";
+import { Arr, Json, Obj } from "@brizy/readers";
 import { LeftSidebarMoreOptionsIds, LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
-import { BlockWithThumbs, KitType, Kits, Popup, StoryTemplate, Template } from "@builder/core/build/es/types/templates";
+import {
+  BlockWithThumbs,
+  DefaultBlockWithID,
+  KitItem,
+  KitType,
+  Kits,
+  Popup,
+  StoryTemplate,
+  Template,
+} from "@builder/core/build/es/types/templates";
+import { Response } from "demo-nextjs/src/api/types";
+import { isT, mPipe, pass } from "fp-utilities";
 import { useRouter } from "next/navigation";
 import React, { useReducer, useRef } from "react";
+import {
+  convertToCategories,
+  converterPopup,
+  isDefaultBlockWithID,
+  isKitDataItems,
+  isPopupDataResult,
+} from "./converters";
 import { reducer } from "./reducers";
 import { State } from "./reducers/types";
 import "./styles/index.css";
@@ -17,6 +36,8 @@ import { asNewCategory, numCategoryToStringCategory, templateDetails } from "./u
 const token = getConfig().editorToken;
 
 const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
+const newTemplates = "https://template-mk.b-cdn.net/api";
+const templatesImageUrl = "https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/";
 
 const noop = () => {};
 
@@ -208,30 +229,44 @@ export const Editor = (props: Props) => {
         },
       },
       defaultPopups: {
-        async getMeta(res, rej) {
-          const popupsUrl = `${templates}/popups`;
-
+        async getMeta(res: Response<Popup>, rej: Response<string>) {
           try {
-            const meta: Popup = await fetch(`${popupsUrl}/meta.json`).then((r) => r.json());
+            const response = await fetch(`${newTemplates}/get-popups-chunk`);
 
-            const data = {
-              ...meta,
-              blocks: meta.blocks.map((item) => ({
-                ...item,
-                thumbnailSrc: `${popupsUrl}/thumbs/${item.id}.jpg`,
-              })),
-            };
+            if (response) {
+              const res2 = await response.json();
 
-            res(data);
+              const data = converterPopup(res2.collections, templatesImageUrl);
+
+              const convertedCategories = convertToCategories(res2.categories);
+
+              res({ ...data, categories: convertedCategories });
+            }
           } catch (e) {
             rej("Failed to load meta.json");
           }
         },
-        async getData(res, rej, kit) {
-          const popupsUrl = `${templates}/popups`;
+        async getData(res: Response<DefaultBlockWithID>, rej: Response<string>, kit: KitItem) {
           try {
-            const data = await fetch(`${popupsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
-            res(data);
+            const data = await fetch(`${newTemplates}/get-popup-data?project_id=${kit.id}`);
+
+            if (data) {
+              const res2 = await data.json();
+
+              const parsedResult = mPipe(
+                pass(isPopupDataResult),
+                (res) => res.pop()?.pageData,
+                (r) => Json.read(r),
+                pass(isKitDataItems),
+                Obj.readKey("items"),
+                Arr.read,
+                (r) => r.pop(),
+              )(res2);
+
+              if (isT(parsedResult) && isDefaultBlockWithID(parsedResult)) {
+                res(parsedResult);
+              }
+            }
           } catch (e) {
             rej("Failed to load resolves for selected DefaultTemplate");
           }
