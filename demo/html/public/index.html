@@ -81,6 +81,8 @@
       const IdentityPoolId = "IDENTITY_POOL_ID";
       const AWS = window.AWS;
       const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
+      const newTemplates = "https://template-mk.b-cdn.net/api";
+      const templatesImageUrl = "https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/";
 
       const createUpload = (accept) => {
         let lock = false;
@@ -926,79 +928,119 @@
             defaultKits: {
               async getKits(res, rej) {
                 try {
-                  const kits = await fetch(`${templates}/kits/meta.json`)
-                    .then((r) => r.json())
-                    .then((data) =>
-                      data.map((kit) => ({
-                        id: kit.id,
-                        title: kit.name,
-                      })),
-                    );
+                  const kits = await fetch(`${newTemplates}/get-kits`);
 
-                  res(kits);
+                  if (kits) {
+                    const response = await kits.json();
+
+                    const parsedKits = response.collections.map((item) => ({
+                      ...item,
+                      id: item.slug,
+                    }));
+
+                    res(parsedKits);
+                  }
                 } catch (e) {
                   rej("Failed to load Kits");
                 }
               },
               async getMeta(res, rej, kit) {
                 try {
-                  const kitsUrl = `${templates}/kits`;
-                  const kits = await fetch(`${kitsUrl}/meta.json`).then((r) => r.json());
+                  const response = await fetch(`${newTemplates}/get-kit-collections-chunk?project_id=${kit.id}`);
 
-                  const _kit = kits.find((item) => item.id === kit.id);
+                  if (response) {
+                    const data = await response.json();
 
-                  const Theme = ["light", "dark"];
+                    function deepFlatten(arr) {
+                      return arr.reduce((acc, val) =>
+                        Array.isArray(val) ? acc.concat(deepFlatten(val)) : acc.concat(val), []);
+                    }
 
-                  const blocks = _kit?.blocks.map(
-                    ({ id, cat, pro, title, keywords, thumbnailWidth, thumbnailHeight, type, blank }) => ({
-                      id,
-                      cat: cat.reduce((acc, catId) => {
-                        const category = _kit.categories.filter(({ id }) => id === catId);
+                    function uniq(arr) {
+                      // Create a new array to store unique values
+                      const result = [];
 
-                        if (!category.length) {
-                          return acc;
+                      // Loop through the input array
+                      for (let i = 0; i < arr.length; i++) {
+                        // If the value is not already in the result array, add it
+                        if (!result.includes(arr[i])) {
+                          result.push(arr[i]);
                         }
-                        return [...acc, category[0].title.toLowerCase()];
-                      }, []),
-                      title,
-                      type: [Theme[type]],
-                      keywords,
-                      thumbnailHeight,
-                      thumbnailWidth,
-                      thumbnailSrc: `${templates}/kits/thumbs/${id}.jpg`,
-                      pro: pro ?? false,
-                      kitId: kit.id,
-                      blank,
-                    }),
-                  );
+                      }
 
-                  res({
-                    id: kit.id,
-                    blocks,
-                    categories: _kit.categories
-                      .filter(({ id }) => id !== 0)
-                      .map(({ title }) => ({
-                        title,
-                        slug: title.replace(/\s\/?\s?/g, "-"),
-                        id: title.toLowerCase(),
-                      })),
-                    types: _kit.types,
-                    name: kit.title,
-                    styles: _kit.styles,
-                  });
+                      return result;
+                    }
+
+                    const flattenType = deepFlatten(data.collections.map((collection) => collection.theme).map((type) => type.split(",")))
+                    const uniqTypes = uniq(flattenType.map(flatType=> flatType.toLowerCase()))
+                    const finalTypes = uniqTypes.filter((type) => type && type.length).map(
+                      (u) => ({
+                        title: u.charAt(0).toUpperCase() + u.slice(1),
+                        id: u,
+                        name: u,
+                        icon: u === "light" ? "nc-light" : "nc-dark",
+                      })
+                    )
+
+                    const cats = data.collections.map((collection) => collection.categories).map((category) => category.split(","))
+                    const flattenCats = deepFlatten(cats).map((category2) => category2.trim())
+                    const categories = uniq(flattenCats).filter((cat) => cat && cat.length).map((cat) => ({
+                      title: cat,
+                      slug: cat.toLowerCase(),
+                      id: cat.toLowerCase(),
+                    }))
+
+                    const blocks = data.collections.map(
+                      ({ slug, categories, pro, thumbnail, keywords, thumbnailWidth, thumbnailHeight, blank, theme }) => ({
+                        id: slug,
+                        cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+                        title: slug,
+                        type: theme
+                          .split(",")
+                          .map((item) => item.trim())
+                          .map((i1) => i1.toLowerCase()),
+                        keywords: keywords ?? "",
+                        thumbnailHeight,
+                        thumbnailWidth,
+                        thumbnailSrc: `${templatesImageUrl}${thumbnail}`,
+                        pro: pro === "PRO",
+                        kitId: kit.id,
+                        blank,
+                      }),
+                    );
+
+                    res({
+                      id: kit.id,
+                      blocks,
+                      categories: categories,
+                      types: finalTypes,
+                      name: kit.title,
+                      styles: [data.styles],
+                    });
+                  }
                 } catch (e) {
                   rej("Failed to load meta.json");
                 }
               },
               async getData(res, rej, kit) {
-                const kitsUrl = `${templates}/kits`;
-                try {
-                  const data = await fetch(`${kitsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
-                  res(data);
-                } catch (e) {
-                  rej("Failed to load resolves for selected DefaultTemplate");
+              try {
+                const response = await fetch(`${newTemplates}/get-item?project_id=${kit.kitId}&page_slug=${kit.id}`, {
+                  method: "GET",
+                });
+
+                if (response) {
+                  const data = await response.json();
+
+                  const collection = data.collection.pop();
+
+                  const x = JSON.parse(collection.pageData).items.pop();
+
+                  res(x);
                 }
-              },
+              } catch (e) {
+                rej("Failed to load resolves for selected DefaultTemplate");
+              }
+            },
             },
             defaultPopups: {
               async getMeta(res, rej) {

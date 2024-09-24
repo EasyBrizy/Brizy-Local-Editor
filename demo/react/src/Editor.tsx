@@ -3,8 +3,7 @@ import {
   BlockWithThumbs,
   DefaultBlockWithID,
   KitItem,
-  KitType,
-  Kits,
+  KitsWithThumbs,
   Popup,
   StoryTemplate,
   Template,
@@ -14,6 +13,7 @@ import { isT, mPipe, pass } from "fp-utilities";
 import React, { useReducer, useRef } from "react";
 import {
   convertToCategories,
+  converterKit,
   converterPopup,
   isDefaultBlockWithID,
   isKitDataItems,
@@ -90,67 +90,61 @@ export const Editor = () => {
       },
 
       defaultKits: {
-        async getKits(res, rej) {
+        async getKits(res: Response<Array<KitItem>>, rej: Response<string>) {
           try {
-            const kits = await fetch(`${templates}/kits/meta.json`)
-              .then((r) => r.json())
-              .then((data) =>
-                data.map((kit: { id: string; name: string }) => ({
-                  id: kit.id,
-                  title: kit.name,
-                })),
-              );
+            const kits = await fetch(`${newTemplates}/get-kits`);
 
-            res(kits);
+            if (kits) {
+              const response = await kits.json();
+
+              const parsedKits = response.collections.map((item: { slug: string; title: string }) => ({
+                ...item,
+                id: item.slug,
+              }));
+
+              res(parsedKits);
+            }
           } catch (e) {
             rej("Failed to load Kits");
           }
         },
-        async getMeta(res, rej, kit) {
+        async getMeta(res: Response<KitsWithThumbs>, rej: Response<string>, kit: KitItem) {
           try {
-            const kitsUrl = `${templates}/kits`;
-            const kits = await fetch(`${kitsUrl}/meta.json`).then((r) => r.json());
+            const response = await fetch(`${newTemplates}/get-kit-collections-chunk?project_id=${kit.id}`);
 
-            const _kit = kits.find((item: Kits) => item.id === kit.id);
+            if (response) {
+              const data = await response.json();
 
-            enum Theme {
-              light = 0,
-              dark = 1,
+              const { types, blocks } = converterKit(data.collections, templatesImageUrl, kit.id);
+
+              res({
+                id: kit.id,
+                blocks,
+                categories: convertToCategories(data.categories),
+                types,
+                name: kit.title,
+                styles: [data.styles],
+              });
             }
-
-            const blocks = _kit?.blocks.map(
-              ({ id, cat, pro, title, keywords, thumbnailWidth, thumbnailHeight, type, blank }: BlockWithThumbs) => ({
-                id,
-                cat: numCategoryToStringCategory({ cat, dict: _kit.categories }),
-                title,
-                type: [Theme[type]],
-                keywords,
-                thumbnailHeight,
-                thumbnailWidth,
-                thumbnailSrc: `${templates}/kits/thumbs/${id}.jpg`,
-                pro: pro ?? false,
-                kitId: kit.id,
-                blank,
-              }),
-            );
-
-            res({
-              id: kit.id,
-              blocks,
-              categories: asNewCategory(_kit.categories),
-              types: _kit.types as KitType[],
-              name: kit.title,
-              styles: _kit.styles,
-            });
           } catch (e) {
             rej("Failed to load meta.json");
           }
         },
-        async getData(res, rej, kit) {
-          const kitsUrl = `${templates}/kits`;
+        async getData(res: Response<Record<string, unknown>>, rej: Response<string>, kit: BlockWithThumbs) {
           try {
-            const data = await fetch(`${kitsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
-            res(data);
+            const response = await fetch(`${newTemplates}/get-item?project_id=${kit.kitId}&page_slug=${kit.id}`, {
+              method: "GET",
+            });
+
+            if (response) {
+              const data = await response.json();
+
+              const collection = data.collection.pop();
+
+              const x = JSON.parse(collection.pageData).items.pop();
+
+              res(x);
+            }
           } catch (e) {
             rej("Failed to load resolves for selected DefaultTemplate");
           }
