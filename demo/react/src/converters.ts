@@ -14,11 +14,16 @@ import {
   LayoutsPageAPI,
   PopupBlockWithThumbs,
   PopupDataResult,
+  StoriesAPI,
+  StoriesTemplateWithThumbs,
+  StoryDataResponse,
+  StoryPages,
 } from "@builder/core/build/es/types/templates";
 import { flatten, uniq, upperFirst } from "lodash";
 
 const PRO = "PRO";
 type CatTypes = Kit | APIPopup;
+const BLANK_PAGE = "Blank";
 
 export const getUniqueKitCategories = (collections: CatTypes[]): Categories[] =>
   pipe(
@@ -144,6 +149,15 @@ export const isKitDataItems = (obj: unknown): obj is KitDataItems =>
 export const isDefaultBlockWithID = (obj: unknown): obj is DefaultBlockWithID =>
   Obj.isObject(obj) && Obj.hasKey("blockId", obj) && isDefaultBlock(obj);
 
+export const isDefaultBlockArray = (obj: unknown): obj is DefaultBlockWithID[] =>
+  Array.isArray(obj) && obj.every(isDefaultBlock);
+
+export const isStoryDataResponse = (obj: unknown): obj is StoryDataResponse =>
+  Obj.isObject(obj) && Obj.hasKey("collection", obj) && Str.is(obj.collection);
+
+export const isStoryDataBlocks = (obj: unknown): obj is { blocks: DefaultBlockWithID[] } =>
+  Obj.isObject(obj) && Obj.hasKey("blocks", obj) && Array.isArray(obj.blocks) && obj.blocks.every(isDefaultBlock);
+
 export const convertLayouts = (collections: LayoutsAPI[], thumbUrl: string): LayoutTemplateWithThumbs[] =>
   collections.map(
     ({ title, categories, pagesCount, pro, keywords, thumbnailWidth, thumbnailHeight, thumbnail, slug }) => {
@@ -172,5 +186,33 @@ export const convertLayoutPages = (
     thumbnailWidth,
     thumbnailHeight,
     thumbnailSrc: `${templatesImageUrl}${thumbs}`,
+    layoutId: id,
+  }));
+
+export const convertStories = (collections: StoriesAPI[], thumbUrl: string): StoriesTemplateWithThumbs[] =>
+  collections.map(({ categories, pages, id, title, thumbnail, thumbnailWidth, thumbnailHeight }) => {
+    return {
+      layoutId: id,
+      name: title,
+      cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+      pagesCount: pages,
+      thumbnailSrc: `${thumbUrl}${thumbnail}`,
+      thumbnailWidth,
+      thumbnailHeight,
+      blank: title === BLANK_PAGE,
+    };
+  });
+
+export const convertStoriesPages = (
+  stories: StoryPages[],
+  templatesImageUrl: string,
+  id: string,
+): CustomTemplatePage[] =>
+  stories.map(({ slug, thumbnailHeight, thumbnailWidth, thumbnail }) => ({
+    id: slug,
+    title: slug,
+    thumbnailSrc: `${templatesImageUrl}${thumbnail}`,
+    thumbnailHeight,
+    thumbnailWidth,
     layoutId: id,
   }));

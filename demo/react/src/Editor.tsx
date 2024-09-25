@@ -3,13 +3,14 @@ import {
   BlockWithThumbs,
   BlocksArray,
   CustomTemplatePage,
+  DefaultBlock,
   DefaultBlockWithID,
   KitItem,
   KitsWithThumbs,
   LayoutsPages,
   LayoutsWithThumbs,
   Popup,
-  StoryTemplate,
+  StoriesWithThumbs,
 } from "@builder/core/build/es/types/templates";
 import { Response } from "demo-nextjs/src/api/types";
 import { isT, mPipe, pass } from "fp-utilities";
@@ -17,12 +18,17 @@ import React, { useReducer, useRef } from "react";
 import {
   convertLayoutPages,
   convertLayouts,
+  convertStories,
+  convertStoriesPages,
   convertToCategories,
   converterKit,
   converterPopup,
+  isDefaultBlockArray,
   isDefaultBlockWithID,
   isKitDataItems,
   isPopupDataResult,
+  isStoryDataBlocks,
+  isStoryDataResponse,
 } from "./converters";
 import { demoConfig } from "./demoConfig";
 import { useEditor } from "./hooks/useEditor";
@@ -275,35 +281,75 @@ export const Editor = () => {
         },
       },
       defaultStories: {
-        async getMeta(res, rej) {
-          const storiesUrl = `${templates}/stories`;
+        async getMeta(res: Response<StoriesWithThumbs>, rej: Response<string>) {
           try {
-            const meta: StoryTemplate = await fetch(`${storiesUrl}/meta.json`).then((r) => r.json());
+            const response = await fetch(`${newTemplates}/get-story-chunk`, {
+              method: "GET",
+            });
 
-            const data = {
-              ...meta,
-              stories: meta.stories.map((story) => ({
-                ...story,
-                thumbnailSrc: `${storiesUrl}/thumbs/${story.pages[0].id}.jpg`,
-                pages: story.pages.map((page) => ({
-                  ...page,
-                  thumbnailSrc: `${storiesUrl}/thumbs/${page.id}.jpg`,
-                })),
-              })),
-            };
+            if (response) {
+              const result = await response.json();
 
-            res(data);
+              if (result.collections && result.categories) {
+                const data = {
+                  stories: convertStories(result.collections, templatesImageUrl),
+                  categories: convertToCategories(result.categories),
+                };
+
+                res(data);
+              }
+            }
           } catch (e) {
-            rej("Failed to load meta.json");
+            rej("Failed to load Stories");
           }
         },
-        async getData(res, rej, id) {
-          const storiesUrl = `${templates}/stories`;
+        async getData(
+          res: Response<BlocksArray<DefaultBlock>>,
+          rej: Response<string>,
+          { layoutId, id }: { id: string; layoutId: string },
+        ) {
           try {
-            const data = await fetch(`${storiesUrl}/resolves/${id}.json`).then((r) => r.json());
-            res(data);
+            const response = await fetch(`${newTemplates}/get-story-page-data?project_id=${layoutId}&page_slug=${id}`, {
+              method: "GET",
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+
+              const parsedResult = mPipe(
+                pass(isStoryDataResponse),
+                Obj.readKey("collection"),
+                Json.read,
+                pass(isStoryDataBlocks),
+                pass(({ blocks }) => isDefaultBlockArray(blocks)),
+              )(result);
+
+              if (parsedResult) {
+                res({ blocks: parsedResult.blocks });
+              }
+            }
           } catch (e) {
             rej("Failed to load resolves for selected DefaultTemplate");
+          }
+        },
+        async getPages(res: Response<LayoutsPages>, rej: Response<string>, id: string) {
+          try {
+            const response = await fetch(`${newTemplates}/get-story-page?project_id=${id}&per_page=20`, {
+              method: "GET",
+            });
+
+            if (response) {
+              const result = await response.json();
+
+              const parsedData = convertStoriesPages(result.collections, templatesImageUrl, id);
+
+              res({
+                pages: parsedData,
+                styles: [result.styles],
+              });
+            }
+          } catch (e) {
+            rej("Failed to load pages for selected Stories");
           }
         },
       },

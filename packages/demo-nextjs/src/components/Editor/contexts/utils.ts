@@ -4,15 +4,19 @@ import { Response } from "@/api/types";
 import {
   convertLayoutPages,
   convertLayouts,
+  convertStories,
+  convertStoriesPages,
   convertToCategories,
   converterKit,
   converterPopup,
+  isDefaultBlockArray,
   isDefaultBlockWithID,
   isKitDataItems,
   isPopupDataResult,
+  isStoryDataBlocks,
+  isStoryDataResponse,
 } from "@/components/Editor/contexts/converters";
 import { ConfigWithReference } from "@/components/Editor/contexts/types";
-import { asNewCategory, numCategoryToStringCategory, templateDetails } from "@/components/Editor/utils";
 import { replacePlaceholders } from "@/placeholders";
 import { Arr, Json, Obj } from "@brizy/readers";
 import { BaseDCHandlerExtra, ConfigDCItem, DCPlaceholdersExtra } from "@builder/core/build/es/types/dynamicContent";
@@ -22,19 +26,18 @@ import {
   BlockWithThumbs,
   BlocksArray,
   CustomTemplatePage,
+  DefaultBlock,
   DefaultBlockWithID,
   KitItem,
   KitsWithThumbs,
   LayoutsPages,
   LayoutsWithThumbs,
   Popup,
-  StoryTemplate,
-  Template,
+  StoriesWithThumbs,
 } from "@builder/core/build/es/types/templates";
 import { Dictionary } from "@builder/core/build/es/utils/types";
 import { isT, mPipe, pass } from "fp-utilities";
 
-const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
 const newTemplates = "https://template-mk.b-cdn.net/api";
 const templatesImageUrl = "https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/";
 
@@ -246,35 +249,75 @@ export const getApi = () => ({
     },
   },
   defaultStories: {
-    async getMeta(res: Response<StoryTemplate>, rej: Response<string>) {
-      const storiesUrl = `${templates}/stories`;
+    async getMeta(res: Response<StoriesWithThumbs>, rej: Response<string>) {
       try {
-        const meta: StoryTemplate = await fetch(`${storiesUrl}/meta.json`).then((r) => r.json());
+        const response = await fetch(`${newTemplates}/get-story-chunk`, {
+          method: "GET",
+        });
 
-        const data = {
-          ...meta,
-          stories: meta.stories.map((story) => ({
-            ...story,
-            thumbnailSrc: `${storiesUrl}/thumbs/${story.pages[0].id}.jpg`,
-            pages: story.pages.map((page) => ({
-              ...page,
-              thumbnailSrc: `${storiesUrl}/thumbs/${page.id}.jpg`,
-            })),
-          })),
-        };
+        if (response) {
+          const result = await response.json();
 
-        res(data);
+          if (result.collections && result.categories) {
+            const data = {
+              stories: convertStories(result.collections, templatesImageUrl),
+              categories: convertToCategories(result.categories),
+            };
+
+            res(data);
+          }
+        }
       } catch (e) {
-        rej("Failed to load meta.json");
+        rej("Failed to load Stories");
       }
     },
-    async getData(res: Response<Record<string, unknown>>, rej: Response<string>, id: string) {
-      const storiesUrl = `${templates}/stories`;
+    async getData(
+      res: Response<BlocksArray<DefaultBlock>>,
+      rej: Response<string>,
+      { layoutId, id }: { id: string; layoutId: string },
+    ) {
       try {
-        const data = await fetch(`${storiesUrl}/resolves/${id}.json`).then((r) => r.json());
-        res(data);
+        const response = await fetch(`${newTemplates}/get-story-page-data?project_id=${layoutId}&page_slug=${id}`, {
+          method: "GET",
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+
+          const parsedResult = mPipe(
+            pass(isStoryDataResponse),
+            Obj.readKey("collection"),
+            Json.read,
+            pass(isStoryDataBlocks),
+            pass(({ blocks }) => isDefaultBlockArray(blocks)),
+          )(result);
+
+          if (parsedResult) {
+            res({ blocks: parsedResult.blocks });
+          }
+        }
       } catch (e) {
         rej("Failed to load resolves for selected DefaultTemplate");
+      }
+    },
+    async getPages(res: Response<LayoutsPages>, rej: Response<string>, id: string) {
+      try {
+        const response = await fetch(`${newTemplates}/get-story-page?project_id=${id}&per_page=20`, {
+          method: "GET",
+        });
+
+        if (response) {
+          const result = await response.json();
+
+          const parsedData = convertStoriesPages(result.collections, templatesImageUrl, id);
+
+          res({
+            pages: parsedData,
+            styles: [result.styles],
+          });
+        }
+      } catch (e) {
+        rej("Failed to load pages for selected Stories");
       }
     },
   },

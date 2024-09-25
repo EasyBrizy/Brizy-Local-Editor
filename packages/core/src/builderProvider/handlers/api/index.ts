@@ -17,6 +17,7 @@ import {
   getPopupsMeta,
   getStoriesData,
   getStoriesMeta,
+  getStoriesPages,
 } from "./templates";
 
 interface Data extends HandlerData {
@@ -61,6 +62,7 @@ export const getApi = (data: Data) => {
     api = setIn(api, ["defaultStories"], {
       getMeta: getStoriesMeta({ event, target, uid }),
       getData: getStoriesData({ event, target, uid }),
+      getPages: getStoriesPages({ event, target, uid }),
     }) as Record<string, unknown>;
   }
 

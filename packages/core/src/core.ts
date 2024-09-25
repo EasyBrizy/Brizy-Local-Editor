@@ -47,6 +47,8 @@ import {
   templateStoriesDataRes,
   templateStoriesMetaRej,
   templateStoriesMetaRes,
+  templateStoriesPagesRej,
+  templateStoriesPagesRes,
   updateScreenshotsRej,
   updateScreenshotsRes,
 } from "@/actions";
@@ -68,13 +70,14 @@ import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import {
   BlockWithThumbs,
   BlocksArray,
+  DefaultBlock,
   DefaultBlockWithID,
   KitItem,
   KitsWithThumbs,
   LayoutsPages,
   LayoutsWithThumbs,
   Popup,
-  StoryTemplate,
+  StoriesWithThumbs,
 } from "@/types/templates";
 import { AutoSaveOutput, BuilderOutput, HtmlOutputType, Init, OnSave, Target } from "@/types/types";
 import { createOutput } from "@/utils/createOutput";
@@ -121,6 +124,8 @@ const actions = {
   templateStoriesMetaRej,
   templateStoriesDataRes,
   templateStoriesDataRej,
+  templateStoriesPagesRej,
+  templateStoriesPagesRes,
   createScreenshotsRes,
   createScreenshotsRej,
   updateScreenshotsRes,
@@ -463,7 +468,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
             const getMeta = defaultStories?.getMeta;
 
             if (typeof getMeta === "function") {
-              const res = (r: StoryTemplate) => {
+              const res = (r: StoriesWithThumbs) => {
                 iframeWindow.postMessage(actions.templateStoriesMetaRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
@@ -472,19 +477,34 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               getMeta(res, rej);
             }
           },
-          [ActionTypes.templateStoriesData]: (id: string) => {
+          [ActionTypes.templateStoriesData]: (page: { id: string; layoutId: string }) => {
             const { api = {} } = config;
             const { defaultStories } = api;
             const getData = defaultStories?.getData;
 
             if (typeof getData === "function") {
-              const res = (r: Record<string, unknown>) => {
+              const res = (r: BlocksArray<DefaultBlock>) => {
                 iframeWindow.postMessage(actions.templateStoriesDataRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
                 iframeWindow.postMessage(actions.templateStoriesDataRej(r, uid), targetOrigin);
               };
-              getData(res, rej, id);
+              getData(res, rej, page);
+            }
+          },
+          [ActionTypes.templateStoriesPages]: (id: string) => {
+            const { api = {} } = config;
+            const { defaultStories } = api;
+            const getPages = defaultStories?.getPages;
+
+            if (typeof getPages === "function") {
+              const res = (r: LayoutsPages) => {
+                iframeWindow.postMessage(actions.templateStoriesPagesRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.templateStoriesPagesRej(r, uid), targetOrigin);
+              };
+              getPages(res, rej, id);
             }
           },
           [ActionTypes.createScreenshots]: (extra: ScreenshotExtra) => {
