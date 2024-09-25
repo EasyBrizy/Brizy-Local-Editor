@@ -1,6 +1,6 @@
 import { Handler, HandlerData } from "@/builderProvider/types/type";
 import { Response } from "@/types/common";
-import { Template } from "@/types/templates";
+import { LayoutsPages, Template } from "@/types/templates";
 
 //#region Meta
 
@@ -111,6 +111,64 @@ export const getLayoutsData = (data: HandlerData) => {
 
     // Listening the AddMessage
     window.addEventListener("message", handleData({ res, rej, uid, event, target }));
+  };
+
+  return handler;
+};
+
+//#endregion
+
+//#region Pages
+
+interface PagesHandler extends HandlerData {
+  res: Response<LayoutsPages>;
+  rej: Response<string>;
+}
+
+function handlePages(data: PagesHandler) {
+  const { uid, target, res, rej } = data;
+
+  return function metaEmitter(event: MessageEvent) {
+    const data = event.data;
+    if (data.target !== target || data.uid !== uid) {
+      return;
+    }
+
+    try {
+      const action = JSON.parse(data.data);
+
+      switch (action.type) {
+        case `${target}_template_layouts_pages_res`: {
+          res(action.data);
+          window.removeEventListener("message", metaEmitter);
+          break;
+        }
+        case `${target}_template_layouts_pages_rej`: {
+          rej(action.data);
+          window.removeEventListener("message", metaEmitter);
+          break;
+        }
+      }
+    } catch (e) {
+      console.error("Invalid TemplateLayoutsPages JSON", e);
+    }
+  };
+}
+
+export const getLayoutsPages = (data: HandlerData) => {
+  const { target, uid, event } = data;
+
+  const handler: Handler<LayoutsPages, string, string> = (res, rej, extra) => {
+    const data = JSON.stringify({
+      type: `${target}_template_layouts_pages`,
+      payload: extra,
+    });
+
+    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
+    event.source?.postMessage({ target, uid, data }, event.origin);
+
+    // Listening the AddMessage
+    window.addEventListener("message", handlePages({ res, rej, uid, event, target }));
   };
 
   return handler;

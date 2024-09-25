@@ -8,22 +8,25 @@ import { Arr, Json, Obj } from "@brizy/readers";
 import { LeftSidebarMoreOptionsIds, LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import {
   BlockWithThumbs,
+  BlocksArray,
+  CustomTemplatePage,
   DefaultBlockWithID,
-  KitsWithThumbs,
   KitItem,
-  KitType,
-  Kits,
+  KitsWithThumbs,
+  LayoutsPages,
+  LayoutsWithThumbs,
   Popup,
   StoryTemplate,
-  Template,
 } from "@builder/core/build/es/types/templates";
 import { Response } from "demo-nextjs/src/api/types";
 import { isT, mPipe, pass } from "fp-utilities";
 import { useRouter } from "next/navigation";
 import React, { useReducer, useRef } from "react";
 import {
-  converterKit,
+  convertLayoutPages,
+  convertLayouts,
   convertToCategories,
+  converterKit,
   converterPopup,
   isDefaultBlockWithID,
   isKitDataItems,
@@ -33,7 +36,6 @@ import { reducer } from "./reducers";
 import { State } from "./reducers/types";
 import "./styles/index.css";
 import { Props } from "./types";
-import { asNewCategory, numCategoryToStringCategory, templateDetails } from "./utils";
 
 const token = getConfig().editorToken;
 
@@ -269,41 +271,78 @@ export const Editor = (props: Props) => {
         },
       },
       defaultLayouts: {
-        async getMeta(res, rej) {
-          const layoutsUrl = `${templates}/layouts`;
+        async getMeta(res: Response<LayoutsWithThumbs>, rej: Response<string>) {
           try {
-            const meta: Template = await fetch(`${layoutsUrl}/meta.json`).then((r) => r.json());
+            const response = await fetch(`${newTemplates}/get-layouts-chunk`, {
+              method: "GET",
+            });
 
-            const data = {
-              categories: asNewCategory(meta.categories),
-              templates: meta.templates.map((item) => ({
-                ...item,
-                cat: numCategoryToStringCategory({
-                  cat: item.cat as unknown as number[],
-                  dict: meta.categories,
-                }) as unknown as Symbol[],
-                thumbnailSrc: `${layoutsUrl}/thumbs/${item.pages[0].id}.jpg`,
-                ...(templateDetails(item.pages) ?? {}),
-                pages: item.pages.map((page) => ({
-                  ...page,
-                  thumbnailSrc: `${layoutsUrl}/thumbs/${page.id}.jpg`,
-                })),
-              })),
-            };
+            if (response) {
+              const data = await response.json();
 
-            res(data);
+              if (data.collections && data.categories) {
+                const result: LayoutsWithThumbs = {
+                  templates: convertLayouts(data.collections, templatesImageUrl),
+                  categories: convertToCategories(data.categories),
+                };
+
+                res(result);
+              }
+            }
           } catch (e) {
             rej("Failed to load meta.json");
           }
         },
-        async getData(res, rej, { id }) {
-          const layoutsUrl = `${templates}/layouts`;
+        async getData(
+          res: Response<BlocksArray<DefaultBlockWithID>>,
+          rej: Response<string>,
+          { id, layoutId }: { id: string; layoutId: string },
+        ) {
           try {
-            const data = await fetch(`${layoutsUrl}/resolves/${id}.json`).then((r) => r.json());
+            const response = await fetch(`${newTemplates}/get-layouts-page?project_id=${layoutId}&page_slug=${id}`, {
+              method: "GET",
+            });
 
-            res(data);
+            if (response.ok) {
+              const data = await response.json();
+
+              const parsedResult = mPipe(
+                Arr.read,
+                (res) => res[0] as { pageData: string },
+                Obj.readKey("pageData"),
+                (r) =>
+                  Json.read(r) as {
+                    items: DefaultBlockWithID[];
+                  },
+              )(data);
+
+              if (isT(parsedResult)) {
+                const result: BlocksArray<DefaultBlockWithID> = {
+                  blocks: [...parsedResult.items],
+                };
+
+                res(result);
+              }
+            }
           } catch (e) {
             rej("Failed to load resolves for selected DefaultTemplate");
+          }
+        },
+        async getPages(res: Response<LayoutsPages>, rej: Response<string>, id: string) {
+          try {
+            const response = await fetch(`${newTemplates}/get-layouts-pages?project_id=${id}&per_page=20`, {
+              method: "GET",
+            });
+
+            if (response) {
+              const data = await response.json();
+
+              const parsedData: CustomTemplatePage[] = convertLayoutPages(data.collections, templatesImageUrl, id);
+
+              res({ pages: parsedData, styles: [data.styles] });
+            }
+          } catch (e) {
+            rej("Failed to load pages for selected Layout");
           }
         },
       },

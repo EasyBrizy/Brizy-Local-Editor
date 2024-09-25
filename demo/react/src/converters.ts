@@ -1,14 +1,17 @@
-import { Obj, Str } from "@brizy/readers";
-import { pipe } from "@brizy/readers";
+import { Num, Obj, Str, pipe } from "@brizy/readers";
 import {
   APIPopup,
   BlockWithThumbs,
   Categories,
+  CustomTemplatePage,
   DefaultBlock,
   DefaultBlockWithID,
   Kit,
   KitDataItems,
   KitType,
+  LayoutTemplateWithThumbs,
+  LayoutsAPI,
+  LayoutsPageAPI,
   PopupBlockWithThumbs,
   PopupDataResult,
 } from "@builder/core/build/es/types/templates";
@@ -140,3 +143,34 @@ export const isKitDataItems = (obj: unknown): obj is KitDataItems =>
 
 export const isDefaultBlockWithID = (obj: unknown): obj is DefaultBlockWithID =>
   Obj.isObject(obj) && Obj.hasKey("blockId", obj) && isDefaultBlock(obj);
+
+export const convertLayouts = (collections: LayoutsAPI[], thumbUrl: string): LayoutTemplateWithThumbs[] =>
+  collections.map(
+    ({ title, categories, pagesCount, pro, keywords, thumbnailWidth, thumbnailHeight, thumbnail, slug }) => {
+      return {
+        name: title,
+        cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+        pagesCount: Num.read(pagesCount) ?? 0,
+        pro: pro === PRO,
+        keywords,
+        thumbnailWidth,
+        thumbnailHeight,
+        thumbnailSrc: `${thumbUrl}${thumbnail}`,
+        layoutId: slug,
+      };
+    },
+  );
+
+export const convertLayoutPages = (
+  layouts: LayoutsPageAPI[],
+  templatesImageUrl: string,
+  id: string,
+): CustomTemplatePage[] =>
+  layouts.map(({ slug, title, thumbnailHeight, thumbnailWidth, thumbs }: LayoutsPageAPI) => ({
+    id: slug,
+    title,
+    thumbnailWidth,
+    thumbnailHeight,
+    thumbnailSrc: `${templatesImageUrl}${thumbs}`,
+    layoutId: id,
+  }));
