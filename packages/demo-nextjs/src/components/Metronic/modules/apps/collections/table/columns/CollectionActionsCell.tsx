@@ -30,6 +30,7 @@ const CollectionActionsCell: FC<Props> = (props) => {
     onSuccess: () => {
       // ✅ update detail view directly
       queryClient.invalidateQueries([`${QUERIES.COLLECTIONS_LIST}-${query}`]);
+      queryClient.invalidateQueries([QUERIES.LAST_ITEMS]);
     },
   });
 
