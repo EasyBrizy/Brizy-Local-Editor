@@ -117,7 +117,7 @@ export interface DefaultKits {
   label?: string;
   getKits: (res: Response<Array<KitItem>>, rej: Response<string>) => void;
   getMeta: (res: Response<KitsWithThumbs>, rej: Response<string>, kit: KitItem) => void;
-  getData: (res: Response<Record<string, unknown>>, rej: Response<string>, id: KitItem) => void;
+  getData: (res: Response<Record<string, unknown>>, rej: Response<string>, kit: BlockWithThumbs) => void;
 }
 
 export interface KitDataItems {
