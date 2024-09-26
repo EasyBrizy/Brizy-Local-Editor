@@ -1,5 +1,6 @@
 import {
   BlocksArray,
+  DefaultBlock,
   DefaultBlockWithID,
   Kit,
   KitItem,
@@ -7,7 +8,7 @@ import {
   LayoutsPages,
   LayoutsWithThumbs,
   Popup,
-  StoryTemplate,
+  StoriesWithThumbs,
 } from "@/types/templates";
 import { ActionResolve, Target } from "@/types/types";
 import { ActionTypes } from "./types";
@@ -120,7 +121,7 @@ export const templateLayoutsPagesRej = (r: string, uid: string): ActionResolve =
 
 //#region Stories
 
-export const templateStoriesMetaRes = (r: StoryTemplate, uid: string): ActionResolve => ({
+export const templateStoriesMetaRes = (r: StoriesWithThumbs, uid: string): ActionResolve => ({
   uid,
   target: Target.builder,
   data: JSON.stringify({ type: ActionTypes.templateStoriesMetaRes, data: r }),
@@ -132,7 +133,7 @@ export const templateStoriesMetaRej = (r: string, uid: string): ActionResolve =>
   data: JSON.stringify({ type: ActionTypes.templateStoriesMetaRej, data: r }),
 });
 
-export const templateStoriesDataRes = (r: Record<string, unknown>, uid: string): ActionResolve => ({
+export const templateStoriesDataRes = (r: BlocksArray<DefaultBlock>, uid: string): ActionResolve => ({
   uid,
   target: Target.builder,
   data: JSON.stringify({ type: ActionTypes.templateStoriesDataRes, data: r }),
@@ -142,6 +143,18 @@ export const templateStoriesDataRej = (r: string, uid: string): ActionResolve =>
   uid,
   target: Target.builder,
   data: JSON.stringify({ type: ActionTypes.templateStoriesDataRej, data: r }),
+});
+
+export const templateStoriesPagesRes = (r: LayoutsPages, uid: string): ActionResolve => ({
+  uid,
+  target: Target.builder,
+  data: JSON.stringify({ type: ActionTypes.templateStoriesPagesRes, data: r }),
+});
+
+export const templateStoriesPagesRej = (r: string, uid: string): ActionResolve => ({
+  uid,
+  target: Target.builder,
+  data: JSON.stringify({ type: ActionTypes.templateStoriesPagesRej, data: r }),
 });
 
 //#endregion

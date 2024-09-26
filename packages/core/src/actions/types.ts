@@ -69,6 +69,9 @@ export enum ActionTypes {
   templateStoriesData = "@builder_template_stories_data",
   templateStoriesDataRes = "@builder_template_stories_data_res",
   templateStoriesDataRej = "@builder_template_stories_data_rej",
+  templateStoriesPages = "@builder_template_stories_pages",
+  templateStoriesPagesRes = "@builder_template_stories_pages_res",
+  templateStoriesPagesRej = "@builder_template_stories_pages_rej",
 
   createScreenshots = "@builder_create_screenshots",
   createScreenshotsRes = "@builder_create_screenshots_res",

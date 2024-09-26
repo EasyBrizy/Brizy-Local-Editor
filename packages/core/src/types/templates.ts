@@ -306,6 +306,44 @@ export interface DefaultLayouts {
 //#endregion
 
 //#region DefaultStories
+export interface StoryDataResponse {
+  collection: string;
+}
+
+export interface StoryPages extends ThumbnailWithDimensions {
+  slug: string;
+}
+
+export interface StoriesTemplate {
+  blank?: boolean;
+  layoutId: string;
+  name: string;
+  cat: Array<Literal>;
+  pagesCount: number;
+  styles?: Array<Style>;
+}
+
+export interface Stories {
+  stories: Array<StoriesTemplate>;
+  categories: Array<Omit<Categories, "slug">>;
+}
+
+export interface StoriesTemplateWithThumbs extends StoriesTemplate {
+  thumbnailSrc: string;
+  thumbnailWidth: number;
+  thumbnailHeight: number;
+}
+
+export interface StoriesWithThumbs extends Omit<Stories, "stories"> {
+  stories: Array<StoriesTemplateWithThumbs>;
+}
+
+export interface StoriesAPI extends ThumbnailWithDimensions {
+  title: string;
+  categories: string;
+  id: string;
+  pages: number;
+}
 
 type StoryCategoryId = Symbol;
 
@@ -337,8 +375,14 @@ export interface StoryTemplate {
   categories: Array<StoryCategory>;
 }
 
-export interface DefaultStories extends DefaultTemplate<StoryTemplate> {
-  getData: (res: Response<Record<string, unknown>>, rej: Response<string>, id: string) => void;
+export interface DefaultStories {
+  getMeta: (res: Response<StoriesWithThumbs>, rej: Response<string>) => void;
+  getData: (
+    res: Response<BlocksArray<DefaultBlock>>,
+    rej: Response<string>,
+    page: { id: string; layoutId: string },
+  ) => void;
+  getPages: (res: Response<LayoutsPages>, rej: Response<string>, id: string) => void;
 }
 
 //#endregion
