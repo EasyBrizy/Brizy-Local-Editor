@@ -2,9 +2,8 @@ import { Editor } from "@/components/Editor";
 import { ConfigProvider } from "@/components/Editor/contexts";
 import { CollectionTypes } from "@/lib/db/types";
 import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
-import { getOrigin } from "@/utils";
+import { getOrigin } from "@/utils/origin";
 import { Modes } from "@builder/core/build/es/types/types";
-import { headers } from "next/headers";
 import React from "react";
 
 interface Props {
@@ -13,8 +12,7 @@ interface Props {
 
 export default async function StoryPage(props: Props) {
   const { params } = props;
-  const headersList = headers();
-  const origin = getOrigin(headersList);
+  const origin = await getOrigin();
 
   const slug = params.slug;
   const pagePreview = `${origin}/story/${slug}`;

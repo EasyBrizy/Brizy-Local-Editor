@@ -3,7 +3,7 @@ import { ConfigProvider } from "@/components/Editor/contexts";
 import { CollectionTypes } from "@/lib/db/types";
 import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
 import { getMenuItems } from "@/lib/itemConfig/getMenuItems";
-import { getOrigin } from "@/utils";
+import { getOrigin } from "@/utils/origin";
 import { Modes } from "@builder/core/build/es/types/types";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
@@ -14,8 +14,7 @@ interface Props {
 }
 
 export default async function EditorPage(props: Props) {
-  const headersList = headers();
-  const origin = getOrigin(headersList);
+  const origin = await getOrigin();
 
   const { params } = props;
   let [collection, item] = params.slug;
