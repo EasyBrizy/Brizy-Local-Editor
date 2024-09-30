@@ -29,10 +29,14 @@ export {
   templateLayoutsMetaRej,
   templateLayoutsDataRes,
   templateLayoutsDataRej,
+  templateLayoutsPagesRes,
+  templateLayoutsPagesRej,
   templateStoriesMetaRes,
   templateStoriesMetaRej,
   templateStoriesDataRes,
   templateStoriesDataRej,
+  templateStoriesPagesRes,
+  templateStoriesPagesRej,
 } from "./templates";
 export { createScreenshotsRes, createScreenshotsRej, updateScreenshotsRes, updateScreenshotsRej } from "./screenshots";
 export { leftSidebarOpenCMSClose } from "./leftSidebar";

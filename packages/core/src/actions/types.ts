@@ -59,6 +59,9 @@ export enum ActionTypes {
   templateLayoutsData = "@builder_template_layouts_data",
   templateLayoutsDataRes = "@builder_template_layouts_data_res",
   templateLayoutsDataRej = "@builder_template_layouts_data_rej",
+  templateLayoutsPages = "@builder_template_layouts_pages",
+  templateLayoutsPagesRes = "@builder_template_layouts_pages_res",
+  templateLayoutsPagesRej = "@builder_template_layouts_pages_rej",
 
   templateStoriesMeta = "@builder_template_stories_meta",
   templateStoriesMetaRes = "@builder_template_stories_meta_res",
@@ -66,6 +69,9 @@ export enum ActionTypes {
   templateStoriesData = "@builder_template_stories_data",
   templateStoriesDataRes = "@builder_template_stories_data_res",
   templateStoriesDataRej = "@builder_template_stories_data_rej",
+  templateStoriesPages = "@builder_template_stories_pages",
+  templateStoriesPagesRes = "@builder_template_stories_pages_res",
+  templateStoriesPagesRej = "@builder_template_stories_pages_rej",
 
   createScreenshots = "@builder_create_screenshots",
   createScreenshotsRes = "@builder_create_screenshots_res",

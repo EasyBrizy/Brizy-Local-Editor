@@ -81,6 +81,8 @@
       const IdentityPoolId = "IDENTITY_POOL_ID";
       const AWS = window.AWS;
       const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
+      const newTemplates = "https://template-mk.b-cdn.net/api";
+      const templatesImageUrl = "https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/";
 
       const createUpload = (accept) => {
         let lock = false;
@@ -926,75 +928,133 @@
             defaultKits: {
               async getKits(res, rej) {
                 try {
-                  const kits = await fetch(`${templates}/kits/meta.json`)
-                    .then((r) => r.json())
-                    .then((data) =>
-                      data.map((kit) => ({
-                        id: kit.id,
-                        title: kit.name,
-                      })),
-                    );
+                  const kits = await fetch(`${newTemplates}/get-kits`);
 
-                  res(kits);
+                  if (kits) {
+                    const response = await kits.json();
+
+                    const parsedKits = response.collections.map((item) => ({
+                      ...item,
+                      id: item.slug,
+                    }));
+
+                    res(parsedKits);
+                  }
                 } catch (e) {
                   rej("Failed to load Kits");
                 }
               },
               async getMeta(res, rej, kit) {
                 try {
-                  const kitsUrl = `${templates}/kits`;
-                  const kits = await fetch(`${kitsUrl}/meta.json`).then((r) => r.json());
+                  const response = await fetch(`${newTemplates}/get-kit-collections-chunk?project_id=${kit.id}`);
 
-                  const _kit = kits.find((item) => item.id === kit.id);
+                  if (response) {
+                    const data = await response.json();
 
-                  const Theme = ["light", "dark"];
+                    function deepFlatten(arr) {
+                      return arr.reduce(
+                        (acc, val) => (Array.isArray(val) ? acc.concat(deepFlatten(val)) : acc.concat(val)),
+                        [],
+                      );
+                    }
 
-                  const blocks = _kit?.blocks.map(
-                    ({ id, cat, pro, title, keywords, thumbnailWidth, thumbnailHeight, type, blank }) => ({
-                      id,
-                      cat: cat.reduce((acc, catId) => {
-                        const category = _kit.categories.filter(({ id }) => id === catId);
+                    function uniq(arr) {
+                      // Create a new array to store unique values
+                      const result = [];
 
-                        if (!category.length) {
-                          return acc;
+                      // Loop through the input array
+                      for (let i = 0; i < arr.length; i++) {
+                        // If the value is not already in the result array, add it
+                        if (!result.includes(arr[i])) {
+                          result.push(arr[i]);
                         }
-                        return [...acc, category[0].title.toLowerCase()];
-                      }, []),
-                      title,
-                      type: [Theme[type]],
-                      keywords,
-                      thumbnailHeight,
-                      thumbnailWidth,
-                      thumbnailSrc: `${templates}/kits/thumbs/${id}.jpg`,
-                      pro: pro ?? false,
-                      kitId: kit.id,
-                      blank,
-                    }),
-                  );
+                      }
 
-                  res({
-                    id: kit.id,
-                    blocks,
-                    categories: _kit.categories
-                      .filter(({ id }) => id !== 0)
-                      .map(({ title }) => ({
-                        title,
-                        slug: title.replace(/\s\/?\s?/g, "-"),
-                        id: title.toLowerCase(),
-                      })),
-                    types: _kit.types,
-                    name: kit.title,
-                    styles: _kit.styles,
-                  });
+                      return result;
+                    }
+
+                    const flattenType = deepFlatten(
+                      data.collections.map((collection) => collection.theme).map((type) => type.split(",")),
+                    );
+                    const uniqTypes = uniq(flattenType.map((flatType) => flatType.toLowerCase()));
+                    const finalTypes = uniqTypes
+                      .filter((type) => type && type.length)
+                      .map((u) => ({
+                        title: u.charAt(0).toUpperCase() + u.slice(1),
+                        id: u,
+                        name: u,
+                        icon: u === "light" ? "nc-light" : "nc-dark",
+                      }));
+
+                    const cats = data.collections
+                      .map((collection) => collection.categories)
+                      .map((category) => category.split(","));
+                    const flattenCats = deepFlatten(cats).map((category2) => category2.trim());
+                    const categories = uniq(flattenCats)
+                      .filter((cat) => cat && cat.length)
+                      .map((cat) => ({
+                        title: cat,
+                        slug: cat.toLowerCase(),
+                        id: cat.toLowerCase(),
+                      }));
+
+                    const blocks = data.collections.map(
+                      ({
+                        slug,
+                        categories,
+                        pro,
+                        thumbnail,
+                        keywords,
+                        thumbnailWidth,
+                        thumbnailHeight,
+                        blank,
+                        theme,
+                      }) => ({
+                        id: slug,
+                        cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+                        title: slug,
+                        type: theme
+                          .split(",")
+                          .map((item) => item.trim())
+                          .map((i1) => i1.toLowerCase()),
+                        keywords: keywords ?? "",
+                        thumbnailHeight,
+                        thumbnailWidth,
+                        thumbnailSrc: `${templatesImageUrl}${thumbnail}`,
+                        pro: pro === "PRO",
+                        kitId: kit.id,
+                        blank,
+                      }),
+                    );
+
+                    res({
+                      id: kit.id,
+                      blocks,
+                      categories: categories,
+                      types: finalTypes,
+                      name: kit.title,
+                      styles: [data.styles],
+                    });
+                  }
                 } catch (e) {
                   rej("Failed to load meta.json");
                 }
               },
               async getData(res, rej, kit) {
-                const kitsUrl = `${templates}/kits`;
                 try {
-                  const data = await fetch(`${kitsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
-                  res(data);
+                  const response = await fetch(`${newTemplates}/get-item?project_id=${kit.kitId}&page_slug=${kit.id}`, {
+                    method: "GET",
+                  });
+
+                  if (response) {
+                    const data = await response.json();
+
+                    const collection = data.collection.pop();
+
+                    const x = JSON.parse(collection.pageData).items.pop();
+
+                    res(x);
+                  }
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");
                 }
@@ -1002,31 +1062,55 @@
             },
             defaultPopups: {
               async getMeta(res, rej) {
-                const popupsUrl = `${templates}/popups`;
-
                 try {
-                  const meta = await fetch(`${popupsUrl}/meta.json`).then((r) => r.json());
-                  const Theme = ["light", "dark"];
+                  const response = await fetch("https://template-mk.b-cdn.net/api/get-popups-chunk");
 
-                  const data = {
-                    ...meta,
-                    blocks: meta.blocks.map((item) => ({
+                  if (response) {
+                    const res2 = await response.json();
+
+                    const data = res2.collections.map(
+                      ({ id, title, categories, pro, thumbnail, thumbnailWidth, thumbnailHeight, blank }) => ({
+                        id,
+                        cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+                        title,
+                        thumbnailHeight,
+                        thumbnailWidth,
+                        thumbnailSrc: `https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/${thumbnail}`,
+                        pro: pro === "PRO",
+                        keywords: "popup2",
+                        position: 1,
+                        type: ["light"],
+                        blank,
+                      }),
+                    );
+
+                    const convertedCategories = res2.categories.map((item) => ({
                       ...item,
-                      thumbnailSrc: `${popupsUrl}/thumbs/${item.id}.jpg`,
-                      type: Theme[item.type],
-                    })),
-                  };
+                      id: item.title.toLowerCase(),
+                    }));
 
-                  res(data);
+                    res({ blocks: data, categories: convertedCategories });
+                  }
                 } catch (e) {
                   rej("Failed to load meta.json");
                 }
               },
               async getData(res, rej, kit) {
-                const popupsUrl = `${templates}/popups`;
                 try {
-                  const data = await fetch(`${popupsUrl}/resolves/${kit.id}.json`).then((r) => r.json());
-                  res(data);
+                  const data = await fetch(`https://template-mk.b-cdn.net/api/get-popup-data?project_id=${kit.id}`);
+
+                  if (data) {
+                    const res2 = await data.json();
+
+                    const pageData = res2.pop()?.pageData;
+                    const pageDataWithItems = JSON.parse(pageData);
+                    const items = pageDataWithItems.items;
+                    const lastItem = items.pop();
+
+                    if (lastItem) {
+                      res(lastItem);
+                    }
+                  }
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");
                 }
@@ -1034,90 +1118,198 @@
             },
             defaultLayouts: {
               async getMeta(res, rej) {
-                const layoutsUrl = `${templates}/layouts`;
                 try {
-                  const meta = await fetch(`${layoutsUrl}/meta.json`).then((r) => r.json());
+                  const response = await fetch(`${newTemplates}/get-layouts-chunk`, {
+                    method: "GET",
+                  });
 
-                  const data = {
-                    categories: meta.categories
-                      .filter(({ id }) => id !== 0)
-                      .map(({ title }) => ({
-                        title,
-                        slug: title.replace(/\s\/?\s?/g, "-"),
-                        id: title.toLowerCase(),
-                      })),
-                    templates: meta.templates.map((item) => ({
-                      ...item,
-                      cat: item.cat.reduce((acc, catId) => {
-                        const category = meta.categories.filter(({ id }) => id === catId);
+                  if (response) {
+                    const data = await response.json();
 
-                        if (!category.length) {
-                          return acc;
-                        }
-                        return [...acc, category[0].title.toLowerCase()];
-                      }, []),
+                    if (data.collections && data.categories) {
+                      const templates = data.collections.map(
+                        ({
+                          title,
+                          categories,
+                          pagesCount,
+                          pro,
+                          keywords,
+                          thumbnailWidth,
+                          thumbnailHeight,
+                          thumbnail,
+                          slug,
+                        }) => {
+                          return {
+                            name: title,
+                            cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+                            pagesCount: pagesCount ?? 0,
+                            pro: pro === "PRO",
+                            keywords,
+                            thumbnailWidth,
+                            thumbnailHeight,
+                            thumbnailSrc: `${templatesImageUrl}${thumbnail}`,
+                            layoutId: slug,
+                          };
+                        },
+                      );
 
-                      thumbnailSrc: `${layoutsUrl}/thumbs/${item.pages[0].id}.jpg`,
-                      ...(item.pages.length
-                        ? {
-                            pagesCount: item.pages.length,
-                            thumbnailHeight: item.pages[0].thumbnailHeight,
-                            thumbnailWidth: item.pages[0].thumbnailWidth,
-                          }
-                        : {}),
-                      pages: item.pages.map((page) => ({
-                        ...page,
-                        thumbnailSrc: `${layoutsUrl}/thumbs/${page.id}.jpg`,
-                      })),
-                    })),
-                  };
+                      const categories = data.categories.map((item) => ({
+                        ...item,
+                        id: item.title.toLowerCase(),
+                      }));
 
-                  res(data);
+                      res({
+                        templates,
+                        categories,
+                      });
+                    }
+                  }
                 } catch (e) {
                   rej("Failed to load meta.json");
                 }
               },
-              async getData(res, rej, { id }) {
-                const layoutsUrl = `${templates}/layouts`;
+              async getData(res, rej, { id, layoutId }) {
                 try {
-                  const data = await fetch(`${layoutsUrl}/resolves/${id}.json`).then((r) => r.json());
+                  const response = await fetch(
+                    `${newTemplates}/get-layouts-page?project_id=${layoutId}&page_slug=${id}`,
+                    {
+                      method: "GET",
+                    },
+                  );
 
-                  res(data);
+                  if (response.ok) {
+                    const data = await response.json();
+
+                    const pageData = data[0].pageData;
+                    const parsedResult = JSON.parse(pageData);
+
+                    if (parsedResult && parsedResult.items) {
+                      const result = {
+                        blocks: [...parsedResult.items],
+                      };
+
+                      res(result);
+                    }
+                  }
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");
+                }
+              },
+              async getPages(res, rej, id) {
+                try {
+                  const response = await fetch(`${newTemplates}/get-layouts-pages?project_id=${id}&per_page=20`, {
+                    method: "GET",
+                  });
+
+                  if (response) {
+                    const data = await response.json();
+
+                    const parsedData = data.collections.map(
+                      ({ slug, title, thumbnailHeight, thumbnailWidth, thumbs }) => ({
+                        id: slug,
+                        title,
+                        thumbnailWidth,
+                        thumbnailHeight,
+                        thumbnailSrc: `${templatesImageUrl}${thumbs}`,
+                        layoutId: id,
+                      }),
+                    );
+
+                    res({ pages: parsedData, styles: [data.styles] });
+                  }
+                } catch (e) {
+                  rej("Failed to load pages for selected Layout");
                 }
               },
             },
             defaultStories: {
               async getMeta(res, rej) {
-                const storiesUrl = `${templates}/stories`;
                 try {
-                  const meta = await fetch(`${storiesUrl}/meta.json`).then((r) => r.json());
+                  const response = await fetch(`${newTemplates}/get-story-chunk`, {
+                    method: "GET",
+                  });
 
-                  const data = {
-                    ...meta,
-                    stories: meta.stories.map((story) => ({
-                      ...story,
-                      thumbnailSrc: `${storiesUrl}/thumbs/${story.pages[0].id}.jpg`,
-                      pages: story.pages.map((page) => ({
-                        ...page,
-                        thumbnailSrc: `${storiesUrl}/thumbs/${page.id}.jpg`,
-                      })),
-                    })),
-                  };
+                  if (response) {
+                    const result = await response.json();
 
-                  res(data);
+                    if (result.collections && result.categories) {
+                      const data = {
+                        stories: result.collections.map(
+                          ({ categories, pages, id, title, thumbnail, thumbnailWidth, thumbnailHeight }) => {
+                            return {
+                              layoutId: id,
+                              name: title,
+                              cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+                              pagesCount: pages,
+                              thumbnailSrc: `${templatesImageUrl}${thumbnail}`,
+                              thumbnailWidth,
+                              thumbnailHeight,
+                              blank: title === "Blank",
+                            };
+                          },
+                        ),
+                        categories: result.categories.map((item) => ({
+                          ...item,
+                          id: item.title.toLowerCase(),
+                        })),
+                      };
+
+                      res(data);
+                    }
+                  }
                 } catch (e) {
-                  rej("Failed to load meta.json");
+                  rej("Failed to load Stories");
                 }
               },
-              async getData(res, rej, id) {
-                const storiesUrl = `${templates}/stories`;
+              async getData(res, rej, { layoutId, id }) {
                 try {
-                  const data = await fetch(`${storiesUrl}/resolves/${id}.json`).then((r) => r.json());
-                  res(data);
+                  const response = await fetch(
+                    `${newTemplates}/get-story-page-data?project_id=${layoutId}&page_slug=${id}`,
+                    {
+                      method: "GET",
+                    },
+                  );
+
+                  if (response.ok) {
+                    const result = await response.json();
+
+                    const parsedResult = JSON.parse(result.collection);
+
+                    if (parsedResult) {
+                      res({ blocks: parsedResult.blocks });
+                    }
+                  }
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");
+                }
+              },
+              async getPages(res, rej, id) {
+                try {
+                  const response = await fetch(`${newTemplates}/get-story-page?project_id=${id}&per_page=20`, {
+                    method: "GET",
+                  });
+
+                  if (response) {
+                    const result = await response.json();
+
+                    const parsedData = result.collections.map(
+                      ({ slug, thumbnailHeight, thumbnailWidth, thumbnail }) => ({
+                        id: slug,
+                        title: slug,
+                        thumbnailSrc: `${templatesImageUrl}${thumbnail}`,
+                        thumbnailHeight,
+                        thumbnailWidth,
+                        layoutId: id,
+                      }),
+                    );
+
+                    res({
+                      pages: parsedData,
+                      styles: [result.styles],
+                    });
+                  }
+                } catch (e) {
+                  rej("Failed to load pages for selected Stories");
                 }
               },
             },
