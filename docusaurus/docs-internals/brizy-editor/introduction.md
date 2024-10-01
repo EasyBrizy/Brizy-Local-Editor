@@ -34,4 +34,4 @@ Discover how to personalize your controls:
 ### Icons 
 
 Icons in Brizy enhance the visual appeal and usability of websites by providing intuitive graphical representations. Brizy allows users to easily integrate predefined icons, making them a crucial component for navigation, buttons, and other interactive elements.
-- [Icons](/docs-internals/Icons/)
+- [Icons](/docs-internals/icons/)
