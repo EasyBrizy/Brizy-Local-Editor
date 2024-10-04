@@ -226,6 +226,14 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
 
             link.handler(res, rej, extra);
           },
+          [ActionTypes.menuOpen]: () => {
+            const { elements } = config;
+            const { menu } = elements || {};
+
+            if (typeof menu?.onOpen === "function") {
+              menu.onOpen();
+            }
+          },
         };
 
         // @ts-expect-error: temporary
