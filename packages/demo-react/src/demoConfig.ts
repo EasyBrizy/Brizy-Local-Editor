@@ -4138,6 +4138,12 @@ export const demoConfig: Config<"monolith"> = {
     video: {
       types: [VideoTypes.youtube, VideoTypes.vimeo, VideoTypes.url, VideoTypes.custom],
     },
+    menu: {
+      createMenuLabel: "Create your custom menu",
+      onOpen: () => {
+        alert("Menu opened");
+      },
+    },
   },
   pagePreview: "https://pages.demo.brizylocal.com/preview.html",
 };
