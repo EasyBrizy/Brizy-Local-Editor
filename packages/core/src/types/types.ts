@@ -321,6 +321,10 @@ export interface Config<T extends HtmlOutputType> {
     video?: {
       types: Array<VideoTypes>;
     };
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
   };
 
   // API

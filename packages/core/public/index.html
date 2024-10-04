@@ -331,6 +331,20 @@
               window.addEventListener("message", handleDCLink(res, rej));
             };
 
+            const onOpenMenuHandler = function (res, rej, extra) {
+              event.source.postMessage(
+                {
+                  target: "<%- target %>",
+                  uid: window.__uid__,
+                  data: JSON.stringify({
+                    type: "<%- target %>_menu_open",
+                    payload: extra,
+                  }),
+                },
+                event.origin,
+              );
+            }
+
             switch (action.type) {
               case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
@@ -488,7 +502,10 @@
                 };
                 window.__VISUAL_CONFIG__.integration = integration;
                 window.__VISUAL_CONFIG__.dynamicContent = dynamicContent;
-                window.__VISUAL_CONFIG__.elements = elements;
+                window.__VISUAL_CONFIG__.elements = {
+                  ...elements,
+                  menu: { ...elements.menu, onOpen: onOpenMenuHandler }
+                };
                 window.__VISUAL_CONFIG__.autoSaveInterval = configData.autoSaveInterval;
                 window.__VISUAL_CONFIG__.l10n = l10n;
 

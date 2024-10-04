@@ -163,6 +163,10 @@ type config = {
     video?: {
       types: Array<VideoTypes>
     }
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
   };
 
 
@@ -430,9 +434,11 @@ Dynamic content can be configured in 2 ways
 
 ### Elements parameters
 
-| Name                 | Type   | Description                                                                                                                                                                                                                                                                                                  |
-|:---------------------|:-------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| elements.video.types | Array  | Lets you control the order and turning on or off the [video types](https://github.com/EasyBrizy/Brizy-Local-Editor/assets/18303258/77c8b1d5-1708-4cdf-a3db-b63e87730ade). Can take the values: "**youtube**", "**vimeo**", "**custom**" and "**url**". Leave "**youtube**" if you want to have only youtube. |
+| Name                          | Type     | Description                                                                                                                                                                                                                                                                                                  |
+|:------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| elements.video.types          | Array    | Lets you control the order and turning on or off the [video types](https://github.com/EasyBrizy/Brizy-Local-Editor/assets/18303258/77c8b1d5-1708-4cdf-a3db-b63e87730ade). Can take the values: "**youtube**", "**vimeo**", "**custom**" and "**url**". Leave "**youtube**" if you want to have only youtube. |
+| elements.menu.createMenuLabel | string   | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                                                |
+| elements.menu.onOpen          | function | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu.                             |
 
 ### API parameters
 
