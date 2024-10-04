@@ -27,4 +27,6 @@ export enum ActionTypes {
   dcLink = "@builder_dc_link",
   dcLinkRes = "@builder_dc_link_res",
   dcLinkRej = "@builder_dc_link_rej",
+
+  menuOpen = "@builder_menu_open",
 }
