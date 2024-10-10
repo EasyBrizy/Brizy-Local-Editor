@@ -15,8 +15,11 @@ export class CollectionItemPlaceholder extends BasePlaceholder {
 
   public async getValue(context: ContextInterface, placeholder: ContentPlaceholder): Promise<string> {
     const { entityId } = getContext(context, placeholder);
+    console.log("I am here");
     const { slug } = placeholder.getAttributes() ?? {};
 
+    console.log("Slug", slug);
+    console.log("EntityId", entityId);
     if (slug === "vendor") {
       return getProductVendor(entityId);
     }

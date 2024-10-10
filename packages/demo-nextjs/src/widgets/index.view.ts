@@ -1,3 +1,5 @@
+import "./AddToCart/export";
+import "./AddToCart/index.scss";
 import "./Cart/export";
 import "./Cart/index.scss";
 import "./Counter/export";
