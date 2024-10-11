@@ -191,7 +191,13 @@ export async function subscriber(event: MessageEvent): Promise<void> {
       case `${target}_update_screenshots_rej`:
       case `${target}_leftSidebar_open_cms_close`:
       case `${target}_ui_publish_res`:
-      case `${target}_ui_publish_rej`: {
+      case `${target}_ui_publish_rej`:
+      case `${target}_load_collection_types_res`:
+      case `${target}_load_collection_types_rej`:
+      case `${target}_get_collection_items_res`:
+      case `${target}_get_collection_items_rej`:
+      case `${target}_dc_handler_res`:
+      case `${target}_dc_handler_rej`: {
         // Nothing to do here
         // All Logic is outside of current event
         break;
