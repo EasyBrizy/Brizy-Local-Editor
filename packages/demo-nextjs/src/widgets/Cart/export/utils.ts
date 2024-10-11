@@ -23,26 +23,6 @@ export const reinitializeCarts = (cartData: InitialiseCartData) => {
   });
 };
 
-export const getAddToCartData = (productId: string) => {
-  const productIdAttr = `[data-brz-product-handle="${productId}"]`;
-
-  const quantity =
-    document.querySelector<HTMLInputElement>(`.brz-shopify-quantity-container ${productIdAttr}`)?.value || "1";
-
-  const variantContainer = document.querySelector<HTMLElement>(
-    `.brz-shopify-variant-container[data-product-handle="${productId}"]`,
-  );
-
-  const selectedVariants = variantContainer
-    ? Array.from(variantContainer.querySelectorAll<HTMLElement>("[data-brz-variant-title]")).map((node) => ({
-        name: node.dataset.brzVariantTitle ?? "",
-        value: node.dataset.brzWrapperValue ?? "",
-      }))
-    : [];
-
-  return { quantity, selectedVariants };
-};
-
 //#endregion
 
 //#region Cart Item HTML Template
