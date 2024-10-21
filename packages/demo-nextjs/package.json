@@ -13,6 +13,7 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "@brizy/builder-ui": "^1.0.12",
     "@brizy/content-placeholder": "^1.0.6",
     "@brizy/readers": "^1.0.3",
     "@dnd-kit/core": "^6.1.0",
