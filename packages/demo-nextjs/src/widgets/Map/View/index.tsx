@@ -1,18 +1,9 @@
 import { ReactElement } from "react";
 import { Props } from "../types";
+import { AlphaMapPreview as Map } from "@brizy/builder-ui/lib/components/AlphaMap/index.preview";
 
 export const View = (props: Props): ReactElement => {
-  const { address, zoom = 13, width, widthSuffix } = props;
-  const URL = "https://www.google.com/maps/embed/v1/place";
-  const KEY = "AIzaSyCcywKcxXeMZiMwLDcLgyEnNglcLOyB_qw";
-  const iframeSrc = `${URL}?key=${KEY}&q=${address}&zoom=${zoom}`;
+  const { address, zoom = 13 } = props;
 
-  return (
-    <div
-      className="mapThirdComponent"
-      style={{ width: `${width}${widthSuffix}` }}
-    >
-      <iframe src={iframeSrc} title="map" />
-    </div>
-  );
+  return <Map zoom={zoom} address={address} />;
 };

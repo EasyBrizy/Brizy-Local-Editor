@@ -11,21 +11,21 @@ Brizy.registerComponent({
   id: "Brizy.ThirdParty.Map",
   component: {
     editor: Editor,
-    view: View
+    view: View,
   },
   title: "Map",
   category: "custom",
   options: () => {
     return [
       {
-        selector: ".mapThirdComponent",
+        selector: ".brz-ui-ed-map-content",
         toolbar: [
           {
             id: "toolbarCurrentElement",
             type: "popover",
             config: {
               icon: "nc-pin",
-              title: "Map"
+              title: "Map",
             },
             devices: "desktop",
             position: 90,
@@ -44,8 +44,8 @@ Brizy.registerComponent({
                         type: "inputText",
                         placeholder: "Enter address",
                         default: {
-                          value: "Chisinau"
-                        }
+                          value: "Chisinau",
+                        },
                       },
                       {
                         id: "width",
@@ -56,22 +56,29 @@ Brizy.registerComponent({
                           max: 100,
                           units: [
                             { title: "px", value: "px" },
-                            { title: "%", value: "%" }
-                          ]
+                            { title: "%", value: "%" },
+                          ],
                         },
                         default: {
                           value: 100,
-                          suffix: "%"
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                          suffix: "%",
+                        },
+                        style: ({ value }: { value: { value: number; unit: string } }) => {
+                          const { value: width, unit } = value;
+
+                          return {
+                            "{{WRAPPER}}.brz-third-party .brz-ui-ed-map-content": { width: `${width}${unit}` },
+                          };
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
-  }
+  },
 });
