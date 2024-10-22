@@ -43,7 +43,7 @@ https://user-images.githubusercontent.com/10077249/206906576-cc654003-9b6d-4661-
 
 ```
 
-## Config
+## Config Page
 
 ```ts
 type config = {
@@ -57,9 +57,133 @@ type config = {
   htmlOutputType: "html" | "json";
 
   // Page: Static Page view
+  mode: "page"
+
+  // Menu
+  menu?: Array<Menu>;
+
+  // Integration
+  integration?: {
+    /// Form
+    form?: {
+      action?: string;
+      recaptcha?: {
+        siteKey: string;
+      };
+      fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
+    };
+  };
+
+  // L10n
+  l10n?: Record<string, string>;
+
+  // Extensions
+  extensions?: Array<Extension>;
+
+  // DynamicContent
+  dynamicContent?: {
+    groups?: {
+      [DCTypes.image]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.richText]: Array<ConfigDCItem> | DCItemHandler;
+    };
+  };
+
+  pagePreview: string;
+
+  // UI
+  ui: {
+    theme?: Theme;
+
+    leftSidebar?: {
+      topTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+      bottomTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+
+      more?: {
+        options?: Array<{
+          type: "link";
+          label: string;
+          link: string;
+          linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+        }>;
+      };
+
+      cms?: {
+        onOpen: (onClose: VoidFunction) => void;
+        onClose?: VoidFunction;
+      };
+
+      // AddElements
+      moduleGroups?: Array<{
+        label: string;
+        moduleNames: Array<BaseElementTypes>;
+      }>;
+    };
+
+    publish?: {
+      handler: (res: Response<void>, rej: Response<string>, extra: Output) => void;
+    };
+  };
+
+  // API
+  api?: {
+    /// Media
+    media?: {
+      mediaResizeUrl?: string;
+      imagePatterns?: ImagePatterns;
+
+      addMedia?: {
+        handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
+      };
+    };
+
+    // File
+    customFile?: {
+      fileUrl?: string;
+
+      addFile?: {
+        handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
+      };
+    };
+
+    // Default Blocks | Kits | Popups
+    defaultKits?: DefaultKits; // More information about the type types/types.ts
+    defaultPopups?: DefaultPopups; // More information about the type types/types.ts
+    defaultLayouts?: DefaultLayouts; // More information about the type types/types.ts
+
+    // Screebnshots
+    screenshots?: {
+      screenshotUrl?: string;
+      create?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData) => void;
+      update?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData & { id: string }) => void;
+    };
+  };
+
+  onSave?: (data: Output) => void;
+  onAutoSave?: (data: AutoSave) => void;
+  autoSaveInterval?: number;
+  onLoad?: VoidFunction;
+};
+````
+
+## Config Popup
+
+```ts
+type config = {
+  container: HTMLElement;
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+
+  // html: Array of strings with Styles & Scripts
+  // json: Array of more granular objects, used when needing to merge multiple pages into one
+  // Use this case when you need to create a fully customizable preview HTML
+  htmlOutputType: "html" | "json";
+
   // Popup: Static Popup view with conditions(open on exit, open after x minutes)
-  // Story: Static story carosuel view
-  mode: "page" | "popup" | "story";
+  mode: "popup";
 
   // Menu
   menu?: Array<Menu>;
@@ -132,6 +256,127 @@ type config = {
       // AddElements
       moduleGroups?: Array<{
         label: string;
+        moduleNames: Array<BaseElementTypes>;
+      }>;
+    };
+
+    publish?: {
+      handler: (res: Response<void>, rej: Response<string>, extra: Output) => void;
+    };
+  };
+
+  // API
+  api?: {
+    /// Media
+    media?: {
+      mediaResizeUrl?: string;
+      imagePatterns?: ImagePatterns;
+
+      addMedia?: {
+        handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
+      };
+    };
+
+    // File
+    customFile?: {
+      fileUrl?: string;
+
+      addFile?: {
+        handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
+      };
+    };
+
+    // Default Popups
+    defaultPopups?: DefaultPopups; // More information about the type types/types.ts
+
+    // Screebnshots
+    screenshots?: {
+      screenshotUrl?: string;
+      create?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData) => void;
+      update?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData & { id: string }) => void;
+    };
+  };
+
+  onSave?: (data: Output) => void;
+  onAutoSave?: (data: AutoSave) => void;
+  autoSaveInterval?: number;
+  onLoad?: VoidFunction;
+};
+```
+
+## Config Stories
+
+```ts
+type config = {
+  container: HTMLElement;
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+
+  // html: Array of strings with Styles & Scripts
+  // json: Array of more granular objects, used when needing to merge multiple pages into one
+  // Use this case when you need to create a fully customizable preview HTML
+  htmlOutputType: "html" | "json";
+
+  // Story: Static story carosuel view
+  mode: "story";
+
+  // Integration
+  integration?: {
+    /// Form
+    form?: {
+      action?: string;
+      recaptcha?: {
+        siteKey: string;
+      };
+      fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
+    };
+  };
+
+  // L10n
+  l10n?: Record<string, string>;
+
+  // Extensions
+  extensions?: Array<Extension>;
+
+  // DynamicContent
+  dynamicContent?: {
+    groups?: {
+      [DCTypes.image]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.richText]: Array<ConfigDCItem> | DCItemHandler;
+    };
+  };
+
+  pagePreview: string;
+
+  // UI
+  ui: {
+    theme?: Theme;
+
+    leftSidebar?: {
+      topTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+      bottomTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+
+      more?: {
+        options?: Array<{
+          type: "link";
+          label: string;
+          link: string;
+          linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+        }>;
+      };
+
+      cms?: {
+        onOpen: (onClose: VoidFunction) => void;
+        onClose?: VoidFunction;
+      };
+
+      // AddElements
+      moduleGroups?: Array<{
+        label: string;
         moduleNames: Array<BaseElementTypes | StoryElementTypes>;
       }>;
     };
@@ -162,12 +407,6 @@ type config = {
       };
     };
 
-    // Default Blocks | Kits | Popups | Stories
-    defaultKits?: DefaultKits; // More information about the type types/types.ts
-    defaultPopups?: DefaultPopups; // More information about the type types/types.ts
-    defaultLayouts?: DefaultLayouts; // More information about the type types/types.ts
-
-    // Used only in mode: story
     defaultStories?: DefaultStories; // More information about the type types/types.ts
 
     // Screebnshots
@@ -183,7 +422,11 @@ type config = {
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
 };
+```
 
+## Types
+
+```ts
 interface AutoSave {
   pageData?: Record<string, unknown>;
   projectData?: Record<string, unknown>;
@@ -203,12 +446,6 @@ interface Output {
     compiled?: {
       styles: Array<string>;
     }
-  };
-
-  // Only in popup mode
-  popupSettings?: {
-    verticalAlign: "top" | "bottom" | "center";
-    horizontalAlign: "left" | "right" | "center";
   };
 
   // Error when html will be undefined
@@ -823,7 +1060,7 @@ const config = {
                 keywords: "forms,hero,image",
                 thumbnailHeight: 327,
                 thumbnailWidth: 600,
-                thumbnailSrc: "https://example.com/kits/images/thumb_2.jpg"",
+                thumbnailSrc: "https://example.com/kits/images/thumb_2.jpg",
                 pro: false,
                 kitId: "kit001",
               },

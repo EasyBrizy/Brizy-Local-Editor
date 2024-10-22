@@ -76,7 +76,7 @@ AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KE
 
 ```
 
-## Config
+## Config Page
 
 ```ts
 type config = {
@@ -90,9 +90,7 @@ type config = {
   htmlOutputType: "html" | "json";
 
   // Page: Static Page view
-  // Popup: Static Popup view with conditions(open on exit, open after x minutes)
-  // Story: Static story carosuel view
-  mode: "page" | "popup" | "story";
+  mode: "page"
 
   // Menu
   menu?: Array<Menu>;
@@ -125,14 +123,132 @@ type config = {
       [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
       [DCTypes.richText]: Array<ConfigDCItem> | DCItemHandler;
     };
-    getPlaceholderData?: (
-      res: Response<ConfigDCItem>,
-      rej: Response<string>,
-      extra: {
-        placeholders: Dictionary<string[]>;
-        signal?: AbortSignal;
-      },
-    ) => void;
+  };
+
+  pagePreview: string;
+
+  // UI
+  ui: {
+    theme?: Theme;
+
+    leftSidebar?: {
+      topTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+      bottomTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+
+      more?: {
+        options?: Array<{
+          type: "link";
+          label: string;
+          link: string;
+          linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+        }>;
+      };
+
+      cms?: {
+        onOpen: (onClose: VoidFunction) => void;
+        onClose?: VoidFunction;
+      };
+
+      // AddElements
+      moduleGroups?: Array<{
+        label: string;
+        moduleNames: Array<BaseElementTypes>;
+      }>;
+    };
+
+    publish?: {
+      handler: (res: Response<void>, rej: Response<string>, extra: Output) => void;
+    };
+  };
+
+  // API
+  api?: {
+    /// Media
+    media?: {
+      mediaResizeUrl?: string;
+      imagePatterns?: ImagePatterns;
+
+      addMedia?: {
+        handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
+      };
+    };
+
+    // File
+    customFile?: {
+      fileUrl?: string;
+
+      addFile?: {
+        handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
+      };
+    };
+
+    // Default Blocks | Kits | Popups
+    defaultKits?: DefaultKits; // More information about the type types/types.ts
+    defaultPopups?: DefaultPopups; // More information about the type types/types.ts
+    defaultLayouts?: DefaultLayouts; // More information about the type types/types.ts
+
+    // Screebnshots
+    screenshots?: {
+      screenshotUrl?: string;
+      create?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData) => void;
+      update?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData & { id: string }) => void;
+    };
+  };
+
+  onSave?: (data: Output) => void;
+  onAutoSave?: (data: AutoSave) => void;
+  autoSaveInterval?: number;
+  onLoad?: VoidFunction;
+};
+````
+
+## Config Popup
+
+```ts
+type config = {
+  container: HTMLElement;
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+
+  // html: Array of strings with Styles & Scripts
+  // json: Array of more granular objects, used when needing to merge multiple pages into one
+  // Use this case when you need to create a fully customizable preview HTML
+  htmlOutputType: "html" | "json";
+
+  // Popup: Static Popup view with conditions(open on exit, open after x minutes)
+  mode: "popup";
+
+  // Menu
+  menu?: Array<Menu>;
+
+  // Integration
+  integration?: {
+    /// Form
+    form?: {
+      action?: string;
+      recaptcha?: {
+        siteKey: string;
+      };
+      fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
+    };
+  };
+
+  // L10n
+  l10n?: Record<string, string>;
+
+  // Extensions
+  extensions?: Array<Extension>;
+
+  // DynamicContent
+  dynamicContent?: {
+    groups?: {
+      [DCTypes.image]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.richText]: Array<ConfigDCItem> | DCItemHandler;
+    };
   };
 
   pagePreview: string;
@@ -173,8 +289,12 @@ type config = {
       // AddElements
       moduleGroups?: Array<{
         label: string;
-        moduleNames: Array<BaseElementTypes | StoryElementTypes>;
+        moduleNames: Array<BaseElementTypes>;
       }>;
+    };
+
+    publish?: {
+      handler: (res: Response<void>, rej: Response<string>, extra: Output) => void;
     };
   };
 
@@ -199,12 +319,127 @@ type config = {
       };
     };
 
-    // Default Blocks | Kits | Popups | Stories
-    defaultKits?: DefaultKits; // More information about the type types/types.ts
+    // Default Popups
     defaultPopups?: DefaultPopups; // More information about the type types/types.ts
-    defaultLayouts?: DefaultLayouts; // More information about the type types/types.ts
 
-    // Used only in mode: story
+    // Screebnshots
+    screenshots?: {
+      screenshotUrl?: string;
+      create?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData) => void;
+      update?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData & { id: string }) => void;
+    };
+  };
+
+  onSave?: (data: Output) => void;
+  onAutoSave?: (data: AutoSave) => void;
+  autoSaveInterval?: number;
+  onLoad?: VoidFunction;
+};
+```
+
+## Config Stories
+
+```ts
+type config = {
+  container: HTMLElement;
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+
+  // html: Array of strings with Styles & Scripts
+  // json: Array of more granular objects, used when needing to merge multiple pages into one
+  // Use this case when you need to create a fully customizable preview HTML
+  htmlOutputType: "html" | "json";
+
+  // Story: Static story carosuel view
+  mode: "story";
+
+  // Integration
+  integration?: {
+    /// Form
+    form?: {
+      action?: string;
+      recaptcha?: {
+        siteKey: string;
+      };
+      fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
+    };
+  };
+
+  // L10n
+  l10n?: Record<string, string>;
+
+  // Extensions
+  extensions?: Array<Extension>;
+
+  // DynamicContent
+  dynamicContent?: {
+    groups?: {
+      [DCTypes.image]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.richText]: Array<ConfigDCItem> | DCItemHandler;
+    };
+  };
+
+  pagePreview: string;
+
+  // UI
+  ui: {
+    theme?: Theme;
+
+    leftSidebar?: {
+      topTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+      bottomTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+
+      more?: {
+        options?: Array<{
+          type: "link";
+          label: string;
+          link: string;
+          linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+        }>;
+      };
+
+      cms?: {
+        onOpen: (onClose: VoidFunction) => void;
+        onClose?: VoidFunction;
+      };
+
+      // AddElements
+      moduleGroups?: Array<{
+        label: string;
+        moduleNames: Array<BaseElementTypes | StoryElementTypes>;
+      }>;
+    };
+
+    publish?: {
+      handler: (res: Response<void>, rej: Response<string>, extra: Output) => void;
+    };
+  };
+
+  // API
+  api?: {
+    /// Media
+    media?: {
+      mediaResizeUrl?: string;
+      imagePatterns?: ImagePatterns;
+
+      addMedia?: {
+        handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
+      };
+    };
+
+    // File
+    customFile?: {
+      fileUrl?: string;
+
+      addFile?: {
+        handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
+      };
+    };
+
     defaultStories?: DefaultStories; // More information about the type types/types.ts
 
     // Screebnshots
@@ -220,7 +455,11 @@ type config = {
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
 };
+```
 
+## Types
+
+```ts
 interface AutoSave {
   pageData?: Record<string, unknown>;
   projectData?: Record<string, unknown>;
@@ -240,12 +479,6 @@ interface Output {
     compiled?: {
       styles: Array<string>;
     }
-  };
-
-  // Only in popup mode
-  popupSettings?: {
-    verticalAlign: "top" | "bottom" | "center";
-    horizontalAlign: "left" | "right" | "center";
   };
 
   // Error when html will be undefined
@@ -286,16 +519,13 @@ export enum DCTypes {
   link = "link",
   richText = "richText",
 }
-
 interface BaseDCItem {
   label: string;
   placeholder: string;
 }
-
 export interface ConfigDCItem extends BaseDCItem {
   optgroup?: ConfigDCItem[];
 }
-
 interface DCItemHandler {
   handler: (
     res: Response<BaseDCItem>,
@@ -311,10 +541,9 @@ export interface ImagePatterns {
   full: string;
 }
 export interface AddMediaData {
-  uid: string
+  uid: string;
   fileName?: string; // fileName need contain .ext
 }
-
 export interface AddMediaExtra {
   acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
 }
@@ -465,7 +694,7 @@ Dynamic content can be configured in 2 ways
 #### DynamicContent Array of choices
 
 | Name                                    | Type     | Description                                                                                                                                                                                                                                                                                                                                                            |
-| :-------------------------------------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|:----------------------------------------|:---------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | dynamicContent.groups[DCTypes.image]    | array    | Takes array of ConfigDCItem for all Element what persis ImageUpload                                                                                                                                                                                                                                                                                                    |
 | dynamicContent.groups[DCTypes.link]     | array    | Takes array of ConfigDCItem for all Element what persis Link                                                                                                                                                                                                                                                                                                           |
 | dynamicContent.groups[DCTypes.richText] | array    | Takes array of ConfigDCItem for all Element what persis Content html                                                                                                                                                                                                                                                                                                   |
