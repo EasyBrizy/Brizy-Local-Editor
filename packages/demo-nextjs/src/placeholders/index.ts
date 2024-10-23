@@ -1,5 +1,6 @@
 import { Reference } from "@/components/Editor/contexts/types";
 import { BuilderPlaceholder } from "@/placeholders/types/BuilderPlaceholder";
+import { CollectionItemPlaceholder } from "@/placeholders/types/CollectionItem";
 import { CompareAtPricePlaceholder } from "@/placeholders/types/CompareAtPrice";
 import { DescriptionPlaceholder } from "@/placeholders/types/Description";
 import { FeaturedImagePlaceholder } from "@/placeholders/types/FeaturedImage";
@@ -12,8 +13,7 @@ import { VariantOptionValuePlaceholder } from "@/placeholders/types/VariantOptio
 import { VariantOptionValuesPlaceholder } from "@/placeholders/types/VariantOptionValues";
 import { VariantOptionsPlaceholder } from "@/placeholders/types/VariantOptions";
 import { VariantTitlePlaceholder } from "@/placeholders/types/VariantTitle";
-import { CollectionItemPlaceholder } from "@/placeholders/types/Vendor";
-import { EmptyContext, Registry, Replacer } from "@brizy/content-placeholder";
+import { Registry, Replacer } from "@brizy/content-placeholder";
 import { CollectionContext } from "./context/CollectionContext";
 
 const PlaceholderInstances = [
@@ -64,7 +64,7 @@ export const replacePlaceholders = async ({
 
   // The first replacePlaceholders call is to transform the placeholder
   // `{{ placeholder content='base64encode(placeholderName)' attr1='val1' }}` to `{{ placeholderName attr1='val1'}}`
-  const result = await replacer.replacePlaceholders(value, new EmptyContext());
+  const result = await replacer.replacePlaceholders(value, context);
 
   return replacer.replacePlaceholders(result, context);
 };

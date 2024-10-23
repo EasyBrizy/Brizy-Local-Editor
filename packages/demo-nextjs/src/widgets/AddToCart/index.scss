@@ -1,0 +1,26 @@
+.add-to-cart-third-party {
+  &.brz-ui-ed-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: auto;
+
+    .brz-ui-ed-btn-icon{
+      display: flex;
+    }
+  }
+
+  svg.brz-icon-spinner {
+    position: absolute;
+    left: 50%;
+    color: #ffffff;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg)
+  }
+}
