@@ -100,7 +100,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, t
       ui: config.ui,
       token: token,
       api: config.api,
-      menuData: config.menu,
+      menu: config.menu,
       integration: createIntegration(config),
       dynamicContent: createDCContent(config),
       autoSaveInterval: config.autoSaveInterval,
