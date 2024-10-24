@@ -20,8 +20,8 @@ import {
   dcRichTextRes,
   formFieldsRej,
   formFieldsRes,
-  getCollectionItemsIdsRej,
-  getCollectionItemsIdsRes,
+  getCollectionItemsRej,
+  getCollectionItemsRes,
   init,
   leftSidebarOpenCMSClose,
   loadCollectionRej,
@@ -135,8 +135,8 @@ const actions = {
   publishRes,
   loadCollectionRes,
   loadCollectionRej,
-  getCollectionItemsIdsRes,
-  getCollectionItemsIdsRej,
+  getCollectionItemsRes,
+  getCollectionItemsRej,
 };
 
 const savedNodeCB = new Map<HTMLElement, OnSave<HtmlOutputType>>();
@@ -592,16 +592,16 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
               handler(res, rej);
             }
           },
-          [ActionTypes.getCollectionItemsIds]: (extra: { id: string }) => {
+          [ActionTypes.getCollectionItems]: (extra: { id: string }) => {
             const { collectionItems } = config.api ?? {};
             const handler = collectionItems?.getCollectionItemsIds.handler;
 
             if (typeof handler === "function") {
               const res = (r: any) => {
-                iframeWindow.postMessage(actions.getCollectionItemsIdsRes(r, uid), targetOrigin);
+                iframeWindow.postMessage(actions.getCollectionItemsRes(r, uid), targetOrigin);
               };
               const rej = (r: string) => {
-                iframeWindow.postMessage(actions.getCollectionItemsIdsRej(r, uid), targetOrigin);
+                iframeWindow.postMessage(actions.getCollectionItemsRej(r, uid), targetOrigin);
               };
 
               handler(res, rej, extra);
