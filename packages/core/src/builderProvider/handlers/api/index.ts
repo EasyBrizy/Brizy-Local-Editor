@@ -1,4 +1,4 @@
-import { getCollectionItemsIds } from "@/builderProvider/handlers/api/collectionItems";
+import { getCollectionItems } from "@/builderProvider/handlers/api/collectionItems";
 import { loadCollectionTypes } from "@/builderProvider/handlers/api/collectionTypes";
 import { HandlerData } from "@/builderProvider/types/type";
 import { Obj, Str } from "@brizy/readers";
@@ -88,7 +88,7 @@ export const getApi = (data: Data) => {
       loadCollectionTypes: loadCollectionTypes({ event, target, uid }),
     },
     collectionItems: {
-      getCollectionItemsIds: getCollectionItemsIds({ event, target, uid }),
+      getCollectionItems: getCollectionItems({ event, target, uid }),
     },
   };
 };
