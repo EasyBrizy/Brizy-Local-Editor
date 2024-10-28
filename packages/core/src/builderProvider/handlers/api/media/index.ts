@@ -1,57 +1,18 @@
-import { Handler, HandlerData } from "@/builderProvider/types/type";
-import { Response } from "@/types/common";
 import { AddMediaData, AddMediaExtra } from "@/types/media";
+import { Handler } from "../../../types/type";
 
-interface MediaHandler extends HandlerData {
-  res: Response<AddMediaData>;
-  rej: Response<string>;
-}
+export type AddMediaHandler = (uid: string, extra?: AddMediaExtra) => Promise<AddMediaData>;
 
-function handleAddMedia(data: MediaHandler) {
-  const { uid, target, res, rej } = data;
-
-  return function mediaEmitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getMediaHandler = (mediaHandler: AddMediaHandler, uid: string) => {
+  const handler: Handler<AddMediaData, string, AddMediaExtra> = async (res, rej, extra) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_add_media_res`: {
-          res({ uid: action.data.uid, fileName: action.data.fileName });
-          window.removeEventListener("message", mediaEmitter);
-          break;
-        }
-        case `${target}_add_media_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", mediaEmitter);
-          break;
-        }
-      }
+      const data = await mediaHandler(uid, extra);
+      res(data);
     } catch (e) {
-      console.error("Invalid AddMedia JSON", e);
+      const message = e instanceof Error ? e.message : "Error adding media";
+      rej(message);
     }
   };
-}
 
-export const addMediaHandler = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<AddMediaData, string, AddMediaExtra> = (res, rej, extra) => {
-    const data = JSON.stringify({
-      type: `${target}_add_media`,
-      payload: extra,
-    });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handleAddMedia({ res, rej, uid, event, target }));
-  };
-
-  return handler;
+  return { handler };
 };

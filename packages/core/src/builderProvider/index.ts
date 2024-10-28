@@ -1,7 +1,8 @@
 // Provider for Builder
 // Used for transform core api to builder internal api
+import * as Comlink from "comlink";
 import { compiler } from "./defaults";
-import { subscriber } from "./subscriber";
+import { actions } from "./utils/actions";
 
 (function (w: Window) {
   const origin = w.__origin__;
@@ -42,6 +43,5 @@ import { subscriber } from "./subscriber";
     api: {},
   };
 
-  // Attach Message Subscriber
-  window.addEventListener("message", subscriber, false);
+  Comlink.expose(actions, Comlink.windowEndpoint(self.parent));
 })(window);

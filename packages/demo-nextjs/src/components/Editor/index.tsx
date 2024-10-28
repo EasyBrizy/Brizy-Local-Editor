@@ -31,7 +31,7 @@ const initialState: State = {
 };
 
 export const Editor = () => {
-  const { config: baseConfig,origin } = useConfig();
+  const { config: baseConfig, origin } = useConfig();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -94,7 +94,14 @@ export const Editor = () => {
         },
       },
     },
-     extensions: [{ host: origin, path: "/widgets" }],
+    elements: {
+      menu: {
+        onOpen: () => {
+          router.push("/admin/menu");
+        },
+      },
+    },
+    extensions: [{ host: origin, path: "/widgets" }],
   }) as Config;
 
   const [builderState] = useEditor(token, config);

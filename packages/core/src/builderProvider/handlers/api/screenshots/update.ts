@@ -1,56 +1,18 @@
-import { Handler, HandlerData } from "@/builderProvider/types/type";
-import { Response } from "@/types/common";
+import { Handler } from "@/builderProvider/types/type";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 
-interface DataHandler extends HandlerData {
-  res: Response<ScreenshotRes>;
-  rej: Response<string>;
-}
+type Extra = ScreenshotExtra & ScreenshotRes;
+export type UpdateScreenshotsHandler = (uid: string, extra?: Extra) => Promise<ScreenshotRes>;
 
-function handleData(data: DataHandler) {
-  const { uid, target, res, rej } = data;
-
-  return function emitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getUpdateScreenshots = (updateScreenshotHandler: UpdateScreenshotsHandler, uid: string) => {
+  const handler: Handler<ScreenshotRes, string, Extra> = async (res, rej, extra) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_update_screenshots_res`: {
-          res(action.data);
-          window.removeEventListener("message", emitter);
-          break;
-        }
-        case `${target}_update_screenshots_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", emitter);
-          break;
-        }
-      }
+      const data = await updateScreenshotHandler(uid, extra);
+      res(data);
     } catch (e) {
-      console.error("Invalid UpdateScreenshots JSON", e);
+      const message = e instanceof Error ? e.message : "Failed to update screenshot";
+      rej(message);
     }
-  };
-}
-
-export const getUpdateScreenshots = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<ScreenshotRes, string, ScreenshotExtra & ScreenshotRes> = (res, rej, extra) => {
-    const data = JSON.stringify({
-      type: `${target}_update_screenshots`,
-      payload: extra,
-    });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handleData({ res, rej, uid, event, target }));
   };
 
   return handler;

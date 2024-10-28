@@ -1,58 +1,19 @@
-import { Handler, HandlerData } from "@/builderProvider/types/type";
 import { Response } from "@/types/common";
-import { LayoutsPages, StoryTemplate } from "@/types/templates";
+import { BlocksArray, DefaultBlock, LayoutsPages, StoryTemplate } from "@/types/templates";
 
 //#region Meta
+type GetStoriesMeta = (res: Response<StoryTemplate>, rej: Response<string>) => Promise<void>;
+export type StoriesMetaHandler = (uid: string) => Promise<StoryTemplate>;
 
-interface MetaHandler extends HandlerData {
-  res: Response<StoryTemplate>;
-  rej: Response<string>;
-}
-
-function handleMeta(data: MetaHandler) {
-  const { uid, target, res, rej } = data;
-
-  return function metaEmitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getStoriesMeta = (storiesMetaHandler: StoriesMetaHandler, uid: string) => {
+  const handler: GetStoriesMeta = async (res, rej) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_template_stories_meta_res`: {
-          res(action.data);
-          window.removeEventListener("message", metaEmitter);
-          break;
-        }
-        case `${target}_template_stories_meta_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", metaEmitter);
-          break;
-        }
-      }
+      const data = await storiesMetaHandler(uid);
+      res(data);
     } catch (e) {
-      console.error("Invalid TemplateKitsMeta JSON", e);
+      const message = e instanceof Error ? e.message : "Error fetching stories meta";
+      rej(message);
     }
-  };
-}
-
-export const getStoriesMeta = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<StoryTemplate, string, string> = (res, rej, extra) => {
-    const data = JSON.stringify({
-      type: `${target}_template_stories_meta`,
-      payload: extra,
-    });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handleMeta({ res, rej, uid, event, target }));
   };
 
   return handler;
@@ -61,56 +22,22 @@ export const getStoriesMeta = (data: HandlerData) => {
 //#endregion
 
 //#region Data
+type Page = {
+  id: string;
+  layoutId: string;
+};
+type GetStoriesData = (res: Response<BlocksArray<DefaultBlock>>, rej: Response<string>, page: Page) => Promise<void>;
+export type StoriesDataHandler = (page: Page, uid: string) => Promise<BlocksArray<DefaultBlock>>;
 
-interface DataHandler extends HandlerData {
-  res: Response<Record<string, unknown>>;
-  rej: Response<string>;
-}
-
-function handleData(data: DataHandler) {
-  const { uid, target, res, rej } = data;
-
-  return function emitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getStoriesData = (storiesDataHandler: StoriesDataHandler, uid: string) => {
+  const handler: GetStoriesData = async (res, rej, page) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_template_stories_data_res`: {
-          res(action.data);
-          window.removeEventListener("message", emitter);
-          break;
-        }
-        case `${target}_template_stories_data_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", emitter);
-          break;
-        }
-      }
+      const data = await storiesDataHandler(page, uid);
+      res(data);
     } catch (e) {
-      console.error("Invalid TemplateStoriesData JSON", e);
+      const message = e instanceof Error ? e.message : "Error fetching stories data";
+      rej(message);
     }
-  };
-}
-
-export const getStoriesData = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<Record<string, unknown>, string, string> = (res, rej, extra) => {
-    const data = JSON.stringify({
-      type: `${target}_template_stories_data`,
-      payload: extra,
-    });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handleData({ res, rej, uid, event, target }));
   };
 
   return handler;
@@ -119,56 +46,18 @@ export const getStoriesData = (data: HandlerData) => {
 //#endregion
 
 //#region Pages
+type GetStoriesPages = (res: Response<LayoutsPages>, rej: Response<string>, id: string) => Promise<void>;
+export type StoriesPagesHandler = (id: string, uid: string) => Promise<LayoutsPages>;
 
-interface PagesHandler extends HandlerData {
-  res: Response<LayoutsPages>;
-  rej: Response<string>;
-}
-
-function handlePages(data: PagesHandler) {
-  const { uid, target, res, rej } = data;
-
-  return function metaEmitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getStoriesPages = (storiesPagesHandler: StoriesPagesHandler, uid: string) => {
+  const handler: GetStoriesPages = async (res, rej, id) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_template_stories_pages_res`: {
-          res(action.data);
-          window.removeEventListener("message", metaEmitter);
-          break;
-        }
-        case `${target}_template_stories_pages_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", metaEmitter);
-          break;
-        }
-      }
+      const data = await storiesPagesHandler(id, uid);
+      res(data);
     } catch (e) {
-      console.error("Invalid TemplateStoriesPages JSON", e);
+      const message = e instanceof Error ? e.message : "Error fetching stories pages";
+      rej(message);
     }
-  };
-}
-
-export const getStoriesPages = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<LayoutsPages, string, string> = (res, rej, extra) => {
-    const data = JSON.stringify({
-      type: `${target}_template_stories_pages`,
-      payload: extra,
-    });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handlePages({ res, rej, uid, event, target }));
   };
 
   return handler;

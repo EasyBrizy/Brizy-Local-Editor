@@ -1,55 +1,21 @@
-import { Handler, HandlerData } from "@/builderProvider/types/type";
-import { Choice, Response } from "@/types/common";
+import { Choice } from "@/types/common";
+import { Handler } from "../../../types/type";
 
-interface CollectionItemsHandler extends HandlerData {
-  res: Response<Choice[]>;
-  rej: Response<string>;
-}
+type Extra = {
+  id: string;
+};
 
-function handleCollectionItems(data: CollectionItemsHandler) {
-  const { uid, target, res, rej } = data;
+export type GetCollectionItemsHandler = (uid: string, extra?: Extra) => Promise<Choice[]>;
 
-  return function emitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getCollectionItemsHandler = (collectionItemsHandler: GetCollectionItemsHandler, uid: string) => {
+  const handler: Handler<Choice[], string, Extra> = async (res, rej, extra) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_get_collection_items_res`: {
-          res(action.data);
-          window.removeEventListener("message", emitter);
-          break;
-        }
-        case `${target}_get_collection_items_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", emitter);
-          break;
-        }
-      }
+      const data = await collectionItemsHandler(uid, extra);
+      res(data);
     } catch (e) {
-      console.error("Invalid collectionItems JSON", e);
+      const message = e instanceof Error ? e.message : "Error loading collection items";
+      rej(message);
     }
-  };
-}
-
-export const getCollectionItems = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<Choice[], string, unknown> = (res, rej, extra) => {
-    const data = JSON.stringify({
-      type: `${target}_get_collection_items`,
-      payload: extra,
-    });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handleCollectionItems({ res, rej, uid, event, target }));
   };
 
   return { handler };

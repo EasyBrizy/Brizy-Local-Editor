@@ -166,6 +166,12 @@ type config = {
   onAutoSave?: (data: AutoSave) => void;
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
+  };
 };
 ````
 
@@ -301,6 +307,12 @@ type config = {
   onAutoSave?: (data: AutoSave) => void;
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
+  };
 };
 ```
 
@@ -421,6 +433,12 @@ type config = {
   onAutoSave?: (data: AutoSave) => void;
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
+  };
 };
 ```
 
@@ -715,6 +733,11 @@ Dynamic content can be configured in 2 ways
 | api.screenshots.create         | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                         |
 | api.screenshots.update         | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                         |
 
+### Elements parameters
+| Name                          | Type     | Description                                                                                                                                                                                                                                                                                                  |
+|:------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| elements.menu.createMenuLabel | string   | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                                                |
+| elements.menu.onOpen          | function | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu.                             |
 
 ### ThirdParty parameters
 ThirdParty can extend Brizy capabilities by rendering any React Component directly on the builder. [Quick Start Guide](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/thirdParty.MD)

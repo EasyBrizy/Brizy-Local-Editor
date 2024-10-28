@@ -1,11 +1,10 @@
 import type { Response } from "@/types/common";
 import { DCTypes } from "@/types/dynamicContent";
 import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
-import { ActionResolve, Config, HtmlOutputType, Modes, Target } from "@/types/types";
+import { ActionResolve, Config, HtmlOutputType, Modes } from "@/types/types";
 import type { Dictionary } from "@/utils/types";
 import { encode } from "js-base64";
 import { mergeIn, omit, setIn } from "timm";
-import { ActionTypes } from "./types";
 
 //#region Integration
 
@@ -178,7 +177,7 @@ const createApi = (config: Config<HtmlOutputType>): BuilderAPI => {
   }
 
   if (api.screenshots && api.screenshots.screenshotUrl) {
-    api = setIn(api, ["screenshots"], { enable: true }) as BuilderAPI;
+    api = setIn(api, ["screenshots", "enable"], true) as BuilderAPI;
   }
 
   return api;
@@ -246,31 +245,28 @@ const getCompiler = (config: Config<HtmlOutputType>): BuilderCompiler => ({
 
 //#endregion
 
-export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, token: string): ActionResolve => ({
+export const init = <T extends HtmlOutputType>(config: Config<T>, token: string, uid: string): ActionResolve => ({
   uid,
-  target: Target.builder,
   data: JSON.stringify({
-    type: ActionTypes.initPage,
-    data: {
-      mode: createModes(config.mode ?? Modes.page),
-      pageData: getPage(config),
-      projectData: config.projectData,
-      pagePreview: config.pagePreview,
-      compiler: getCompiler(config),
-      ui: createUi(config),
-      token: token,
-      menuData: config.menu,
-      thirdPartyUrls: config.thirdPartyUrls,
-      extensions: config.extensions,
-      api: createApi(config),
-      integrations: createIntegration(config),
-      dynamicContent: createDCContent(config),
-      autoSaveInterval: config.autoSaveInterval,
-      urls: config.urls,
-      l10n: config.l10n,
-      contentDefaults: config.contentDefaults,
-      platform: config.platform,
-      templateType: config.templateType,
-    },
+    mode: createModes(config.mode ?? Modes.page),
+    pageData: getPage(config),
+    projectData: config.projectData,
+    pagePreview: config.pagePreview,
+    compiler: getCompiler(config),
+    ui: createUi(config),
+    token: token,
+    menuData: config.menu,
+    thirdPartyUrls: config.thirdPartyUrls,
+    extensions: config.extensions,
+    api: createApi(config),
+    integrations: createIntegration(config),
+    dynamicContent: createDCContent(config),
+    autoSaveInterval: config.autoSaveInterval,
+    urls: config.urls,
+    l10n: config.l10n,
+    contentDefaults: config.contentDefaults,
+    platform: config.platform,
+    templateType: config.templateType,
+    elements: config.elements,
   }),
 });
