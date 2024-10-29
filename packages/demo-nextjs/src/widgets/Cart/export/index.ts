@@ -1,4 +1,3 @@
-import { processAddToCart } from "./addToCart";
 import { CART_SIDEBAR_CLASS } from "./constants";
 import { closeCart, hideElement, initializeCart, openCart } from "./utils";
 
@@ -6,8 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartWrappers = document.querySelectorAll<HTMLElement>(".third-party-cart");
 
   if (!cartWrappers.length) return;
-
-  processAddToCart();
 
   const cart = localStorage.getItem("cart");
   const cartId = cart ? JSON.parse(cart).cartId : null;
