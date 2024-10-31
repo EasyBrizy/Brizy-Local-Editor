@@ -146,6 +146,14 @@ type config = {
       update?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData & { id: string }) => void;
     };
   };
+  
+  // Elements
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
+  };
 
   onSave?: (data: Output) => void;
   onAutoSave?: (data: AutoSave) => void;
@@ -477,6 +485,13 @@ Dynamic content can be configured in 2 ways
 | `api.onAutoSave`                 | `JSON`     | Fired after Auto Save happened in editor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `api.onLoad`                     | `JSON`     | Fired when the builder is loaded                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `api.autoSaveInterval`           | `number`   | Default `2000`. Set a `ms` delay for `onAutoSave` function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+
+### Elements parameters
+
+| Name                            | Type       | Description                                                                                                                                                                                                                                                                      |
+|:--------------------------------|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `elements.menu.createMenuLabel` | `string`   | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                    |
+| `elements.menu.onOpen`          | `function` | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu. |
 
 ## Examples
 

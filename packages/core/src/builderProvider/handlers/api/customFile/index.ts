@@ -1,58 +1,20 @@
-import { Handler, HandlerData } from "@/builderProvider/types/type";
-import { Response } from "@/types/common";
 import { AddFileData, AddFileExtra } from "@/types/customFile";
+import { Handler } from "../../../types/type";
 
-interface FileHandler extends HandlerData {
-  res: Response<AddFileData>;
-  rej: Response<string>;
-}
+export type AddCustomFileHandler = (uid: string, extra?: AddFileExtra) => Promise<AddFileData>;
 
-function handleAddFile(data: FileHandler) {
-  const { uid, target, res, rej } = data;
-
-  return function fileEmitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getCustomFileHandler = (fileHandler: AddCustomFileHandler, uid: string) => {
+  const handler: Handler<AddFileData, string, AddFileExtra> = async (res, rej, extra) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_add_file_res`: {
-          const fileName = action.data.fileName;
-          const uid = action.data.uid ?? fileName;
-
-          // @ts-expect-error any is not assignable to parameter of type AddFileData
-          res({ uid: uid, filename: fileName });
-          window.removeEventListener("message", fileEmitter);
-          break;
-        }
-        case `${target}_add_file_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", fileEmitter);
-          break;
-        }
-      }
+      const data = await fileHandler(uid, extra);
+      res(data);
     } catch (e) {
-      console.error("Invalid AddFile JSON", e);
+      const message = e instanceof Error ? e.message : "Error adding custom file";
+      rej(message);
     }
   };
-}
 
-export const addCustomFileHandler = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<AddFileData, string, AddFileExtra> = (res, rej, extra) => {
-    const data = JSON.stringify({ type: `${target}_add_file`, payload: extra });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handleAddFile({ res, rej, uid, target, event }));
+  return {
+    handler,
   };
-
-  return handler;
 };

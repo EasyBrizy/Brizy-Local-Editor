@@ -1,50 +1,18 @@
-import { HandlerData } from "@/builderProvider/types/type";
-import { Response } from "@/types/common";
-import { DCPlaceholdersExtra } from "@/types/dynamicContent";
-import { Dictionary } from "@/utils/types";
+import { Handler } from "@/builderProvider/types/type";
+import { BaseDCItem, DCHandlerExtra } from "@/types/dynamicContent";
 
-interface PlaceholderDataHandler extends HandlerData {
-  res: Response<Dictionary<string>>;
-  rej: Response<string>;
-}
+export type PlaceholderDataHandler = (uid: string, extra?: DCHandlerExtra) => Promise<BaseDCItem>;
 
-function placeholderDataHandler(data: PlaceholderDataHandler) {
-  const { uid, target, res, rej } = data;
-
-  return function placeholderData(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getPlaceholderDataHandler = (placeholderDataHandler: PlaceholderDataHandler, uid: string) => {
+  const handler: Handler<BaseDCItem, string, DCHandlerExtra> = async (res, rej, extra) => {
     try {
-      const action = JSON.parse(data.data);
-      switch (action.type) {
-        case `${target}_dc_placeholder_data_res`: {
-          res(action.data);
-          window.removeEventListener("message", placeholderData);
-          break;
-        }
-        case `${target}_dc_placeholder_data_rej`:
-          rej(action.data);
-          window.removeEventListener("message", placeholderData);
-          break;
-      }
+      const data = await placeholderDataHandler(uid, extra);
+      res(data);
     } catch (e) {
-      console.log("Invalid DCPlaceholder Data JSON: ", e);
+      const message = e instanceof Error ? e.message : "Error fetching placeholder data";
+      rej(message);
     }
   };
-}
 
-export function getPlaceholderDataHandler(data: HandlerData) {
-  const { target, uid, event } = data;
-
-  return (res: Response<Dictionary<string>>, rej: Response<string>, extra: DCPlaceholdersExtra) => {
-    const data = JSON.stringify({ type: `${target}_dc_placeholder_data`, payload: extra });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    window.addEventListener("message", placeholderDataHandler({ res, rej, uid, target, event }));
-  };
-}
+  return handler;
+};

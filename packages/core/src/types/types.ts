@@ -48,6 +48,7 @@ export interface AutoSaveOutput<T extends HtmlOutputType> {
   pageData?: PageData<T>;
   projectData?: ProjectData<T>;
 }
+
 export type OnSave<T extends HtmlOutputType> = (output: Output<T>) => void;
 export type OnAutoSave<T extends HtmlOutputType> = (output: AutoSaveOutput<T>) => void;
 
@@ -234,6 +235,16 @@ export interface Config<T extends HtmlOutputType> {
   };
 
   // #endregion
+
+  // #region elements
+  elements?: {
+    menu?: {
+      createMenuLabel?: string;
+      onOpen?: VoidFunction;
+    };
+  };
+
+  // #endregion
 }
 
 export interface API {
@@ -247,7 +258,6 @@ export enum Target {
 }
 
 export type ActionResolve = {
-  target: Target;
   uid: string;
   data: string;
 };

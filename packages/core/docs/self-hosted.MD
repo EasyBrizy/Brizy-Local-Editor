@@ -199,6 +199,12 @@ type config = {
   onAutoSave?: (data: AutoSave) => void;
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
+  };
 };
 ````
 
@@ -334,6 +340,12 @@ type config = {
   onAutoSave?: (data: AutoSave) => void;
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
+  };
 };
 ```
 
@@ -454,6 +466,12 @@ type config = {
   onAutoSave?: (data: AutoSave) => void;
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
+  };
 };
 ```
 
@@ -519,13 +537,16 @@ export enum DCTypes {
   link = "link",
   richText = "richText",
 }
+
 interface BaseDCItem {
   label: string;
   placeholder: string;
 }
+
 export interface ConfigDCItem extends BaseDCItem {
   optgroup?: ConfigDCItem[];
 }
+
 interface DCItemHandler {
   handler: (
     res: Response<BaseDCItem>,
@@ -540,10 +561,12 @@ export interface ImagePatterns {
   split: string;
   full: string;
 }
+
 export interface AddMediaData {
   uid: string;
   fileName?: string; // fileName need contain .ext
 }
+
 export interface AddMediaExtra {
   acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
 }
@@ -653,21 +676,21 @@ export interface Extension {
 
 Config can be passed as an object when you initialize the editor from the script.
 
-| Name            | Type                     | Description                                                                                                                            |
-|:----------------|:-------------------------|:---------------------------------------------------------------------------------------------------------------------------------------|
-| container       | HTMLElement              | Brizy Plugin will load into HTML element.                                                                                              |
-| mode            | "page", "popup", "story" | Default "page"                                                                                                                         |
-| htmlOutputType  | "json", "html"           | Default "html"                                                                                                                         |
-| pageData        | object                   | Loads the JSON page specified in the pageData parameter.                                                                               |
-| projectData     | object                   | Loads the JSON project specified in the projectData parameter.                                                                         |
-| menu            | array                    | Load the array of menu                                                                                                                 |
-| extension       | array                    | Load the array of extension scripts and styles                                                                                         |
-| l10n            | object                   | A data structure that maps keys to localized strings for localization purposes. All keys available [here](/packages/core/docs/l10n.ts) |
+| Name           | Type                     | Description                                                                                                                            |
+|:---------------|:-------------------------|:---------------------------------------------------------------------------------------------------------------------------------------|
+| container      | HTMLElement              | Brizy Plugin will load into HTML element.                                                                                              |
+| mode           | "page", "popup", "story" | Default "page"                                                                                                                         |
+| htmlOutputType | "json", "html"           | Default "html"                                                                                                                         |
+| pageData       | object                   | Loads the JSON page specified in the pageData parameter.                                                                               |
+| projectData    | object                   | Loads the JSON project specified in the projectData parameter.                                                                         |
+| menu           | array                    | Load the array of menu                                                                                                                 |
+| extension      | array                    | Load the array of extension scripts and styles                                                                                         |
+| l10n           | object                   | A data structure that maps keys to localized strings for localization purposes. All keys available [here](/packages/core/docs/l10n.ts) |
 
 ### Integration parameters
 
 | Name                               | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| :--------------------------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|:-----------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | integration.form.action            | string   | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                  |
 | integration.form.recaptcha.siteKey | string   | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | integration.form.fields.label      | string   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
@@ -675,7 +698,8 @@ Config can be passed as an object when you initialize the editor from the script
 
 ### DynamicContent parameters
 
-Builder wrapped all outside placeholder inside builder placeholder `{{ placeholder content='Base64(SOME EXTERNAL PLACEHOLDER)' }}`
+Builder wrapped all outside placeholder inside builder placeholder
+`{{ placeholder content='Base64(SOME EXTERNAL PLACEHOLDER)' }}`
 
 #### Builder added extra attributes for `placeholder`
 
@@ -705,7 +729,7 @@ Dynamic content can be configured in 2 ways
 #### DynamicContent Option parameters
 
 | Name                                            | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| :---------------------------------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|:------------------------------------------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | dynamicContent.groups[DCTypes.image].handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 | dynamicContent.groups[DCTypes.link].handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 | dynamicContent.groups[DCTypes.richText].handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ label:"My_Placeholder", placeholder:"{{ my_placeholder }}" })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
@@ -713,7 +737,7 @@ Dynamic content can be configured in 2 ways
 ### UI parameters
 
 | Name                                  | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| :------------------------------------ | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|:--------------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | ui.popupSettings.displayCondition     | boolean  | Takes true or false values and lets you turn on or off the global [display conditions](https://user-images.githubusercontent.com/10077249/206892163-024f4fcd-d127-4c28-8a60-ea21e3982b3c.png) option together with the [display conditions popup](https://user-images.githubusercontent.com/10077249/206892176-23ed85ee-4f66-4c83-8ebb-a64117daa124.png).                                                                                                                                                                            |
 | ui.popupSettings.deletePopup          | boolean  | Takes true or false values and lets you turn on or off the [delete popup option](https://user-images.githubusercontent.com/10077249/206904265-7e79f65f-0288-4473-be14-afb5dcea6fbb.png). Turn off the delete option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the posibility to [access the premade Brizy templates](https://user-images.githubusercontent.com/10077249/206904279-f55a472a-5508-4594-b40f-6c9d20a90bd9.png) inside the editor.             |
 | ui.popupSettings.embedded             | boolean  | Takes true of false values and lets you turn on or off [Vertical align, Horizontal align, Scroll Page Behind and Close Button](https://user-images.githubusercontent.com/18303258/212686108-a43883df-574f-4b30-b795-5d48e93b3d08.png).                                                                                                                                                                                                                                                                                               |
@@ -756,8 +780,17 @@ Dynamic content can be configured in 2 ways
 | api.screenshots.create         | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                         |
 | api.screenshots.update         | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                         |
 
+### Elements parameters
+
+| Name                          | Type     | Description                                                                                                                                                                                                                                                                      |
+|:------------------------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| elements.menu.createMenuLabel | string   | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                    |
+| elements.menu.onOpen          | function | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu. |
+
 ### ThirdParty parameters
-ThirdParty can extend Brizy capabilities by rendering any React Component directly on the builder. [Quick Start Guide](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/thirdParty.MD)
+
+ThirdParty can extend Brizy capabilities by rendering any React Component directly on the
+builder. [Quick Start Guide](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/thirdParty.MD)
 
 #### Example Media Handler
 
@@ -778,18 +811,21 @@ const config = {
 ```
 
 #### Example Media Handler with Brizy Local Image Resizer & AWS S3
+
 The builder uses two keys: `uid` and `fileName`, or only `uid` (with file extensions).
 The main idea is to resolve problems with the duplication of images.
 If the duplication was resolved by some media upload gallery, then send only `fileName` to `uid`.
 For example: `resolve({uid: "picture.png"})`.
 
 ## Image Patterns
+
 Used to specify where the crop params from the builder need to be included in the URL.
 The `imagePatterns` object contains 3 keys: `full`, `original`, `split`.
 The value of every key must be send the placeholders
 The placeholder has syntax: `{{ oY=[oY] }}`
 
 Support placeholders:
+
 - `[baseUrl]`: the base URL sent via `api.media.mediaResizeUrl`
 - `[iW]`: the original image width (`number` or `any`)
 - `[iH]`: the original image height (`number` or `any`)
@@ -800,8 +836,8 @@ Support placeholders:
 - `[uid]`: the UID of the image
 - `[fileName]`: optional placeholder; it would be used if `resolve({uid: "1234", fileName: "picture.png"})`
 
-
 Example:
+
 ```ts
 const config = {
   api: {
@@ -818,21 +854,25 @@ const config = {
 ```
 
 Full:
+
 ```html
 <img src="http://localhost:7788/media/iW=1808&iH=1017&oX=448&oY=53&cW=515&cH=605/1234/picture.jpg">
 ```
 
 Original:
+
 ```html
 <img src="http://localhost:7788/media/original/1234/picture.jpg">
 ```
 
 Split:
+
 ```html
 <img src="http://localhost:7788/media/iW=5000&iH=any/1234/picture.jpg">
 ```
 
 [ImageKit](https://imagekit.io) example:
+
 ```ts
 const config = {
   api: {
@@ -871,9 +911,11 @@ const config = {
 ```
 
 **Full**: Used inside the Image element where cropping or resizing of the image is needed.
-**Original**: Used when the builder tries to access the original URL of the image, for example, as a background for Section, Column, or Row.
+**Original**: Used when the builder tries to access the original URL of the image, for example, as a background for
+Section, Column, or Row.
 **Split**: Used when the builder tries to access the resized URL for the image, for example, as a background.
-> This case(split) is usually used when the client uploads very large images (e.g., 10MB), and we need to resize them to a smaller size (e.g., 1MB). In this case iH=any
+> This case(split) is usually used when the client uploads very large images (e.g., 10MB), and we need to resize them to
+> a smaller size (e.g., 1MB). In this case iH=any
 
 ```ts
 // In HTML
@@ -909,7 +951,7 @@ const config = {
         input.type = "file";
         input.accept = "image/*";
 
-        input.addEventListener("change", function (e) {
+        input.addEventListener("change", function(e) {
           const { files } = e.target;
 
           if (files && files.length) {
@@ -1420,14 +1462,15 @@ const config = {
 };
 ```
 
-The url for the screenshot will be created like `${config.api.screenshots.screenshotUrl}/${id}?_thumbnailTime=${the screenshot time}`
+The url for the screenshot will be created like
+`${config.api.screenshots.screenshotUrl}/${id}?_thumbnailTime=${the screenshot time}`
 
 ### Events
 
 These are the callbacks that are triggered when the buttons are clicked.
 
 | Name       | Description                              | Returned values         |
-| :--------- | :--------------------------------------- | :---------------------- |
+|:-----------|:-----------------------------------------|:------------------------|
 | onSave     | Fired when the Save button is clicked    | JSON and HTML documents |
 | onAutoSave | Fired after Auto Save happened in editor | JSON                    |
 | onLoad     | Fired when the builder is loaded         | -                       |
@@ -1435,7 +1478,7 @@ These are the callbacks that are triggered when the buttons are clicked.
 ### onSave
 
 | Name                               | Type        | Description                                                    |
-| :--------------------------------- | :---------- | :------------------------------------------------------------- |
+|:-----------------------------------|:------------|:---------------------------------------------------------------|
 | html                               | HTMLElement | HTML.                                                          |
 | pageData                           | object      | Loads the JSON page specified in the pageData parameter.       |
 | projectData                        | object      | Loads the JSON project specified in the projectData parameter. |
@@ -1444,21 +1487,22 @@ These are the callbacks that are triggered when the buttons are clicked.
 ### onAutoSave
 
 | Name        | Type   | Description                                                    |
-| :---------- | :----- | :------------------------------------------------------------- |
+|:------------|:-------|:---------------------------------------------------------------|
 | pageData    | object | Loads the JSON page specified in the pageData parameter.       |
 | projectData | object | Loads the JSON project specified in the projectData parameter. |
 
 ### autoSaveInterval
 
 | Name             | Type   | Description                                              |
-| :--------------- | :----- | :--------------------------------------------------------|
+|:-----------------|:-------|:---------------------------------------------------------|
 | autoSaveInterval | number | Default `2000`. Set a `ms` delay for onAutoSave function |
 
 ### Popup Settings
 
 | Name                          | Type                          | Description                                                                                                                                 |
-| :---------------------------- | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
+|:------------------------------|:------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
 | popupSettings.verticalAlign   | "center" or "top" or "bottom" | Default "center". [Vertical align](https://user-images.githubusercontent.com/5760683/216273483-955e0a09-5acc-4124-bc94-0a05f2bbbb58.png).   |
 | popupSettings.horizontalAlign | "center" or "right" or "left" | Default "center". [Horizontal align](https://user-images.githubusercontent.com/5760683/216273441-a50bf80e-5894-4e5f-b764-20ee1552b0f6.png). |
 
-See more details in TS [see below](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/src/types/types.ts)
+See more details in
+TS [see below](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/src/types/types.ts)

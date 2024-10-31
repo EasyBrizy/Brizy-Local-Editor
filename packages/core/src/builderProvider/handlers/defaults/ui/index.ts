@@ -1,4 +1,3 @@
-import { HandlerData } from "@/builderProvider/types/type";
 import { getAssetsType } from "@/builderProvider/utils/thirdParty";
 import {
   BaseElementTypes,
@@ -9,12 +8,15 @@ import {
 import { Publish } from "@/types/publish";
 import { HtmlOutputType } from "@/types/types";
 import { getIn, setIn } from "timm";
-import { getCloseCMS, getOpenCMS } from "./cms";
+import { ExposedHandlers } from "../../../types/type";
+import { getOpenCMS } from "./cms";
 import { getPublish } from "./publish";
 
-interface Data extends HandlerData {
+interface Data {
   mode: string;
   config: Record<string, unknown>;
+  handlers: ExposedHandlers;
+  uid: string;
 }
 
 const defaultUI = (mode: string): Record<string, unknown> => {
@@ -221,7 +223,7 @@ const defaultUI = (mode: string): Record<string, unknown> => {
 };
 
 export const getUi = (data: Data): Record<string, unknown> => {
-  const { mode, config, uid, target, event } = data;
+  const { mode, config, handlers, uid } = data;
   const oldUI = defaultUI(mode);
   const _ui = config.ui as Record<string, unknown> | undefined;
   const ui = _ui ? _ui : oldUI;
@@ -233,14 +235,15 @@ export const getUi = (data: Data): Record<string, unknown> => {
   const assetsType = getAssetsType(config);
 
   if (enabledCMS) {
+    const { onOpenCMS, onCloseCMS } = handlers;
     leftSidebar = setIn(leftSidebar, ["cms"], {
-      onOpen: getOpenCMS({ event, target, uid }),
-      onClose: getCloseCMS({ event, target, uid }),
+      onOpen: getOpenCMS(onOpenCMS, uid),
+      onClose: () => onCloseCMS(uid),
     }) as Record<string, unknown>;
   }
 
   if (enabledPublish) {
-    publish = getPublish({ event, target, uid, assetsType });
+    publish = getPublish({ assetsType, publishHandler: handlers.publish, uid });
   }
 
   return {

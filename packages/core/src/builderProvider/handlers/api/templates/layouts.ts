@@ -1,58 +1,19 @@
-import { Handler, HandlerData } from "@/builderProvider/types/type";
 import { Response } from "@/types/common";
 import { LayoutsPages, Template } from "@/types/templates";
 
 //#region Meta
+type GetLayoutsMeta = (res: Response<Template>, rej: Response<string>) => Promise<void>;
+export type LayoutsMetaHandler = (uid: string) => Promise<Template>;
 
-interface MetaHandler extends HandlerData {
-  res: Response<Template>;
-  rej: Response<string>;
-}
-
-function handleMeta(data: MetaHandler) {
-  const { uid, target, res, rej } = data;
-
-  return function metaEmitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getLayoutsMeta = (layoutsMetaHandler: LayoutsMetaHandler, uid: string) => {
+  const handler: GetLayoutsMeta = async (res, rej) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_template_layouts_meta_res`: {
-          res(action.data);
-          window.removeEventListener("message", metaEmitter);
-          break;
-        }
-        case `${target}_template_layouts_meta_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", metaEmitter);
-          break;
-        }
-      }
+      const data = await layoutsMetaHandler(uid);
+      res(data);
     } catch (e) {
-      console.error("Invalid TemplateLayoutsMeta JSON", e);
+      const message = e instanceof Error ? e.message : "Error fetching layouts meta";
+      rej(message);
     }
-  };
-}
-
-export const getLayoutsMeta = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<Template, string, string> = (res, rej, extra) => {
-    const data = JSON.stringify({
-      type: `${target}_template_layouts_meta`,
-      payload: extra,
-    });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handleMeta({ res, rej, uid, event, target }));
   };
 
   return handler;
@@ -62,55 +23,23 @@ export const getLayoutsMeta = (data: HandlerData) => {
 
 //#region Data
 
-interface DataHandler extends HandlerData {
-  res: Response<Record<string, unknown>>;
-  rej: Response<string>;
+interface Page {
+  id: string;
+  layoutId: string;
 }
 
-function handleData(data: DataHandler) {
-  const { uid, target, res, rej } = data;
+type GetLayoutsData = (res: Response<Record<string, unknown>>, rej: Response<string>, page: Page) => Promise<void>;
+export type LayoutsDataHandler = (page: Page, uid: string) => Promise<Record<string, unknown>>;
 
-  return function emitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getLayoutsData = (layoutsDataHandler: LayoutsDataHandler, uid: string) => {
+  const handler: GetLayoutsData = async (res, rej, page) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_template_layouts_data_res`: {
-          res(action.data);
-          window.removeEventListener("message", emitter);
-          break;
-        }
-        case `${target}_template_layouts_data_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", emitter);
-          break;
-        }
-      }
+      const data = await layoutsDataHandler(page, uid);
+      res(data);
     } catch (e) {
-      console.error("Invalid TemplateKitsData JSON", e);
+      const message = e instanceof Error ? e.message : "Error fetching layouts data";
+      rej(message);
     }
-  };
-}
-
-export const getLayoutsData = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<Record<string, unknown>, string, string> = (res, rej, extra) => {
-    const data = JSON.stringify({
-      type: `${target}_template_layouts_data`,
-      payload: extra,
-    });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handleData({ res, rej, uid, event, target }));
   };
 
   return handler;
@@ -120,55 +49,18 @@ export const getLayoutsData = (data: HandlerData) => {
 
 //#region Pages
 
-interface PagesHandler extends HandlerData {
-  res: Response<LayoutsPages>;
-  rej: Response<string>;
-}
+type GetLayoutsPages = (res: Response<LayoutsPages>, rej: Response<string>, id: string) => void;
+export type LayoutsPagesHandler = (id: string, uid: string) => Promise<LayoutsPages>;
 
-function handlePages(data: PagesHandler) {
-  const { uid, target, res, rej } = data;
-
-  return function metaEmitter(event: MessageEvent) {
-    const data = event.data;
-    if (data.target !== target || data.uid !== uid) {
-      return;
-    }
-
+export const getLayoutsPages = (layoutsPagesHandler: LayoutsPagesHandler, uid: string) => {
+  const handler: GetLayoutsPages = async (res, rej, id) => {
     try {
-      const action = JSON.parse(data.data);
-
-      switch (action.type) {
-        case `${target}_template_layouts_pages_res`: {
-          res(action.data);
-          window.removeEventListener("message", metaEmitter);
-          break;
-        }
-        case `${target}_template_layouts_pages_rej`: {
-          rej(action.data);
-          window.removeEventListener("message", metaEmitter);
-          break;
-        }
-      }
+      const data = await layoutsPagesHandler(id, uid);
+      res(data);
     } catch (e) {
-      console.error("Invalid TemplateLayoutsPages JSON", e);
+      const message = e instanceof Error ? e.message : "Error fetching layouts pages";
+      rej(message);
     }
-  };
-}
-
-export const getLayoutsPages = (data: HandlerData) => {
-  const { target, uid, event } = data;
-
-  const handler: Handler<LayoutsPages, string, string> = (res, rej, extra) => {
-    const data = JSON.stringify({
-      type: `${target}_template_layouts_pages`,
-      payload: extra,
-    });
-
-    // @ts-expect-error: Type string has no properties in common with type WindowPostMessageOptions
-    event.source?.postMessage({ target, uid, data }, event.origin);
-
-    // Listening the AddMessage
-    window.addEventListener("message", handlePages({ res, rej, uid, event, target }));
   };
 
   return handler;
