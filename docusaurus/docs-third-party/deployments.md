@@ -6,19 +6,24 @@ sidebar_position: 3
 
 ## CDN version
 
-The CDN version of Brizy is hosted on Brizy's servers. Choose this version if you don't want to host the editor. This will let you initialise the editor on your side, but Brizy will host it on its CDN infrastructure.
+The CDN version of Brizy is hosted on Brizy's servers. Choose this version if you don't want to host the editor. This
+will let you initialise the editor on your side, but Brizy will host it on its CDN infrastructure.
 
 [![video](/img/deployment.jpg)](https://user-images.githubusercontent.com/10077249/206906576-cc654003-9b6d-4661-88dd-affb63ba538d.mp4)
 
-> For more information on how to use the CDN version of the Editor check the [`packages/core`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/cdn.MD) file.
+> For more information on how to use the CDN version of the Editor check the [
+`packages/core`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/cdn.MD) file.
 
 ## Self-hosted version
 
-The Self-hosted version of Brizy is hosted by you. Choose this version if you want to host the editor locally on your server.
+The Self-hosted version of Brizy is hosted by you. Choose this version if you want to host the editor locally on your
+server.
 
 [![video](/img/deployment.jpg)](https://user-images.githubusercontent.com/10077249/206906566-1d2087fc-847c-4530-8760-9b169dd3ed65.mp4)
 
-> For more information on how to use the Self-hosted version of the Editor check the README [`packages/core`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/self-hosted.MD) or view the demo in [`packages/demo`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/demo/README.MD)
+> For more information on how to use the Self-hosted version of the Editor check the README [
+`packages/core`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/self-hosted.MD) or view the
+> demo in [`packages/demo`](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/demo/README.MD)
 
 ## Vercel
 
@@ -44,22 +49,55 @@ After building the third-party library, you can send it to the editor configurat
 Here's how you can do it:
 
 1. Host the built library files on a server accessible via HTTP.
-2. Obtain the HTTP URLs for the built JavaScript files (e.g., `main.js`).
-3. In the editor configuration, specify these URLs to load the library:
+2. Get the `host` URL and the `path` folder where the config.json file is located.
+3. Add the `extensions` key to the editor configuration with the following structure:
 
 ```typescript
 const config = {
-  // Other keys of the config...
+  // Other config keys...
 
-  thirdPartyUrls: [
+  extensions: [
     {
-      scriptUrl: "http://<the-build-host-of-library>/main.js",
+      host: "http://<your-library-build-host>",
+      path: "<path-to-config-folder>",
     },
   ],
 };
 ```
 
-> For more information about the [`config`](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/cdn.MD#config)
+#### Example:
+If `config.json` is located at http://localhost:3000/widgets/config.json, the configuration will look like this:
 
-Replace `https://<the-build-host-of-library>/main.js` with the actual HTTP URL of your built library file.
-By adding this URL to the `thirdPartyUrls` array in your editor configuration, the library will be loaded and available for use within the editor environment.
+```typescript
+const config = {
+  // Other config keys...
+
+  extensions: [
+    {
+      host: "http://localhost:3000",
+      path: "/widgets",
+    },
+  ],
+};
+```
+
+The `config.json` file should follow this structure:
+```json
+{
+  "name": "My Library",
+  "editorScripts": [
+    // List of scripts for the editor
+  ],
+  "editorStyles": [
+    // List of styles for the editor
+  ],
+  "viewScripts": [
+    // List of scripts for the view
+  ],
+  "viewStyles": [
+    // List of styles for the view
+  ]
+}
+```
+
+> For more information about the [`config`](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/cdn.MD#config)
