@@ -52,7 +52,7 @@ const init = async ({ uid, data }: ActionResolve) => {
     data: configData.projectData,
   };
   window.__VISUAL_CONFIG__.menuData = menuData;
-  window.__VISUAL_CONFIG__.elements = getElements(elements, exposedHandlers.onOpenMenu, uid);
+  window.__VISUAL_CONFIG__.elements = getElements(elements, exposedHandlers, uid);
   window.__VISUAL_CONFIG__.auth = {
     token,
   };

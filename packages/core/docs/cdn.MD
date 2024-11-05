@@ -171,6 +171,17 @@ type config = {
       onOpen?: VoidFunction;
       createMenuLabel?: string;
     };
+    posts?: {
+      includeQueryMultiOptions?: boolean;
+      exclude?: boolean;
+      offset?: boolean;
+      orderBy?: boolean;
+      order?: boolean;
+      handler: (
+        res: Response<PostsSources>,
+        ref: Response<string>
+      ) => void;
+    };
   };
 };
 ````
@@ -312,6 +323,17 @@ type config = {
       onOpen?: VoidFunction;
       createMenuLabel?: string;
     };
+    posts?: {
+      includeQueryMultiOptions?: boolean;
+      exclude?: boolean;
+      offset?: boolean;
+      orderBy?: boolean;
+      order?: boolean;
+      handler: (
+        res: Response<PostsSources>,
+        ref: Response<string>
+      ) => void;
+    };
   };
 };
 ```
@@ -437,6 +459,17 @@ type config = {
     menu?: {
       onOpen?: VoidFunction;
       createMenuLabel?: string;
+    };
+    posts?: {
+      includeQueryMultiOptions?: boolean;
+      exclude?: boolean;
+      offset?: boolean;
+      orderBy?: boolean;
+      order?: boolean;
+      handler: (
+        res: Response<PostsSources>,
+        ref: Response<string>
+      ) => void;
     };
   };
 };
@@ -578,6 +611,7 @@ export enum BaseElementTypes {
   FacebookComments = "FacebookComments",
   Columns = "Columns",
   Row = "Row",
+  Posts = "Posts",
 }
 
 /// Story Elements used only in Story mode, these elements doesn't work in Page, Popup
@@ -626,6 +660,17 @@ export interface ScreenshotData {
 export interface Extension {
   host?: string;
   path: string;
+}
+
+// PostSources
+export interface Sources {
+  id: string;
+  title: string;
+  orderBy: { id: string; title: string }[];
+}
+
+export interface PostsSources {
+  sources: Sources[];
 }
 ```
 
@@ -734,10 +779,16 @@ Dynamic content can be configured in 2 ways
 | api.screenshots.update         | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                         |
 
 ### Elements parameters
-| Name                          | Type     | Description                                                                                                                                                                                                                                                                                                  |
-|:------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| elements.menu.createMenuLabel | string   | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                                                |
-| elements.menu.onOpen          | function | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu.                             |
+| Name                          | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|:------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| elements.menu.createMenuLabel | string   | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                                                                                                                                                                                                                                    |
+| elements.menu.onOpen          | function | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu.                                                                                                                                                                                                                 |
+| elements.posts.handler        | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| elements.posts.exclude        | boolean  | Takes true or false values and lets you turn on or off the `Exclude by` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                     |
+| elements.posts.offset         | boolean  | Takes true or false values and lets you turn on or off the `Offset` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                         |
+| elements.posts.orderBy        | boolean  | Takes true or false values and lets you turn on or off the `Order by` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                       |
+| elements.posts.order          | boolean  | Takes true or false values and lets you turn on or off the `Order` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                          |
+| elements.posts.querySource    | boolean  | Takes true or false values and lets you turn on or off the `Source` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                         |
 
 ### ThirdParty parameters
 ThirdParty can extend Brizy capabilities by rendering any React Component directly on the builder. [Quick Start Guide](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/docs/thirdParty.MD)

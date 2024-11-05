@@ -1,4 +1,4 @@
-import { getCollectionItemsIds } from "@/api/collections/collectionItems/getCollectionItemsIds";
+import { getCollectionItemsIds, loadCollectionItems, searchCollectionItems } from "@/api/collections/collectionItems";
 import { loadCollectionTypes } from "@/api/collections/collectionTypes/loadCollectionTypes";
 import { Response } from "@/api/types";
 import {
@@ -22,6 +22,7 @@ import { Arr, Json, Obj } from "@brizy/readers";
 import { BaseDCHandlerExtra, ConfigDCItem, DCPlaceholdersExtra } from "@builder/core/build/es/types/dynamicContent";
 import { LeftSidebarMoreOptionsIds, LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@builder/core/build/es/types/media";
+import { PostsSources } from "@builder/core/build/es/types/posts";
 import {
   BlockWithThumbs,
   BlocksArray,
@@ -47,6 +48,8 @@ export const getApi = () => ({
   },
   collectionItems: {
     getCollectionItemsIds,
+    searchCollectionItems,
+    loadCollectionItems,
   },
   media: {
     mediaResizeUrl: "https://cloud-1de12d.b-cdn.net/media",
@@ -388,5 +391,32 @@ export const getUI = (origin: string) => ({
         },
       ],
     },
+  },
+});
+
+export const getElements = (menuCb: VoidFunction) => ({
+  posts: {
+    handler: async (res: Response<PostsSources>, rej: Response<string>) => {
+      try {
+        const { collections, orderBy } = await fetch("/api/collections").then((res) => res.json());
+        const sources = collections.map(({ id, title }: { id: string; title: string }) => ({
+          id,
+          title,
+          orderBy,
+        }));
+
+        return res({
+          sources,
+          refsById: [],
+        });
+      } catch (e) {
+        console.error(e);
+        const error = e instanceof Error ? e.message : "Failed to get post sources";
+        rej(error);
+      }
+    },
+  },
+  menu: {
+    onOpen: menuCb,
   },
 });

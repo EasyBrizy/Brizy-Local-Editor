@@ -9,14 +9,16 @@ import { convertProject } from "@/utils/converters/project";
 import { footerQuery, headerQuery, projectId } from "@/utils/mock";
 import { isT } from "fp-utilities";
 import { notFound } from "next/navigation";
+import { SearchParams } from "../types";
 
 const excludeCatchAllCollection = [CollectionTypes.popup, CollectionTypes.story];
 
-export default async function Page({
-  params,
-}: {
-  params: { slug: string[]; searchParams: { [key: string]: string | string[] | undefined } };
-}) {
+interface Props {
+  params: { slug: string[] };
+  searchParams: SearchParams;
+}
+
+export default async function Page({ params, searchParams }: Props) {
   const [collection, item] = (params.slug ?? []) as [CollectionTypeValue, string];
   let slug = { collection: CollectionTypes.page, item: "home" };
 
@@ -59,6 +61,7 @@ export default async function Page({
       items,
       project: project.data.compiled,
       reference: referenceValue,
+      searchParams,
     });
 
     const _styles = [...projectStyles, ...styles];

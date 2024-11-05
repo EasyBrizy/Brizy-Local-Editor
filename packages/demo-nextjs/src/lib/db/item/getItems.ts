@@ -10,6 +10,8 @@ type ByCollectionType = {
   item?: string;
   search?: string;
   reference?: string;
+  include?: string[];
+  exclude?: string[];
 };
 
 type AllCollections = {
@@ -18,11 +20,14 @@ type AllCollections = {
 
 type Query = ByCollectionType | AllCollections;
 
+export type SortBy = "date" | "name" | "id";
+export type Sort = "asc" | "desc";
+
 type Pagination = {
   limit: number;
   skip: number;
-  sortBy?: "date" | "name";
-  sort?: "desc" | "asc";
+  sortBy?: SortBy;
+  sort?: Sort;
 };
 
 interface Data {
@@ -46,6 +51,14 @@ export async function getItems(query: Query, pagination?: Pagination): Promise<D
         "slug.collection": type,
         ...(query.search ? { "slug.item": new RegExp(query.search, "i") } : { item: query.item }),
         ...(query.reference ? { "config.reference": new RegExp(query.reference) } : {}),
+        ...(query.include || query.exclude
+          ? {
+              _id: {
+                ...(query.include ? { $in: query.include } : {}),
+                ...(query.exclude ? { $nin: query.exclude } : {}),
+              },
+            }
+          : {}),
       };
 
   await DBConnect();
@@ -53,7 +66,7 @@ export async function getItems(query: Query, pagination?: Pagination): Promise<D
   const sortOptions: SortOptions = {};
 
   if (pagination?.sortBy) {
-    const sortKey = pagination.sortBy === "date" ? "createdAt" : "slug.item";
+    const sortKey = pagination.sortBy === "date" ? "createdAt" : pagination.sortBy === "name" ? "slug.item" : "_id";
     sortOptions[sortKey] = pagination.sort === "desc" ? -1 : 1;
   }
 
@@ -78,5 +91,10 @@ export async function getItems(query: Query, pagination?: Pagination): Promise<D
 
 export async function getAllPages(): Promise<Array<Item>> {
   const items = await Models.Items.find({ "config.showInMenu": true }).lean<Array<Item>>();
+  return items.map(toItemConvertor);
+}
+
+export async function getItemsByIds(ids: string[]): Promise<Array<Item>> {
+  const items = await Models.Items.find({ _id: { $in: ids } }).lean<Array<Item>>();
   return items.map(toItemConvertor);
 }

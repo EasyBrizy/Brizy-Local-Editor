@@ -1,4 +1,5 @@
 import { getProjectSettings } from "@/app/admin/(cms)/system/core/requests";
+import { SearchParams } from "@/app/types";
 import { Reference } from "@/components/Editor/contexts/types";
 import { replacePlaceholders } from "@/placeholders";
 import { projectId } from "@/utils/mock";
@@ -9,6 +10,7 @@ export async function assemblePages(data: {
   items: Array<PageJsonCompiledOutput>;
   project: ProjectJsonCompiledOutput;
   reference?: Reference;
+  searchParams?: SearchParams;
 }) {
   const projectStyles = data.project?.styles ?? [];
   const { code } = (await getProjectSettings(projectId)) || {};
@@ -30,8 +32,10 @@ export async function assemblePages(data: {
   const styles: Styles[] = [];
   const scripts: Scripts[] = [];
 
+  const { reference, searchParams } = data;
+
   for (const item of data.items) {
-    html += item.html ? await replacePlaceholders({ value: item.html, reference: data.reference }) : "";
+    html += item.html ? await replacePlaceholders({ value: item.html, reference, searchParams }) : "";
 
     if (item.styles) {
       styles.push(...item.styles);

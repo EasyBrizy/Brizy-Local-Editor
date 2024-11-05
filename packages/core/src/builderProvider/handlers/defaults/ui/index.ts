@@ -216,6 +216,10 @@ const defaultUI = (mode: string): Record<string, unknown> => {
           label: "social",
           moduleNames: [BaseElementTypes.Facebook, BaseElementTypes.Twitter, BaseElementTypes.FacebookComments],
         },
+        {
+          label: "blog",
+          moduleNames: [BaseElementTypes.Posts],
+        },
       ],
     },
     popupSettings: defaultPopupSettings,

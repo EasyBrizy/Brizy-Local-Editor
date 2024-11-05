@@ -217,7 +217,43 @@ export const createUi = <T extends HtmlOutputType>(config: Config<T>): BuilderUI
 };
 
 //#endregion
+// #region Elements
+type Elements = Config<HtmlOutputType>["elements"];
 
+type BuilderElements = Elements & {
+  menu?: {
+    enable?: boolean;
+  };
+  posts?: {
+    enable?: boolean;
+  };
+};
+
+const createElements = (config: Config<HtmlOutputType>): BuilderElements => {
+  let { elements } = config;
+
+  if (!elements) {
+    return {};
+  }
+
+  if (elements.menu?.onOpen) {
+    elements = setIn(elements, ["menu"], {
+      ...elements.menu,
+      enable: true,
+    }) as BuilderElements;
+  }
+
+  if (elements.posts?.handler) {
+    elements = setIn(elements, ["posts"], {
+      ...elements.posts,
+      enable: true,
+    }) as BuilderElements;
+  }
+
+  return elements;
+};
+
+// #endregion
 //#region Page
 
 type Page = Config<HtmlOutputType>["pageData"];
@@ -267,6 +303,6 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, token: string,
     contentDefaults: config.contentDefaults,
     platform: config.platform,
     templateType: config.templateType,
-    elements: config.elements,
+    elements: createElements(config),
   }),
 });

@@ -13,4 +13,7 @@ export enum PlaceholderType {
   NavItem = "nav_item",
   Translation = "translation_switcher",
   Builder = "placeholder",
+  Posts = "brizy_dc_post_loop",
+  PostPagination = "brizy_dc_post_loop_pagination",
+  PostUrl = "brizy_dc_url_post",
 }

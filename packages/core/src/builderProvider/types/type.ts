@@ -1,6 +1,9 @@
+import { LoadCollectionItemsHandler } from "@/builderProvider/handlers/api/collectionItems/loadCollectionItems";
+import { SearchCollectionItemsHandler } from "@/builderProvider/handlers/api/collectionItems/searchCollectionItems";
+import { PostHandler } from "@/builderProvider/handlers/defaults/elements/posts";
 import type { Response } from "@/types/common";
 import { AutoSaveOutput, BuilderOutput, HtmlOutputType } from "@/types/types";
-import type { GetCollectionItemsHandler } from "../handlers/api/collectionItems";
+import type { GetCollectionItemsHandler } from "../handlers/api/collectionItems/getCollectionItems";
 import { LoadCollectionTypesHandler } from "../handlers/api/collectionTypes";
 import type { AddCustomFileHandler } from "../handlers/api/customFile";
 import type { AddMediaHandler } from "../handlers/api/media";
@@ -45,6 +48,8 @@ export interface ExposedHandlers {
   getStoriesPages: StoriesPagesHandler;
   loadCollectionTypes: LoadCollectionTypesHandler;
   getCollectionItems: GetCollectionItemsHandler;
+  searchCollectionItems: SearchCollectionItemsHandler;
+  loadCollectionItems: LoadCollectionItemsHandler;
   createScreenshot: CreateScreenshotsHandler;
   updateScreenshot: UpdateScreenshotsHandler;
   handleDCRichText: RichTextDCHandler;
@@ -59,5 +64,6 @@ export interface ExposedHandlers {
   onOpenCMS: OpenCMSHandler;
   onCloseCMS: (uid: string) => void;
   publish: PublishHandler<HtmlOutputType>;
-  onOpenMenu: VoidFunction;
+  onOpenMenu: (uid: string) => void;
+  postsHandler: PostHandler;
 }

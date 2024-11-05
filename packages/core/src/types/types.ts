@@ -1,7 +1,8 @@
 import { BuilderModes } from "@/actions/init";
+import { PostsSources } from "@/types/posts";
 import { CollectionItems } from "./collectionItems";
 import { CollectionTypes } from "./collectionTypes";
-import { PageData, PageDataOutput, ProjectData, ProjectDataOutput } from "./common";
+import { PageData, PageDataOutput, ProjectData, ProjectDataOutput, Response } from "./common";
 import { CustomFile } from "./customFile";
 import { DynamicContent } from "./dynamicContent";
 import { Form } from "./form";
@@ -204,25 +205,36 @@ export interface Config<T extends HtmlOutputType> {
       textPopulationEntityId?: string;
     };
     Quantity?: {
-      sourceType?: string;
+      sourceType?: ShopifyTemplate;
     };
     Price?: {
-      sourceType?: string;
+      sourceType?: ShopifyTemplate;
     };
     AddToCart?: {
-      sourceType?: string;
+      sourceType?: ShopifyTemplate;
     };
     Vendor?: {
       sourceType?: string;
-      linkSource?: string;
+      linkSource?: ShopifyTemplate;
       linkType?: string;
     };
     Variant?: {
-      sourceType?: string;
+      sourceType?: ShopifyTemplate;
     };
     FeaturedImage?: {
       linkSource?: string;
       linkType?: string;
+    };
+    ProductList?: {
+      collectionTypeId?: ShopifyTemplate;
+      component?: ShopifyTemplate;
+    };
+    Posts?: {
+      _version?: number;
+      items?: Array<Record<string, unknown>>;
+      source?: string;
+      orderBy?: string;
+      order?: string;
     };
   };
 
@@ -241,6 +253,15 @@ export interface Config<T extends HtmlOutputType> {
     menu?: {
       createMenuLabel?: string;
       onOpen?: VoidFunction;
+    };
+    posts?: {
+      handler?: (res: Response<PostsSources>, rej: Response<string>) => void;
+      exclude?: boolean;
+      includeQueryMultiOptions?: boolean;
+      offset?: boolean;
+      orderBy?: boolean;
+      order?: boolean;
+      querySource?: boolean;
     };
   };
 

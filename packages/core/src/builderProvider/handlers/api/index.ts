@@ -1,7 +1,7 @@
 import { Obj, Str } from "@brizy/readers";
 import { getIn, setIn } from "timm";
 import { ExposedHandlers } from "../../types/type";
-import { getCollectionItemsHandler } from "./collectionItems";
+import { getCollectionItemsHandler, loadCollectionItemsHandler, searchCollectionItemsHandler } from "./collectionItems";
 import { getLoadCollectionTypesHandler } from "./collectionTypes";
 import { getCustomFileHandler } from "./customFile";
 import { getMediaHandler } from "./media";
@@ -56,6 +56,8 @@ export const getApi = (data: Data) => {
     addFile,
     loadCollectionTypes,
     getCollectionItems,
+    searchCollectionItems,
+    loadCollectionItems,
   } = handlers;
 
   if (enabledDefaultKits) {
@@ -112,6 +114,8 @@ export const getApi = (data: Data) => {
     },
     collectionItems: {
       getCollectionItems: getCollectionItemsHandler(getCollectionItems, uid),
+      searchCollectionItems: searchCollectionItemsHandler(searchCollectionItems, uid),
+      loadCollectionItems: loadCollectionItemsHandler(loadCollectionItems, uid),
     },
   };
 };
