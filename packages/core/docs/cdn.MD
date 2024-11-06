@@ -155,7 +155,18 @@ type config = {
         handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
       };
     };
+
+    // Screenshots
+    screenshots?: {
+      create?: (res: Response<ScreenshotRes>, rej: Response<string>, extra: ScreenshotExtra) => void;
+      update?: (res: Response<ScreenshotRes>, rej: Response<string>, extra: ScreenshotExtra & ScreenshotRes) => void;
+    };
   };
+
+  // Urls
+  urls?: {
+    screenshot?: string;
+  }
 
   onSave?: (data: Output) => void;
   onAutoSave?: (data: AutoSave) => void;
@@ -252,6 +263,16 @@ export interface AddFileData {
 
 export interface AddFileExtra {
   acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .zip .txs .etc]
+}
+
+// Screenshot
+export interface ScreenshotExtra {
+  base64: string;
+  blockType: "normal" | "global" | "saved" | "layout";
+}
+
+export interface ScreenshotRes {
+  id: string;
 }
 
 // ElementTypes
@@ -409,12 +430,20 @@ Dynamic content can be configured in 2 ways
 
 ### API parameters
 
-| Name                           | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|:-------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| api.media.mediaResizeUrl       | string   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)  |
-| api.media.addMedia.handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
-| api.customFile.fileUrl         | string   | This is the URL for your resources the final URL will be `api.customFile.fileUrl/${fileName}`                                                                                                                                                                                                                                                                                                                                                                                                    |
-| api.customFile.addFile.handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| Name                           | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|:-------------------------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| api.media.mediaResizeUrl       | string   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                                                    |
+| api.media.addMedia.handler     | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                   |
+| api.customFile.fileUrl         | string   | This is the URL for your resources the final URL will be `api.customFile.fileUrl/${fileName}`                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| api.customFile.addFile.handler | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                   |
+| api.screenshots.create         | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: string })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| api.screenshots.update         | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: string })` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+
+### Urls parameters
+
+| Name            | Type   | Description                                                                                            |
+|:----------------|:-------|:-------------------------------------------------------------------------------------------------------|
+| urls.screenshot | string | This is the base URL used to retrieve the screenshots. The final URL will be `${urls.screenshot}${id}` |
 
 #### Example Media Handler
 
@@ -499,6 +528,48 @@ const config = {
   },
 };
 ```
+
+#### Example screenshot handlers
+
+```ts
+const config = {
+  api: {
+    screenshots: {
+      async create(resolve, reject, extra) {
+        const { base64 } = extra;
+        const data = await fetch("https://api.example.com/screenshot", {
+          method: "POST",
+          body: JSON.stringify({ base64 }),
+        });
+
+        const { id } = await data.json();
+        resolve({ id });
+      },
+      async update(resolve, reject, extra) {
+        const { base64, id } = extra;
+        const data = await fetch(`https://api.example.com/screenshot/${id}`, {
+          method: "PUT",
+          body: JSON.stringify({ base64 }),
+        });
+
+        const { id: screenshotId } = await data.json();
+        resolve({ id: screenshotId });
+      },
+    },
+  },
+};
+```
+
+##### How to Use Screenshots:
+
+1. In your configuration, add `urls.screenshot` with the base URL for storing screenshots.
+2. Add `api.screenshots.create` and `api.screenshots.update` in the configuration to specify the handlers for managing screenshots.
+3. Each handler will receive an extra parameter, `base64`, which contains the screenshot in `base64` format. In these handlers:
+  - Save the screenshot on your server at the specified `urls.screenshot` location.
+  - Return the `id` of the saved screenshot.
+  - The `update` handler will also receive an additional `id` parameter, which identifies the screenshot to be updated.
+4. The editor will generate the screenshot URL by concatenating `urls.screenshot` with the screenshots `id` and appending a query parameter with the current timestamp to bypass caching.
+5. The resulting URL format will be: `${urls.screenshot}${id}?t=${timestamp}`.
 
 #### Default ModulesGroup
 ```ts
