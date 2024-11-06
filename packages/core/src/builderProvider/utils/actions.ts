@@ -60,6 +60,10 @@ const init = async ({ uid, data }: ActionResolve) => {
     assets: freeAssets,
     pagePreview: configData.pagePreview,
     ...(configData.urls ? configData.urls : {}),
+    ...(api.screenshots?.screenshotUrl ? {
+      screenshot: api.screenshots.screenshotUrl,
+    } : {}),
+
   });
   window.__VISUAL_CONFIG__.pro = mergeDeep(pro, {
     urls: { assets: proAssets },
