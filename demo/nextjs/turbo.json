@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "//"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build",
+        "build:widgets"
+      ],
+      "env": [
+        "MONGODB_URI",
+        "MONGODB_DATABASE_NAME",
+        "NEXT_PUBLIC_EDITOR_URL",
+        "SHOPIFY_STORE_URL",
+        "SHOPIFY_ACCESS_TOKEN"
+      ]
+    },
+    "build:widgets": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "start": {
+      "dependsOn": [
+        "build"
+      ],
+      "env": [
+        "NEXT_PUBLIC_EDITOR_TOKEN",
+        "NEXT_PUBLIC_EDITOR_URL",
+        "NEXT_PUBLIC_EDITOR_ICON_URL"
+      ]
+    },
+    "dev:nextjs": {
+      "dependsOn": [
+        "^build"
+      ],
+      "persistent": true
+    },
+    "dev:widgets": {
+      "dependsOn": [],
+      "persistent": true
+    }
+  }
+}

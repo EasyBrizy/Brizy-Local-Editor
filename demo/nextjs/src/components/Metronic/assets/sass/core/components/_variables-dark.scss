@@ -1,0 +1,333 @@
+// Bootstrap color system
+
+//
+// Bootstrap & Custom Variables
+// Safely override any variable in _variables.custom.scss
+//
+
+$gray-100-dark:  #1B1C22 !default;
+$gray-200-dark:  #26272F !default;
+$gray-300-dark:  #363843 !default;
+$gray-400-dark:  #464852 !default;
+$gray-500-dark:  #636674 !default;
+$gray-600-dark:  #808290 !default;
+$gray-700-dark:  #9A9CAE !default;
+$gray-800-dark:  #B5B7C8 !default;
+$gray-900-dark:  #F5F5F5 !default;
+
+$grays-dark: (
+	"100": $gray-100-dark,
+	"200": $gray-200-dark,
+	"300": $gray-300-dark,
+	"400": $gray-400-dark,
+	"500": $gray-500-dark,
+	"600": $gray-600-dark,
+	"700": $gray-700-dark,
+	"800": $gray-800-dark,
+	"900": $gray-900-dark
+) !default;
+
+// Bootstrap muted color
+$text-muted-dark: $gray-500-dark !default;
+
+// Bootstrap contextual colors
+// Primary colors
+$primary-dark:						#006AE6 !default;
+$primary-active-dark:				#107EFF !default;
+$primary-light-dark: 				#172331 !default;
+$primary-clarity-dark: 				rgba(#006AE6, 0.2) !default;
+$primary-inverse-dark: 				$white !default;
+
+// Secondary colors
+$secondary-dark: 					$gray-300-dark !default;
+$secondary-active-dark: 			$gray-400-dark !default;
+$secondary-light-dark: 				$gray-300-dark !default;
+$secondary-clarity-dark:			rgba($gray-300-dark, 0.2) !default; 
+$secondary-inverse-dark:			$white !default; 
+
+// Light colors
+$light-dark: 						$gray-100-dark !default;
+$light-active-dark: 				#1F212A !default;
+$light-light-dark: 					#1F212A !default;
+$light-clarity-dark: 				rgba(31, 33, 42, 0.20) !default;
+$light-inverse-dark:				$gray-600-dark !default;
+
+// Success colors
+$success-dark: 						#00A261 !default; 
+$success-active-dark: 				#01BF73 !default;
+$success-light-dark: 				#1F212A !default;
+$success-clarity-dark: 				rgba(#00A261, 0.2) !default;
+$success-inverse-dark: 				$white !default;
+
+// Info colors
+$info-dark: 						#883FFF !default; 
+$info-active-dark: 					#9E63FF !default;
+$info-light-dark: 					#272134 !default;
+$info-clarity-dark: 				rgba(#883FFF, 0.2) !default;
+$info-inverse-dark: 				$white !default;
+
+// Warning colors
+$warning-dark: 						#C59A00 !default; 
+$warning-active-dark: 				#D9AA00 !default;
+$warning-light-dark: 				#242320 !default;
+$warning-clarity-dark: 				rgba(#C59A00, 0.2) !default;
+$warning-inverse-dark: 				$white !default;
+
+// Danger colors
+$danger-dark: 						#E42855 !default; 
+$danger-active-dark: 				#FF3767 !default;
+$danger-light-dark: 				#302024 !default;
+$danger-clarity-dark: 				rgba(#E42855, 0.2) !default;
+$danger-inverse-dark: 				$white !default;
+
+// Dark colors
+$dark-dark: 						#272A34 !default;
+$dark-active-dark: 					#2D2F39 !default;
+$dark-light-dark: 					#1E2027 !default;
+$dark-clarity-dark: 				rgba(#272A34, 0.2) !default;
+$dark-inverse-dark: 				$white !default;
+
+// Contextual colors
+$theme-colors-dark: (
+	"light": $light-dark,
+	"primary": $primary-dark,
+	"secondary": $secondary-dark,
+	"success": $success-dark,
+	"info": $info-dark,
+	"warning": $warning-dark,
+	"danger": $danger-dark,
+	"dark": $dark-dark
+) !default;
+	
+// Contextual active state colors
+$theme-active-colors-dark: (
+	"primary": $primary-active-dark,
+	"secondary":  $secondary-active-dark,
+	"light":   $light-active-dark,
+	"success": $success-active-dark,
+	"info":    $info-active-dark,
+	"warning": $warning-active-dark,
+	"danger":  $danger-active-dark,
+	"dark":    $dark-active-dark
+) !default; 
+
+// Contextual inverse state colors
+$theme-inverse-colors-dark: (
+	"primary": $primary-inverse-dark,
+	"secondary":  $secondary-inverse-dark,
+	"light":   $light-inverse-dark,
+	"success": $success-inverse-dark,
+	"info":    $info-inverse-dark,
+	"warning": $warning-inverse-dark,
+	"danger":  $danger-inverse-dark,
+	"dark":    $dark-inverse-dark
+) !default; 
+
+// Contextual light state colors
+$theme-light-colors-dark: (
+	"primary": $primary-light-dark,
+	"secondary": $secondary-light-dark,
+	"success": $success-light-dark,
+	"info":    $info-light-dark,
+	"warning": $warning-light-dark,
+	"danger":  $danger-light-dark,
+	"dark":    $dark-light-dark,
+	"light":   $light-light-dark
+) !default; 
+
+// Contextual light state colors
+$theme-clarity-colors-dark: (
+	"primary": $primary-clarity-dark,
+	"secondary": $secondary-clarity-dark,
+	"success": $success-clarity-dark,
+	"info":    $info-clarity-dark,
+	"warning": $warning-clarity-dark,
+	"danger":  $danger-clarity-dark,
+	"dark":    $dark-clarity-dark,
+	"light":   $light-clarity-dark,
+) !default; 
+
+// Text colors
+$theme-text-colors-dark: (
+	"white":   $white,
+	"primary": $primary-dark,
+	"secondary":  $secondary-dark,
+	"light":   $light-dark,
+	"success": $success-dark,
+	"info":    $info-dark,
+	"warning": $warning-dark,
+	"danger":  $danger-dark,
+	"dark":    $dark-dark,
+	"muted":   $text-muted-dark,
+	"gray-100":   $gray-100-dark,
+	"gray-200":   $gray-200-dark,
+	"gray-300":   $gray-300-dark,
+	"gray-400":   $gray-400-dark,
+	"gray-500":   $gray-500-dark,
+	"gray-600":   $gray-600-dark,
+	"gray-700":   $gray-700-dark,
+	"gray-800":   $gray-800-dark,
+	"gray-900":   $gray-900-dark
+) !default; 
+
+
+// Body
+//
+// Settings for the `<body>` element.
+$body-bg-dark:              #1C1D22 !default;
+$body-bg-rgb-dark:          to-rgb($body-bg-dark) !default;
+$body-color-dark:           $gray-900-dark !default;
+
+
+// Links
+//
+// Style anchor elements.
+$link-color-dark:           $primary-dark !default;
+
+
+// Components
+//
+// Define common padding and border radius sizes and more.
+$border-color-dark:             $gray-200-dark !default;
+$border-dashed-color-dark:      $gray-300-dark !default; 
+
+// Keenthemes hover states
+$component-hover-color-dark: 	$primary-dark !default;
+$component-hover-bg-dark: 		$gray-100-dark !default;
+
+// Keenthemes active states
+$component-active-color-dark:   $primary-inverse !default;
+$component-active-bg-dark:      $primary-dark !default;
+
+// Keenthemes checked states
+$component-checked-color-dark:   $primary-inverse !default;
+$component-checked-bg-dark:      $primary-dark !default;
+
+$headings-color-dark: 			 $gray-900-dark !default;
+$blockquote-footer-color-dark:   $gray-600-dark !default;
+
+
+// Box shadow
+$box-shadow-xs-dark: 			0 .1rem 0.75rem 0.25rem rgba($black, 0.05) !default;
+$box-shadow-sm-dark: 			0 .1rem 1rem 0.25rem rgba($black, .05) !default;
+$box-shadow-dark: 				0 .5rem 1.5rem 0.5rem rgba($black, .075) !default;
+$box-shadow-lg-dark: 			0 1rem 2rem 1rem rgba($black, .1) !default;
+$box-shadow-inset-dark: 		inset 0 1px 2px rgba($black, .075) !default;
+
+
+// Card
+$card-box-shadow-dark:                   			null !default;
+$card-border-color-dark:     						$border-color-dark !default;
+
+// Tables
+$table-striped-bg-dark:         					rgba($gray-100-dark, 0.75) !default;
+$table-loading-message-box-shadow-dark:        		0px 0px 30px rgba(0, 0, 0, 0.3) !default;
+	
+// Forms
+$form-select-indicator-color-dark:                  $gray-600-dark !default;
+$form-select-indicator-dark:                        url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#{$form-select-indicator-color-dark}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>") !default;
+$form-switch-color-dark:                            rgba($white, .25) !default;
+$form-switch-color-solid-dark:                      $gray-500-dark !default;
+$form-switch-bg-image-dark:                         url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-color-dark}'/></svg>") !default;
+$form-switch-bg-image-solid-dark:                   url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-color-solid-dark}'/></svg>") !default;
+
+
+// Accordion
+$accordion-icon-color-dark:                         $body-color-dark!default;
+$accordion-icon-active-color-dark:                  $primary-dark !default;
+$accordion-button-icon-dark:         				url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$accordion-icon-color-dark}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !default;
+$accordion-button-active-icon-dark:  				url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$accordion-icon-active-color-dark}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !default;
+
+
+// Dropdowns
+$dropdown-bg-dark:                                  $body-bg-dark !default;
+$dropdown-box-shadow-dark:							0px 0px 30px rgba(0, 0, 0, 0.3) !default;
+
+// Popover
+$popover-bg-dark:                            		$gray-200-dark !default;
+$popover-border-color-dark:                         $gray-200-dark !default;
+$popover-box-shadow-dark:    						$dropdown-box-shadow-dark !default;
+$popover-header-border-color-dark:           		$gray-300-dark !default;
+
+// Toasts
+$toast-background-color-dark:                		$gray-200-dark !default;
+$toast-header-background-color-dark:         		$gray-200-dark !default;
+$toast-header-border-color-dark:             		$gray-300-dark !default;
+
+// Tooltip
+$tooltip-bg-dark:                            		$gray-200-dark !default;
+$tooltip-box-shadow-dark:    						0px 0px 30px rgba(0, 0, 0, 0.15) !default;
+
+// Code
+$code-bg-dark:                   #2b2b40 !default;
+$code-shadow-dark:               rgba(0, 0, 0, 0.08) 0px 3px 9px 0px !default;
+$code-color-dark:                #b93993 !default;
+$code-border-color-dark:         transparent  !default;
+
+// Symbol
+$symbol-border-color-dark: rgba($body-bg, 0.5);
+$symbol-label-color-dark: $gray-800-dark;
+$symbol-label-bg-dark: $gray-100-dark;
+
+
+// Keenthemes bullet component
+$bullet-bg-color-dark: $gray-400-dark !default;
+
+// Keenthemes scrolltop component
+$scrolltop-opacity-dark: 0 !default;
+$scrolltop-opacity-on-dark: 0.3 !default;
+$scrolltop-opacity-hover-dark: 1 !default;
+$scrolltop-box-shadow-dark: $box-shadow !default;
+$scrolltop-bg-color-dark: $primary !default;
+$scrolltop-bg-color-hover-dark: $primary !default;
+$scrolltop-icon-color-dark: $primary-inverse !default;
+$scrolltop-icon-color-hover-dark: $primary-inverse !default;
+
+
+// Keenthemes drawer component
+$drawer-box-shadow-dark: 0px 0px 30px rgba(0, 0, 0, 0.1) !default;
+$drawer-bg-color-dark: $body-bg-dark !default;
+$drawer-overlay-bg-color-dark: rgba($black, 0.4) !default;
+
+// Keenthemes menu component   
+$menu-dropdown-box-shadow-dark: $dropdown-box-shadow-dark !default;
+$menu-dropdown-bg-color-dark: $dropdown-bg-dark !default;
+$menu-link-color-hover-dark: $component-hover-color-dark !default;
+$menu-link-color-show-dark: $component-hover-color-dark !default;
+$menu-link-color-here-dark: $component-hover-color-dark !default;
+$menu-link-color-active-dark: $component-hover-color-dark !default;
+$menu-link-bg-color-hover-dark: $component-hover-bg-dark !default;
+$menu-link-bg-color-show-dark: $component-hover-bg-dark !default;
+$menu-link-bg-color-here-dark: $component-hover-bg-dark !default;
+$menu-link-bg-color-active-dark: $component-hover-bg-dark !default;
+$menu-heading-color-dark: $text-muted-dark !default;
+	
+// Keenthemes scrollbar component 
+$scrollbar-color-dark: $gray-200-dark !default;
+$scrollbar-hover-color-dark: $gray-300-dark !default;
+
+// Keenthemes overlay component 
+$overlay-bg-dark: rgba($white, 0.05) !default;
+
+// Keenthemes blockui component 
+$blockui-overlay-bg-dark: rgba($white, 0.05) !default;
+$blockui-message-bg-dark: $tooltip-bg-dark !default;
+$blockui-message-box-shadow-dark: $tooltip-box-shadow-dark !default;
+
+// Keenthemes rating component 
+$rating-color-default-dark: $gray-400-dark !default;
+$rating-color-active-dark: #FFAD0F !default;
+
+// Keenthemes ribbon component 
+$ribbon-label-box-shadow-dark: 0px -1px 5px 0px rgba($white, 0.1) !default;
+$ribbon-label-bg-dark: $primary !default;
+$ribbon-label-border-color-dark: darken($primary, 20%) !default;
+$ribbon-clip-bg-dark: $light !default;
+
+// Engage panel
+$engage-btn-bg-dark: $gray-200-dark;
+$engage-btn-box-shadow-dark: 0px 0px 30px rgba(0, 0, 0, 0.3);
+$engage-btn-border-color-dark: $border-color-dark;
+$engage-btn-color-dark: $gray-800-dark;
+$engage-btn-icon-color-dark: $gray-600-dark;
+$engage-btn-color-active-dark: $gray-800-dark;
