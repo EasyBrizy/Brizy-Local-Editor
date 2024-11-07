@@ -444,7 +444,6 @@
                 const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
                 const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
                 const ui = configData.ui ? configData.ui : _ui;
-                const configUrls = configData.urls;
                 const api = configData.api ? configData.api : _api;
                 const _integration = configData.integration ?? {};
                 let dynamicContent = { ..._dynamicContent, ...configData.dynamicContent };
@@ -453,6 +452,7 @@
                 const menuData = action.data.menu ?? _menuData;
                 const apiMedia = api.media ?? {};
                 const apiCustomFile = api.customFile ?? {};
+                const apiScreenshots = api.screenshots ?? {};
                 const formIntegration = _integration.form ?? {};
                 const integrationFormFields = formIntegration.fields ?? {};
                 const richTextDC = dynamicContent.groups?.richText?.handler;
@@ -510,9 +510,9 @@
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
-                  ...configUrls,
                   assets: freeAssets,
                   pagePreview: configData.pagePreview,
+                  ...(apiScreenshots.screenshotUrl ? { screenshot: apiScreenshots.screenshotUrl } : {}),
                 };
                 window.__VISUAL_CONFIG__.pro = {
                   ...pro,
