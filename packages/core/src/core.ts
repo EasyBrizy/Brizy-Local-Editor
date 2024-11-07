@@ -7,6 +7,8 @@ import {
   addMediaRej,
   addMediaRes,
   autoSave,
+  createScreenshotsRej,
+  createScreenshotsRes,
   dcImageRej,
   dcImageRes,
   dcLinkRej,
@@ -17,6 +19,8 @@ import {
   formFieldsRes,
   init,
   save,
+  updateScreenshotsRej,
+  updateScreenshotsRes,
 } from "./actions";
 import { ActionTypes } from "./actions/types";
 import {
@@ -32,6 +36,8 @@ import {
   HtmlOutputType,
   Init,
   OnSave,
+  ScreenshotExtra,
+  ScreenshotRes,
   Target,
 } from "./types/types";
 import { createOutput } from "./utils/createOutput";
@@ -52,6 +58,10 @@ const actions = {
   dcImageRej: dcImageRej,
   dcLinkRes: dcLinkRes,
   dcLinkRej: dcLinkRej,
+  createScreenshotsRes: createScreenshotsRes,
+  createScreenshotsRej: createScreenshotsRej,
+  updateScreenshotsRes: updateScreenshotsRes,
+  updateScreenshotsRej: updateScreenshotsRej,
 };
 
 const savedNodeCB = new Map<HTMLElement, OnSave>();
@@ -232,6 +242,34 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
 
             if (typeof menu?.onOpen === "function") {
               menu.onOpen();
+            }
+          },
+          [ActionTypes.createScreenshots]: (extra: ScreenshotExtra) => {
+            const { api = {} } = config;
+            const { screenshots } = api;
+            const create = screenshots?.create;
+            if (typeof create === "function") {
+              const res = (r: ScreenshotRes) => {
+                iframeWindow.postMessage(actions.createScreenshotsRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.createScreenshotsRej(r, uid), targetOrigin);
+              };
+              create(res, rej, extra);
+            }
+          },
+          [ActionTypes.updateScreenshots]: (extra: ScreenshotExtra & ScreenshotRes) => {
+            const { api = {} } = config;
+            const { screenshots } = api;
+            const update = screenshots?.update;
+            if (typeof update === "function") {
+              const res = (r: ScreenshotRes) => {
+                iframeWindow.postMessage(actions.updateScreenshotsRes(r, uid), targetOrigin);
+              };
+              const rej = (r: string) => {
+                iframeWindow.postMessage(actions.updateScreenshotsRej(r, uid), targetOrigin);
+              };
+              update(res, rej, extra);
             }
           },
         };
