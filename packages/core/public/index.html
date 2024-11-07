@@ -213,6 +213,64 @@
         };
       }
 
+      function handleCreateScreenshot(res, rej) {
+        return function emitter(event) {
+          const data = event.data;
+
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case `<%- target %>_create_screenshots_res`: {
+                res(action.data);
+                window.removeEventListener("message", emitter);
+                break;
+              }
+              case `<%- target %>_create_screenshots_rej`: {
+                rej(action.data);
+                window.removeEventListener("message", emitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid CreateScreenshots JSON", e);
+          }
+        };
+      }
+
+      function handleUpdateScreenshot(res, rej) {
+        return function emitter(event) {
+          const data = event.data;
+
+          if (data.target !== "<%- target %>" || data.uid !== window.__uid__) {
+            return;
+          }
+
+          try {
+            const action = JSON.parse(data.data);
+
+            switch (action.type) {
+              case `<%- target %>_update_screenshots_res`: {
+                res(action.data);
+                window.removeEventListener("message", emitter);
+                break;
+              }
+              case `<%- target %>_update_screenshots_rej`: {
+                rej(action.data);
+                window.removeEventListener("message", emitter);
+                break;
+              }
+            }
+          } catch (e) {
+            console.error("Invalid UpdateScreenshots JSON", e);
+          }
+        };
+      }
+
       window.addEventListener(
         "message",
         (event) => {
@@ -345,6 +403,34 @@
               );
             }
 
+            const createScreenshotHandler = (res, rej, extra) => {
+              const data = JSON.stringify({
+                type: `<%- target %>_create_screenshots`,
+                payload: extra,
+              });
+              event.source?.postMessage({
+                target: "<%- target %>",
+                uid: window.__uid__
+                , data,
+              }, event.origin);
+              // Listening the AddMessage
+              window.addEventListener("message", handleCreateScreenshot(res, rej));
+            };
+
+            const updateScreenshotHandler = (res, rej, extra) => {
+              const data = JSON.stringify({
+                type: `<%- target %>_update_screenshots`,
+                payload: extra,
+              });
+              event.source?.postMessage({
+                target: "<%- target %>",
+                uid: window.__uid__
+                , data,
+              }, event.origin);
+              // Listening the AddMessage
+              window.addEventListener("message", handleUpdateScreenshot(res, rej));
+            };
+
             switch (action.type) {
               case "<%- target %>_init_page": {
                 const urls = window.__VISUAL_CONFIG__.urls;
@@ -358,6 +444,7 @@
                 const freeAssets = (configAssets ? configAssets + "/free" : undefined) ?? urls.assets;
                 const proAssets = (configAssets ? configAssets + "/pro" : undefined) ?? pro.urls.assets;
                 const ui = configData.ui ? configData.ui : _ui;
+                const configUrls = configData.urls;
                 const api = configData.api ? configData.api : _api;
                 const _integration = configData.integration ?? {};
                 let dynamicContent = { ..._dynamicContent, ...configData.dynamicContent };
@@ -423,6 +510,7 @@
 
                 window.__VISUAL_CONFIG__.urls = {
                   ...urls,
+                  ...configUrls,
                   assets: freeAssets,
                   pagePreview: configData.pagePreview,
                 };
@@ -498,6 +586,10 @@
                   customFile: {
                     ...apiCustomFile,
                     addFile: { handler: addCustomFileHandler },
+                  },
+                  screenshots: {
+                    create: createScreenshotHandler,
+                    update: updateScreenshotHandler,
                   },
                 };
                 window.__VISUAL_CONFIG__.integration = integration;
