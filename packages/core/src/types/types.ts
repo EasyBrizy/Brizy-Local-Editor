@@ -221,6 +221,29 @@ export enum VideoTypes {
 
 //#endregion
 
+// #region Screenshot
+export interface ScreenshotExtra {
+  base64: string;
+  blockType: "normal" | "global" | "saved" | "layout";
+}
+
+export interface ScreenshotRes {
+  id: string;
+}
+
+export interface Screenshots {
+  create?: (res: Response<ScreenshotRes>, rej: Response<string>, extra: ScreenshotExtra) => void;
+  update?: (res: Response<ScreenshotRes>, rej: Response<string>, extra: ScreenshotExtra & ScreenshotRes) => void;
+}
+// #endregion
+
+// #region Urls
+interface Urls extends Record<string, string> {
+  screenshot: string;
+}
+
+// #endregion
+
 export type Response<R> = (r: R) => void;
 
 export type OnSave = <T extends HtmlOutputType>(output: Output<T>) => void;
@@ -352,7 +375,16 @@ export interface Config<T extends HtmlOutputType> {
     };
 
     //#endregion
+
+    //#region Screenshots
+
+    screenshots?: Screenshots;
+
+    //#endregion
   };
+
+  // Urls
+  urls?: Urls;
 
   // events
   onSave?: OnSave;

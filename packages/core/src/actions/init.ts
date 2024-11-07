@@ -105,6 +105,7 @@ export const init = <T extends HtmlOutputType>(config: Config<T>, uid: string, t
       dynamicContent: createDCContent(config),
       autoSaveInterval: config.autoSaveInterval,
       l10n: config.l10n,
+      urls: config.urls,
     },
   }),
 });

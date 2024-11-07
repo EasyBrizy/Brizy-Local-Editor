@@ -29,4 +29,12 @@ export enum ActionTypes {
   dcLinkRej = "@builder_dc_link_rej",
 
   menuOpen = "@builder_menu_open",
+
+  createScreenshots = "@builder_create_screenshots",
+  createScreenshotsRes = "@builder_create_screenshots_res",
+  createScreenshotsRej = "@builder_create_screenshots_rej",
+
+  updateScreenshots = "@builder_update_screenshots",
+  updateScreenshotsRes = "@builder_update_screenshots_res",
+  updateScreenshotsRej = "@builder_update_screenshots_rej",
 }
