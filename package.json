@@ -29,7 +29,7 @@
     "plugins/*"
   ],
   "devDependencies": {
-    "turbo": "^2.0.6"
+    "turbo": "^2.2.3"
   },
   "packageManager": "npm@10.2.4",
   "engines": {
