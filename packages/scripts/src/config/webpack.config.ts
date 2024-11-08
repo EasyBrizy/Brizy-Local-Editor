@@ -46,6 +46,10 @@ const baseFactory = (env: "production" | "development"): Configuration => {
     resolve: {
       extensions: [".js", ".json", ".ts", ".tsx", ".css"],
     },
+    performance: {
+      maxEntrypointSize: 1024000,
+      maxAssetSize: 1024000,
+    },
     optimization: {
       concatenateModules: isProduction,
       splitChunks: {
