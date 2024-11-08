@@ -2,9 +2,9 @@ import { getItems } from "@/lib/db/item/getItems";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  try {
-    const limit = req.nextUrl.searchParams.get("limit");
+  const limit = req.nextUrl.searchParams.get("limit");
 
+  try {
     const { items } = await getItems(
       { type: "all" },
       { sortBy: "date", sort: "desc", limit: parseInt(limit ?? "5"), skip: 0 },
