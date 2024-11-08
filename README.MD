@@ -5,18 +5,11 @@ Brizy is embeddable and White Label ready, so it can be seamlessly integrated in
 https://user-images.githubusercontent.com/5760683/206679891-8209b498-5905-42db-8be7-ac2b4d090c2d.mp4
 
 ## See Brizy in action
-
-- Vercel marketing page: https://vercel-marketing-page.vercel.app
-- Netlify marketing page: https://netlify-marketing-page.vercel.app
-- Render marketing page: https://render-marketing-page.vercel.app
-- Shopify headless storefront: https://shopify-headless-storefront.vercel.app/products/1
-- CMS integration (MongoDB Atlas): https://cms-integration-mongodb-atlas.vercel.app/admin
 - Story: https://story.demo.Brizylocal.com
 - Popup: https://popup.demo.Brizylocal.com
 - Pages: https://pages.demo.Brizylocal.com
 
 ## Integrations
-- Next.js: https://vercel-marketing-page.vercel.app
 - React: https://Brizy-local-editor-react.vercel.app
 - HTML: https://pages.demo.Brizylocal.com
 
