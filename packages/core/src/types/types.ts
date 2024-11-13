@@ -31,11 +31,7 @@ export enum Modes {
 }
 
 export enum ShopifyTemplate {
-  Product = "shopify-product",
   Page = "shopify-page",
-  Collection = "shopify-collection",
-  Article = "shopify-article",
-  Blog = "shopify-blog",
 }
 
 export interface BuilderOutput<T extends HtmlOutputType> {
@@ -205,29 +201,30 @@ export interface Config<T extends HtmlOutputType> {
       textPopulationEntityId?: string;
     };
     Quantity?: {
-      sourceType?: ShopifyTemplate;
+      sourceType?: string;
     };
     Price?: {
-      sourceType?: ShopifyTemplate;
+      sourceType?: string;
     };
     AddToCart?: {
-      sourceType?: ShopifyTemplate;
+      sourceType?: string;
     };
     Vendor?: {
       sourceType?: string;
-      linkSource?: ShopifyTemplate;
+      linkSource?: string;
       linkType?: string;
     };
     Variant?: {
-      sourceType?: ShopifyTemplate;
+      sourceType?: string;
     };
     FeaturedImage?: {
       linkSource?: string;
       linkType?: string;
     };
     ProductList?: {
-      collectionTypeId?: ShopifyTemplate;
-      component?: ShopifyTemplate;
+      collectionTypeId?: string;
+      component?: string;
+      source?: string;
     };
     Posts?: {
       _version?: number;

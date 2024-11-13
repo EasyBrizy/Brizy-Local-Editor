@@ -1,7 +1,6 @@
 "use client";
 
 import { Response } from "@/api/types";
-import { getElements } from "@/components/Editor/contexts/utils";
 import { DynamicContentModal } from "@/components/modals/DynamicContent";
 import { getConfig } from "@/config";
 import { useEditor } from "@/hooks/useEditor";
@@ -11,7 +10,7 @@ import { LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar"
 import { PublishData } from "@builder/core/build/es/types/publish";
 import { HtmlOutputType, Output } from "@builder/core/build/es/types/types";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useReducer, useRef } from "react";
+import React, { useReducer, useRef } from "react";
 import { mergeDeep } from "timm";
 import { useConfig } from "./contexts";
 import { reducer } from "./reducers";
@@ -37,8 +36,6 @@ export const Editor = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
   const router = useRouter();
-
-  const onOpenMenu = useCallback(() => router.push("/admin/menu"), [router]);
 
   const config = mergeDeep(baseConfig, {
     container: containerRef.current,
@@ -97,7 +94,6 @@ export const Editor = () => {
         },
       },
     },
-    elements: getElements(onOpenMenu),
     extensions: [{ host: origin, path: "/widgets" }],
   }) as Config;
 

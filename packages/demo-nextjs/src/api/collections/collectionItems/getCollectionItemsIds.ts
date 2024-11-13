@@ -1,13 +1,12 @@
 import { EntityType } from "@/constants/EntityType";
 import { getShopifyCollectionItems } from "@/lib/db/shopify/getCollectionItems";
-import { ShopifyTemplate } from "@builder/core/build/es/types/types";
 import { Response } from "../../types";
 import { CollectionItem } from "./types";
 
 export const getCollectionItems = async (id: string) => {
   let items: CollectionItem[] = [];
 
-  if (id === EntityType.PRODUCT || id === ShopifyTemplate.Product) {
+  if (id === EntityType.PRODUCT) {
     items = await getShopifyCollectionItems();
   }
 

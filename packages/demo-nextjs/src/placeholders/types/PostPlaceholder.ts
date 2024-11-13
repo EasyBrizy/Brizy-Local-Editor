@@ -1,18 +1,41 @@
+import { BRZ_CURRENT_CONTEXT } from "@/constants/EntityType";
+import { getCollectionItems } from "@/lib/db/item/getCollectionItems";
+import { getProductsId } from "@/lib/db/shopify/getProductsCollection";
+import { CollectionTypes } from "@/lib/db/types";
 import { ContentPlaceholder, ContextInterface } from "@brizy/content-placeholder";
 import { Num, Obj, Str } from "@brizy/readers";
 import { mPipe } from "fp-utilities";
 import { isCollectionContext } from "../context/types";
 import { BasePlaceholder } from "./BasePlaceholder";
 import { PlaceholderType } from "./types";
-import { getPostItems } from "./utils";
+
+interface GetCollectionItemsArgs {
+  collectionType: string;
+  itemsCount: number;
+  page: number;
+  orderBy?: string;
+  order?: string;
+  offset?: number;
+  include?: string[];
+  exclude?: string[];
+}
 
 export class PostPlaceholder extends BasePlaceholder {
-  constructor(name?: string, type?: PlaceholderType) {
-    if (name && type) {
-      super(name, type);
-    } else {
-      super("Posts Placeholder", PlaceholderType.Posts);
+  constructor(name = "Posts Placeholder", type = PlaceholderType.Posts) {
+    super(name, type);
+  }
+
+  public async getValue(context: ContextInterface, placeholder: ContentPlaceholder): Promise<string> {
+    const { collection = [] } = (await this.getItems(context, placeholder)) ?? {};
+    const { content_type } = placeholder.getAttributes() ?? {};
+
+    if (content_type === "json") {
+      return JSON.stringify({ collection });
     }
+
+    const content = placeholder.getContent() ?? "";
+
+    return await this.getHtmlContent(collection, content, context);
   }
 
   protected getCurrentPage(context: ContextInterface) {
@@ -30,48 +53,146 @@ export class PostPlaceholder extends BasePlaceholder {
     return currentPage;
   }
 
-  public async getValue(context: ContextInterface, placeholder: ContentPlaceholder): Promise<string> {
-    const { collection = [] } = (await this.getItems(context, placeholder)) ?? {};
-    const { content_type } = placeholder.getAttributes() ?? {};
-
-    if (content_type === "json") {
-      return JSON.stringify({ collection });
-    }
-
-    const content = placeholder.getContent() ?? "";
-
-    return await this.getHtmlContent(collection, content, context);
-  }
-
   protected async getItems(context: ContextInterface, placeholder: ContentPlaceholder) {
     try {
-      const { count, include, exclude, collection_type, offset, order, order_by } = placeholder.getAttributes() ?? {};
+      const { itemsCount, collectionType, offsetCount, orderBy, order, includeCollections, excludeCollections } =
+        this.getPlaceholderAttributes(placeholder);
 
-      const itemsCount = Num.read(count) ?? 1;
-      const collectionType = Str.read(collection_type) ?? "";
-      const offsetCount = Num.read(offset) ?? 0;
-      const orderBy = Str.read(order_by) === "title" ? "name" : "id";
-      const orderType = (Str.read(order) ?? "asc").toLowerCase();
-      const _include = (Str.read(include) ?? "").replaceAll("&amp;", "&");
-      const _exclude = (Str.read(exclude) ?? "").replaceAll("&amp;", "&");
-      const includeCollections = this.parseStringToCollections(_include);
-      const excludeCollections = this.parseStringToCollections(_exclude);
       const currentPage = this.getCurrentPage(context);
 
-      return await getPostItems({
+      if (collectionType === CollectionTypes.product) {
+        return await this.getProductItems({
+          itemsCount,
+          include: includeCollections,
+          exclude: excludeCollections,
+          offset: offsetCount,
+          order,
+          orderBy,
+          page: currentPage,
+        });
+      }
+
+      return await this.getPostItems({
         collectionType,
         itemsCount,
         orderBy,
-        order: orderType,
+        order,
         offset: offsetCount,
         page: currentPage,
         ...(includeCollections.length > 0 && { include: includeCollections }),
         ...(excludeCollections.length > 0 && { exclude: excludeCollections }),
       });
     } catch (e) {
-      console.error("Error : ", e);
+      console.error("Error :", e);
     }
   }
+
+  private getPlaceholderAttributes(placeholder: ContentPlaceholder) {
+    const { count, include, exclude, collection_type, offset, order, order_by, component } =
+      placeholder.getAttributes() ?? {};
+
+    const itemsCount = Num.read(count) ?? 1;
+    const componentType = Str.read(component) ?? "";
+    const collectionType = Str.read(collection_type) ?? "";
+    const effectiveCollectionType = collectionType === BRZ_CURRENT_CONTEXT ? componentType : collectionType;
+    const offsetCount = Num.read(offset) ?? 0;
+    const orderBy = Str.read(order_by) ?? "";
+    const _order = Str.read(order) ?? "";
+    const { orderBy: resolvedOrderBy, order: resolvedOrder } = this.getOrderAndOrderBy(
+      orderBy,
+      _order,
+      effectiveCollectionType,
+    );
+    const includeCollections = this.parseStringToCollections((Str.read(include) ?? "").replaceAll("&amp;", "&"));
+    const excludeCollections = this.parseStringToCollections((Str.read(exclude) ?? "").replaceAll("&amp;", "&"));
+
+    return {
+      itemsCount,
+      collectionType: effectiveCollectionType,
+      offsetCount,
+      orderBy: resolvedOrderBy,
+      order: resolvedOrder,
+      includeCollections,
+      excludeCollections,
+    };
+  }
+
+  private getOrderAndOrderBy(orderBy: string, order: string, collectionType: string) {
+    let orderByValue;
+
+    const orderType = (order ?? "asc").toLowerCase();
+    if (collectionType === CollectionTypes.product) {
+      orderByValue = orderBy === "title" ? "TITLE" : "ID";
+    } else {
+      orderByValue = orderBy === "title" ? "name" : "id";
+    }
+
+    return {
+      orderBy: orderByValue,
+      order: orderType,
+    };
+  }
+
+  private getPostItems = async ({
+    collectionType,
+    itemsCount,
+    page,
+    orderBy,
+    order,
+    offset,
+    include,
+    exclude,
+  }: GetCollectionItemsArgs) => {
+    const { data, pagination } = await getCollectionItems({
+      collection: collectionType,
+      itemsCount,
+      sortBy: orderBy,
+      sort: order,
+      offset,
+      include,
+      exclude,
+      currentPage: page,
+    });
+
+    const collection = data.map(({ id }) => `${id}|||${collectionType}`);
+    const paginationInfo = {
+      items_per_page: pagination.items_per_page,
+      total: pagination.total,
+    };
+
+    return {
+      collection,
+      paginationInfo,
+    };
+  };
+
+  private getProductItems = async ({
+    itemsCount,
+    include,
+    exclude,
+    offset,
+    order,
+    orderBy,
+    page,
+  }: Omit<GetCollectionItemsArgs, "collectionType">) => {
+    const { collection, totalItems } = await getProductsId({
+      page,
+      include,
+      exclude,
+      offset,
+      order,
+      count: itemsCount,
+      sortBy: orderBy,
+    });
+
+    return {
+      collection,
+      paginationInfo: {
+        items_per_page: itemsCount,
+        total: totalItems,
+      },
+    };
+  };
 
   private parseStringToCollections(str: string) {
     const collections = [];
@@ -109,7 +230,14 @@ export class PostPlaceholder extends BasePlaceholder {
 
     if (isCollectionContext(context)) {
       for (const collection of collections) {
-        context.setEntityId(collection);
+        const [contextEntityId, contextEntityType] = collection.split("|||");
+
+        context.setEntityId(contextEntityId);
+
+        if (contextEntityType) {
+          context.setEntityType(contextEntityType);
+        }
+
         const data = await replacer.replacePlaceholders(content, context);
         html += data;
       }

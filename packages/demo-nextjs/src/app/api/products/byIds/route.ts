@@ -1,4 +1,4 @@
-import { getVariantsByProducts } from "@/lib/db/shopify/getVariantsByProductsId";
+import { getProductsById } from "@/lib/db/shopify/getProductsById";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -9,8 +9,7 @@ export async function GET(req: NextRequest) {
   }
 
   const ids = productIds.split(",");
-
-  const data = await getVariantsByProducts(ids);
+  const data = await getProductsById(ids);
 
   return NextResponse.json(data, {
     status: 200,

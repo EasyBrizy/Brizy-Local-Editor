@@ -1,3 +1,5 @@
+export const BRZ_CURRENT_CONTEXT = "brz_current_context";
+
 export enum EntityType {
   PAGE = "page",
   BLOG = "blog",

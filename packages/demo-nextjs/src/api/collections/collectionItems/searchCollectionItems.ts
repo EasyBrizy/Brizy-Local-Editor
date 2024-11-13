@@ -1,5 +1,7 @@
 import { Response } from "@/api/types";
 import { getCollectionItems } from "@/lib/db/item/getCollectionItems";
+import { CollectionTypes } from "@/lib/db/types";
+import { searchProductsByTitle } from "./requests";
 import { CollectionItem } from "./types";
 
 type Extra = {
@@ -18,10 +20,14 @@ export const searchCollectionItems = {
         search,
       });
 
-      items = data.map((item) => ({
-        title: item.title,
-        value: item.id,
-      }));
+      if (collectionId === CollectionTypes.product) {
+        items = await searchProductsByTitle(search);
+      } else {
+        items = data.map((item) => ({
+          title: item.title,
+          value: item.id,
+        }));
+      }
 
       res(items);
     } catch (e) {
