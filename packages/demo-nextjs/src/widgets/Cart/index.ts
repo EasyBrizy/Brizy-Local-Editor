@@ -1,7 +1,7 @@
 import { Brizy } from "@brizy/core";
 import { CartEditor } from "./components/Editor";
-import "./index.scss";
 import { CartView } from "./components/View";
+import "./index.scss";
 import { getToolbarOptions } from "./toolbars";
 
 const Cart = {
@@ -20,4 +20,9 @@ Brizy.registerComponent({
   title: "Cart",
   category: "ecommerce",
   options: getToolbarOptions,
+  tab: {
+    id: "shopify",
+    icon: "nc-shopify-logo",
+    title: "Add Shopify Elements",
+  },
 });
