@@ -52,6 +52,19 @@ export enum StoryElementTypes {
   StoryVideo = "StoryVideo",
 }
 
+export enum ShopifyElementTypes {
+  ProductTitle = "ProductTitle",
+  ProductDescription = "ProductDescription",
+  ProductImage = "ProductImage",
+  ProductMetafield = "ProductMetafield",
+  ProductList = "ProductList",
+  AddToCart = "AddToCart",
+  Price = "Price",
+  Quantity = "Quantity",
+  Variant = "Variant",
+  Vendor = "Vendor",
+}
+
 export enum LeftSidebarOptionsIds {
   addElements = "addElements",
   reorderBlock = "reorderBlock",
@@ -60,6 +73,31 @@ export enum LeftSidebarOptionsIds {
   more = "more",
   cms = "cms",
 }
+
+export interface LeftSidebarOptionBase {
+  id: string;
+  icon?: string;
+  title?: string;
+}
+
+interface LeftSidebarCommonOption extends LeftSidebarOptionBase {
+  type:
+    | LeftSidebarOptionsIds.cms
+    | LeftSidebarOptionsIds.reorderBlock
+    | LeftSidebarOptionsIds.globalStyle
+    | LeftSidebarOptionsIds.deviceMode
+    | LeftSidebarOptionsIds.more;
+}
+
+export interface LeftSidebarAddElementsType extends LeftSidebarOptionBase {
+  type: LeftSidebarOptionsIds.addElements;
+  elements: {
+    label: string;
+    moduleNames: Array<BaseElementTypes | StoryElementTypes | ShopifyElementTypes>;
+  }[];
+}
+
+export type LeftSidebarOption = LeftSidebarCommonOption | LeftSidebarAddElementsType;
 
 export enum LeftSidebarMoreOptionsIds {
   link = "link",
@@ -76,8 +114,8 @@ export interface LeftSidebarMoreOptions {
 }
 
 export interface LeftSidebar {
-  topTabsOrder?: Array<LeftSidebarOptionsIds>;
-  bottomTabsOrder?: Array<LeftSidebarOptionsIds>;
+  topTabsOrder?: Array<LeftSidebarOption>;
+  bottomTabsOrder?: Array<LeftSidebarOption>;
 
   [LeftSidebarOptionsIds.more]?: {
     options?: Array<LeftSidebarMoreOptions>;
@@ -88,9 +126,7 @@ export interface LeftSidebar {
     onClose: VoidFunction;
     icon?: string;
   };
-
-  moduleGroups?: Array<{
-    label: string;
-    moduleNames: Array<BaseElementTypes | StoryElementTypes>;
-  }>;
 }
+
+export const isLeftSidebarAddElementsType = (option: LeftSidebarOption): option is LeftSidebarAddElementsType =>
+  option.type === LeftSidebarOptionsIds.addElements;

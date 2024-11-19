@@ -368,10 +368,22 @@ export const getDynamicContent = (baseConfig: ConfigWithReference) => ({
 export const getUI = (origin: string) => ({
   leftSidebar: {
     topTabsOrder: [
-      LeftSidebarOptionsIds.cms,
-      LeftSidebarOptionsIds.addElements,
-      LeftSidebarOptionsIds.reorderBlock,
-      LeftSidebarOptionsIds.globalStyle,
+      {
+        id: LeftSidebarOptionsIds.cms,
+        type: LeftSidebarOptionsIds.cms,
+      },
+      {
+        id: LeftSidebarOptionsIds.addElements,
+        type: LeftSidebarOptionsIds.addElements,
+      },
+      {
+        id: LeftSidebarOptionsIds.reorderBlock,
+        type: LeftSidebarOptionsIds.reorderBlock,
+      },
+      {
+        id: LeftSidebarOptionsIds.globalStyle,
+        type: LeftSidebarOptionsIds.globalStyle,
+      },
     ],
     [LeftSidebarOptionsIds.more]: {
       options: [

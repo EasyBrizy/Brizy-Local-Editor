@@ -17,6 +17,8 @@ To load `story`, use: `config.mode = "story"`
 
 The full config can be seen below:
 
+## Config Page
+
 ```ts
 type config = {
   container: HTMLElement;
@@ -29,9 +31,133 @@ type config = {
   htmlOutputType: "html" | "json";
 
   // Page: Static Page view
+  mode: "page"
+
+  // Menu
+  menu?: Array<Menu>;
+
+  // Integration
+  integration?: {
+    /// Form
+    form?: {
+      action?: string;
+      recaptcha?: {
+        siteKey: string;
+      };
+      fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
+    };
+  };
+
+  // L10n
+  l10n?: Record<string, string>;
+
+  // Extensions
+  extensions?: Array<Extension>;
+
+  // DynamicContent
+  dynamicContent?: {
+    groups?: {
+      [DCTypes.image]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.richText]: Array<ConfigDCItem> | DCItemHandler;
+    };
+  };
+
+  pagePreview: string;
+
+  // UI
+  ui: {
+    theme?: Theme;
+
+    leftSidebar?: {
+      topTabsOrder?: Array<LeftSidebarOption>;
+      bottomTabsOrder?: Array<LeftSidebarOption>;
+
+      more?: {
+        options?: Array<{
+          type: "link";
+          label: string;
+          link: string;
+          linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+        }>;
+      };
+
+      cms?: {
+        onOpen: (onClose: VoidFunction) => void;
+        onClose?: VoidFunction;
+      };
+    };
+
+    publish?: {
+      handler: (res: Response<void>, rej: Response<string>, extra: Output) => void;
+    };
+  };
+
+  // API
+  api?: {
+    /// Media
+    media?: {
+      mediaResizeUrl?: string;
+      imagePatterns?: ImagePatterns;
+
+      addMedia?: {
+        handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
+      };
+    };
+
+    // File
+    customFile?: {
+      fileUrl?: string;
+
+      addFile?: {
+        handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
+      };
+    };
+
+    // Default Blocks | Kits | Popups
+    defaultKits?: DefaultKits; // More information about the type types/types.ts
+    defaultPopups?: DefaultPopups; // More information about the type types/types.ts
+    defaultLayouts?: DefaultLayouts; // More information about the type types/types.ts
+
+    // Screebnshots
+    screenshots?: {
+      screenshotUrl?: string;
+      create?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData) => void;
+      update?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData & { id: string }) => void;
+    };
+  };
+
+  onSave?: (data: Output) => void;
+  onAutoSave?: (data: AutoSave) => void;
+  autoSaveInterval?: number;
+  onLoad?: VoidFunction;
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
+  };
+};
+````
+
+## Config Popup
+
+```ts
+type config = {
+  container: HTMLElement;
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+
+  // html: Array of strings with Styles & Scripts
+  // json: Array of more granular objects, used when needing to merge multiple pages into one
+  // Use this case when you need to create a fully customizable preview HTML
+  htmlOutputType: "html" | "json";
+
   // Popup: Static Popup view with conditions(open on exit, open after x minutes)
-  // Story: Static story carosuel view
-  mode: "page" | "popup" | "story";
+  mode: "popup";
 
   // Menu
   menu?: Array<Menu>;
@@ -84,8 +210,8 @@ type config = {
     theme?: Theme;
 
     leftSidebar?: {
-      topTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
-      bottomTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+      topTabsOrder?: Array<LeftSidebarOption>;
+      bottomTabsOrder?: Array<LeftSidebarOption>;
 
       more?: {
         options?: Array<{
@@ -100,12 +226,10 @@ type config = {
         onOpen: (onClose: VoidFunction) => void;
         onClose?: VoidFunction;
       };
+    };
 
-      // AddElements
-      moduleGroups?: Array<{
-        label: string;
-        moduleNames: Array<BaseElementTypes | StoryElementTypes>;
-      }>;
+    publish?: {
+      handler: (res: Response<void>, rej: Response<string>, extra: Output) => void;
     };
   };
 
@@ -130,28 +254,14 @@ type config = {
       };
     };
 
-    // Default Blocks | Kits | Popups | Stories
-    // More information about defaultKits, defaultPopups, defaultLayouts and defaultStories types you can find here: https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/src/types/types.ts
-    defaultKits?: DefaultKits;
-    defaultPopups?: DefaultPopups;
-    defaultLayouts?: DefaultLayouts;
+    // Default Popups
+    defaultPopups?: DefaultPopups; // More information about the type types/types.ts
 
-    // Used only in mode: story
-    defaultStories?: DefaultStories;
-
-    // Screenshots
+    // Screebnshots
     screenshots?: {
       screenshotUrl?: string;
       create?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData) => void;
       update?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData & { id: string }) => void;
-    };
-  };
-  
-  // Elements
-  elements?: {
-    menu?: {
-      onOpen?: VoidFunction;
-      createMenuLabel?: string;
     };
   };
 
@@ -159,200 +269,133 @@ type config = {
   onAutoSave?: (data: AutoSave) => void;
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
+  };
 };
+```
 
-interface AutoSave {
-  pageData?: Record<string, unknown>;
-  projectData?: Record<string, unknown>;
-}
+## Config Stories
 
-interface Output {
-  pageData: {
-    [k: string]: unknown;
-    compiled?: {
-      html: string;
-      scripts: Array<string>;
-      styles: Array<string>;
+```ts
+type config = {
+  container: HTMLElement;
+  pageData: Record<string, unknown>;
+  projectData: Record<string, unknown>;
+
+  // html: Array of strings with Styles & Scripts
+  // json: Array of more granular objects, used when needing to merge multiple pages into one
+  // Use this case when you need to create a fully customizable preview HTML
+  htmlOutputType: "html" | "json";
+
+  // Story: Static story carosuel view
+  mode: "story";
+
+  // Integration
+  integration?: {
+    /// Form
+    form?: {
+      action?: string;
+      recaptcha?: {
+        siteKey: string;
+      };
+      fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
     };
   };
-  projectData: {
-    [k: string]: unknown;
-    compiled?: {
-      styles: Array<string>;
+
+  // L10n
+  l10n?: Record<string, string>;
+
+  // Extensions
+  extensions?: Array<Extension>;
+
+  // DynamicContent
+  dynamicContent?: {
+    groups?: {
+      [DCTypes.image]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.link]: Array<ConfigDCItem> | DCItemHandler;
+      [DCTypes.richText]: Array<ConfigDCItem> | DCItemHandler;
     };
   };
 
-  // Only in popup mode
-  popupSettings?: {
-    verticalAlign: "top" | "bottom" | "center";
-    horizontalAlign: "left" | "right" | "center";
+  pagePreview: string;
+
+  // UI
+  ui: {
+    theme?: Theme;
+
+    leftSidebar?: {
+      topTabsOrder?: Array<LeftSidebarOption>;
+      bottomTabsOrder?: Array<LeftSidebarOption>;
+
+      more?: {
+        options?: Array<{
+          type: "link";
+          label: string;
+          link: string;
+          linkTarget?: "_blank" | "_self" | "_parent" | "_top";
+        }>;
+      };
+
+      cms?: {
+        onOpen: (onClose: VoidFunction) => void;
+        onClose?: VoidFunction;
+      };
+    };
+
+    publish?: {
+      handler: (res: Response<void>, rej: Response<string>, extra: Output) => void;
+    };
   };
 
-  // Error when html will be undefined
-  error?: string;
-}
+  // API
+  api?: {
+    /// Media
+    media?: {
+      mediaResizeUrl?: string;
+      imagePatterns?: ImagePatterns;
 
-// Menu
-interface Menu {
-  id: string;
-  name: string;
-  items: Array<MenuItem>;
-}
+      addMedia?: {
+        handler: (resolve: Response<AddMediaData>, reject: Response<string>, extra: AddMediaExtra) => void;
+      };
+    };
 
-// MenuItem
-export interface MenuItem {
-  type: "MenuItem";
-  value: {
-    id: string;
-    title: string;
-    url: string;
-    target?: string;
-    classes?: Array<string>;
+    // File
+    customFile?: {
+      fileUrl?: string;
 
-    // Dropdown
-    items?: Array<MenuItem>;
+      addFile?: {
+        handler: (res: Response<AddFileData>, rej: Response<string>, extra: AddFileExtra) => void;
+      };
+    };
+
+    defaultStories?: DefaultStories; // More information about the type types/types.ts
+
+    // Screebnshots
+    screenshots?: {
+      screenshotUrl?: string;
+      create?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData) => void;
+      update?: (res: Response<{ id: string }>, rej: Response<string>, extra: ScreenshotData & { id: string }) => void;
+    };
   };
-}
 
-// FormFieldsOption
-export interface FormFieldsOption {
-  title: string;
-  value: string;
-}
-
-// DynamicContent
-export enum DCTypes {
-  image = "image",
-  link = "link",
-  richText = "richText",
-}
-
-interface BaseDCItem {
-  label: string;
-  placeholder: string;
-}
-
-export interface ConfigDCItem extends BaseDCItem {
-  optgroup?: ConfigDCItem[];
-}
-
-interface DCItemHandler {
-  handler: (
-    res: Response<BaseDCItem>,
-    rej: Response<string>,
-    extra?: { keyCode?: string; placeholder: string; label: string },
-  ) => void;
-}
-
-// Media
-export interface ImagePatterns {
-  original: string;
-  split: string;
-  full: string;
-}
-export interface AddMediaData {
-  uid: string;
-  fileName?: string; // fileName need contain .ext
-}
-
-export interface AddMediaExtra {
-  acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .etc]
-}
-
-// File
-export interface AddFileData {
-  filename: string;
-}
-
-export interface AddFileExtra {
-  acceptedExtensions: Array<string>; // [.jpg, .png, .svg, .zip .txs .etc]
-}
-
-// ElementTypes
-/// Base Elements used in Page | Popup, these elements doesn't work in Story
-export enum BaseElementTypes {
-  Text = "Text",
-  Image = "Image",
-  Button = "Button",
-  Icon = "Icon",
-  Spacer = "Spacer",
-  Map = "Map",
-  Form2 = "Form2",
-  Line = "Line",
-  Menu = "Menu",
-  ImageGallery = "ImageGallery",
-  Video = "Video",
-  Audio = "Audio",
-  VideoPlaylist = "VideoPlaylist",
-  IconText = "IconText",
-  Lottie = "Lottie",
-  Embed = "Embed",
-  StarRating = "StarRating",
-  Alert = "Alert",
-  Counter = "Counter",
-  Countdown2 = "Countdown2",
-  ProgressBar = "ProgressBar",
-  Calendly = "Calendly",
-  Carousel = "Carousel",
-  Tabs = "Tabs",
-  Accordion = "Accordion",
-  Switcher = "Switcher",
-  Table = "Table",
-  Timeline = "Timeline",
-  Facebook = "Facebook",
-  Twitter = "Twitter",
-  FacebookComments = "FacebookComments",
-  Columns = "Columns",
-  Row = "Row",
-}
-
-/// Story Elements used only in Story mode, these elements doesn't work in Page, Popup
-export enum StoryElementTypes {
-  StoryButton = "StoryButton",
-  StoryIcon = "StoryIcon",
-  StoryEmbed = "StoryEmbed",
-  StoryText = "StoryText",
-  StoryMap = "StoryMap",
-  StoryProgressBar = "StoryProgressBar",
-  StoryLine = "StoryLine",
-  StoryCountdown2 = "StoryCountdown2",
-  StoryCounter = "StoryCounter",
-  StoryShape = "StoryShape",
-  StoryForm2 = "StoryForm2",
-  StoryStarRating = "StoryStarRating",
-  StoryLottie = "StoryLottie",
-  StoryImage = "StoryImage",
-  StoryVideo = "StoryVideo",
-}
-
-// Theme
-export interface Theme {
-  colors: {
-    "--primary-dark"?: string;
-    "--secondary-dark"?: string;
-    "--tertiary-dark"?: string;
-    "--primary-white"?: string;
-    "--secondary-white"?: string;
-    "--tertiary-white"?: string;
-    "--primary-gray"?: string;
-    "--secondary-gray"?: string;
-    "--tertiary-gray"?: string;
-    "--active-color"?: string;
-    "--light-gray"?: string;
+  onSave?: (data: Output) => void;
+  onAutoSave?: (data: AutoSave) => void;
+  autoSaveInterval?: number;
+  onLoad?: VoidFunction;
+  elements?: {
+    menu?: {
+      onOpen?: VoidFunction;
+      createMenuLabel?: string;
+    };
   };
-}
-
-// Screenshots
-export interface ScreenshotData {
-  base64: string;
-  blockType: "normal" | "global" | "saved" | "layout";
-}
-
-// Extenstions
-export interface Extension {
-  host?: string;
-  path: string;
-}
+};
 ```
 
 ## About config
@@ -448,10 +491,9 @@ Dynamic content can be configured in 2 ways
 | `ui.popupSettings.scrollPageBehind`     | `boolean`  | Takes true or false values and lets you turn on or off the [Scroll Page Behind](https://user-images.githubusercontent.com/18303258/227510068-694a4dc7-d168-4416-9058-9fb3d0801669.png).                                                                                                                                                                                                                                                                                                                                  |
 | `ui.popupSettings.clickOutsideToClose`  | `boolean`  | Takes true or false values and lets you turn on or off the [Click Outside To Close](https://user-images.githubusercontent.com/18303258/227510345-89b4bfb2-56ae-49a5-aab1-1c929309dadf.png).                                                                                                                                                                                                                                                                                                                              |
 | `ui.popupSettings.backgroundPreviewUrl` | `string`   | Lets you control the preview background url                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `ui.leftSidebar.topTabsOrder`           | `Array`    | Lets you control the order and turning on or off the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.                                                                                                                                           |
-| `ui.leftSidebar.bottomTabsOrder`        | `Array`    | Lets you control the order and turning on or off the [icons in the left sidebar at the bottom](https://user-images.githubusercontent.com/10077249/206904746-f23a8b8d-ed58-4c20-b036-d204efc94437.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.                                                                                                                                        |
+| `ui.leftSidebar.topTabsOrder`           | Array    | Lets you control the order and visibility of the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). This property accepts an array of objects in the format: `[{ id: string, type: LeftSidebarOption }]` If the type is `"addElements"`, an additional key, `elements`, must be provided. The `elements` key accepts an array that specifies the elements to display within the current tab [icons in the addElements](https://user-images.githubusercontent.com/18303258/230393691-1f0e5198-43e7-43ee-ab06-8d8d0f5f9c03.png).|
+| `ui.leftSidebar.bottomTabsOrder`        | Array    | Lets you control the order and visibility of the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). This property accepts an array of objects in the format: `[{ id: string, type: LeftSidebarOption }]` If the type is `"addElements"`, an additional key, `elements`, must be provided. The `elements key accepts an array that specifies the elements to display within the current tab [icons in the addElements](https://user-images.githubusercontent.com/18303258/230393691-1f0e5198-43e7-43ee-ab06-8d8d0f5f9c03.png). |
 | `ui.leftSidebar.more.options`           | `Array`    | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar.                                                                                                                                                                                                                                                                                                                                               |
-| `ui.leftSidebar.moduleGroups`           | `Array`    | Lets you control the elements and turing on or off the [icons in the addElements](https://user-images.githubusercontent.com/18303258/230393691-1f0e5198-43e7-43ee-ab06-8d8d0f5f9c03.png) in the left sidebar. The default arrangement you can see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/self-hosted.MD#default-modulesgroup)                                                                                                                                             |
 | `ui.leftSidebar.cms.onOpen`             | `function` | Is a function for Opening External Modals with onClose Callback for CMS Icon Deactivation you can see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/assets/18303258/bd0e52df-9143-4986-9152-6397324bc2ff).                                                                                                                                                                                                                                                                                                      |
 | `ui.leftSidebar.cms.onClose`            | `function` | Is a function for Closing External Modals                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `ui.theme.colors`                       | `object`   | We can customize the color variables in builder's UI                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
@@ -665,48 +707,68 @@ const config = {
 };
 ```
 
-### Default ModulesGroup
+#### Default LeftSidebar TabsOrder
 
 ```ts
 // Popup
 const defaultConfigModulesGroupForPopup = {
   ui: {
     leftSidebar: {
-      moduleGroups: [
+      bottomTabsOrder: [
         {
-          label: "grid",
-          moduleNames: ["Columns", "Row"],
+          id: "deviceMode",
+          type: "deviceMode",
         },
         {
-          label: "essentials",
-          moduleNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line"],
+          id: "more",
+          type: "more",
         },
+      ],
+      topTabsOrder: [
         {
-          label: "media",
-          moduleNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
-        },
-        {
-          label: "content",
-          moduleNames: [
-            "IconText",
-            "Embed",
-            "StarRating",
-            "Alert",
-            "Counter",
-            "Countdown2",
-            "ProgressBar",
-            "Calendly",
-            "Carousel",
-            "Tabs",
-            "Accordion",
-            "Switcher",
-            "Table",
-            "Timeline",
+          id: "addElements",
+          type: "addElements",
+          elements: [
+            {
+              label: "grid",
+              moduleNames: ["Columns", "Row"],
+            },
+            {
+              label: "essentials",
+              moduleNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line"],
+            },
+            {
+              label: "media",
+              moduleNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
+            },
+            {
+              label: "content",
+              moduleNames: [
+                "IconText",
+                "Embed",
+                "StarRating",
+                "Alert",
+                "Counter",
+                "Countdown2",
+                "ProgressBar",
+                "Calendly",
+                "Carousel",
+                "Tabs",
+                "Accordion",
+                "Switcher",
+                "Table",
+                "Timeline",
+              ],
+            },
+            {
+              label: "social",
+              moduleNames: ["Facebook", "Twitter", "FacebookComments"],
+            },
           ],
         },
         {
-          label: "social",
-          moduleNames: ["Facebook", "Twitter", "FacebookComments"],
+          id: "globalStyle",
+          type: "globalStyle",
         },
       ],
     },
@@ -717,28 +779,44 @@ const defaultConfigModulesGroupForPopup = {
 const defaultConfigModulesGroupForStory = {
   ui: {
     leftSidebar: {
-      moduleGroups: [
+      bottomTabsOrder: [
         {
-          label: "essentials",
-          moduleNames: [
-            "StoryButton",
-            "StoryIcon",
-            "StoryEmbed",
-            "StoryText",
-            "StoryMap",
-            "StoryProgressBar",
-            "StoryLine",
-            "StoryCountdown2",
-            "StoryCounter",
-            "StoryShape",
-            "StoryForm2",
-            "StoryStarRating",
-            "StoryLottie",
+          id: "more",
+          type: "more",
+        },
+      ],
+      topTabsOrder: [
+        {
+          id: "addElements",
+          type: "addElements",
+          elements: [
+            {
+              label: "essentials",
+              moduleNames: [
+                "StoryButton",
+                "StoryIcon",
+                "StoryEmbed",
+                "StoryText",
+                "StoryMap",
+                "StoryProgressBar",
+                "StoryLine",
+                "StoryCountdown2",
+                "StoryCounter",
+                "StoryShape",
+                "StoryForm2",
+                "StoryStarRating",
+                "StoryLottie",
+              ],
+            },
+            {
+              label: "media",
+              moduleNames: ["StoryImage", "StoryVideo"],
+            },
           ],
         },
         {
-          label: "media",
-          moduleNames: ["StoryImage", "StoryVideo"],
+          id: "globalStyle",
+          type: "globalStyle",
         },
       ],
     },
@@ -749,41 +827,65 @@ const defaultConfigModulesGroupForStory = {
 const defaultConfigModulesGroupForPages = {
   ui: {
     leftSidebar: {
-      moduleGroups: [
+      bottomTabsOrder: [
         {
-          label: "grid",
-          moduleNames: ["Columns", "Row"],
+          id: "deviceMode",
+          type: "deviceMode",
         },
         {
-          label: "essentials",
-          moduleNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line", "Menu"],
+          id: "more",
+          type: "more",
         },
+      ],
+      topTabsOrder: [
         {
-          label: "media",
-          moduleNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
-        },
-        {
-          label: "content",
-          moduleNames: [
-            "IconText",
-            "Embed",
-            "StarRating",
-            "Alert",
-            "Counter",
-            "Countdown2",
-            "ProgressBar",
-            "Calendly",
-            "Carousel",
-            "Tabs",
-            "Accordion",
-            "Switcher",
-            "Table",
-            "Timeline",
+          id: "addElements",
+          type: "addElements",
+          elements: [
+            {
+              label: "grid",
+              moduleNames: ["Columns", "Row"],
+            },
+            {
+              label: "essentials",
+              moduleNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line", "Menu"],
+            },
+            {
+              label: "media",
+              moduleNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
+            },
+            {
+              label: "content",
+              moduleNames: [
+                "IconText",
+                "Embed",
+                "StarRating",
+                "Alert",
+                "Counter",
+                "Countdown2",
+                "ProgressBar",
+                "Calendly",
+                "Carousel",
+                "Tabs",
+                "Accordion",
+                "Switcher",
+                "Table",
+                "Timeline",
+              ],
+            },
+            {
+              label: "social",
+              moduleNames: ["Facebook", "Twitter", "FacebookComments"],
+            },
           ],
         },
         {
-          label: "social",
-          moduleNames: ["Facebook", "Twitter", "FacebookComments"],
+          id: "reorderBlock",
+          type: "reorderBlock",
+        },
+        {
+          id: "globalStyle",
+          type: "globalStyle",
         },
       ],
     },

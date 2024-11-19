@@ -12,6 +12,11 @@ BrizyCore.registerComponent({
   },
   title: "Add to cart",
   icon: "nc-woo-add-to-cart",
-  category: "Ecommerce",
+  tab: {
+    id: "shopify",
+    icon: "nc-shopify-logo",
+    title: "Add Shopify Elements",
+  },
+  category: "products",
   options: getToolbar,
 });

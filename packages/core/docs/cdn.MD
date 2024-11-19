@@ -99,8 +99,8 @@ type config = {
     theme?: Theme;
 
     leftSidebar?: {
-      topTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
-      bottomTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+      topTabsOrder?: Array<LeftSidebarOption>;
+      bottomTabsOrder?: Array<LeftSidebarOption>;
 
       more?: {
         options?: Array<{
@@ -115,12 +115,6 @@ type config = {
         onOpen: (onClose: VoidFunction) => void;
         onClose?: VoidFunction;
       };
-
-      // AddElements
-      moduleGroups?: Array<{
-        label: string;
-        moduleNames: Array<BaseElementTypes>;
-      }>;
     };
 
     publish?: {
@@ -242,8 +236,8 @@ type config = {
     theme?: Theme;
 
     leftSidebar?: {
-      topTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
-      bottomTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+      topTabsOrder?: Array<LeftSidebarOption>;
+      bottomTabsOrder?: Array<LeftSidebarOption>;
 
       more?: {
         options?: Array<{
@@ -258,12 +252,6 @@ type config = {
         onOpen: (onClose: VoidFunction) => void;
         onClose?: VoidFunction;
       };
-
-      // AddElements
-      moduleGroups?: Array<{
-        label: string;
-        moduleNames: Array<BaseElementTypes>;
-      }>;
     };
 
     publish?: {
@@ -369,8 +357,8 @@ type config = {
     theme?: Theme;
 
     leftSidebar?: {
-      topTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
-      bottomTabsOrder?: Array<"cms", "addElements", "reorderBlock", "globalStyle", "deviceMode", "more">;
+      topTabsOrder?: Array<LeftSidebarOption>;
+      bottomTabsOrder?: Array<LeftSidebarOption>;
 
       more?: {
         options?: Array<{
@@ -385,12 +373,6 @@ type config = {
         onOpen: (onClose: VoidFunction) => void;
         onClose?: VoidFunction;
       };
-
-      // AddElements
-      moduleGroups?: Array<{
-        label: string;
-        moduleNames: Array<BaseElementTypes | StoryElementTypes>;
-      }>;
     };
 
     publish?: {
@@ -599,6 +581,41 @@ export enum StoryElementTypes {
   StoryVideo = "StoryVideo",
 }
 
+// LeftSidebar TabsOrder
+export enum LeftSidebarOptionsIds {
+  addElements = "addElements",
+  reorderBlock = "reorderBlock",
+  globalStyle = "globalStyle",
+  deviceMode = "deviceMode",
+  more = "more",
+  cms = "cms",
+}
+
+export interface LeftSidebarOptionBase {
+  id: string;
+  icon?: string;
+  title?: string;
+}
+
+interface LeftSidebarCommonOption extends LeftSidebarOptionBase {
+  type:
+    | LeftSidebarOptionsIds.cms
+    | LeftSidebarOptionsIds.reorderBlock
+    | LeftSidebarOptionsIds.globalStyle
+    | LeftSidebarOptionsIds.deviceMode
+    | LeftSidebarOptionsIds.more;
+}
+
+export interface LeftSidebarAddElementsType extends LeftSidebarOptionBase {
+  type: LeftSidebarOptionsIds.addElements;
+  elements: {
+    label: string;
+    moduleNames: Array<BaseElementTypes | StoryElementTypes>;
+  }[];
+}
+
+export type LeftSidebarOption = LeftSidebarCommonOption | LeftSidebarAddElementsType;
+
 // Theme
 export interface Theme {
   colors: {
@@ -689,23 +706,22 @@ Dynamic content can be configured in 2 ways
 
 ### UI parameters
 
-| Name                                  | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| :------------------------------------ | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ui.popupSettings.displayCondition     | boolean  | Takes true or false values and lets you turn on or off the global [display conditions](https://user-images.githubusercontent.com/10077249/206892163-024f4fcd-d127-4c28-8a60-ea21e3982b3c.png) option together with the [display conditions popup](https://user-images.githubusercontent.com/10077249/206892176-23ed85ee-4f66-4c83-8ebb-a64117daa124.png).                                                                                                                                                                            |
-| ui.popupSettings.deletePopup          | boolean  | Takes true or false values and lets you turn on or off the [delete popup option](https://user-images.githubusercontent.com/10077249/206904265-7e79f65f-0288-4473-be14-afb5dcea6fbb.png). Turn off the delete option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the posibility to [access the premade Brizy templates](https://user-images.githubusercontent.com/10077249/206904279-f55a472a-5508-4594-b40f-6c9d20a90bd9.png) inside the editor.             |
-| ui.popupSettings.embedded             | boolean  | Takes true of false values and lets you turn on or off [Vertical align, Horizontal align, Scroll Page Behind and Close Button](https://user-images.githubusercontent.com/18303258/212686108-a43883df-574f-4b30-b795-5d48e93b3d08.png).                                                                                                                                                                                                                                                                                               |
-| ui.popupSettings.verticalAlign        | boolean  | Takes true or false values and lets you turn on or off the [Vertical align](https://user-images.githubusercontent.com/5760683/216273483-955e0a09-5acc-4124-bc94-0a05f2bbbb58.png).                                                                                                                                                                                                                                                                                                                                                   |
-| ui.popupSettings.horizontalAlign      | boolean  | Takes true or false values and lets you turn on or off the [Horizontal align](https://user-images.githubusercontent.com/5760683/216273441-a50bf80e-5894-4e5f-b764-20ee1552b0f6.png).                                                                                                                                                                                                                                                                                                                                                 |
-| ui.popupSettings.scrollPageBehind     | boolean  | Takes true or false values and lets you turn on or off the [Scroll Page Behind](https://user-images.githubusercontent.com/18303258/227510068-694a4dc7-d168-4416-9058-9fb3d0801669.png).                                                                                                                                                                                                                                                                                                                                              |
-| ui.popupSettings.clickOutsideToClose  | boolean  | Takes true or false values and lets you turn on or off the [Click Outside To Close](https://user-images.githubusercontent.com/18303258/227510345-89b4bfb2-56ae-49a5-aab1-1c929309dadf.png).                                                                                                                                                                                                                                                                                                                                          |
-| ui.popupSettings.backgroundPreviewUrl | string   | Lets you control the preview background url                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ui.leftSidebar.topTabsOrder           | Array    | Lets you control the order and turning on or off the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.                                                                                                                                                       |
-| ui.leftSidebar.bottomTabsOrder        | Array    | Lets you control the order and turning on or off the [icons in the left sidebar at the bottom](https://user-images.githubusercontent.com/10077249/206904746-f23a8b8d-ed58-4c20-b036-d204efc94437.png). Can take the values: "**addElements**", "**reorderBlock**", "**globalStyle**", "**deviceMode**" and "**more**". Leave "**blank**" if you want to disable one of the icons.                                                                                                                                                    |
-| ui.leftSidebar.more.options           | Array    | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar.                                                                                                                                                                                                                                                                                                                                                           |
-| ui.leftSidebar.moduleGroups           | Array    | Lets you control the elements and turing on or off the [icons in the addElements](https://user-images.githubusercontent.com/18303258/230393691-1f0e5198-43e7-43ee-ab06-8d8d0f5f9c03.png) in the left sidebar. The default arrangement you can see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/self-hosted.MD#default-modulesgroup)                                                                                                                                                         |
-| ui.leftSidebar.cms.onOpen             | function | Is a function for Opening External Modals with onClose Callback for CMS Icon Deactivation you can see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/assets/18303258/bd0e52df-9143-4986-9152-6397324bc2ff).                                                                                                                                                                                                                                                                                                                  |
-| ui.leftSidebar.cms.onClose            | function | Is a function for Closing External Modals                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| ui.publish.handler                    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve()` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| Name                                  | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|:--------------------------------------|:---------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ui.popupSettings.displayCondition     | boolean  | Takes true or false values and lets you turn on or off the global [display conditions](https://user-images.githubusercontent.com/10077249/206892163-024f4fcd-d127-4c28-8a60-ea21e3982b3c.png) option together with the [display conditions popup](https://user-images.githubusercontent.com/10077249/206892176-23ed85ee-4f66-4c83-8ebb-a64117daa124.png).                                                                                                                                                                                                                                                                 |
+| ui.popupSettings.deletePopup          | boolean  | Takes true or false values and lets you turn on or off the [delete popup option](https://user-images.githubusercontent.com/10077249/206904265-7e79f65f-0288-4473-be14-afb5dcea6fbb.png). Turn off the delete option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the posibility to [access the premade Brizy templates](https://user-images.githubusercontent.com/10077249/206904279-f55a472a-5508-4594-b40f-6c9d20a90bd9.png) inside the editor.                                                                                                  |
+| ui.popupSettings.embedded             | boolean  | Takes true of false values and lets you turn on or off [Vertical align, Horizontal align, Scroll Page Behind and Close Button](https://user-images.githubusercontent.com/18303258/212686108-a43883df-574f-4b30-b795-5d48e93b3d08.png).                                                                                                                                                                                                                                                                                                                                                                                    |
+| ui.popupSettings.verticalAlign        | boolean  | Takes true or false values and lets you turn on or off the [Vertical align](https://user-images.githubusercontent.com/5760683/216273483-955e0a09-5acc-4124-bc94-0a05f2bbbb58.png).                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ui.popupSettings.horizontalAlign      | boolean  | Takes true or false values and lets you turn on or off the [Horizontal align](https://user-images.githubusercontent.com/5760683/216273441-a50bf80e-5894-4e5f-b764-20ee1552b0f6.png).                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ui.popupSettings.scrollPageBehind     | boolean  | Takes true or false values and lets you turn on or off the [Scroll Page Behind](https://user-images.githubusercontent.com/18303258/227510068-694a4dc7-d168-4416-9058-9fb3d0801669.png).                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ui.popupSettings.clickOutsideToClose  | boolean  | Takes true or false values and lets you turn on or off the [Click Outside To Close](https://user-images.githubusercontent.com/18303258/227510345-89b4bfb2-56ae-49a5-aab1-1c929309dadf.png).                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ui.popupSettings.backgroundPreviewUrl | string   | Lets you control the preview background url                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ui.leftSidebar.topTabsOrder           | Array    | Lets you control the order and visibility of the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). This property accepts an array of objects in the format: `[{ id: string, type: LeftSidebarOption }]` If the type is `"addElements"`, an additional key, `elements`, must be provided. The `elements` key accepts an array that specifies the elements to display within the current tab [icons in the addElements](https://user-images.githubusercontent.com/18303258/230393691-1f0e5198-43e7-43ee-ab06-8d8d0f5f9c03.png).|
+| ui.leftSidebar.bottomTabsOrder        | Array    | Lets you control the order and visibility of the [icons in the left sidebar at the top](https://user-images.githubusercontent.com/10077249/206904478-d11e2fb3-addb-48c1-8dce-123868e8d8ac.png). This property accepts an array of objects in the format: `[{ id: string, type: LeftSidebarOption }]` If the type is `"addElements"`, an additional key, `elements`, must be provided. The `elements key accepts an array that specifies the elements to display within the current tab [icons in the addElements](https://user-images.githubusercontent.com/18303258/230393691-1f0e5198-43e7-43ee-ab06-8d8d0f5f9c03.png). |
+| ui.leftSidebar.more.options           | Array    | Lets you add more links in the [More dropdown](https://user-images.githubusercontent.com/10077249/206904832-5af03a48-991a-4c90-aead-2d7dea82c9d5.png) in the left sidebar.                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ui.leftSidebar.cms.onOpen             | function | Is a function for Opening External Modals with onClose Callback for CMS Icon Deactivation you can see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/assets/18303258/bd0e52df-9143-4986-9152-6397324bc2ff).                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ui.leftSidebar.cms.onClose            | function | Is a function for Closing External Modals                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ui.publish.handler                    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve()` ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                      |
 
 ### API parameters
 
@@ -902,48 +918,68 @@ const config = {
 };
 ```
 
-#### Default ModulesGroup
+#### Default LeftSidebar TabsOrder
 
 ```ts
 // Popup
 const defaultConfigModulesGroupForPopup = {
   ui: {
     leftSidebar: {
-      moduleGroups: [
+      bottomTabsOrder: [
         {
-          label: "grid",
-          moduleNames: ["Columns", "Row"],
+          id: "deviceMode",
+          type: "deviceMode",
         },
         {
-          label: "essentials",
-          moduleNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line"],
+          id: "more",
+          type: "more",
         },
+      ],
+      topTabsOrder: [
         {
-          label: "media",
-          moduleNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
-        },
-        {
-          label: "content",
-          moduleNames: [
-            "IconText",
-            "Embed",
-            "StarRating",
-            "Alert",
-            "Counter",
-            "Countdown2",
-            "ProgressBar",
-            "Calendly",
-            "Carousel",
-            "Tabs",
-            "Accordion",
-            "Switcher",
-            "Table",
-            "Timeline",
+          id: "addElements",
+          type: "addElements",
+          elements: [
+            {
+              label: "grid",
+              moduleNames: ["Columns", "Row"],
+            },
+            {
+              label: "essentials",
+              moduleNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line"],
+            },
+            {
+              label: "media",
+              moduleNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
+            },
+            {
+              label: "content",
+              moduleNames: [
+                "IconText",
+                "Embed",
+                "StarRating",
+                "Alert",
+                "Counter",
+                "Countdown2",
+                "ProgressBar",
+                "Calendly",
+                "Carousel",
+                "Tabs",
+                "Accordion",
+                "Switcher",
+                "Table",
+                "Timeline",
+              ],
+            },
+            {
+              label: "social",
+              moduleNames: ["Facebook", "Twitter", "FacebookComments"],
+            },
           ],
         },
         {
-          label: "social",
-          moduleNames: ["Facebook", "Twitter", "FacebookComments"],
+          id: "globalStyle",
+          type: "globalStyle",
         },
       ],
     },
@@ -954,28 +990,44 @@ const defaultConfigModulesGroupForPopup = {
 const defaultConfigModulesGroupForStory = {
   ui: {
     leftSidebar: {
-      moduleGroups: [
+      bottomTabsOrder: [
         {
-          label: "essentials",
-          moduleNames: [
-            "StoryButton",
-            "StoryIcon",
-            "StoryEmbed",
-            "StoryText",
-            "StoryMap",
-            "StoryProgressBar",
-            "StoryLine",
-            "StoryCountdown2",
-            "StoryCounter",
-            "StoryShape",
-            "StoryForm2",
-            "StoryStarRating",
-            "StoryLottie",
+          id: "more",
+          type: "more",
+        },
+      ],
+      topTabsOrder: [
+        {
+          id: "addElements",
+          type: "addElements",
+          elements: [
+            {
+              label: "essentials",
+              moduleNames: [
+                "StoryButton",
+                "StoryIcon",
+                "StoryEmbed",
+                "StoryText",
+                "StoryMap",
+                "StoryProgressBar",
+                "StoryLine",
+                "StoryCountdown2",
+                "StoryCounter",
+                "StoryShape",
+                "StoryForm2",
+                "StoryStarRating",
+                "StoryLottie",
+              ],
+            },
+            {
+              label: "media",
+              moduleNames: ["StoryImage", "StoryVideo"],
+            },
           ],
         },
         {
-          label: "media",
-          moduleNames: ["StoryImage", "StoryVideo"],
+          id: "globalStyle",
+          type: "globalStyle",
         },
       ],
     },
@@ -986,41 +1038,65 @@ const defaultConfigModulesGroupForStory = {
 const defaultConfigModulesGroupForPages = {
   ui: {
     leftSidebar: {
-      moduleGroups: [
+      bottomTabsOrder: [
         {
-          label: "grid",
-          moduleNames: ["Columns", "Row"],
+          id: "deviceMode",
+          type: "deviceMode",
         },
         {
-          label: "essentials",
-          moduleNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line", "Menu"],
+          id: "more",
+          type: "more",
         },
+      ],
+      topTabsOrder: [
         {
-          label: "media",
-          moduleNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
-        },
-        {
-          label: "content",
-          moduleNames: [
-            "IconText",
-            "Embed",
-            "StarRating",
-            "Alert",
-            "Counter",
-            "Countdown2",
-            "ProgressBar",
-            "Calendly",
-            "Carousel",
-            "Tabs",
-            "Accordion",
-            "Switcher",
-            "Table",
-            "Timeline",
+          id: "addElements",
+          type: "addElements",
+          elements: [
+            {
+              label: "grid",
+              moduleNames: ["Columns", "Row"],
+            },
+            {
+              label: "essentials",
+              moduleNames: ["Text", "Image", "Button", "Icon", "Spacer", "Map", "Form2", "Line", "Menu"],
+            },
+            {
+              label: "media",
+              moduleNames: ["ImageGallery", "Video", "Audio", "VideoPlaylist"],
+            },
+            {
+              label: "content",
+              moduleNames: [
+                "IconText",
+                "Embed",
+                "StarRating",
+                "Alert",
+                "Counter",
+                "Countdown2",
+                "ProgressBar",
+                "Calendly",
+                "Carousel",
+                "Tabs",
+                "Accordion",
+                "Switcher",
+                "Table",
+                "Timeline",
+              ],
+            },
+            {
+              label: "social",
+              moduleNames: ["Facebook", "Twitter", "FacebookComments"],
+            },
           ],
         },
         {
-          label: "social",
-          moduleNames: ["Facebook", "Twitter", "FacebookComments"],
+          id: "reorderBlock",
+          type: "reorderBlock",
+        },
+        {
+          id: "globalStyle",
+          type: "globalStyle",
         },
       ],
     },
