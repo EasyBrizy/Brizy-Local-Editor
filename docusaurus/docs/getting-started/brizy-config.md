@@ -36,8 +36,8 @@ type config = {
   // Menu
   menu?: Array<Menu>;
 
-  // Integration
-  integration?: {
+  // Integrations
+  integrations?: {
     /// Form
     form?: {
       action?: string;
@@ -139,6 +139,12 @@ type config = {
       onOpen?: VoidFunction;
       createMenuLabel?: string;
     };
+    form?: {
+      inputTypes?: Array<FormInputTypes>;
+    };
+    video?: {
+      types?: Array<VideoTypes>;
+    };
   };
 };
 ````
@@ -162,8 +168,8 @@ type config = {
   // Menu
   menu?: Array<Menu>;
 
-  // Integration
-  integration?: {
+  // Integrations
+  integrations?: {
     /// Form
     form?: {
       action?: string;
@@ -274,6 +280,12 @@ type config = {
       onOpen?: VoidFunction;
       createMenuLabel?: string;
     };
+    form?: {
+      inputTypes?: Array<FormInputTypes>;
+    };
+    video?: {
+      types?: Array<VideoTypes>;
+    };
   };
 };
 ```
@@ -294,8 +306,8 @@ type config = {
   // Story: Static story carosuel view
   mode: "story";
 
-  // Integration
-  integration?: {
+  // Integrations
+  integrations?: {
     /// Form
     form?: {
       action?: string;
@@ -394,6 +406,12 @@ type config = {
       onOpen?: VoidFunction;
       createMenuLabel?: string;
     };
+    form?: {
+      inputTypes?: Array<FormInputTypes>;
+    };
+    video?: {
+      types?: Array<VideoTypes>;
+    };
   };
 };
 ```
@@ -434,14 +452,14 @@ Config can be passed as an object when you initialize the editor from the script
 | `l10n`           | `object`                           | A data structure maps keys to localized strings for localization, with available keys listed [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/l10n.ts) and existing translations [here](https://github.com/EasyBrizy/Brizy-Local-Editor/tree/master/packages/core-translations). |
 | `pagePreview`    | `string`                           | Link of the preview which will be set on "preview" button in UI of the builder                                                                                                                                                                                                                                        |
 
-### Integration parameters
+### Integrations parameters
 
-| Name                                 | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| :----------------------------------- | :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `integration.form.action`            | `string`   | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                      |
-| `integration.form.recaptcha.siteKey` | `string`   | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| `integration.form.fields.label`      | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| `integration.form.fields.handler`    | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the `resolve(value)` function to pass it to the editor. In case you want to cancel the operation, call the `reject()` function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| Name                                  | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|:--------------------------------------| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `integrations.form.action`            | `string`   | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                      |
+| `integrations.form.recaptcha.siteKey` | `string`   | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `integrations.form.fields.label`      | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `integrations.form.fields.handler`    | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the `resolve(value)` function to pass it to the editor. In case you want to cancel the operation, call the `reject()` function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 ### DynamicContent parameters
 
@@ -500,40 +518,42 @@ Dynamic content can be configured in 2 ways
 
 ### API parameters
 
-| Name                             | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-|----------------------------------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `api.media.mediaResizeUrl`       | `string`   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                                                                                                                              |
-| `api.media.imagePatterns`        | `object`   | This is an object with `full`, `original`, and `split` keys. It's used to control the final URLs for all builder resize and crop operations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `api.media.addMedia.handler`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                             |
-| `api.customFile.fileUrl`         | `string`   | This is the URL for your resources the final URL will be `api.customFile.fileUrl/${fileName}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| `api.customFile.addFile.handler` | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                             |
-| `api.defaultKits.label`          | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `api.defaultKits.getKits`        | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ Array of kits ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                         |
-| `api.defaultKits.getMeta`        | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ Array of kits with blocks ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                             |
-| `api.defaultKits.getData`        | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve(block.json)`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                |
-| `api.defaultPopups.label`        | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `api.defaultPopups.getMeta`      | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ blocks: [ Array of blocks with screenshots and id] })`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                    |
-| `api.defaultPopups.getData`      | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve(popup.json)`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                |
-| `api.defaultLayouts.label`       | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `api.defaultLayouts.getMeta`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ templates: [ Array of layouts with pages and every page must have screenshots and id] })`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
-| `api.defaultLayouts.getData`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ page.json ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                             |
-| `api.defaultStories.label`       | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `api.defaultStories.getMeta`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ stories: [ Array of stories, every story must have screenshots and id] })`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                |
-| `api.defaultStories.getData`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ story.json ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                            |
-| `api.screenshots.screenshotUrl`  | `string`   | This is the base URL used to retrieve the screenshots. The final URL will be `${api.screenshots.screenshotUrl}${id}?t=${timestamp}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `api.screenshots.create`         | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                         |
-| `api.screenshots.update`         | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                         |
-| `api.onSave`                     | `JSON`     | Fired when the Save button is clicked                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `api.onAutoSave`                 | `JSON`     | Fired after Auto Save happened in editor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `api.onLoad`                     | `JSON`     | Fired when the builder is loaded                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| `api.autoSaveInterval`           | `number`   | Default `2000`. Set a `ms` delay for `onAutoSave` function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Name                             | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|----------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `api.media.mediaResizeUrl`       | `string`   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                                                                                                                                                                                                             |
+| `api.media.imagePatterns`        | `object`   | This is an object with `full`, `original`, and `split` keys. It's used to control the final URLs for all builder resize and crop operations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `api.media.addMedia.handler`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. In the `resolve` function, you can pass both the `uid` and `fileName` parameters. If the `uid` is not provided, it will default to the value of `fileName`, as the editor requires a `uid` to be provided. |
+| `api.customFile.fileUrl`         | `string`   | This is the URL for your resources the final URL will be `api.customFile.fileUrl/${fileName}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `api.customFile.addFile.handler` | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                                                                                                            |
+| `api.defaultKits.label`          | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `api.defaultKits.getKits`        | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ Array of kits ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                                                        |
+| `api.defaultKits.getMeta`        | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ Array of kits with blocks ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                                            |
+| `api.defaultKits.getData`        | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve(block.json)`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                                                               |
+| `api.defaultPopups.label`        | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `api.defaultPopups.getMeta`      | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ blocks: [ Array of blocks with screenshots and id] })`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                   |
+| `api.defaultPopups.getData`      | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve(popup.json)`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                                                               |
+| `api.defaultLayouts.label`       | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `api.defaultLayouts.getMeta`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ templates: [ Array of layouts with pages and every page must have screenshots and id] })`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                |
+| `api.defaultLayouts.getData`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ page.json ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                                                            |
+| `api.defaultStories.label`       | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `api.defaultStories.getMeta`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ stories: [ Array of stories, every story must have screenshots and id] })`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                               |
+| `api.defaultStories.getData`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve([ story.json ])`). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor.                                                                                                                                                           |
+| `api.screenshots.screenshotUrl`  | `string`   | This is the base URL used to retrieve the screenshots. The final URL will be `${api.screenshots.screenshotUrl}${id}?t=${timestamp}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `api.screenshots.create`         | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                                                                                                        |
+| `api.screenshots.update`         | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: `resolve({ id: screenshot id })`). In case you want to cancel the operation, call the reject() function.                                                                                                                                                                                                                                                                                                                                                        |
+| `api.onSave`                     | `JSON`     | Fired when the Save button is clicked                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `api.onAutoSave`                 | `JSON`     | Fired after Auto Save happened in editor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `api.onLoad`                     | `JSON`     | Fired when the builder is loaded                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `api.autoSaveInterval`           | `number`   | Default `2000`. Set a `ms` delay for `onAutoSave` function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 ### Elements parameters
 
-| Name                            | Type       | Description                                                                                                                                                                                                                                                                      |
-|:--------------------------------|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `elements.menu.createMenuLabel` | `string`   | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                    |
-| `elements.menu.onOpen`          | `function` | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu. |
+| Name                            | Type                    | Description                                                                                                                                                                                                                                                                      |
+|:--------------------------------|:------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `elements.menu.createMenuLabel` | `string`                | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                    |
+| `elements.menu.onOpen`          | `function`              | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu. |
+| `elements.form.inputTypes`      | `Array<FormInputTypes>` | Defines the input types available in the `Form` toolbar. If no value is specified, all input types will be displayed by default.                                                                                                                                                 |
+| `elements.video.types`          | `Array<VideoTypes>`     | Specifies the video type options available in the `Video` toolbar.                                                                                                                                                                                                               |
 
 ## Examples
 
@@ -1263,5 +1283,135 @@ import l10nUK from "/path/to/editor.uk.json";
 
 const config = {
   l10n: l10nUK,
+};
+```
+
+### Video Types
+
+```ts
+export enum VideoTypes {
+  Youtube = "youtube",
+  Vimeo = "vimeo",
+  Custom = "custom",
+  URL = "url",
+}
+```
+
+### Form Input Types
+
+```ts
+export type FormInputTypes =
+  | "Text"
+  | "Email"
+  | "Number"
+  | "Paragraph"
+  | "Select"
+  | "Radio"
+  | "Checkbox"
+  | "Date"
+  | "Url"
+  | "Time"
+  | "FileUpload"
+  | "Hidden"
+  | "Tel"
+  | "Password";
+```
+
+
+### Example DynamicContent replacer
+In the HTML output of the builder, certain strings may appear in the following format:  
+`{{ placeholder content='Base64(SOME EXTERNAL PLACEHOLDER)' }}`
+This occurs because the builder encapsulates all external placeholders within its own placeholder syntax.
+To replace the content of these placeholders with their actual values, you can use the [Brizy-Content-Placeholder](https://www.npmjs.com/package/@brizy/content-placeholder) library.
+
+```ts
+import {
+  ContentPlaceholder,
+  ContextInterface,
+  Extractor,
+  Registry,
+  Replacer,
+  EmptyContext
+} from "@brizy/content-placeholder";
+
+export class BuilderPlaceholder extends ContentPlaceholder {
+  constructor() {
+    super("Builder Placeholder", "placeholder");
+  }
+
+  support(placeholderName: string): boolean {
+    return placeholderName === this.placeholder;
+  }
+
+  async getValue(context: ContextInterface, placeholder: ContentPlaceholder): Promise<string> {
+    const { content, ...attrs } = placeholder.getAttributes() ?? {
+      content: "",
+    };
+    
+    if (!content)
+    {
+      return "";
+    }
+
+    const decodedContent = atob(content);
+    const extractor = new Extractor();
+
+    const [contentPlaceholders] = extractor.extractIgnoringRegistry(decodedContent);
+
+    if (contentPlaceholders.length === 0) {
+      return "";
+    }
+
+    const contentPlaceholder = contentPlaceholders[0];
+    const placeholderAttrs = contentPlaceholder.getAttributes();
+
+    contentPlaceholder.setAttributes({
+      ...placeholderAttrs,
+      ...attrs,
+    });
+
+    return contentPlaceholder.buildPlaceholder();
+  }
+
+  getConfigStructure(): any {
+    return {
+      id: this.getUid(),
+      label: this.getLabel(),
+      name: this.getPlaceholder(),
+      placeholder: this.buildPlaceholder(),
+      attr: this.getAttributes(),
+      varyAttr: this.getVaryAttributes(),
+    };
+  }
+
+  getFallbackValue(context: ContextInterface, placeholder: ContentPlaceholder): string {
+    return "";
+  }
+
+  getLabel(): string {
+    return "";
+  }
+
+  getVaryAttributes(): string {
+    return "";
+  }
+
+  setLabel(label: string): void {}
+
+  shouldFallbackValue(value: string, context: ContextInterface, placeholder: ContentPlaceholder): boolean {
+    return false;
+  }
+}
+
+export const replacePlaceholders =  async (html:string): Promise<string> => {
+  const context = new EmptyContext();
+
+  const registry = new Registry();
+  const builderInstance = new BuilderPlaceholder();
+  registry.registerPlaceholder(builderInstance);
+
+  const replacer = new Replacer(registry);
+
+  return await replacer.replacePlaceholders(value, context); // The value will be the html content with replaced builder placeholders
 };
 ```
