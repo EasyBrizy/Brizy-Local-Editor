@@ -6,10 +6,23 @@ export type AddMediaHandler = (uid: string, extra?: AddMediaExtra) => Promise<Ad
 export const getMediaHandler = (mediaHandler: AddMediaHandler, uid: string) => {
   const handler: Handler<AddMediaData, string, AddMediaExtra> = async (res, rej, extra) => {
     try {
-      const data = await mediaHandler(uid, extra);
-      res(data);
-    } catch (e) {
-      const message = e instanceof Error ? e.message : "Error adding media";
+      const { uid: imageUid, fileName } = await mediaHandler(uid, extra);
+
+      if (imageUid && fileName) {
+        return res({ uid: imageUid, fileName });
+      }
+
+      if (fileName) {
+        return res({ uid: fileName });
+      }
+
+      if (imageUid) {
+        return res({ uid: imageUid });
+      }
+
+      rej("Error adding media");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Error adding media";
       rej(message);
     }
   };
