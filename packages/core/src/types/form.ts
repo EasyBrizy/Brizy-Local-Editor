@@ -15,3 +15,19 @@ export interface Form {
     handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
   };
 }
+
+export type FormInputTypes =
+  | "Text"
+  | "Email"
+  | "Number"
+  | "Paragraph"
+  | "Select"
+  | "Radio"
+  | "Checkbox"
+  | "Date"
+  | "Url"
+  | "Time"
+  | "FileUpload"
+  | "Hidden"
+  | "Tel"
+  | "Password";

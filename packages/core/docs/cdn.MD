@@ -62,8 +62,8 @@ type config = {
   // Menu
   menu?: Array<Menu>;
 
-  // Integration
-  integration?: {
+  // Integrations
+  integrations?: {
     /// Form
     form?: {
       action?: string;
@@ -188,8 +188,8 @@ type config = {
   // Menu
   menu?: Array<Menu>;
 
-  // Integration
-  integration?: {
+  // Integrations
+  integrations?: {
     /// Form
     form?: {
       action?: string;
@@ -320,8 +320,8 @@ type config = {
   // Story: Static story carosuel view
   mode: "story";
 
-  // Integration
-  integration?: {
+  // Integrations
+  integrations?: {
     /// Form
     form?: {
       action?: string;
@@ -659,14 +659,14 @@ Config can be passed as an object when you initialize the editor from the script
 | extension       | array                    | Load the array of extension scripts and styles                                                                                         |
 | l10n            | object                   | A data structure that maps keys to localized strings for localization purposes. All keys available [here](/packages/core/docs/l10n.ts) |
 
-### Integration parameters
+### Integrations parameters
 
-| Name                               | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| :--------------------------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| integration.form.action            | string   | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                  |
-| integration.form.recaptcha.siteKey | string   | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| integration.form.fields.label      | string   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| integration.form.fields.handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| Name                                | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|:------------------------------------| :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| integrations.form.action            | string   | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                  |
+| integrations.form.recaptcha.siteKey | string   | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| integrations.form.fields.label      | string   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| integrations.form.fields.handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 ### DynamicContent parameters
 

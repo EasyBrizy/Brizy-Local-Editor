@@ -37,6 +37,8 @@ export const getApi = (data: Data) => {
   const enabledDefaultLayouts = getIn(api, ["defaultLayouts", "enable"]);
   const enabledDefaultStories = getIn(api, ["defaultStories", "enable"]);
   const enabledScreenshots = getIn(api, ["screenshots", "enable"]);
+  const enabledCollectionTypes = getIn(api, ["collectionTypes", "enable"]);
+  const enabledCollectionItems = getIn(api, ["collectionItems", "enable"]);
 
   const {
     getKits: getApiKits,
@@ -97,6 +99,18 @@ export const getApi = (data: Data) => {
     }) as Record<string, unknown>;
   }
 
+  if (enabledCollectionTypes) {
+    api = setIn(api, ["collectionTypes"], {
+      loadCollectionTypes: getLoadCollectionTypesHandler(loadCollectionTypes, uid),
+    }) as Record<string, unknown>;
+  }
+
+  if (enabledCollectionItems) {
+    api = setIn(api, ["collectionItems"], {
+      getCollectionItems: getCollectionItemsHandler(getCollectionItems, uid),
+    }) as Record<string, unknown>;
+  }
+
   return {
     ...api,
     media: {
@@ -106,12 +120,6 @@ export const getApi = (data: Data) => {
     customFile: {
       ...customFile,
       addFile: getCustomFileHandler(addFile, uid),
-    },
-    collectionTypes: {
-      loadCollectionTypes: getLoadCollectionTypesHandler(loadCollectionTypes, uid),
-    },
-    collectionItems: {
-      getCollectionItems: getCollectionItemsHandler(getCollectionItems, uid),
     },
   };
 };
