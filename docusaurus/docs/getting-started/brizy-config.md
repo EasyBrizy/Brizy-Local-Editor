@@ -422,17 +422,17 @@ Config can be passed as an object when you initialize the editor from the script
 
 ### First level parameters
 
-| Name             | Type                               | Description                                                                                                                                                                                       |
-| :--------------- | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `container`      | `HTMLElement`                      | Brizy Plugin will load into HTML element.                                                                                                                                                         |
-| `mode`           | `"page"` \| `"popup"` \| `"story"` | Default `"page"`                                                                                                                                                                                  |
-| `htmlOutputType` | `"json"`\| `"html"`                | Default `"html"`                                                                                                                                                                                  |
-| `pageData`       | `object`                           | Loads the JSON page specified in the pageData parameter.                                                                                                                                          |
-| `projectData`    | `object`                           | Loads the JSON project specified in the projectData parameter.                                                                                                                                    |
-| `menu`           | `array`                            | Load the array of menu                                                                                                                                                                            |
-| `extension`      | `array`                            | Load the array of extension scripts and styles                                                                                                                                                    |
-| `l10n`           | `object`                           | A data structure that maps keys to localized strings for localization purposes. All keys available [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/l10n.ts) |
-| `pagePreview`    | `string`                           | Link of the preview which will be set on "preview" button in UI of the builder                                                                                                                    |
+| Name             | Type                               | Description                                                                                                                                                                                                                                                                                                           |
+| :--------------- | :--------------------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `container`      | `HTMLElement`                      | Brizy Plugin will load into HTML element.                                                                                                                                                                                                                                                                             |
+| `mode`           | `"page"` \| `"popup"` \| `"story"` | Default `"page"`                                                                                                                                                                                                                                                                                                      |
+| `htmlOutputType` | `"json"`\| `"html"`                | Default `"html"`                                                                                                                                                                                                                                                                                                      |
+| `pageData`       | `object`                           | Loads the JSON page specified in the pageData parameter.                                                                                                                                                                                                                                                              |
+| `projectData`    | `object`                           | Loads the JSON project specified in the projectData parameter.                                                                                                                                                                                                                                                        |
+| `menu`           | `array`                            | Load the array of menu                                                                                                                                                                                                                                                                                                |
+| `extension`      | `array`                            | Load the array of extension scripts and styles                                                                                                                                                                                                                                                                        |
+| `l10n`           | `object`                           | A data structure maps keys to localized strings for localization, with available keys listed [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/l10n.ts) and existing translations [here](https://github.com/EasyBrizy/Brizy-Local-Editor/tree/master/packages/core-translations). |
+| `pagePreview`    | `string`                           | Link of the preview which will be set on "preview" button in UI of the builder                                                                                                                                                                                                                                        |
 
 ### Integration parameters
 
@@ -1253,3 +1253,15 @@ const config = {
   - The `update` handler will also receive an additional `id` parameter, which identifies the screenshot to be updated.
 4. The editor will generate the screenshot URL by concatenating `api.screenshots.screenshotUrl` with the screenshot’s `id` and appending a query parameter with the current timestamp to bypass caching.
 5. The resulting URL format will be: `${api.screenshots.screenshotUrl}${id}?t=${timestamp}`.
+
+### Example: Localization (`l10n`)  
+
+To use localization, import one of the files from [/packages/core-translations](https://github.com/EasyBrizy/Brizy-Local-Editor/tree/master/packages/core-translations) and include it in the Brizy configuration:  
+
+```ts
+import l10nUK from "/path/to/editor.uk.json";
+
+const config = {
+  l10n: l10nUK,
+};
+```
