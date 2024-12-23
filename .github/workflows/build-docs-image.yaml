@@ -58,10 +58,8 @@ jobs:
           git tag docs-${{ inputs.version }}
           git push origin --tags
 
-      - name: Send custom message to Discord
-        uses: appleboy/discord-action@master
+      - name: Discord Webhook Action
+        uses: tsickert/discord-webhook@v6.0.0
         with:
-          webhook_id: ${{ secrets.WEBHOOK_ID }}
-          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-          username: "GitHub Bot"
-          message: "New version of the documentation has been released ${{ inputs.version }}"
+          webhook-url: ${{ secrets.WEBHOOK_URL }}
+          content: "New version of the documentation has been released ${{ inputs.version }}"
