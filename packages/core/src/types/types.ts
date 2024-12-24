@@ -4,7 +4,7 @@ import { CollectionTypes } from "./collectionTypes";
 import { PageData, PageDataOutput, ProjectData, ProjectDataOutput } from "./common";
 import { CustomFile } from "./customFile";
 import { DynamicContent } from "./dynamicContent";
-import { Form } from "./form";
+import { Form, FormInputTypes } from "./form";
 import { LeftSidebar } from "./leftSidebar";
 import { Media } from "./media";
 import { Menu } from "./menu";
@@ -12,6 +12,7 @@ import { Publish } from "./publish";
 import { Screenshots } from "./screenshots";
 import { DefaultKits, DefaultLayouts, DefaultPopups, DefaultStories } from "./templates";
 import { Theme } from "./theme";
+import { VideoTypes } from "./video";
 
 export interface Output<T extends HtmlOutputType> {
   pageData: PageDataOutput<T>;
@@ -241,6 +242,12 @@ export interface Config<T extends HtmlOutputType> {
     menu?: {
       createMenuLabel?: string;
       onOpen?: VoidFunction;
+    };
+    form?: {
+      inputTypes?: Array<FormInputTypes>;
+    };
+    video?: {
+      types?: Array<VideoTypes>;
     };
   };
 
