@@ -11,8 +11,10 @@ export class CollectionContext implements ContextInterface {
   private entityType: string;
   private entityId: string;
   private attributes: Record<string, unknown> = {};
+  private readonly parentContext: ContextInterface | null = null;
+  private placeholders: ContentPlaceholder[] = [];
 
-  constructor(data?: Partial<ContextArgs>) {
+  constructor(data?: Partial<ContextArgs>, parentContext?: ContextInterface) {
     const { entityType, entityId, attributes } = data ?? {};
 
     this.entityType = entityType ?? "";
@@ -20,6 +22,10 @@ export class CollectionContext implements ContextInterface {
 
     if (attributes) {
       this.attributes = attributes;
+    }
+
+    if (parentContext instanceof CollectionContext) {
+      this.parentContext = parentContext;
     }
   }
 
@@ -38,6 +44,10 @@ export class CollectionContext implements ContextInterface {
     };
   }
 
+  setPlaceholders(placeholders: ContentPlaceholder[]): void {
+    this.placeholders = [...this.placeholders, ...placeholders];
+  }
+
   getEntityType(): string {
     return this.entityType;
   }
@@ -50,9 +60,27 @@ export class CollectionContext implements ContextInterface {
     return this.attributes;
   }
 
-  afterExtract(
-    contentPlaceholders: ContentPlaceholder[],
-    instancePlaceholders: PlaceholderInterface[],
-    contentAfterExtractor: string,
-  ): any {}
+  getPlaceholders(): ContentPlaceholder[] {
+    return this.placeholders;
+  }
+
+  afterExtract(contentPlaceholders: ContentPlaceholder[]): void {
+    this.setPlaceholders(contentPlaceholders);
+  }
+
+  searchPlaceholderByNameAndAttr(name: string, attr: string, attrValue: string): ContentPlaceholder | null {
+    const placeholder = this.getPlaceholders().find(
+      (placeholder) => placeholder.getName() === name && placeholder.getAttributes()?.[attr] === attrValue,
+    );
+
+    if (placeholder) {
+      return placeholder;
+    }
+
+    if (this.parentContext instanceof CollectionContext) {
+      return this.parentContext.searchPlaceholderByNameAndAttr(name, attr, attrValue);
+    }
+
+    return null;
+  }
 }

@@ -1,6 +1,6 @@
 import { BasePlaceholder } from "@/placeholders/types/BasePlaceholder";
 import { PlaceholderType } from "@/placeholders/types/types";
-import { ContentPlaceholder, ContextInterface, Extractor, Registry } from "@brizy/content-placeholder";
+import { ContentPlaceholder, ContextInterface, Extractor } from "@brizy/content-placeholder";
 import { Str } from "@brizy/readers";
 
 export class BuilderPlaceholder extends BasePlaceholder {
@@ -20,7 +20,7 @@ export class BuilderPlaceholder extends BasePlaceholder {
     const decodedContent = atob(content);
     const extractor = new Extractor();
 
-    const [contentPlaceholders] = extractor.extractIgnoringRegistry(decodedContent);
+    const [contentPlaceholders] = extractor.extractIgnoringRegistry(decodedContent, null, true);
 
     if (contentPlaceholders.length === 0) {
       return "";
