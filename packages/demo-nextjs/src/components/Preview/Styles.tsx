@@ -18,19 +18,21 @@ export const Styles = (props: Props): ReactElement => {
 
       return (
         <>
-          {styles.map((style, i) => {
-            const { attr } = style;
-            const { class: _class, ..._attr } = attr;
-            const className = _class ? `${_class}` : undefined;
+          {styles
+            .sort((style) => (style.type === "style" ? 1 : -1))
+            .map((style, i) => {
+              const { attr } = style;
+              const { class: _class, ..._attr } = attr;
+              const className = _class ? `${_class}` : undefined;
 
-            if (style.type === "style") {
-              return (
-                <style key={i} {..._attr} className={className} dangerouslySetInnerHTML={{ __html: style.html }} />
-              );
-            }
+              if (style.type === "style") {
+                return (
+                  <style key={i} {..._attr} className={className} dangerouslySetInnerHTML={{ __html: style.html }} />
+                );
+              }
 
-            return <link key={i} {..._attr} className={className} />;
-          })}
+              return <link key={i} {..._attr} className={className} />;
+            })}
         </>
       );
     }
