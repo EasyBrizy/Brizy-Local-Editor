@@ -1,13 +1,14 @@
 {
   "name": "@brizy/scripts",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Configuration and scripts for Brizy Third Party",
   "keywords": [
     "brizy",
     "Third Party"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=18.12.0",
+    "npm": ">=8.19.2"
   },
   "scripts": {
     "tsc": "tsc --noEmit",
