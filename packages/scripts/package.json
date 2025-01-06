@@ -7,7 +7,8 @@
     "Third Party"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=18.12.0",
+    "npm": ">=8.19.2"
   },
   "scripts": {
     "tsc": "tsc --noEmit",

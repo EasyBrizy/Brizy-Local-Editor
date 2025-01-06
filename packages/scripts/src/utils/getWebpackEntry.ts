@@ -56,8 +56,7 @@ export function getWebpackEntry() {
             return "";
           }
 
-          const entryName = filepath.replace(path.extname(filepath), "").replace(`${appSrc}/`, "").replace(/\\/g, "/");
-
+          const entryName = path.basename(filepath, path.extname(filepath));
           const [entryFilepath] = glob(`${entryName}.?(m)[jt]s?(x)`, {
             absolute: true,
             cwd: appSrc,
