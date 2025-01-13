@@ -151,6 +151,12 @@ type BuilderAPI = API & {
   screenshots?: {
     enable?: boolean;
   };
+  collectionTypes?: {
+    enable?: boolean;
+  };
+  collectionItems?: {
+    enable?: boolean;
+  };
 };
 
 const createApi = (config: Config<HtmlOutputType>): BuilderAPI => {
@@ -178,6 +184,14 @@ const createApi = (config: Config<HtmlOutputType>): BuilderAPI => {
 
   if (api.screenshots && api.screenshots.screenshotUrl) {
     api = setIn(api, ["screenshots", "enable"], true) as BuilderAPI;
+  }
+
+  if (api.collectionTypes) {
+    api = setIn(api, ["collectionTypes"], { enable: true }) as BuilderAPI;
+  }
+
+  if (api.collectionItems) {
+    api = setIn(api, ["collectionItems"], { enable: true }) as BuilderAPI;
   }
 
   return api;
