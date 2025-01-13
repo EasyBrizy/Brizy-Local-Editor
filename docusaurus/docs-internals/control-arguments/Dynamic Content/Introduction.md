@@ -1,9 +1,3 @@
----
-sidebar_position: 2
----
-
-# Dynamic Content
-
 Brizy's controls can dynamically receive data from various sources using content tags. This dynamic content helps us customize the control's output.
 In Brizy Cloud and Brizy WordPress, dynamic content options cannot be directly customized. They will default to pre-defined options. However, in Brizy Local, you can configure these options using config.<br/>
 
