@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "postinstall": "./bin/postinstall.sh",
+    "postinstall": "node ./bin/postinstall.js",
     "build": "turbo run build",
     "build:docs": "turbo run build --filter=@brizy/docs",
     "build:core": "npm run build:prod --workspace=@builder/core",
