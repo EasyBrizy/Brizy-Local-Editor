@@ -1,26 +1,29 @@
-import { Assets, Styles } from "../utils/assetManager/types";
-import { HtmlOutputType } from "./types";
-
 export type Response<R> = (r: R) => void;
 
 //#region Assets
+
+enum AssetType {
+  Inline = "inline",
+  Code = "code",
+  File = "file",
+}
 
 export interface AssetCommon {
   attr?: Record<string, string>;
 }
 
 export interface AssetFile extends AssetCommon {
-  type: "file";
+  type: AssetType.File;
   url: string;
 }
 
 export interface AssetInline extends AssetCommon {
-  type: "inline";
+  type: AssetType.Inline;
   content: string;
 }
 
 export interface AssetCode {
-  type: "code";
+  type: AssetType.Code;
   content: string;
 }
 
@@ -30,6 +33,19 @@ export interface Asset {
   content: AssetFile | AssetInline | AssetCode;
   pro: boolean;
 }
+
+interface Style {
+  type: "style";
+  attr: Record<string, string>;
+  html: string;
+}
+
+interface Link {
+  type: "link";
+  attr: Record<string, string>;
+}
+
+export type Styles = Style | Link;
 
 export interface AssetGoogle {
   name: "google";
@@ -117,72 +133,36 @@ export interface PageJsonOutput {
   };
 }
 
-export interface PageHtmlOutput {
-  html: string;
-  styles: Array<string>;
-  scripts: Array<string>;
-}
-
-export type PageCompiled = {
-  html: PageHtmlOutput;
-  json: PageJsonOutput;
-};
-
-export type PageData<T extends HtmlOutputType> = {
+export type PageData = {
   [key: string]: unknown;
-  compiled?: PageCompiled[T];
+  compiled?: PageJsonOutput;
 };
 
-export interface PageJsonCompiledOutput extends Assets {
-  html: string;
-}
-
-type PageCompiledOutput = {
-  html: PageHtmlOutput;
-  json: PageJsonCompiledOutput;
-};
-
-export type PageDataOutput<T extends HtmlOutputType> = {
+export type PageDataOutput = {
   [k: string]: unknown;
-  compiled?: PageCompiledOutput[T];
+  compiled?: PageJsonOutput;
 };
-
-export const isPageJsonCompile = (p: PageJsonOutput | PageHtmlOutput): p is PageJsonOutput => "assets" in p;
 
 //#endregion
 
 //#region Project
 
-interface ProjectHtmlOutput {
-  styles: Array<string>;
-}
-
-interface ProjectJsonOutput {
+export interface ProjectJsonOutput {
   styles: Array<Asset>;
 }
 
-export type ProjectCompiled = {
-  html: ProjectHtmlOutput;
-  json: ProjectJsonOutput;
-};
-
-export type ProjectData<T extends HtmlOutputType> = {
+export type ProjectData = {
   [key: string]: unknown;
-  compiled?: ProjectCompiled[T];
+  compiled?: ProjectJsonOutput;
 };
 
 export interface ProjectJsonCompiledOutput {
   styles: Array<Styles>;
 }
 
-type ProjectCompiledOutput = {
-  html: ProjectHtmlOutput;
-  json: ProjectJsonCompiledOutput;
-};
-
-export type ProjectDataOutput<T extends HtmlOutputType> = {
+export type ProjectDataOutput = {
   [k: string]: unknown;
-  compiled?: ProjectCompiledOutput[T];
+  compiled?: ProjectJsonCompiledOutput;
 };
 
 //#endregion

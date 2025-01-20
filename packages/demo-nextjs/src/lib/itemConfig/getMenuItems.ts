@@ -1,5 +1,6 @@
 import { TreeItems } from "@/components/Menu/types";
 import { getMenu } from "@/lib/admin";
+import { demoMenu } from "@/lib/editorConfig/demoConfig";
 import type { Menu, MenuItem } from "@builder/core/build/es/types/menu";
 
 function convertToEditorMenu(items: TreeItems): MenuItem[] {
@@ -22,7 +23,7 @@ export async function getMenuItems(): Promise<Menu> {
   try {
     const menu = convertToEditorMenu(await getMenu());
 
-    return [{ id: "myMenuId", name: "First Menu", items: menu }];
+    return [...demoMenu, { id: "myMenuId", name: "First Menu", items: menu }];
   } catch (e) {
     console.log("Failed to get Menu: ", e);
     return [];

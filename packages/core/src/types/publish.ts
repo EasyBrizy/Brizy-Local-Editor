@@ -1,11 +1,11 @@
-import { HtmlOutputType, Output } from "@/types/types";
+import { Output } from "@/types/types";
 import { PageDataOutput, ProjectDataOutput, Response } from "./common";
 
-export interface PublishData<T extends HtmlOutputType> {
-  projectData?: ProjectDataOutput<T>;
-  pageData?: PageDataOutput<T>;
+export interface PublishData {
+  projectData?: ProjectDataOutput;
+  pageData?: PageDataOutput;
 }
 
-export interface Publish<T extends HtmlOutputType> {
-  handler: (res: Response<PublishData<T>>, rej: Response<string>, extra: Output<T>) => void;
+export interface Publish {
+  handler: (res: Response<PublishData>, rej: Response<string>, extra: Output) => void;
 }

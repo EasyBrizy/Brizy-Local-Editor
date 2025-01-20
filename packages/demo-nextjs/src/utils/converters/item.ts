@@ -1,10 +1,10 @@
 import { Item } from "@/lib/db/types";
-import { PageJsonCompiledOutput } from "@builder/core/build/es/types/common";
+import { PageJsonOutput } from "@builder/core/build/es/types/common";
 
 type _Item = Omit<Item, "data">;
 export type ItemDataParsed = _Item & {
   data: {
-    compiled?: PageJsonCompiledOutput;
+    compiled?: PageJsonOutput;
   };
 };
 

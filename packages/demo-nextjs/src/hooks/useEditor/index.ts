@@ -1,14 +1,15 @@
 import { getConfig } from "@/config";
+import { Builder } from "@builder/core/build/es/types/types";
 import { useEffect, useReducer, useRef } from "react";
 import { reducer } from "./reducer";
-import { ActionKind, BuilderGlobal, Config, Instance, State } from "./types";
+import { ActionKind, Config, Instance, State } from "./types";
 
 export const useEditor = (token: string, config: Config): [State, Instance | undefined] => {
   const [state, dispatch] = useReducer(reducer, {
     status: ActionKind.idle,
   });
   const builderInstance = useRef<Instance>();
-  const builderGlobal = useRef<BuilderGlobal>();
+  const builderGlobal = useRef<Builder>();
   const builderScript = useRef<HTMLScriptElement>();
 
   useEffect(() => {

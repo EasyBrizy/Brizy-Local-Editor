@@ -1,25 +1,25 @@
 import { loader } from "@/Loader";
 import { initLoader } from "@/Loader/init";
 import { init } from "@/actions/init";
-import { ActionResolve, HtmlOutputType, Init, OnSave } from "@/types/types";
+import { ActionResolve, Init, OnSave } from "@/types/types";
 import { getHandlers } from "@/utils/config";
 import * as Comlink from "comlink";
 import { v4 as uuid } from "uuid";
 
-const savedNodeCB = new Map<HTMLElement, OnSave<HtmlOutputType>>();
+const savedNodeCB = new Map<HTMLElement, OnSave>();
 
 type IframeHandlers = {
   init: (data: ActionResolve) => void;
   save: (uid: string) => void;
 };
 
-export const Core: Init<HtmlOutputType> = (token, config, cb) => {
+export const Core: Init = (token, config, cb) => {
   if (!token) {
     console.error("Token is required");
     return;
   }
 
-  const { htmlOutputType = "html", container } = config;
+  const { container } = config;
 
   if (!(container instanceof HTMLElement)) {
     console.error("The element must be a valid HTMLElement");
@@ -49,7 +49,6 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
       config,
       iframe,
       container,
-      htmlOutputType,
       spinner,
       savedNodeCB,
       uid,
@@ -60,7 +59,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
     const iframeApi = Comlink.wrap<IframeHandlers>(Comlink.windowEndpoint(iframeWindow));
     await iframeApi.init(init(config, token, uid));
 
-    const save = async (cb?: OnSave<HtmlOutputType>) => {
+    const save = async (cb?: OnSave) => {
       if (typeof cb === "function") {
         savedNodeCB.set(container, cb);
       }

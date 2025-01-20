@@ -14,9 +14,9 @@ import { DefaultKits, DefaultLayouts, DefaultPopups, DefaultStories } from "./te
 import { Theme } from "./theme";
 import { VideoTypes } from "./video";
 
-export interface Output<T extends HtmlOutputType> {
-  pageData?: PageDataOutput<T>;
-  projectData?: ProjectDataOutput<T>;
+export interface Output {
+  pageData?: PageDataOutput;
+  projectData?: ProjectDataOutput;
   error?: string;
   popupSettings?: {
     verticalAlign: "top" | "bottom" | "center";
@@ -38,34 +38,31 @@ export enum ShopifyTemplate {
   Blog = "shopify-blog",
 }
 
-export interface BuilderOutput<T extends HtmlOutputType> {
-  pageData?: PageData<T>;
-  projectData?: ProjectData<T>;
+export interface BuilderOutput {
+  pageData?: PageData;
+  projectData?: ProjectData;
   error?: string;
   mode: BuilderModes;
 }
 
-export interface AutoSaveOutput<T extends HtmlOutputType> {
-  pageData?: PageData<T>;
-  projectData?: ProjectData<T>;
+export interface AutoSaveOutput {
+  pageData?: PageData;
+  projectData?: ProjectData;
 }
 
-export type OnSave<T extends HtmlOutputType> = (output: Output<T>) => void;
-export type OnAutoSave<T extends HtmlOutputType> = (output: AutoSaveOutput<T>) => void;
+export type OnSave = (output: Output) => void;
+export type OnAutoSave = (output: AutoSaveOutput) => void;
 
 export interface Extension {
   host?: string;
   path: string;
 }
 
-export type HtmlOutputType = "html" | "json";
-
-export interface Config<T extends HtmlOutputType> {
+export interface Config {
   mode?: Modes;
   container: HTMLElement;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
-  htmlOutputType: T;
 
   //#region Extensions
 
@@ -138,7 +135,7 @@ export interface Config<T extends HtmlOutputType> {
     leftSidebar?: LeftSidebar;
 
     // Publish
-    publish?: Publish<T>;
+    publish?: Publish;
   };
 
   //#endregion
@@ -178,8 +175,8 @@ export interface Config<T extends HtmlOutputType> {
 
   //#region Events
 
-  onSave?: OnSave<T>;
-  onAutoSave?: OnAutoSave<T>;
+  onSave?: OnSave;
+  onAutoSave?: OnAutoSave;
   autoSaveInterval?: number;
   onLoad?: VoidFunction;
 
@@ -269,8 +266,8 @@ export type ActionResolve = {
   data: string;
 };
 
-export type Init<T extends HtmlOutputType> = (token: string, config: Config<T>, cb: CB) => void;
+export type Init = (token: string, config: Config, cb: CB) => void;
 
-export type Builder<T extends HtmlOutputType> = {
-  init: Init<T>;
+export type Builder = {
+  init: Init;
 };

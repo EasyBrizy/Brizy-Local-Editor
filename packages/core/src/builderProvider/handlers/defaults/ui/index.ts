@@ -1,4 +1,3 @@
-import { getAssetsType } from "@/builderProvider/utils/thirdParty";
 import {
   BaseElementTypes,
   LeftSidebar,
@@ -9,7 +8,7 @@ import {
   isLeftSidebarAddElementsType,
 } from "@/types/leftSidebar";
 import { Publish } from "@/types/publish";
-import { Config, HtmlOutputType } from "@/types/types";
+import { Config } from "@/types/types";
 import { getIn, setIn } from "timm";
 import { ExposedHandlers } from "../../../types/type";
 import { getOpenCMS } from "./cms";
@@ -24,9 +23,9 @@ interface Data {
 
 const defaultUI = (
   mode: string,
-  configUi: Config<HtmlOutputType>["ui"],
+  configUi: Config["ui"],
 ): {
-  ui: Config<HtmlOutputType>["ui"];
+  ui: Config["ui"];
   leftSidebar: LeftSidebar;
 } => {
   const topTabsOrder: Array<LeftSidebarOption> = [
@@ -54,7 +53,7 @@ const defaultUI = (
     scrollPageBehind: true,
   };
 
-  let ui: Config<HtmlOutputType>["ui"] = {
+  let ui: Config["ui"] = {
     leftSidebar: {
       topTabsOrder: [
         {
@@ -303,8 +302,7 @@ export const getUi = (data: Data): Record<string, unknown> => {
   const popupSettings = Object.assign({}, oldUI.popupSettings, ui.popupSettings);
   const enabledCMS = getIn(leftSidebar, ["cms", "enable"]);
   const enabledPublish = getIn(ui, ["publish", "enable"]);
-  let publish: Partial<Publish<HtmlOutputType>> = {};
-  const assetsType = getAssetsType(config);
+  let publish: Partial<Publish> = {};
 
   if (enabledCMS) {
     const { onOpenCMS, onCloseCMS } = handlers;
@@ -315,7 +313,7 @@ export const getUi = (data: Data): Record<string, unknown> => {
   }
 
   if (enabledPublish) {
-    publish = getPublish({ assetsType, publishHandler: handlers.publish, uid });
+    publish = getPublish({ publishHandler: handlers.publish, uid });
   }
 
   return {

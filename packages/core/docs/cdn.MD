@@ -51,11 +51,6 @@ type config = {
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
 
-  // html: Array of strings with Styles & Scripts
-  // json: Array of more granular objects, used when needing to merge multiple pages into one
-  // Use this case when you need to create a fully customizable preview HTML
-  htmlOutputType: "html" | "json";
-
   // Page: Static Page view
   mode: "page"
 
@@ -176,11 +171,6 @@ type config = {
   container: HTMLElement;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
-
-  // html: Array of strings with Styles & Scripts
-  // json: Array of more granular objects, used when needing to merge multiple pages into one
-  // Use this case when you need to create a fully customizable preview HTML
-  htmlOutputType: "html" | "json";
 
   // Popup: Static Popup view with conditions(open on exit, open after x minutes)
   mode: "popup";
@@ -311,11 +301,6 @@ type config = {
   container: HTMLElement;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
-
-  // html: Array of strings with Styles & Scripts
-  // json: Array of more granular objects, used when needing to merge multiple pages into one
-  // Use this case when you need to create a fully customizable preview HTML
-  htmlOutputType: "html" | "json";
 
   // Story: Static story carosuel view
   mode: "story";
@@ -652,7 +637,6 @@ Config can be passed as an object when you initialize the editor from the script
 |:----------------|:-------------------------|:---------------------------------------------------------------------------------------------------------------------------------------|
 | container       | HTMLElement              | Brizy Plugin will load into HTML element.                                                                                              |
 | mode            | "page", "popup", "story" | Default "page"                                                                                                                         |
-| htmlOutputType  | "json", "html"           | Default "html"                                                                                                                         |
 | pageData        | object                   | Loads the JSON page specified in the pageData parameter.                                                                               |
 | projectData     | object                   | Loads the JSON project specified in the projectData parameter.                                                                         |
 | menu            | array                    | Load the array of menu                                                                                                                 |
@@ -1504,3 +1488,227 @@ These are the callbacks that are triggered when the buttons are clicked.
 | popupSettings.horizontalAlign | "center" or "right" or "left" | Default "center". [Horizontal align](https://user-images.githubusercontent.com/5760683/216273441-a50bf80e-5894-4e5f-b764-20ee1552b0f6.png). |
 
 See more details in TS [see below](https://github.com/EasyBrizy/Brizy-Local/blob/master/packages/core/src/types/types.ts)
+
+### Using Output data from `onSave` and `publish` functions
+The `onSave` and `publish` functions retrieve the editor's output data. This data has the following structure:
+
+```typescript
+interface Output {
+  pageData: PageDataOutput;
+  projectData: ProjectDataOutput;
+  error?: string;
+  popupSettings?: {
+    verticalAlign: "top" | "bottom" | "center";
+    horizontalAlign: "left" | "right" | "center";
+  };
+}
+
+interface Style {
+  type: "style";
+  attr: Record<string, string>;
+  html: string;
+}
+
+interface Link {
+  type: "link";
+  attr: Record<string, string>;
+}
+
+type PageDataOutput = {
+  [k: string]: unknown;
+  compiled?: {
+    html: string;
+    assets: {
+      freeStyles: StylesFree;
+      freeScripts: ScriptsFree;
+      proStyles?: StylesPro;
+      proScripts?: ScriptsPro;
+    };
+  };
+};
+
+type ProjectDataOutput = {
+  [k: string]: unknown;
+  compiled?: {
+    styles: Array<Style | Link>;
+  };
+};
+```
+
+#### Normalizing `pageData` and `projectData`
+To normalize and aggregate pageData and projectData, use the @brizy/merge-page-assets library. Here is the process:
+
+```ts
+import { AssetAggregator, AssetGroup } from "@brizy/merge-page-assets";
+
+const { freeStyles, freeScripts, proStyles, proScripts } = pageData.compiled.assets;
+const { styles } = projectData.compiled;
+
+// Merge project styles into free page styles
+freeStyles.pageStyles = [...freeStyles.pageStyles, ...styles];
+
+// Create asset groups for scripts and styles
+const scriptsAssets = [AssetGroup.instanceFromJsonData(freeScripts)];
+const stylesAssets = [AssetGroup.instanceFromJsonData(freeStyles)];
+
+if (proStyles) stylesAssets.push(AssetGroup.instanceFromJsonData(proStyles));
+if (proScripts) scriptsAssets.push(AssetGroup.instanceFromJsonData(proScripts));
+
+// Function to aggregate asset lists
+const getAggregatedAssetList = (assets: AssetGroup[]) => {
+  const assetAggregator = new AssetAggregator(assets);
+  return assetAggregator.getAssetList();
+};
+
+// Aggregated lists
+const scriptAssetList = getAggregatedAssetList(scriptsAssets);
+const styleAssetList = getAggregatedAssetList(stylesAssets);
+```
+
+#### Output: Aggregated Asset Lists
+The `scriptAssetList` and `styleAssetList` now contain normalized, unique, and prioritized assets ready for use.
+
+`Example`: Style AssetsList:
+
+```json
+[
+  {
+    "uid": "a42ab5f9-b53e-4cea-b06d-2c7ee87aaa44",
+    "name": "metaViewport",
+    "score": 10,
+    "type": "code",
+    "content": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+    "url": null,
+    "attrs": {},
+    "pro": false
+  },
+  {
+    "uid": "e4427079-483f-41e3-9d8c-d5d0baa27a96",
+    "name": "projectPrefetchFonts",
+    "score": 10,
+    "type": "code",
+    "content": "<link class=\"brz-link brz-link-bunny-fonts-prefetch\" rel=\"dns-prefetch\" href=\"//fonts.bunny.net\"> <link class=\"brz-link brz-link-bunny-fonts-preconnect\" rel=\"preconnect\" href=\"https://fonts.bunny.net/\" crossorigin>",
+    "url": null,
+    "attrs": {},
+    "pro": false
+  },
+  {
+    "uid": "c980d743-4b43-4ece-adf6-7e16074e0c67",
+    "name": "google",
+    "score": 10,
+    "type": "file",
+    "content": null,
+    "url": "https://fonts.bunny.net/css?family=Inter:100,200,300,regular,500,600,700,800,900|Lato:100,100italic,300,300italic,regular,italic,700,700italic,900,900italic&subset=arabic,bengali,cyrillic,cyrillic-ext,devanagari,greek,greek-ext,gujarati,hebrew,khmer,korean,latin-ext,tamil,telugu,thai,vietnamese&display=swap",
+    "attrs": {
+      "class": "brz-link brz-link-google",
+      "type": "text/css",
+      "rel": "stylesheet"
+    },
+    "pro": false,
+    "fontType": "google-font"
+  },
+  {
+    "uid": "b993c0db-3a69-43a6-8ed1-ca872814acfd",
+    "name": "main",
+    "score": 30,
+    "type": "file",
+    "content": null,
+    "url": "http://localhost:8001/dist/pro/css/preview.pro.min.css",
+    "attrs": {
+      "class": "brz-link brz-link-preview-pro",
+      "rel": "stylesheet"
+    },
+    "pro": true
+  },
+  {
+    "uid": "30c7ed46-b666-4f83-b8ae-86fd24d2cc67",
+    "name": "132799660",
+    "score": 50,
+    "type": "inline",
+    "content": ".brz .brz-css-u5nxF{z-index: auto;margin:0;}.brz .brz-css-u5nxF.brz-section .brz-section__content{min-height: auto;display:flex;}",
+    "url": null,
+    "attrs": {
+      "class": "brz-style"
+    },
+    "pro": false
+  },
+  {
+    "uid": "23158f61-9713-4ff9-8a3c-43f25b0851c5",
+    "name": "thirdPartyStyle",
+    "score": 60,
+    "type": "file",
+    "content": null,
+    "url": "http://localhost:3000/widgets/index.view.css",
+    "attrs": {
+      "class": "brz-link brz-link-thirdparty",
+      "rel": "stylesheet"
+    },
+    "pro": false
+  }
+]
+```
+
+#### Usage in HTML Document:
+Iterate over these lists to create script and style tags in the HTML document:
+
+`Example` : Generating Scripts Tags using React:
+
+```tsx
+import { BaseAsset, AssetContent, AssetType  } from "@brizy/merge-page-assets";
+import { DomUtils, parseDocument } from "htmlparser2";
+
+const getAssetElement = (asset: BaseAsset) => {
+  const content = asset.getContent() ?? "";
+  const assetType = asset.getType();
+  const attr = asset.getAttrs();
+  const url = asset.getUrl() ?? "";
+
+  return makeStyle({ content, type: assetType, attr, url });
+};
+
+const makeScript = (data: AssetContent) => {
+  const { type } = data;
+  switch (type) {
+    case AssetType.Inline: {
+      const { content, attr } = data;
+      const { class: _class, ..._attr } = attr ?? {};
+      const className = _class ? `${_class}` : undefined;
+
+      return <script {..._attr} className={className} dangerouslySetInnerHTML={{ __html: content }} />;
+    }
+    case AssetType.File: {
+      const { url, attr } = data;
+      const { class: _class, ..._attr } = attr ?? {};
+      const className = _class ? `${_class}` : undefined;
+
+      return <script {..._attr} src={url} className={className} />;
+    }
+    case AssetType.Code: {
+      const { content } = data;
+
+      const doc = parseDocument(content);
+
+      const scriptElements = DomUtils.findAll((elem) => elem.name === "script", doc.children);
+
+      const scriptComponents = scriptElements.map((scriptElem, index) => {
+        const { attribs } = scriptElem;
+        const innerHTML = DomUtils.textContent(scriptElem);
+
+        if ("src" in attribs) {
+          return <script key={`script-${index}`} {...attribs} />;
+        }
+
+        return (
+          <script key={`script-${index}`} {...attribs}>
+        {innerHTML}
+        </script>
+      );
+      });
+
+      return <>{scriptComponents}</>;
+    }
+  }
+};
+```
+
+Now, you can use the `getAssetElement` function to generate the script and style tags in the HTML document.
