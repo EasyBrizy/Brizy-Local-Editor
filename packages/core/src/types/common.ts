@@ -1,4 +1,3 @@
-import { Assets, Styles } from "../utils/assetManager/types";
 import { HtmlOutputType } from "./types";
 
 export type Response<R> = (r: R) => void;
@@ -29,6 +28,29 @@ export interface Asset {
   score: number;
   content: AssetFile | AssetInline | AssetCode;
   pro: boolean;
+}
+
+interface Style {
+  type: "style";
+  attr: Record<string, string>;
+  html: string;
+}
+
+interface Link {
+  type: "link";
+  attr: Record<string, string>;
+}
+
+export type Styles = Style | Link;
+
+interface Scripts {
+  attr?: Record<string, string | boolean>;
+  html?: string;
+}
+
+interface Assets {
+  styles: Array<Styles>;
+  scripts: Array<Scripts>;
 }
 
 export interface AssetGoogle {
@@ -157,7 +179,7 @@ interface ProjectHtmlOutput {
   styles: Array<string>;
 }
 
-interface ProjectJsonOutput {
+export interface ProjectJsonOutput {
   styles: Array<Asset>;
 }
 

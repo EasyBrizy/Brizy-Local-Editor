@@ -19,7 +19,7 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
     return;
   }
 
-  const { htmlOutputType = "html", container } = config;
+  const { container } = config;
 
   if (!(container instanceof HTMLElement)) {
     console.error("The element must be a valid HTMLElement");
@@ -49,7 +49,6 @@ export const Core: Init<HtmlOutputType> = (token, config, cb) => {
       config,
       iframe,
       container,
-      htmlOutputType,
       spinner,
       savedNodeCB,
       uid,

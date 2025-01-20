@@ -1,9 +1,10 @@
 import type { Config } from "@/hooks/useEditor/types";
 import { PlaceholderType } from "@/placeholders/types/types";
 import { DCTypes } from "@builder/core/build/es/types/dynamicContent";
+import { Menu } from "@builder/core/build/es/types/menu";
 import { Modes } from "@builder/core/build/es/types/types";
 
-const menu: Config["menu"] = [
+export const demoMenu: Menu = [
   {
     id: "5e8cc6634f6e2ee93b5137f134685896",
     name: "Main Menu Top",
@@ -800,7 +801,6 @@ export const demoConfig: Config = {
       },
     },
   },
-  menu,
   integrations: {
     form: {
       action: "/api/leads",

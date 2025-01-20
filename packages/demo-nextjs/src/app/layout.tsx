@@ -29,7 +29,7 @@ interface Props {
 export default function RootLayout({ children }: Readonly<Props>) {
   return (
     <html lang="en" data-bs-theme="light">
-      <body {...defaultThemeAttr}>{children}</body>
+      <body className="brz" {...defaultThemeAttr}>{children}</body>
     </html>
   );
 }

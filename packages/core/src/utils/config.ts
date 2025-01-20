@@ -14,11 +14,10 @@ interface Params {
   iframe: HTMLIFrameElement;
   spinner: HTMLElement;
   container: HTMLElement;
-  htmlOutputType: HtmlOutputType;
   savedNodeCB: Map<HTMLElement, OnSave<HtmlOutputType>>;
 }
 
-export const getHandlers = ({ config, iframe, container, htmlOutputType, spinner, savedNodeCB, uid }: Params) => ({
+export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, uid }: Params) => ({
   addMedia: (iframeUid: string, extra: AddMediaExtra) => {
     if (iframeUid !== uid) {
       return;
@@ -324,7 +323,7 @@ export const getHandlers = ({ config, iframe, container, htmlOutputType, spinner
     if (iframeUid !== uid) {
       return;
     }
-    const _output = createOutput(htmlOutputType, output);
+    const _output = createOutput(output);
     config.onSave?.(_output);
     const onSaveCallback = savedNodeCB.get(container);
 
@@ -396,7 +395,7 @@ export const getHandlers = ({ config, iframe, container, htmlOutputType, spinner
     const handler = publish?.handler;
 
     if (typeof handler === "function") {
-      const output = createOutput(htmlOutputType, extra);
+      const output = createOutput(extra);
       config.onSave?.(output);
 
       return new Promise((res, rej) => {

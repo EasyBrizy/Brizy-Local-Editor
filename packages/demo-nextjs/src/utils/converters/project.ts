@@ -1,11 +1,11 @@
 import { Project, ProjectSettings } from "@/lib/db/types";
-import { ProjectJsonCompiledOutput } from "@builder/core/build/es/types/common";
+import { ProjectJsonCompiledOutput, ProjectJsonOutput } from "@builder/core/build/es/types/common";
 
 type _Project = Omit<Project, "data">;
 export type ProjectDataParsed = _Project & {
   settings?: ProjectSettings;
   data: {
-    compiled?: ProjectJsonCompiledOutput;
+    compiled?: ProjectJsonOutput;
   };
 };
 
