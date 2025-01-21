@@ -14,7 +14,7 @@ The following is a list of Brizy components, along with brief descriptions of th
   Brizy offers a wide array of pre-built widgets for users to construct their pages. Developers can extend Brizy's capabilities by creating custom widgets with advanced features. Essentially, widgets are the fundamental building blocks that users employ to design their page layouts.
 - [**Controls**](/docs-internals/using-controls/usage) <br />
   Brizy Controls are interactive elements and input fields that define the editor's interface. Developers can customize control settings to influence page customization options.
-- [**Dynamic Content**](/docs-internals/control-arguments/dynamic-content) <br />
+- [**Dynamic Content**](/docs-internals/control-arguments/dynamic-content/Introduction) <br />
   Dynamic Content enables the insertion of customized data from diverse sources. Widget developers can leverage the editor config to create a variety of dynamic content options.
 - **Form Fields** <br />
   Form fields enable users to create web forms utilizing the Brizy Form widget. A wide range of form fields is available, including text, number, password, and multi-step form options.
