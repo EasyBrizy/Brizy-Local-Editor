@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <script src="https://cdn.brizylocal.com/popup/3.1.2/index.js"></script>
+    <script src="https://cdn.brizylocal.com/popup/3.1.10/index.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
 
     <script>
@@ -75,7 +75,6 @@
       const bucketRegion = "REGION";
       const IdentityPoolId = "IDENTITY_POOL_ID";
       const AWS = window.AWS;
-      const templates = "https://e-t-cloud.b-cdn.net/1.0.0"
 
       const createUpload = (accept) => {
         let lock = false;
@@ -1662,13 +1661,19 @@
 
           api: {
             media: {
-              mediaResizeUrl: "https://media.brizylocal.com/media",
+              mediaResizeUrl: "https://cloud-1de12d.b-cdn.net/media",
+              imagePatterns: {
+                full: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}&{{ oX=[oX] }}&{{ oY=[oY] }}&{{ cW=[cW] }}&{{ cH=[cH] }}/{{ [uid] }}/{{ [fileName] }}",
+                original: "{{ [baseUrl] }}/{{ [sizeType] }}/{{ [uid] }}/{{ [fileName] }}",
+                split: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}/{{ [uid] }}/{{ [fileName] }}",
+              },
               addMedia: {
                 async handler(resolve, reject, extra) {
                   try {
                     const file = await createUpload("image/*");
                     const fileName = file.name;
-                    const filePath = `media/${fileName}`;
+                    const uid = crypto.randomUUID();
+                    const filePath = `media/${uid}/${fileName}`;
                     const s3Config = {
                       Key: filePath,
                       Body: file,
@@ -1679,7 +1684,7 @@
                       if (err) {
                         reject(`Wrong Upload to S3 ${err.message}`);
                       } else {
-                        resolve({ fileName });
+                        resolve({ uid, fileName });
                       }
                     });
                   } catch (e) {
@@ -1715,36 +1720,57 @@
                 },
               },
             },
-
             defaultPopups: {
               async getMeta(res, rej) {
-                const popupsUrl = `${templates}/popups`;
-
                 try {
-                  const meta = await fetch(`${popupsUrl}/meta.json`).then((r) =>
-                    r.json(),
-                  );
+                  const response = await fetch("https://template-mk.b-cdn.net/api/get-popups-chunk");
 
-                  const data = {
-                    ...meta,
-                    blocks: meta.blocks.map((item) => ({
+                  if (response) {
+                    const res2 = await response.json();
+
+                    const data = res2.collections.map(
+                      ({ id, title, categories, pro, thumbnail, thumbnailWidth, thumbnailHeight, blank }) => ({
+                        id,
+                        cat: categories.split(",").map((item) => item.trim().toLowerCase()),
+                        title,
+                        thumbnailHeight,
+                        thumbnailWidth,
+                        thumbnailSrc: `https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/${thumbnail}`,
+                        pro: pro === "PRO",
+                        keywords: "popup2",
+                        position: 1,
+                        type: ["light"],
+                        blank,
+                      }),
+                    );
+
+                    const convertedCategories = res2.categories.map((item) => ({
                       ...item,
-                      thumbnailSrc: `${popupsUrl}/thumbs/${item.id}.jpg`,
-                    })),
-                  };
+                      id: item.title.toLowerCase(),
+                    }));
 
-                  res(data);
+                    res({ blocks: data, categories: convertedCategories });
+                  }
                 } catch (e) {
                   rej("Failed to load meta.json");
                 }
               },
-              async getData(res, rej, id) {
-                const popupsUrl = `${templates}/popups`;
+              async getData(res, rej, kit) {
                 try {
-                  const data = await fetch(`${popupsUrl}/resolves/${id}.json`).then((r) =>
-                    r.json(),
-                  );
-                  res(data);
+                  const data = await fetch(`https://template-mk.b-cdn.net/api/get-popup-data?project_id=${kit.id}`);
+
+                  if (data) {
+                    const res2 = await data.json();
+
+                    const pageData = res2.pop()?.pageData;
+                    const pageDataWithItems = JSON.parse(pageData);
+                    const items = pageDataWithItems.items;
+                    const lastItem = items.pop();
+
+                    if (lastItem) {
+                      res(lastItem);
+                    }
+                  }
                 } catch (e) {
                   rej("Failed to load resolves for selected DefaultTemplate");
                 }
