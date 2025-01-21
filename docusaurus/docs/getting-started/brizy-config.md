@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # Brizy Config
 
 Brizy config is the configuration our builder starts with. The config can influence the starter page, global styles, menu, dynamic content etc. <br/>

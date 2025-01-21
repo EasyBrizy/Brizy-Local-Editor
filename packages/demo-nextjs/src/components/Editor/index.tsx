@@ -101,7 +101,12 @@ export const Editor = () => {
         },
       },
     },
-    extensions: [{ host: origin, path: "/widgets" }],
+    extensions: [
+      {
+        host: "http://localhost:3000",
+        path:""
+      },
+    ]
   }) as Config;
 
   const [builderState] = useEditor(token, config);

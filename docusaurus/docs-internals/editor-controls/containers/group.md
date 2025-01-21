@@ -7,6 +7,7 @@ toc_max_heading_level: 4
 Brizy's `group` control simplifies the interface by removing the divider line between controls, creating a more
 streamlined
 and cohesive layout.
+For `group` control, the `id` property has no effect and is used only to separate groups by names
 
 Example of controls wrapped in `group` control:
 

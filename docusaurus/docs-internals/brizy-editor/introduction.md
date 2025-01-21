@@ -30,6 +30,7 @@ The Brizy Editor control allows users to edit content directly within the page b
 Discover how to personalize your controls:
 
 - [CSS](/docs-internals/control-arguments/css/)
+- [Dynamic Content](/docs-internals/control-arguments/dynamic-content)
 
 ### Icons 
 

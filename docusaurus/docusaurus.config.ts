@@ -32,10 +32,9 @@ const config: Config = {
       "classic",
       {
         docs: {
-          routeBasePath: "docs",
-          path: "docs",
+          routeBasePath: "/",
           sidebarPath: "./sidebars.ts",
-          editUrl: "https://github.com/EasyBrizy/Brizy-Local-Editor",
+          editUrl: "https://github.com/EasyBrizy/Brizy-Local-Editor/tree/master/docusaurus",
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -48,20 +47,9 @@ const config: Config = {
     navbar: {
       logo: {
         alt: "Brizy",
-        src: "img/logo.svg",
+        src: "img/logo.svg"
       },
       items: [
-        //#region Docs Getting Started
-
-        {
-          to: "/docs/getting-started/what-is-brizy",
-          label: "Getting Started",
-          position: "right",
-          activeBaseRegex: `/docs/`,
-        },
-
-        //#endregion
-
         //#region Internals
 
         {

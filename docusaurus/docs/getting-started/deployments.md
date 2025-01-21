@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 5
 ---
 
 # Deployments
@@ -31,73 +31,7 @@ You can deploy a fresh Brizy project, with a Git repository set up for you, with
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/EasyBrizy/Brizy-Local-Editor&project-name=brizy-local-editor&repository-name=brizy-local-editor&output-directory=packages/demo/public)
 
-## Third Party
+## Netlify
 
-### Creating an App
+## Render
 
-```shell
-npx @brizy/create-thirdparty
-cd < my-app >
-npm run build
-```
-
-Read more about [Third Party](/docs-third-party/brizy-widgets/introduction).
-
-### Usage
-
-After building the third-party library, you can send it to the editor configuration via HTTP URLs.
-Here's how you can do it:
-
-1. Host the built library files on a server accessible via HTTP.
-2. Get the `host` URL and the `path` folder where the config.json file is located.
-3. Add the `extensions` key to the editor configuration with the following structure:
-
-```typescript
-const config = {
-  // Other config keys...
-
-  extensions: [
-    {
-      host: "http://<your-library-build-host>",
-      path: "<path-to-config-folder>",
-    },
-  ],
-};
-```
-
-#### Example:
-If `config.json` is located at http://localhost:3000/widgets/config.json, the configuration will look like this:
-
-```typescript
-const config = {
-  // Other config keys...
-
-  extensions: [
-    {
-      host: "http://localhost:3000",
-      path: "/widgets",
-    },
-  ],
-};
-```
-
-The `config.json` file should follow this structure:
-```json
-{
-  "name": "My Library",
-  "editorScripts": [
-    // List of scripts for the editor
-  ],
-  "editorStyles": [
-    // List of styles for the editor
-  ],
-  "viewScripts": [
-    // List of scripts for the view
-  ],
-  "viewStyles": [
-    // List of styles for the view
-  ]
-}
-```
-
-> For more information about the [`config`](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/cdn.MD#config)

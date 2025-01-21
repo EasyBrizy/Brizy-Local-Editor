@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 5
 ---
 
 # Creating Your First Widget
@@ -25,7 +25,6 @@ The previous command will generate the following folder structure:
 ├── node_modules/
 ├── package.json
 ├── package-lock.json
-├── README.md
 ├── prettier.config.js
 ├── tsconfig.json
 ├── README.md
@@ -59,8 +58,6 @@ Here's how you can do it:
 2. Obtain the HTTP URLs for the built JavaScript files (e.g., `index.editor.js`).
 3. In the editor configuration, specify these URLs to load the library:
 
-[//]: # "///// TODO: ramane asta de vazut daca mai trebuie, pentru ca probabil deja trebuie peste `extensions` key"
-
 ```typescript
 const config = {
   // Other keys of the config...
@@ -68,9 +65,9 @@ const config = {
   extensions: [
     {
       host: "https://<the-build-host-of-library>",
-      path: "",
-    },
-  ],
+      path: ""
+    }
+  ]
 };
 ```
 
@@ -92,7 +89,7 @@ To view the new component, follow these steps:
 
 ```tsx
 import { Brizy } from "@brizy/core";
-import React from "react";
+import { JSX } from "react";
 
 export function Button(): JSX.Element {
   return <div className="button">This button will be render in editor</div>;
@@ -106,9 +103,9 @@ Brizy.registerComponent({
   id: "ThirdParty.Button",
   component: {
     editor: Button,
-    view: ButtonView,
+    view: ButtonView
   },
-  title: "My Button",
+  title: "My Button"
 });
 ```
 
@@ -120,7 +117,7 @@ When creating custom components, you have the option to include various toolbar 
 
 ```tsx
 import { Brizy } from "@brizy/core";
-import React from "react";
+import { JSX } from "react";
 
 interface Props {
   address: string;
@@ -132,18 +129,21 @@ const KEY = "AIzaSyCcywKcxXeMZiMwLDcLgyEnNglcLOyB_qw";
 
 export function Map(props: Props): JSX.Element {
   const { address, zoom } = props;
+  
   const iframeSrc = `${URL}?key=${KEY}&q=${address}&zoom=${zoom}`;
+  
   return (
     <div className="mapThirdComponent" style={{ pointerEvents: "none" }}>
       <iframe src={iframeSrc} title="Map" />
     </div>
   );
 }
+
 Brizy.registerComponent({
   id: "ThirdParty.Map",
   component: {
     editor: Map,
-    view: Map,
+    view: Map
   },
   title: "My Map",
   options: (props) => {
@@ -159,6 +159,7 @@ Brizy.registerComponent({
               title: "Map",
             },
             devices: "desktop",
+            position: 10,
             options: [
               {
                 id: "tabsCurrentElement",
@@ -174,8 +175,8 @@ Brizy.registerComponent({
                         type: "inputText",
                         placeholder: "Enter address",
                         default: {
-                          value: "Chisinau",
-                        },
+                          value: "Chisinau"
+                        }
                       },
                       {
                         id: "zoom",
@@ -183,23 +184,23 @@ Brizy.registerComponent({
                         type: "slider",
                         config: {
                           min: 1,
-                          max: 21,
+                          max: 21
                         },
                         default: {
                           value: 9,
-                          suffix: "inch",
-                        },
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+                          suffix: "inch"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ];
-  },
+  }
 });
 ```
 

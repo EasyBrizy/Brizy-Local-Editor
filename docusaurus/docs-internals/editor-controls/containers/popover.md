@@ -4,6 +4,7 @@ toc_max_heading_level: 4
 # Popover
 
 The `popover` control is a button trigger with an icon that allows for opening and closing a popover. Additionally, it can display a tooltip text when hovered over, providing more information about the button's purpose or function.
+By itself, the `popover` control does not return any value. The `id` property has no functional effect and is used only to distinguish it from other popovers.
 
 Example of the control: 
 
