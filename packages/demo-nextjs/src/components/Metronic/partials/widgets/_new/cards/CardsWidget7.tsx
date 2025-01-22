@@ -55,7 +55,7 @@ const CardsWidget7 = ({ className, description, stats, labelColor, textColor }: 
         ))}
 
         <a href="#" className="symbol symbol-35px symbol-circle">
-          <span className={clsx("symbol-label fs-8 fw-bold", "bg-" + labelColor, "text-" + textColor)}>+42</span>
+          <span className={clsx("symbol-label fs-8 fw-bold", "bg-" + labelColor, "text-" + textColor)}>+3</span>
         </a>
       </div>
     </div>

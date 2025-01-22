@@ -16,26 +16,28 @@ export default function AdminPage() {
     <Root>
       <Content>
         <div className="row g-5 g-xl-10 mb-5 mb-xl-10">
-          <div className="col-md-6 mb-xl-10">
+          <div className="col-md-6">
             <CardsWidget20
-              className="h-md-50 mb-5 mb-xl-10"
-              description="Active Projects"
+              className="w-100 h-100 mb-5 mb-xl-10 col-lg-5"
+              description="Active Pages"
               color="#F1416C"
               img={toStaticUrl("media/patterns/vector-1.png")}
-            />
-            <CardsWidget7
-              className="h-md-50 mb-5 mb-xl-10"
-              description="Professionals"
-              icon={false}
-              stats={357}
-              labelColor="dark"
-              textColor="gray-300"
             />
           </div>
 
           <div className="col-md-6">
-            <EngageWidget10 className="h-md-100" />
+            <CardsWidget7
+              className="w-100 h-100 mb-5 mb-xl-10 col-lg-5"
+              description="Professionals"
+              icon={false}
+              stats={15}
+              labelColor="dark"
+              textColor="gray-300"
+            />
           </div>
+          {/*<div className="col-md-6">*/}
+          {/*  <EngageWidget10 className="h-md-100" />*/}
+          {/*</div>*/}
         </div>
 
         <div className="row gy-5 gx-xl-8">
