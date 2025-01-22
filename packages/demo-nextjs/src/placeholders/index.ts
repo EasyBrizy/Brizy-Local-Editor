@@ -1,17 +1,22 @@
+import { SearchParams } from "@/app/types";
 import { Reference } from "@/components/Editor/contexts/types";
 import { Registry, Replacer } from "@brizy/content-placeholder";
 import { CollectionContext } from "./context/CollectionContext";
 import { PlaceholderInstances } from "./types";
 
+interface ReplacePlaceholderArgs {
+  value: string;
+  placeholderKey?: string;
+  reference?: Reference;
+  searchParams?: SearchParams;
+}
+
 export const replacePlaceholders = async ({
   value,
   placeholderKey,
   reference,
-}: {
-  value: string;
-  placeholderKey?: string;
-  reference?: Reference;
-}): Promise<string> => {
+  searchParams,
+}: ReplacePlaceholderArgs): Promise<string> => {
   const context = new CollectionContext();
 
   const registry = new Registry();
@@ -30,6 +35,10 @@ export const replacePlaceholders = async ({
 
   if (placeholderKey) {
     context.setAttributes({ placeholderKey });
+  }
+
+  if (searchParams) {
+    context.setAttributes({ searchParams });
   }
 
   // The first replacePlaceholders call is to transform the placeholder

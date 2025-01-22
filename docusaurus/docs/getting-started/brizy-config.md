@@ -145,6 +145,17 @@ type config = {
     video?: {
       types?: Array<VideoTypes>;
     };
+    posts?: {
+      includeQueryMultiOptions?: boolean;
+      exclude?: boolean;
+      offset?: boolean;
+      orderBy?: boolean;
+      order?: boolean;
+      handler: (
+        res: Response<PostsSources>,
+        ref: Response<string>
+      ) => void;
+    };
   };
 };
 ````
@@ -286,6 +297,17 @@ type config = {
     video?: {
       types?: Array<VideoTypes>;
     };
+    posts?: {
+      includeQueryMultiOptions?: boolean;
+      exclude?: boolean;
+      offset?: boolean;
+      orderBy?: boolean;
+      order?: boolean;
+      handler: (
+        res: Response<PostsSources>,
+        ref: Response<string>
+      ) => void;
+    };
   };
 };
 ```
@@ -411,6 +433,17 @@ type config = {
     };
     video?: {
       types?: Array<VideoTypes>;
+    };
+    posts?: {
+      includeQueryMultiOptions?: boolean;
+      exclude?: boolean;
+      offset?: boolean;
+      orderBy?: boolean;
+      order?: boolean;
+      handler: (
+        res: Response<PostsSources>,
+        ref: Response<string>
+      ) => void;
     };
   };
 };
@@ -549,13 +582,18 @@ Dynamic content can be configured in 2 ways
 
 ### Elements parameters
 
-| Name                            | Type                    | Description                                                                                                                                                                                                                                                                      |
-|:--------------------------------|:------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `elements.menu.createMenuLabel` | `string`                | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                    |
-| `elements.menu.onOpen`          | `function`              | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu. |
-| `elements.form.inputTypes`      | `Array<FormInputTypes>` | Defines the input types available in the `Form` toolbar. If no value is specified, all input types will be displayed by default.                                                                                                                                                 |
-| `elements.video.types`          | `Array<VideoTypes>`     | Specifies the video type options available in the `Video` toolbar.                                                                                                                                                                                                               |
-
+| Name                            | Type                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|:--------------------------------|:------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `elements.menu.createMenuLabel` | `string`                | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                                                                                                                                                                                                                                    |
+| `elements.menu.onOpen`          | `function`              | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu.                                                                                                                                                                                                                 |
+| `elements.form.inputTypes`      | `Array<FormInputTypes>` | Defines the input types available in the `Form` toolbar. If no value is specified, all input types will be displayed by default.                                                                                                                                                                                                                                                                                                                                                                 |
+| `elements.video.types`          | `Array<VideoTypes>`     | Specifies the video type options available in the `Video` toolbar.                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| elements.posts.handler          | function                | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| elements.posts.exclude          | boolean                 | Takes true or false values and lets you turn on or off the `Exclude by` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                     |
+| elements.posts.offset           | boolean                 | Takes true or false values and lets you turn on or off the `Offset` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                         |
+| elements.posts.orderBy          | boolean                 | Takes true or false values and lets you turn on or off the `Order by` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                       |
+| elements.posts.order            | boolean                 | Takes true or false values and lets you turn on or off the `Order` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                          |
+| elements.posts.querySource      | boolean                 | Takes true or false values and lets you turn on or off the `Source` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                         |
 ## Examples
 
 ---

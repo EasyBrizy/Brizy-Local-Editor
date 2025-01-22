@@ -1,10 +1,11 @@
 "use client";
 
-import { ConfigContextType, EditorProviderProps } from "@/components/Editor/contexts/types";
-import { getApi, getDynamicContent, getUI } from "@/components/Editor/contexts/utils";
 import { _Config } from "@/hooks/useEditor/types";
-import { FC, createContext, useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FC, createContext, useCallback, useContext, useState } from "react";
 import { mergeDeep } from "timm";
+import { ConfigContextType, EditorProviderProps } from "./types";
+import { getApi, getDynamicContent, getElements, getUI } from "./utils";
 
 const ConfigContext = createContext<ConfigContextType>({
   config: {} as _Config,
@@ -13,10 +14,14 @@ const ConfigContext = createContext<ConfigContextType>({
 });
 
 export const ConfigProvider: FC<EditorProviderProps> = ({ children, config: baseConfig, origin }) => {
+  const router = useRouter();
+  const onOpenMenu = useCallback(() => router.push("/admin/menu"), [router]);
+
   const editorConfig = mergeDeep(baseConfig, {
     api: getApi(),
     dynamicContent: getDynamicContent(baseConfig),
     ui: getUI(origin),
+    elements: getElements(onOpenMenu),
   }) as _Config;
 
   const [config, setConfig] = useState<_Config>(editorConfig);

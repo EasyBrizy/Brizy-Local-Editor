@@ -7,13 +7,14 @@ import { convertItem } from "@/utils/converters/item";
 import { convertProject } from "@/utils/converters/project";
 import { projectId } from "@/utils/mock";
 import { notFound } from "next/navigation";
+import { SearchParams } from "../../types";
 
 interface Props {
   params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: SearchParams;
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params, searchParams }: Props) {
   try {
     const project = await getProject(projectId).then(convertProject);
     const page = await getItem({
@@ -32,6 +33,7 @@ export default async function Page({ params }: Props) {
       items: [page.data.compiled],
       project: project.data.compiled,
       reference: referenceValue,
+      searchParams,
     });
 
     return <PageComponent html={html} scripts={scripts} styles={styles} />;

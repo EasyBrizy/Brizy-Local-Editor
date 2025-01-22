@@ -3,10 +3,12 @@ import { AddFileExtra } from "@/types/customFile";
 import { BaseDCHandlerExtra, DCHandlerExtra, DCPlaceholdersExtra } from "@/types/dynamicContent";
 import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { AddMediaExtra } from "@/types/media";
+import { PostsSources } from "@/types/posts";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import { BlockWithThumbs, KitItem } from "@/types/templates";
 import { AutoSaveOutput, BuilderOutput, Config, OnSave } from "@/types/types";
 import { createOutput } from "@/utils/createOutput";
+import { Response } from "@/utils/types";
 
 interface Params {
   uid: string;
@@ -412,6 +414,54 @@ export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, u
 
     if (typeof onOpen === "function") {
       onOpen();
+    }
+  },
+  postsHandler: (iframeUid: string) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+    const { handler } = config.elements?.posts ?? {};
+
+    if (typeof handler === "function") {
+      return new Promise((res: Response<PostsSources>, rej: Response<string>) => {
+        handler(res, rej);
+      });
+    }
+  },
+  searchCollectionItems: (
+    iframeUid: string,
+    extra?: {
+      collectionId: string;
+      search: string;
+    },
+  ) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+    const { collectionItems } = config.api ?? {};
+    const handler = collectionItems?.searchCollectionItems?.handler;
+    if (typeof handler === "function") {
+      return new Promise((res, rej) => {
+        handler(res, rej, extra);
+      });
+    }
+  },
+  loadCollectionItems: (
+    iframeUid: string,
+    extra?: {
+      collectionId: string;
+      value: string[];
+    },
+  ) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+    const { collectionItems } = config.api ?? {};
+    const handler = collectionItems?.loadCollectionItems?.handler;
+    if (typeof handler === "function") {
+      return new Promise((res, rej) => {
+        handler(res, rej, extra);
+      });
     }
   },
 });

@@ -2,29 +2,60 @@
 
 import { useConfig } from "@/components/Editor/contexts";
 import { WithChildren } from "@/components/Metronic/helpers";
-import { _Config } from "@/hooks/useEditor/types";
+import { BRZ_CURRENT_CONTEXT } from "@/constants/EntityType";
 import { LeftSidebarOptionsIds, ShopifyElementTypes } from "@builder/core/build/es/types/leftSidebar";
+import { _Config } from "@/hooks/useEditor/types";
+import { CollectionTypes } from "@/lib/db/types";
+import { Response } from "@builder/core/build/es/types/common";
+import { PostsSources } from "@builder/core/build/es/types/posts";
 import { ShopifyTemplate } from "@builder/core/build/es/types/types";
 import { FC, useEffect } from "react";
 import { mergeDeep } from "timm";
 
-const shopifyConfig: Pick<_Config, "platform" | "contentDefaults"> = {
+const shopifyConfig: Pick<_Config, "platform" | "contentDefaults" | "elements"> = {
   platform: "shopify",
   contentDefaults: {
     AddToCart: {
-      sourceType: ShopifyTemplate.Product,
+      sourceType: CollectionTypes.product,
     },
     Quantity: {
-      sourceType: ShopifyTemplate.Product,
+      sourceType: CollectionTypes.product,
     },
     Variant: {
-      sourceType: ShopifyTemplate.Product,
+      sourceType: CollectionTypes.product,
     },
     Price: {
-      sourceType: ShopifyTemplate.Product,
+      sourceType: CollectionTypes.product,
     },
     Vendor: {
-      sourceType: ShopifyTemplate.Product,
+      sourceType: CollectionTypes.product,
+    },
+    ProductList: {
+      collectionTypeId: CollectionTypes.product,
+      component: CollectionTypes.product,
+      source: BRZ_CURRENT_CONTEXT,
+    },
+  },
+  elements: {
+    posts: {
+      includeQueryMultiOptions: false,
+      querySource: false,
+      handler: (res: Response<PostsSources>) => {
+        const orderBy = [
+          { title: "ID", id: "id" },
+          { title: "Title", id: "title" },
+        ];
+
+        const sources = [
+          { title: "Auto", id: BRZ_CURRENT_CONTEXT, orderBy },
+          { title: "Manual", id: CollectionTypes.product, orderBy },
+        ];
+
+        return res({
+          sources,
+          refsById: [],
+        });
+      },
     },
   },
 };

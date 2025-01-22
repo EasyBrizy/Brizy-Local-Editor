@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const itemsPerPage = parseInt(req.nextUrl.searchParams.get("itemsPerPage") ?? "20");
   const page = parseInt(req.nextUrl.searchParams.get("page") ?? "1");
+  const search = req.nextUrl.searchParams.get("search") ?? "";
 
   if (page < 1) {
     return NextResponse.json({ error: "Invalid page number" }, { status: 400 });
@@ -12,7 +13,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const afterCursor = page > 1 ? (await fetchProducts({ first: itemsPerPage * (page - 1) })).lastCursor : null;
-    const { products } = await fetchProducts({ first: itemsPerPage, after: afterCursor });
+    const { products } = await fetchProducts({ first: itemsPerPage, after: afterCursor, search });
     const shopName = await getShopName();
 
     return NextResponse.json({ products, shopName }, { status: 200 });

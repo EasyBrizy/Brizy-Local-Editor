@@ -1,4 +1,5 @@
 import { getProjectSettings } from "@/app/admin/(cms)/system/core/requests";
+import { SearchParams } from "@/app/types";
 import { Reference } from "@/components/Editor/contexts/types";
 import { replacePlaceholders } from "@/placeholders";
 import { makeScript, makeStyle } from "@/utils/makeAssets";
@@ -66,12 +67,13 @@ export async function assemblePages(data: {
   items: Array<PageJsonOutput>;
   project: ProjectJsonOutput;
   reference?: Reference;
+  searchParams?: SearchParams;
 }): Promise<{
   html: string;
   styles: Array<ReactElement>;
   scripts: Array<ReactElement>;
 }> {
-  const { items, project, reference } = data;
+  const { items, project, reference, searchParams } = data;
   const projectStyles = project?.styles ?? [];
   const { code } = (await getProjectSettings(projectId)) || {};
   const { customCss, codeInjectionHeader, codeInjectionFooter } = code || {};
@@ -81,7 +83,7 @@ export async function assemblePages(data: {
   const scripts: AssetScript[] = [];
 
   for (const item of items) {
-    html += item.html ? await replacePlaceholders({ value: item.html, reference }) : "";
+    html += item.html ? await replacePlaceholders({ value: item.html, reference, searchParams }) : "";
 
     const { freeStyles, proStyles, freeScripts, proScripts } = item.assets;
 

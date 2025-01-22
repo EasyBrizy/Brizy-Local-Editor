@@ -32,6 +32,7 @@ export enum BaseElementTypes {
   FacebookComments = "FacebookComments",
   Columns = "Columns",
   Row = "Row",
+  Posts = "Posts",
 }
 
 export enum StoryElementTypes {

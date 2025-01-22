@@ -1,0 +1,11 @@
+.container__editor {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+html {
+  overflow: hidden;
+}
