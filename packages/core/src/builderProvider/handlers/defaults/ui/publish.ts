@@ -1,24 +1,19 @@
 import { Handler } from "@/builderProvider/types/type";
 import { addThirdPartyAssets } from "@/builderProvider/utils/thirdParty";
 import { Publish, PublishData } from "@/types/publish";
-import { HtmlOutputType } from "@/types/types";
 
-export type PublishHandler<T extends HtmlOutputType> = (
-  uid: string,
-  extra?: PublishData<HtmlOutputType>,
-) => Promise<PublishData<T>>;
+export type PublishHandler = (uid: string, extra?: PublishData) => Promise<PublishData>;
 
-export interface PublishHandlerData<T extends HtmlOutputType> {
-  assetsType: HtmlOutputType;
-  publishHandler: PublishHandler<T>;
+export interface PublishHandlerData {
+  publishHandler: PublishHandler;
   uid: string;
 }
 
-export const getPublish = <T extends HtmlOutputType>(data: PublishHandlerData<T>): Publish<T> => {
-  const { publishHandler, assetsType, uid } = data;
+export const getPublish = (data: PublishHandlerData): Publish => {
+  const { publishHandler, uid } = data;
 
-  const handler: Handler<PublishData<T>, string, PublishData<T>> = async (res, rej, _extra) => {
-    let extra = addThirdPartyAssets({ data: _extra, assetsType });
+  const handler: Handler<PublishData, string, PublishData> = async (res, rej, _extra) => {
+    let extra = addThirdPartyAssets({ data: _extra });
     try {
       const data = await publishHandler(uid, extra);
       res(data);

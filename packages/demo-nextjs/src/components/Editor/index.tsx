@@ -8,7 +8,7 @@ import { Config } from "@/hooks/useEditor/types";
 import { BaseDCItem } from "@builder/core/build/es/types/dynamicContent";
 import { LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { PublishData } from "@builder/core/build/es/types/publish";
-import { HtmlOutputType, Output } from "@builder/core/build/es/types/types";
+import { Output } from "@builder/core/build/es/types/types";
 import { useRouter } from "next/navigation";
 import React, { useReducer, useRef } from "react";
 import { mergeDeep } from "timm";
@@ -58,7 +58,7 @@ export const Editor = () => {
         },
       },
       publish: {
-        async handler(res: Response<PublishData<HtmlOutputType>>, rej: Response<string>, data: Output<HtmlOutputType>) {
+        async handler(res: Response<PublishData>, rej: Response<string>, data: Output) {
           try {
             if (data.pageData) {
               await fetch("/api/items", {

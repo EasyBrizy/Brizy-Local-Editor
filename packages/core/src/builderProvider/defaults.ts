@@ -1,7 +1,7 @@
 //#region Compiler
 
 export const compiler = () => ({
-  assets: "html",
+  assets: "json",
 });
 
 //#endregion

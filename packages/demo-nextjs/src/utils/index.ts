@@ -1,44 +1,99 @@
 import { getProjectSettings } from "@/app/admin/(cms)/system/core/requests";
 import { Reference } from "@/components/Editor/contexts/types";
 import { replacePlaceholders } from "@/placeholders";
+import { makeScript, makeStyle } from "@/utils/makeAssets";
 import { projectId } from "@/utils/mock";
-import { PageJsonCompiledOutput, ProjectJsonCompiledOutput } from "@builder/core/build/es/types/common";
-import { Scripts, Styles } from "@builder/core/build/es/utils/assetManager/types";
+import { AssetAggregator, AssetGroup, BaseAsset } from "@brizy/merge-page-assets";
+import { AssetType } from "@brizy/merge-page-assets/dist/assets/types";
+import { Obj } from "@brizy/readers";
+import {
+  PageJsonOutput,
+  ProjectJsonOutput,
+  ScriptsFree,
+  ScriptsPro,
+  StylesFree,
+  StylesPro,
+} from "@builder/core/build/es/types/common";
+import { ReactElement } from "react";
+
+type AssetStyle = StylesFree | StylesPro;
+type AssetScript = ScriptsFree | ScriptsPro;
+
+const getAssetElement = (asset: BaseAsset, type: string) => {
+  const content = asset.getContent() ?? "";
+  const assetType = asset.getType();
+  const attr = asset.getAttrs() as Record<string, string>;
+  const url = asset.getUrl() ?? "";
+
+  return type === "css"
+    ? makeStyle({ content, type: assetType, attr, url })
+    : makeScript({ content, type: assetType, attr, url });
+};
+
+export const getAssets = (assets: Array<AssetStyle | AssetScript>, type: string, extraAssets?: BaseAsset[]) => {
+  const groups: AssetGroup[] = [];
+  let hasExtraAssets = false;
+
+  assets.forEach((group) => {
+    try {
+      const data = Obj.read(group);
+
+      if (!data) {
+        return;
+      }
+
+      const assetGroup = AssetGroup.instanceFromJsonData(data);
+
+      // Add extra assets to the first asset group
+      if (extraAssets && !hasExtraAssets) {
+        hasExtraAssets = true;
+        const pageStyles = assetGroup.getPageStyles();
+        assetGroup.setPageStyles([...pageStyles, ...extraAssets]);
+      }
+      groups.push(assetGroup);
+    } catch (e) {
+      console.error("Error while creating asset group", e);
+    }
+  });
+
+  const aggregator = new AssetAggregator(groups);
+  const assetList = aggregator.getAssetList();
+
+  return assetList.map((asset) => getAssetElement(asset, type));
+};
 
 export async function assemblePages(data: {
-  items: Array<PageJsonCompiledOutput>;
-  project: ProjectJsonCompiledOutput;
+  items: Array<PageJsonOutput>;
+  project: ProjectJsonOutput;
   reference?: Reference;
-}) {
-  const projectStyles = data.project?.styles ?? [];
+}): Promise<{
+  html: string;
+  styles: Array<ReactElement>;
+  scripts: Array<ReactElement>;
+}> {
+  const { items, project, reference } = data;
+  const projectStyles = project?.styles ?? [];
   const { code } = (await getProjectSettings(projectId)) || {};
   const { customCss, codeInjectionHeader, codeInjectionFooter } = code || {};
 
-  const customCssStyles: Styles[] = [];
-
-  if (customCss) {
-    customCssStyles.push({
-      type: "style",
-      attr: {
-        class: "custom-css",
-      },
-      html: customCss,
-    });
-  }
-
   let html = codeInjectionHeader ?? "";
-  const styles: Styles[] = [];
-  const scripts: Scripts[] = [];
+  const styles: AssetStyle[] = [];
+  const scripts: AssetScript[] = [];
 
-  for (const item of data.items) {
-    html += item.html ? await replacePlaceholders({ value: item.html, reference: data.reference }) : "";
+  for (const item of items) {
+    html += item.html ? await replacePlaceholders({ value: item.html, reference }) : "";
 
-    if (item.styles) {
-      styles.push(...item.styles);
+    const { freeStyles, proStyles, freeScripts, proScripts } = item.assets;
+
+    styles.push(freeStyles);
+    scripts.push(freeScripts);
+
+    if (proStyles) {
+      styles.push(proStyles);
     }
 
-    if (item.scripts) {
-      scripts.push(...item.scripts);
+    if (proScripts) {
+      scripts.push(proScripts);
     }
   }
 
@@ -46,10 +101,28 @@ export async function assemblePages(data: {
     html += codeInjectionFooter;
   }
 
+  const extraAssets = projectStyles.map((asset) => new BaseAsset(asset));
+
+  if (customCss) {
+    const customCssAsset = new BaseAsset({
+      name: "custom-css",
+      score: Infinity,
+      content: {
+        type: AssetType.Inline,
+        content: customCss,
+      },
+      pro: false,
+    });
+
+    extraAssets.push(customCssAsset);
+  }
+
+  const stylesAssets = getAssets(styles, "css", extraAssets);
+  const scriptsAssets = getAssets(scripts, "js");
+
   return {
-    projectStyles,
     html,
-    styles: [...styles, ...customCssStyles],
-    scripts,
+    styles: stylesAssets,
+    scripts: scriptsAssets,
   };
 }

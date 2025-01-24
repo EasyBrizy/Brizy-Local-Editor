@@ -1,5 +1,5 @@
 import type { Response } from "@/types/common";
-import { AutoSaveOutput, BuilderOutput, HtmlOutputType } from "@/types/types";
+import { AutoSaveOutput, BuilderOutput } from "@/types/types";
 import type { GetCollectionItemsHandler } from "../handlers/api/collectionItems";
 import { LoadCollectionTypesHandler } from "../handlers/api/collectionTypes";
 import type { AddCustomFileHandler } from "../handlers/api/customFile";
@@ -53,11 +53,11 @@ export interface ExposedHandlers {
   dcHandler: DCHandler;
   getPlaceholderData: PlaceholderDataHandler;
   onLoad: (uid: string) => void;
-  onAutoSave: (output: AutoSaveOutput<HtmlOutputType>, uid: string) => void;
+  onAutoSave: (output: AutoSaveOutput, uid: string) => void;
   getFormFields: FormFieldsHandler;
-  save: (output: BuilderOutput<HtmlOutputType>) => void;
+  save: (output: BuilderOutput) => void;
   onOpenCMS: OpenCMSHandler;
   onCloseCMS: (uid: string) => void;
-  publish: PublishHandler<HtmlOutputType>;
+  publish: PublishHandler;
   onOpenMenu: VoidFunction;
 }

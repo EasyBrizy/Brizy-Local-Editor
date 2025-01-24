@@ -28,14 +28,13 @@ export default async function Page({ params }: Props) {
       notFound();
     }
 
-    const { html, scripts, styles, projectStyles } = await assemblePages({
+    const { html, scripts, styles } = await assemblePages({
       items: [page.data.compiled],
       project: project.data.compiled,
       reference: referenceValue,
     });
-    const _styles = [...projectStyles, ...styles];
 
-    return <PageComponent html={html} scripts={scripts} styles={_styles} />;
+    return <PageComponent html={html} scripts={scripts} styles={styles} />;
   } catch (e) {
     console.log("Error:", e);
     notFound();

@@ -55,14 +55,13 @@ export default async function Page({
     );
     const items = [headerPage.data.compiled, page.data.compiled, footerPage.data.compiled, ...popups].filter(isT);
 
-    const { html, scripts, styles, projectStyles } = await assemblePages({
+    const { html, scripts, styles } = await assemblePages({
       items,
       project: project.data.compiled,
       reference: referenceValue,
     });
 
-    const _styles = [...projectStyles, ...styles];
-    return <PageComponent html={html} scripts={scripts} styles={_styles} />;
+    return <PageComponent html={html} scripts={scripts} styles={styles} />;
   } catch (e) {
     console.log("Error:", e);
     notFound();
