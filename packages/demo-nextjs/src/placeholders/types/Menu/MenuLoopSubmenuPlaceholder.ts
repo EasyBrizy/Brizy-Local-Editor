@@ -1,7 +1,7 @@
-import { isCollectionContext } from "@/placeholders/context/types";
 import { ContentPlaceholder, ContextInterface } from "@brizy/content-placeholder";
 import { Str } from "@brizy/readers";
 import { CollectionContext } from "../../context/CollectionContext";
+import { isCollectionContext } from "../../context/types";
 import { PlaceholderType } from "../types";
 import { MenuBasePlaceholder } from "./MenuBasePlaceholder";
 import { readMenuItemId } from "./utils";

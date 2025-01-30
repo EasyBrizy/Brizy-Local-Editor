@@ -1,7 +1,7 @@
 import { Obj, Str } from "@brizy/readers";
 import { getIn, setIn } from "timm";
 import { ExposedHandlers } from "../../types/type";
-import { getCollectionItemsHandler } from "./collectionItems";
+import { getCollectionItemsHandler, loadCollectionItemsHandler, searchCollectionItemsHandler } from "./collectionItems";
 import { getLoadCollectionTypesHandler } from "./collectionTypes";
 import { getCustomFileHandler } from "./customFile";
 import { getMediaHandler } from "./media";
@@ -108,6 +108,8 @@ export const getApi = (data: Data) => {
   if (enabledCollectionItems) {
     api = setIn(api, ["collectionItems"], {
       getCollectionItems: getCollectionItemsHandler(getCollectionItems, uid),
+      searchCollectionItems: searchCollectionItemsHandler(handlers.searchCollectionItems, uid),
+      loadCollectionItems: loadCollectionItemsHandler(handlers.loadCollectionItems, uid),
     }) as Record<string, unknown>;
   }
 

@@ -1,8 +1,10 @@
 import { BuilderPlaceholder } from "./BuilderPlaceholder";
-import { CollectionItemPlaceholder } from "./CollectionItem";
-import { CompareAtPricePlaceholder } from "./CompareAtPrice";
-import { DescriptionPlaceholder } from "./Description";
-import { FeaturedImagePlaceholder } from "./FeaturedImage";
+import {
+  CollectionItemPlaceholder,
+  DescriptionPlaceholder,
+  FeaturedImagePlaceholder,
+  TitlePlaceholder,
+} from "./Collections";
 import {
   GroupPlaceholder,
   MegaMenuItemPlaceholder,
@@ -14,15 +16,20 @@ import {
   MenuLoopPlaceholder,
   MenuLoopSubmenuPlaceholder,
 } from "./Menu";
-import { PricePlaceholder } from "./Price";
+import { PostPaginationPlaceholder } from "./PostPaginationPlaceholder";
+import { PostPlaceholder } from "./PostPlaceholder";
+import { PostUrlPlaceholder } from "./PostUrlPlaceholder";
 import { RandomIdPlaceholder } from "./RandomIdPlaceholder";
-import { TitlePlaceholder } from "./Title";
+import {
+  CompareAtPricePlaceholder,
+  PricePlaceholder,
+  VariantOptionTitlePlaceholder,
+  VariantOptionValuePlaceholder,
+  VariantOptionValuesPlaceholder,
+  VariantOptionsPlaceholder,
+  VariantTitlePlaceholder,
+} from "./Shopify";
 import { TranslationPlaceholder } from "./Translation";
-import { VariantOptionTitlePlaceholder } from "./VariantOptionTitle";
-import { VariantOptionValuePlaceholder } from "./VariantOptionValue";
-import { VariantOptionValuesPlaceholder } from "./VariantOptionValues";
-import { VariantOptionsPlaceholder } from "./VariantOptions";
-import { VariantTitlePlaceholder } from "./VariantTitle";
 
 export const PlaceholderInstances = [
   PricePlaceholder,
@@ -38,14 +45,17 @@ export const PlaceholderInstances = [
   FeaturedImagePlaceholder,
   TranslationPlaceholder,
   BuilderPlaceholder,
+  PostPlaceholder,
+  PostPaginationPlaceholder,
+  PostUrlPlaceholder,
+  RandomIdPlaceholder,
   GroupPlaceholder,
   MenuLoopPlaceholder,
-  MegaMenuValuePlaceholder,
-  MegaMenuItemPlaceholder,
-  MenuItemIconValuePlaceholder,
-  MenuItemIconPlaceholder,
-  MenuLoopSubmenuPlaceholder,
   MenuAttributesPlaceholder,
   MenuItemAttributesPlaceholder,
-  RandomIdPlaceholder,
+  MenuLoopSubmenuPlaceholder,
+  MegaMenuItemPlaceholder,
+  MegaMenuValuePlaceholder,
+  MenuItemIconPlaceholder,
+  MenuItemIconValuePlaceholder,
 ];

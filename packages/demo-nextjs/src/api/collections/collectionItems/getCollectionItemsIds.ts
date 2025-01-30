@@ -1,5 +1,17 @@
+import { EntityType } from "@/constants/EntityType";
+import { getShopifyCollectionItems } from "@/lib/db/shopify/getCollectionItems";
 import { Response } from "../../types";
-import { CollectionItem, getCollectionItems } from "./index";
+import { CollectionItem } from "./types";
+
+export const getCollectionItems = async (id: string) => {
+  let items: CollectionItem[] = [];
+
+  if (id === EntityType.PRODUCT) {
+    items = await getShopifyCollectionItems();
+  }
+
+  return [{ title: "Auto", value: "auto" }, ...items];
+};
 
 export const getCollectionItemsIds = {
   async handler(res: Response<CollectionItem[]>, rej: Response<string>, extra: { id: string }) {

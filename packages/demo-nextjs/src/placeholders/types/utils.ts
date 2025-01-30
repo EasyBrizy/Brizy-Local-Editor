@@ -15,8 +15,10 @@ export const getContext = (
   let entityType = Str.read(attributes?.entityType) ?? "";
 
   if (isCollectionContext(context)) {
-    const contextEntityId = context.getEntityId();
-    const contextEntityType = context.getEntityType();
+    const { placeholderKey } = context.getAttributes();
+    const [_contextEntityId, _contextEntityType] = Str.read(placeholderKey)?.split("|||") ?? [];
+    const contextEntityId = _contextEntityId ?? context.getEntityId();
+    const contextEntityType = _contextEntityType ?? context.getEntityType();
 
     if (!entityId || entityId === "auto") {
       entityId = contextEntityId;

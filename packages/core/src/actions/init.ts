@@ -232,6 +232,42 @@ export const createUi = (config: Config): BuilderUI => {
 
 //#endregion
 
+// #region Elements
+type Elements = Config["elements"];
+
+type BuilderElements = Elements & {
+  menu?: {
+    enable?: boolean;
+  };
+  posts?: {
+    enable?: boolean;
+  };
+};
+
+const createElements = (config: Config): BuilderElements => {
+  let { elements } = config;
+
+  if (!elements) {
+    return {};
+  }
+
+  if (elements.menu?.onOpen) {
+    elements = setIn(elements, ["menu"], {
+      ...elements.menu,
+      enable: true,
+    }) as BuilderElements;
+  }
+
+  if (elements.posts?.handler) {
+    elements = setIn(elements, ["posts"], {
+      ...elements.posts,
+      enable: true,
+    }) as BuilderElements;
+  }
+
+  return elements;
+};
+
 //#region Page
 
 type Page = Config["pageData"];
@@ -268,6 +304,6 @@ export const init = (config: Config, token: string, uid: string): ActionResolve 
     contentDefaults: config.contentDefaults,
     platform: config.platform,
     templateType: config.templateType,
-    elements: config.elements,
+    elements: createElements(config),
   }),
 });

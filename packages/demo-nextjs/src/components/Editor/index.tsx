@@ -94,13 +94,6 @@ export const Editor = () => {
         },
       },
     },
-    elements: {
-      menu: {
-        onOpen: () => {
-          router.push("/admin/menu");
-        },
-      },
-    },
     extensions: [{ host: origin, path: "/widgets" }],
   }) as Config;
 

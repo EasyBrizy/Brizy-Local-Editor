@@ -1,3 +1,4 @@
+import { EntityType } from "@/constants/EntityType";
 import type { Config } from "@/hooks/useEditor/types";
 import { PlaceholderType } from "@/placeholders/types/types";
 import { DCTypes } from "@builder/core/build/es/types/dynamicContent";
@@ -838,6 +839,49 @@ export const demoConfig: Config = {
       textPopulation: `{{${PlaceholderType.Description}}}`,
       textPopulationEntityType: "",
       textPopulationEntityId: "",
+    },
+    Posts: {
+      _version: 3,
+      items: [
+        {
+          type: "Column",
+          value: {
+            _styles: ["posts--column"],
+            items: [
+              {
+                type: "Wrapper",
+                value: {
+                  _styles: ["wrapper", "wrapper-postTitle", "wrapper-postTitle-posts", "wrapper-postTitle-posts-posts"],
+                  items: [
+                    {
+                      type: "WPPostsTitle",
+                      value: {
+                        _styles: ["postTitle", "postTitle-posts", "postTitle-posts-posts"],
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                type: "Cloneable",
+                value: {
+                  _styles: ["wrapper-clone", "wrapper-clone--button"],
+                  items: [
+                    {
+                      type: "Button",
+                      value: {
+                        linkExternalBlank: "on",
+                        _styles: ["button", "button--dynamic"],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ],
+      source: EntityType.BLOG,
     },
   },
 };

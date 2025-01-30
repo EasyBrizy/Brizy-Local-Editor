@@ -107,6 +107,10 @@ const defaultUI = (
               ],
             },
             {
+              label: "blog",
+              moduleNames: [BaseElementTypes.Posts],
+            },
+            {
               label: "social",
               moduleNames: [BaseElementTypes.Facebook, BaseElementTypes.Twitter, BaseElementTypes.FacebookComments],
             },

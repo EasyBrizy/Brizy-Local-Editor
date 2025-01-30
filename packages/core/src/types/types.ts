@@ -1,7 +1,8 @@
 import { BuilderModes } from "@/actions/init";
+import { PostsSources } from "@/types/posts";
 import { CollectionItems } from "./collectionItems";
 import { CollectionTypes } from "./collectionTypes";
-import { PageData, PageDataOutput, ProjectData, ProjectDataOutput } from "./common";
+import { PageData, PageDataOutput, ProjectData, ProjectDataOutput, Response } from "./common";
 import { CustomFile } from "./customFile";
 import { DynamicContent } from "./dynamicContent";
 import { Form, FormInputTypes } from "./form";
@@ -31,11 +32,7 @@ export enum Modes {
 }
 
 export enum ShopifyTemplate {
-  Product = "shopify-product",
   Page = "shopify-page",
-  Collection = "shopify-collection",
-  Article = "shopify-article",
-  Blog = "shopify-blog",
 }
 
 export interface BuilderOutput {
@@ -222,6 +219,18 @@ export interface Config {
       linkSource?: string;
       linkType?: string;
     };
+    ProductList?: {
+      collectionTypeId?: string;
+      component?: string;
+      source?: string;
+    };
+    Posts?: {
+      _version?: number;
+      items?: Array<Record<string, unknown>>;
+      source?: string;
+      orderBy?: string;
+      order?: string;
+    };
   };
 
   // #endregion
@@ -245,6 +254,15 @@ export interface Config {
     };
     video?: {
       types?: Array<VideoTypes>;
+    };
+    posts?: {
+      handler?: (res: Response<PostsSources>, rej: Response<string>) => void;
+      exclude?: boolean;
+      includeQueryMultiOptions?: boolean;
+      offset?: boolean;
+      orderBy?: boolean;
+      order?: boolean;
+      querySource?: boolean;
     };
   };
 
