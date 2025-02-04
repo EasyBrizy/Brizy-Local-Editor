@@ -141,19 +141,6 @@ export function getJSONViewAssets(assets: Array<ParsedThirdParty>) {
   );
 }
 
-export function getHTMLViewAssets(assets: Array<ParsedThirdParty>) {
-  return assets.reduce(
-    (acc, asset) => {
-      const { viewScripts, viewStyles } = asset;
-      return {
-        scripts: [...acc.scripts, ...viewScripts.map(htmlScriptTemplate)],
-        styles: [...acc.styles, ...viewStyles.map(htmlStyleTemplate)],
-      };
-    },
-    { scripts: [], styles: [] },
-  );
-}
-
 interface Props {
   data: MValue<PublishData>;
 }
@@ -177,14 +164,6 @@ export function addThirdPartyAssets({ data }: Props) {
   ]) as MValue<PublishData>;
 
   return data;
-}
-
-function htmlStyleTemplate(href: string) {
-  return `<link href="${href}" rel="stylesheet">`;
-}
-
-function htmlScriptTemplate(src: string) {
-  return `<script src="${src}"></script>`;
 }
 
 function jsonScriptTemplate(url: string) {

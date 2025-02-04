@@ -2,7 +2,7 @@ import { BuilderModes } from "@/actions/init";
 import { BuilderOutput, Output } from "@/types/types";
 import { getIn } from "timm";
 
-const createPopupSettings = ({
+export const createPopupSettings = ({
   pageData,
   mode,
 }: {

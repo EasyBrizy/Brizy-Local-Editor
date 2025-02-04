@@ -133,11 +133,6 @@ export interface PageJsonOutput {
   };
 }
 
-export type PageData = {
-  [key: string]: unknown;
-  compiled?: PageJsonOutput;
-};
-
 export type PageDataOutput = {
   [k: string]: unknown;
   compiled?: PageJsonOutput;
@@ -151,18 +146,9 @@ export interface ProjectJsonOutput {
   styles: Array<Asset>;
 }
 
-export type ProjectData = {
-  [key: string]: unknown;
-  compiled?: ProjectJsonOutput;
-};
-
-export interface ProjectJsonCompiledOutput {
-  styles: Array<Styles>;
-}
-
 export type ProjectDataOutput = {
   [k: string]: unknown;
-  compiled?: ProjectJsonCompiledOutput;
+  compiled?: ProjectJsonOutput;
 };
 
 //#endregion
