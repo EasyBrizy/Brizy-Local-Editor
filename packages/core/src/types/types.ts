@@ -2,7 +2,7 @@ import { BuilderModes } from "@/actions/init";
 import { PostsSources } from "@/types/posts";
 import { CollectionItems } from "./collectionItems";
 import { CollectionTypes } from "./collectionTypes";
-import { PageData, PageDataOutput, ProjectData, ProjectDataOutput, Response } from "./common";
+import { PageDataOutput, ProjectDataOutput, Response } from "./common";
 import { CustomFile } from "./customFile";
 import { DynamicContent } from "./dynamicContent";
 import { Form, FormInputTypes } from "./form";
@@ -25,6 +25,16 @@ export interface Output {
   };
 }
 
+export interface RequiredOutput {
+  pageData: PageDataOutput;
+  projectData: ProjectDataOutput;
+  error?: string;
+  popupSettings?: {
+    verticalAlign: "top" | "bottom" | "center";
+    horizontalAlign: "left" | "right" | "center";
+  };
+}
+
 export enum Modes {
   popup = "popup",
   page = "page",
@@ -36,19 +46,28 @@ export enum ShopifyTemplate {
 }
 
 export interface BuilderOutput {
-  pageData?: PageData;
-  projectData?: ProjectData;
-  error?: string;
   mode: BuilderModes;
+  pageData?: PageDataOutput;
+  projectData?: ProjectDataOutput;
+  error?: string;
+}
+
+export interface CompileBuilderOutput {
+  mode: BuilderModes;
+  pageData: PageDataOutput;
+  projectData: ProjectDataOutput;
+  error?: string;
 }
 
 export interface AutoSaveOutput {
-  pageData?: PageData;
-  projectData?: ProjectData;
+  pageData?: PageDataOutput;
+  projectData?: ProjectDataOutput;
 }
 
 export type OnSave = (output: Output) => void;
 export type OnAutoSave = (output: AutoSaveOutput) => void;
+
+export type OnCompile = (output: RequiredOutput) => void;
 
 export interface Extension {
   host?: string;
@@ -271,6 +290,7 @@ export interface Config {
 
 export interface API {
   save: VoidFunction;
+  compile: (cb?: OnCompile) => void;
 }
 
 type CB = (api: API) => void;

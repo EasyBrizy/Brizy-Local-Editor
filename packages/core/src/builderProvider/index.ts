@@ -42,6 +42,6 @@ import { actions } from "./utils/actions";
     },
     api: {},
   };
-
-  Comlink.expose(actions, Comlink.windowEndpoint(self.parent));
 })(window);
+
+Comlink.expose(actions, Comlink.windowEndpoint(self.parent));

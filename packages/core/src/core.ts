@@ -1,16 +1,18 @@
 import { loader } from "@/Loader";
 import { initLoader } from "@/Loader/init";
 import { init } from "@/actions/init";
-import { ActionResolve, Init, OnSave } from "@/types/types";
+import { ActionResolve, Init, OnCompile, OnSave } from "@/types/types";
 import { getHandlers } from "@/utils/config";
 import * as Comlink from "comlink";
 import { v4 as uuid } from "uuid";
 
 const savedNodeCB = new Map<HTMLElement, OnSave>();
+const compiledNodeCB = new Map<HTMLElement, OnCompile>();
 
 type IframeHandlers = {
   init: (data: ActionResolve) => void;
   save: (uid: string) => void;
+  compile: (uid: string) => void;
 };
 
 export const Core: Init = (token, config, cb) => {
@@ -51,6 +53,7 @@ export const Core: Init = (token, config, cb) => {
       container,
       spinner,
       savedNodeCB,
+      compiledNodeCB,
       uid,
     });
 
@@ -66,8 +69,16 @@ export const Core: Init = (token, config, cb) => {
       await iframeApi.save(uid);
     };
 
+    const compile = async (cb?: OnCompile) => {
+      if (typeof cb === "function") {
+        compiledNodeCB.set(container, cb);
+      }
+      await iframeApi.compile(uid);
+    };
+
     const api = {
       save,
+      compile,
     };
 
     cb(api);

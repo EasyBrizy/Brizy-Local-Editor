@@ -6,8 +6,8 @@ import { AddMediaExtra } from "@/types/media";
 import { PostsSources } from "@/types/posts";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import { BlockWithThumbs, KitItem } from "@/types/templates";
-import { AutoSaveOutput, BuilderOutput, Config, OnSave } from "@/types/types";
-import { createOutput } from "@/utils/createOutput";
+import { AutoSaveOutput, BuilderOutput, CompileBuilderOutput, Config, OnCompile, OnSave } from "@/types/types";
+import { createOutput, createPopupSettings } from "@/utils/createOutput";
 import { Response } from "@/utils/types";
 
 interface Params {
@@ -17,9 +17,10 @@ interface Params {
   spinner: HTMLElement;
   container: HTMLElement;
   savedNodeCB: Map<HTMLElement, OnSave>;
+  compiledNodeCB: Map<HTMLElement, OnCompile>;
 }
 
-export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, uid }: Params) => ({
+export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, compiledNodeCB, uid }: Params) => ({
   addMedia: (iframeUid: string, extra: AddMediaExtra) => {
     if (iframeUid !== uid) {
       return;
@@ -331,6 +332,27 @@ export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, u
 
     if (typeof onSaveCallback === "function") {
       onSaveCallback(_output);
+    }
+  },
+  compile: (output: CompileBuilderOutput, iframeUid: string) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+
+    const { pageData, projectData, error, mode } = output;
+    const popupSettings = createPopupSettings({ pageData, mode });
+    const data = {
+      pageData,
+      projectData,
+      error,
+      ...(popupSettings && { popupSettings }),
+    };
+
+    config.onSave?.(data);
+    const onCompiledCallback = compiledNodeCB.get(container);
+
+    if (typeof onCompiledCallback === "function") {
+      onCompiledCallback(data);
     }
   },
   onAutoSave: (output: AutoSaveOutput, iframeUid: string) => {

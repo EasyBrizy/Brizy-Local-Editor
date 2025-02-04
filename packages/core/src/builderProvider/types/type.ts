@@ -2,7 +2,7 @@ import { LoadCollectionItemsHandler } from "@/builderProvider/handlers/api/colle
 import { SearchCollectionItemsHandler } from "@/builderProvider/handlers/api/collectionItems/searchCollectionItems";
 import { PostHandler } from "@/builderProvider/handlers/defaults/elements/posts";
 import type { Response } from "@/types/common";
-import { AutoSaveOutput, BuilderOutput } from "@/types/types";
+import { AutoSaveOutput, BuilderOutput, RequiredOutput } from "@/types/types";
 import type { GetCollectionItemsHandler } from "../handlers/api/collectionItems/getCollectionItems";
 import { LoadCollectionTypesHandler } from "../handlers/api/collectionTypes";
 import type { AddCustomFileHandler } from "../handlers/api/customFile";
@@ -61,6 +61,7 @@ export interface ExposedHandlers {
   onAutoSave: (output: AutoSaveOutput, uid: string) => void;
   getFormFields: FormFieldsHandler;
   save: (output: BuilderOutput) => void;
+  compile: (output: RequiredOutput, uid: string) => void;
   onOpenCMS: OpenCMSHandler;
   onCloseCMS: (uid: string) => void;
   publish: PublishHandler;

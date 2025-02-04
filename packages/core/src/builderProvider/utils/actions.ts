@@ -10,6 +10,8 @@ import { getDCConfig } from "../handlers/dynamicContent";
 import { getIntegration } from "../handlers/integration";
 import { ExposedHandlers } from "../types/type";
 
+const parentWrap = Comlink.wrap<ExposedHandlers>(Comlink.windowEndpoint(self.parent));
+
 const init = async ({ uid, data }: ActionResolve) => {
   const configData = JSON.parse(data);
   const exposedHandlers = Comlink.wrap<ExposedHandlers>(Comlink.windowEndpoint(self.parent));
@@ -118,9 +120,25 @@ const save = (uid: string) => {
     Config.onUpdate(async (_extra: Record<string, unknown>) => {
       let extra = addThirdPartyAssets({ data: _extra });
       const data = { mode, ...extra };
-      const exposedConfig = Comlink.wrap<ExposedHandlers>(Comlink.windowEndpoint(self.parent));
+
       // @ts-expect-error: Type Styles is not assignable to type string
-      await exposedConfig.save(data, uid);
+      await parentWrap.save(data, uid);
+    });
+  }
+};
+
+const compile = (uid: string) => {
+  const Config = window.Brizy?.config?.getAll();
+
+  if (Config && typeof Config.onCompile === "function") {
+    const mode = window.__VISUAL_CONFIG__.mode;
+
+    Config.onCompile(async (_extra: Record<string, unknown>) => {
+      let extra = addThirdPartyAssets({ data: _extra });
+      const data = { mode, ...extra };
+
+      // @ts-expect-error: Type Styles is not assignable to type string
+      await parentWrap.compile(data, uid);
     });
   }
 };
@@ -128,4 +146,5 @@ const save = (uid: string) => {
 export const actions = {
   init,
   save,
+  compile,
 };
