@@ -1381,6 +1381,36 @@ interface Link {
   attr: Record<string, string>;
 }
 
+interface StylesFree {
+  main: Asset;
+  generic: Asset[];
+  libsMap: AssetLibsMap[];
+  libsSelectors: string[];
+  pageFonts: AssetFonts[];
+  pageStyles: Asset[];
+}
+
+interface StylesPro {
+  main: Asset;
+  generic: Asset[];
+  libsMap: AssetLibsMap[];
+  libsSelectors: string[];
+}
+
+interface ScriptsFree {
+  main: Asset;
+  generic: Asset[];
+  libsMap: AssetLibsMap[];
+  libsSelectors: string[];
+}
+
+interface ScriptsPro {
+  main: Asset;
+  generic: Asset[];
+  libsMap: AssetLibsMap[];
+  libsSelectors: string[];
+}
+
 type PageDataOutput = {
   [k: string]: unknown;
   compiled?: {
@@ -1401,6 +1431,8 @@ type ProjectDataOutput = {
   };
 };
 ```
+
+For more information about the `Assets` types see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/src/types/common.ts#L3)
 
 #### Normalizing `pageData` and `projectData`
 To normalize and aggregate pageData and projectData, use the @brizy/merge-page-assets library. Here is the process:
