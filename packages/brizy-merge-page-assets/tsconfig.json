@@ -1,0 +1,19 @@
+{
+  "include": ["src"],
+  "exclude": ["node_modules","tests"],
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "target": "es6",
+    "skipLibCheck": true,
+    "declaration": true,
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    "outDir": "dist",
+  }
+}
