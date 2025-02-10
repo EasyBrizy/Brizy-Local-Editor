@@ -1,0 +1,36 @@
+{
+  "name": "@brizy/merge-page-assets",
+  "version": "1.0.0",
+  "description": "Merge page assets compiled by Brizy compiler",
+  "main": "dist/index.js",
+  "type": "module",
+  "author": "brizy",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint ./src",
+    "tsc": "tsc --noEmit",
+    "test": "jest test",
+    "check": "npm run lint && npm run tsc && npm run test",
+    "clean": "rimraf ./dist",
+    "build": "npm run clean && npm run build:esm",
+    "build:esm": "tsc"
+  },
+  "keywords": [
+    "brizy",
+    "merge",
+    "assets"
+  ],
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "eslint": "^8.47.0",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
+  }
+}
