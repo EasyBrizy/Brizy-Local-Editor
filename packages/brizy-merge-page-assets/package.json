@@ -13,8 +13,12 @@
     "check": "npm run lint && npm run tsc && npm run test",
     "clean": "rimraf ./dist",
     "build": "npm run clean && npm run build:esm",
-    "build:esm": "tsc"
+    "build:esm": "tsc",
+    "prepublishOnly": "npm run clean && npm run check && npm run build:esm"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "brizy",
     "merge",
