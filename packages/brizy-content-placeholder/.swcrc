@@ -1,0 +1,16 @@
+{
+  "module": {
+    "type": "commonjs"
+  },
+  "env": {
+    "targets": "Chrome >= 48"
+  },
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true
+    }
+  },
+  "exclude": ["src/tests", "src/examples"],
+  "minify": true
+}
