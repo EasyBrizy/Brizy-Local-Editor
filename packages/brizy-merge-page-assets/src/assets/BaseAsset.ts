@@ -1,5 +1,5 @@
+import { v4 as uuid } from "uuid";
 import { Asset, AssetType, isAssetCodeContent, isAssetFileContent } from "./types";
-import { createUid } from "./utils/crypto";
 
 export class BaseAsset {
   static TYPE_INLINE = AssetType.Inline;
@@ -19,7 +19,7 @@ export class BaseAsset {
     const { name, score, content, pro } = asset;
     const { type } = content;
 
-    this.uid = createUid();
+    this.uid = uuid();
     this.name = name;
     this.score = score;
     this.type = type;
