@@ -18,7 +18,7 @@ export const demoMenu: Menu = [
               type: "MenuItem",
               value: {
                 id: "413bff0e7a88eba33d250ac3ae99166a",
-                url: "/preview/page/previews",
+                url: "/previews",
                 title: "Previews",
               },
             },
@@ -26,7 +26,7 @@ export const demoMenu: Menu = [
               type: "MenuItem",
               value: {
                 id: "2238dcd350ec2811d824ddfe546667ce",
-                url: "/preview/page/analytics",
+                url: "/analytics",
                 title: "Analytics",
               },
             },
@@ -34,7 +34,7 @@ export const demoMenu: Menu = [
               type: "MenuItem",
               value: {
                 id: "0783e8be271654da41071e1be23d10a3",
-                url: "/preview/page/edge",
+                url: "/edge",
                 title: "Edge",
               },
             },
@@ -42,7 +42,7 @@ export const demoMenu: Menu = [
               type: "MenuItem",
               value: {
                 id: "3342071ce73ad1dbee9f560392da2549",
-                url: "/preview/page/nextjs",
+                url: "/nextjs",
                 title: "Nextjs",
               },
             },
@@ -50,7 +50,7 @@ export const demoMenu: Menu = [
               type: "MenuItem",
               value: {
                 id: "0c0d9ec288588ccb2ae77c2d16996b2b",
-                url: "/preview/page/customers",
+                url: "/customers",
                 title: "Infrastructure",
               },
             },
@@ -58,7 +58,7 @@ export const demoMenu: Menu = [
               type: "MenuItem",
               value: {
                 id: "1f3b2eb7b9d89c1bc438af7b5a5f5e7e",
-                url: "/preview/page/storage",
+                url: "/storage",
                 title: "Storage",
               },
             },
@@ -69,7 +69,7 @@ export const demoMenu: Menu = [
         type: "MenuItem",
         value: {
           id: "b664a1d33ab23a4cff2a98f5b759104e",
-          url: "/preview/page/integrations",
+          url: "/integrations",
           title: "Integrations",
         },
       },
@@ -77,7 +77,7 @@ export const demoMenu: Menu = [
         type: "MenuItem",
         value: {
           id: "f912e97e0ad9e83b7961445e3d2bc216",
-          url: "/preview/page/customers",
+          url: "/customers",
           title: "Customers",
         },
       },
@@ -85,7 +85,7 @@ export const demoMenu: Menu = [
         type: "MenuItem",
         value: {
           id: "1709f54f60608c3c74ac63f08b2e657e",
-          url: "/preview/page/enterprise",
+          url: "/enterprise",
           title: "Enterprise",
         },
       },
@@ -93,7 +93,7 @@ export const demoMenu: Menu = [
         type: "MenuItem",
         value: {
           id: "c513518d193e85fca4ce274368792dd2",
-          url: "/preview/page/pricing",
+          url: "/pricing",
           title: "Pricing",
         },
       },
@@ -101,7 +101,7 @@ export const demoMenu: Menu = [
         type: "MenuItem",
         value: {
           id: "f28b0d24849fedf1bdda5be865b76fae",
-          url: "/preview/page/contact",
+          url: "/contact",
           title: "Contact",
         },
       },
