@@ -278,7 +278,7 @@ type BuilderPage = Page & {
 
 const getPage = (config: Config): BuilderPage => ({
   ...config.pageData,
-  data: encode(JSON.stringify(config.pageData.data ?? {})),
+  data: encode(JSON.stringify(config.pageData?.data ?? { items: [] })),
 });
 
 //#endreigon
