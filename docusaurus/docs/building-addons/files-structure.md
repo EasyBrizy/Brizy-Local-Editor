@@ -26,7 +26,4 @@ The `<YOUR_WIDGET>` directory contains all necessary files for your custom-built
 - `index.view.ts` - houses the component's JavaScript logic executed within the preview mode.
 - `config.json` - specifies the JavaScript and CSS files for both editor and preview modes.
 
-[//]: # (//// TODO: check commentariul asta)
-??? De vazut daca e nevoie de descris toate field-urile din `config.json`.
-
 The remaining files are part of the standard Brizy third-party package structure.
