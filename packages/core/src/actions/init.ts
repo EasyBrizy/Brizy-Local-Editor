@@ -305,5 +305,6 @@ export const init = (config: Config, token: string, uid: string): ActionResolve 
     platform: config.platform,
     templateType: config.templateType,
     elements: createElements(config),
+    isRTL: config.isRTL,
   }),
 });
