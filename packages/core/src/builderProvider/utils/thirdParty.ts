@@ -8,6 +8,7 @@ import { updateIn } from "timm";
 
 const stylesPlaceholder = "{{ third_party_styles }}";
 const scriptsPlaceholder = "{{ third_party_scripts }}";
+const trlPlaceholder = "{{ third_party_rtl }}";
 
 export interface ParsedThirdParty {
   name: string;
@@ -21,10 +22,11 @@ export interface ParsedThirdParty {
 interface Data {
   doc: string;
   thirdPartyAssets: ParsedThirdParty[];
+  isRTL: boolean;
 }
 
 export function replaceThirdParty(data: Data): string {
-  const { doc, thirdPartyAssets } = data;
+  const { doc, thirdPartyAssets, isRTL } = data;
   let _doc = doc;
 
   const styles = document.createElement("div");
@@ -48,6 +50,7 @@ export function replaceThirdParty(data: Data): string {
 
   _doc = _doc.replace(stylesPlaceholder, styles.innerHTML.replace(/"/g, "'"));
   _doc = _doc.replace(scriptsPlaceholder, scripts.innerHTML.replace(/"/g, "'"));
+  _doc = _doc.replace(trlPlaceholder, isRTL ? "dir='rtl'" : "");
 
   return _doc;
 }

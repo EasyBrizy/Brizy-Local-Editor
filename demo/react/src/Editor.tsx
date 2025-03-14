@@ -60,6 +60,7 @@ export const Editor = () => {
 
   const config: Config = {
     ...demoConfig,
+    isRTL: true,
     container: containerRef.current,
     // extensions: [{ host: thirdPartyHost, path: "" }],
     dynamicContent: {

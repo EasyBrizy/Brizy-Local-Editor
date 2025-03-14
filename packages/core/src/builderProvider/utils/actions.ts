@@ -89,6 +89,8 @@ const init = async ({ uid, data }: ActionResolve) => {
   window.__VISUAL_CONFIG__.onAutoSave = (data: AutoSaveOutput) => exposedHandlers.onAutoSave(data, uid);
   window.__VISUAL_CONFIG__.autoSaveInterval = configData.autoSaveInterval;
 
+  const isRTL = configData.isRTL;
+
   const iframe = document.querySelector("#no-script-frame");
   const root = document.querySelector("#root");
 
@@ -107,6 +109,7 @@ const init = async ({ uid, data }: ActionResolve) => {
     root.innerHTML = replaceThirdParty({
       doc: iframe.innerHTML,
       thirdPartyAssets,
+      isRTL,
     });
   }
 };
