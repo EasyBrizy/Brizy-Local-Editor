@@ -49,6 +49,9 @@ type config = {
   // L10n
   l10n?: Record<string, string>;
 
+  // isRTL
+  isRTL?: boolean;
+
   // Extensions
   extensions?: Array<Extension>;
 
@@ -196,6 +199,9 @@ type config = {
 
   // L10n
   l10n?: Record<string, string>;
+
+  // isRTL
+  isRTL?: boolean;
 
   // Extensions
   extensions?: Array<Extension>;
@@ -351,6 +357,9 @@ type config = {
   // L10n
   l10n?: Record<string, string>;
 
+  // isRTL
+  isRTL?: boolean;
+
   // Extensions
   extensions?: Array<Extension>;
 
@@ -487,16 +496,17 @@ Config can be passed as an object when you initialize the editor from the script
 
 ### First level parameters
 
-| Name             | Type                               | Description                                                                                                                                                                                                                                                                                                           |
-| :--------------- | :--------------------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `container`      | `HTMLElement`                      | Brizy Plugin will load into HTML element.                                                                                                                                                                                                                                                                             |
-| `mode`           | `"page"` \| `"popup"` \| `"story"` | Default `"page"`                                                                                                                                                                                                                                                                                                      |
-| `pageData`       | `object`                           | Loads the JSON page specified in the pageData parameter.                                                                                                                                                                                                                                                              |
-| `projectData`    | `object`                           | Loads the JSON project specified in the projectData parameter.                                                                                                                                                                                                                                                        |
-| `menu`           | `array`                            | Load the array of menu                                                                                                                                                                                                                                                                                                |
-| `extension`      | `array`                            | Load the array of extension scripts and styles                                                                                                                                                                                                                                                                        |
-| `l10n`           | `object`                           | A data structure maps keys to localized strings for localization, with available keys listed [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/l10n.ts) and existing translations [here](https://github.com/EasyBrizy/Brizy-Local-Editor/tree/master/packages/core-translations). |
-| `pagePreview`    | `string`                           | Link of the preview which will be set on "preview" button in UI of the builder                                                                                                                                                                                                                                        |
+| Name          | Type                               | Description                                                                                                                                                                                                                                                                                                           |
+| :------------ | :--------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `container`   | `HTMLElement`                      | Brizy Plugin will load into HTML element.                                                                                                                                                                                                                                                                             |
+| `mode`        | `"page"` \| `"popup"` \| `"story"` | Default `"page"`                                                                                                                                                                                                                                                                                                      |
+| `pageData`    | `object`                           | Loads the JSON page specified in the pageData parameter.                                                                                                                                                                                                                                                              |
+| `projectData` | `object`                           | Loads the JSON project specified in the projectData parameter.                                                                                                                                                                                                                                                        |
+| `menu`        | `array`                            | Load the array of menu                                                                                                                                                                                                                                                                                                |
+| `extension`   | `array`                            | Load the array of extension scripts and styles                                                                                                                                                                                                                                                                        |
+| `l10n`        | `object`                           | A data structure maps keys to localized strings for localization, with available keys listed [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/docs/l10n.ts) and existing translations [here](https://github.com/EasyBrizy/Brizy-Local-Editor/tree/master/packages/core-translations). |
+| `isRTL`       | `boolean`                          | Enables right-to-left (RTL) layout when set to true. Default false.                                                                                                                                                                                                                                                   |
+| `pagePreview` | `string`                           | Link of the preview which will be set on "preview" button in UI of the builder                                                                                                                                                                                                                                        |
 
 ### Integrations parameters
 
@@ -1341,6 +1351,13 @@ import l10nUK from "/path/to/editor.uk.json";
 
 const config = {
   l10n: l10nUK,
+};
+```
+### Example: Right to left (`isRTL`)
+
+```ts
+const config = {
+  isRTL: true,
 };
 ```
 
