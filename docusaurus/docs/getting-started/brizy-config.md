@@ -91,8 +91,13 @@ type config = {
     };
     
     features?: {
-      linkUpload?: boolean;
-      internalLink?: boolean;
+      link?: {
+        internalLink?: boolean;
+        linkExternal?: boolean;
+        linkUpload?: boolean;
+        linkAnchor?: boolean;
+        linkPopup?: boolean;
+      };
     }
   };
 
@@ -245,8 +250,13 @@ type config = {
     };
 
     features?: {
-      linkUpload?: boolean;
-      internalLink?: boolean;
+      link?: {
+        internalLink?: boolean;
+        linkExternal?: boolean;
+        linkUpload?: boolean;
+        linkAnchor?: boolean;
+        linkPopup?: boolean;
+      };
     }
   };
 
@@ -383,8 +393,13 @@ type config = {
     };
 
     features?: {
-      linkUpload?: boolean;
-      internalLink?: boolean;
+      link?: {
+        internalLink?: boolean;
+        linkExternal?: boolean;
+        linkUpload?: boolean;
+        linkAnchor?: boolean;
+        linkPopup?: boolean;
+      };
     }
   };
 
@@ -546,8 +561,12 @@ Dynamic content can be configured in 2 ways
 | `ui.leftSidebar.cms.onOpen`             | `function` | Is a function for Opening External Modals with onClose Callback for CMS Icon Deactivation you can see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/assets/18303258/bd0e52df-9143-4986-9152-6397324bc2ff).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `ui.leftSidebar.cms.onClose`            | `function` | Is a function for Closing External Modals                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `ui.theme.colors`                       | `object`   | We can customize the color variables in builder's UI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| `ui.features.linkUpload`                | `boolean`  | Allows you to enable or disable the [LinkUpload option](https://github.com/user-attachments/assets/5c1b0a88-9638-42f4-8ae6-1d6481a03fb8) in the toolbar for all link elements. By default, this option is turned off.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `ui.features.internalLink`              | `boolean`  | Allows you to enable or disable the [InternalLink option](https://github.com/user-attachments/assets/af3fcfda-701c-4cae-ba3c-3734da625cd4) in the toolbar for all link elements. By default, this option is turned off.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `ui.features.link`                      | `object`   | Allows you to control which link options are enabled in the toolbar. It accepts the following keys: `internalLink`, `linkExternal`, `linkUpload`, `linkAnchor`, and `linkPopup`. Any key set to `true` will be enabled in the toolbar for elements. If this object is null, all link options will be enabled by default.                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `ui.features.link.linkUpload`           | `boolean`  | Allows you to enable or disable the [LinkUpload option](https://github.com/user-attachments/assets/5c1b0a88-9638-42f4-8ae6-1d6481a03fb8) in the toolbar for all link elements. By default, this option is turned off.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `ui.features.link.internalLink`         | `boolean`  | Allows you to enable or disable the [InternalLink option](https://github.com/user-attachments/assets/af3fcfda-701c-4cae-ba3c-3734da625cd4) in the toolbar for all link elements. By default, this option is turned off.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `ui.features.link.linkExtenal`          | `boolean`  | Allows you to enable or disable the [LinkExternal option](https://github.com/user-attachments/assets/394e9f13-8fe3-434a-8323-1c4d3a29f6e1) in the toolbar for all link elements. By default, this option is turned off.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `ui.features.link.linkAnchor`           | `boolean`  | Allows you to enable or disable the [LinkAnchor option](https://github.com/user-attachments/assets/5f7c9188-0605-4427-8740-50b56ca849a3) in the toolbar for all link elements. By default, this option is turned off.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `ui.features.link.linkPopup`            | `boolean`  | Allows you to enable or disable the [LinkPopup option](https://github.com/user-attachments/assets/dabe41bb-358f-4304-a0c6-522db1ded999) in the toolbar for all link elements. By default, this option is turned off.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `ui.publish.handler`                    | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor ( example of resolve: resolve() ). In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. The `extra` argument includes the properties `projectData` and `pageData`, with values that can either be the respective data or `undefined`. If a property is not being modified, its value will be `undefined` |
 
 ### API parameters
