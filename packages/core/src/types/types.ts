@@ -76,6 +76,7 @@ export interface Extension {
 
 export interface Config {
   mode?: Modes;
+  isRTL?: boolean;
   container: HTMLElement;
   pageData: Record<string, unknown>;
   projectData: Record<string, unknown>;
