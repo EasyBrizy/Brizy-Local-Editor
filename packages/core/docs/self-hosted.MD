@@ -642,18 +642,26 @@ export type LeftSidebarOption = LeftSidebarCommonOption | LeftSidebarAddElements
 // Theme
 export interface Theme {
   colors: {
-    "--primary-dark"?: string;
-    "--secondary-dark"?: string;
-    "--tertiary-dark"?: string;
-    "--primary-white"?: string;
-    "--secondary-white"?: string;
-    "--tertiary-white"?: string;
-    "--primary-gray"?: string;
-    "--secondary-gray"?: string;
-    "--tertiary-gray"?: string;
-    "--active-color"?: string;
-    "--light-gray"?: string;
-  };
+    "--ui-main-color": string,                           // UI main color
+    "--active-color": string,                            // Highlight color
+    "--icons-color": string,                             // Icons color
+    "--toolbars-icons-separators": string,               // Toolbar icons separators
+
+    "--sidebar-background": string,                      // Sidebars left and right background
+    "--sidebar-header": string,                          // Sidebars left and right headers
+    "--sidebar-separators": string,                      // Sidebars separators
+    "--borders": string,                                 // Borders for the elements in the left sidebar
+
+    "--inputs-bg": string,                               // All inputs background
+    "--input-placeholder-text": string,                  // Placeholder default text in inputs
+    "--text-labels": string,                             // Text labels
+
+    "--column-lvl1-border": string,                      // Border for the lvl 1 column in the editor (optional)
+    "--column-lvl2-border": string,                      // Border for the lvl 2 column in the editor (optional)
+    "--row-and-default-elements-border": string,         // Border for the row and default elements in the editor (optional)
+    "--draggable-block-padding-bg": string,              // Block top and bottom draggable padding in editor (optional)
+    "--ui-shadows": string,                              // UI shadows for toolbars and sidebars
+  }
 }
 
 // Defaults Blocks
