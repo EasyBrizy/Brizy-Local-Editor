@@ -1,4 +1,4 @@
-# What is a Brizy Widget ?
+# What is a Brizy Widget
 
 Before embarking on Brizy widget creation, it's crucial to grasp the nature and role of widgets within the Brizy ecosystem. <br/>
 Brizy widgets are custom-built extensions that enhance Brizy's core functionality. Brizy provide a platform for developers to introduce new widgets, new features, integrate external services, and tailor the platform to specific user needs.

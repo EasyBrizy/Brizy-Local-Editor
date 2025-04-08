@@ -1,3 +1,9 @@
+---
+title: Editor Modes
+sidebar_label: Editor Modes
+sidebar_position: 4
+---
+
 Brizy Editor provides two distinct modes for working with your pages: **Editor Mode** and **Preview Mode**. Each mode serves a specific purpose in the page-building process, allowing you to edit and visualize content effectively.
 
 ## 1. Editor Mode
@@ -131,4 +137,3 @@ This ensures that when the page is loaded in Preview Mode, the JavaScript file i
 - Provides a closer representation of how the component will appear in the final published page.
 
 By understanding these differences, you can efficiently design and implement components in Brizy Editor, ensuring both an intuitive editing experience and a functional preview.
-

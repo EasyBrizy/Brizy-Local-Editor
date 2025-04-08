@@ -26,7 +26,7 @@ type config = {
   projectData: Record<string, unknown>;
 
   // Page: Static Page view
-  mode: "page"
+  mode: "page";
 
   // Menu
   menu?: Array<Menu>;
@@ -92,7 +92,7 @@ type config = {
     publish?: {
       handler: (res: Response<void>, rej: Response<string>, extra: Output) => void;
     };
-    
+
     features?: {
       link?: {
         internalLink?: boolean;
@@ -101,7 +101,7 @@ type config = {
         linkAnchor?: boolean;
         linkPopup?: boolean;
       };
-    }
+    };
   };
 
   // API
@@ -159,14 +159,11 @@ type config = {
       offset?: boolean;
       orderBy?: boolean;
       order?: boolean;
-      handler: (
-        res: Response<PostsSources>,
-        ref: Response<string>
-      ) => void;
+      handler: (res: Response<PostsSources>, ref: Response<string>) => void;
     };
   };
 };
-````
+```
 
 ## Config Popup
 
@@ -263,7 +260,7 @@ type config = {
         linkAnchor?: boolean;
         linkPopup?: boolean;
       };
-    }
+    };
   };
 
   // API
@@ -319,10 +316,7 @@ type config = {
       offset?: boolean;
       orderBy?: boolean;
       order?: boolean;
-      handler: (
-        res: Response<PostsSources>,
-        ref: Response<string>
-      ) => void;
+      handler: (res: Response<PostsSources>, ref: Response<string>) => void;
     };
   };
 };
@@ -409,7 +403,7 @@ type config = {
         linkAnchor?: boolean;
         linkPopup?: boolean;
       };
-    }
+    };
   };
 
   // API
@@ -464,10 +458,7 @@ type config = {
       offset?: boolean;
       orderBy?: boolean;
       order?: boolean;
-      handler: (
-        res: Response<PostsSources>,
-        ref: Response<string>
-      ) => void;
+      handler: (res: Response<PostsSources>, ref: Response<string>) => void;
     };
   };
 };
@@ -511,7 +502,7 @@ Config can be passed as an object when you initialize the editor from the script
 ### Integrations parameters
 
 | Name                                  | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|:--------------------------------------| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :------------------------------------ | :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `integrations.form.action`            | `string`   | Replace the URL with your own. This is the link where we send the information from the contact form element when the end user submits the form.                                                                                                                                                                                                                                                                                                                                                      |
 | `integrations.form.recaptcha.siteKey` | `string`   | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `integrations.form.fields.label`      | `string`   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
@@ -556,7 +547,7 @@ Dynamic content can be configured in 2 ways
 ### UI parameters
 
 | Name                                    | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|:----------------------------------------|:-----------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :-------------------------------------- | :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ui.popupSettings.displayCondition`     | `boolean`  | Takes true or false values and lets you turn on or off the global [display conditions](https://user-images.githubusercontent.com/10077249/206892163-024f4fcd-d127-4c28-8a60-ea21e3982b3c.png) option together with the [display conditions popup](https://user-images.githubusercontent.com/10077249/206892176-23ed85ee-4f66-4c83-8ebb-a64117daa124.png).                                                                                                                                                                                                                                                                                                                                                                                           |
 | `ui.popupSettings.deletePopup`          | `boolean`  | Takes true or false values and lets you turn on or off the [delete popup option](https://user-images.githubusercontent.com/10077249/206904265-7e79f65f-0288-4473-be14-afb5dcea6fbb.png). Turn off the delete option when you want to load your json templates in the pageDate parameter. Turning off the delete option will also remove the posibility to [access the premade Brizy templates](https://user-images.githubusercontent.com/10077249/206904279-f55a472a-5508-4594-b40f-6c9d20a90bd9.png) inside the editor.                                                                                                                                                                                                                            |
 | `ui.popupSettings.embedded`             | `boolean`  | Takes true of false values and lets you turn on or off [Vertical align, Horizontal align, Scroll Page Behind and Close Button](https://user-images.githubusercontent.com/18303258/212686108-a43883df-574f-4b30-b795-5d48e93b3d08.png).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
@@ -582,7 +573,7 @@ Dynamic content can be configured in 2 ways
 ### API parameters
 
 | Name                             | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|----------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `api.media.mediaResizeUrl`       | `string`   | This is the URL for the image resizer service. There are two image resizer service options: hosted by Brizy and self hosted. If you choose to use the image resizer service hosted by Brizy, you don't have to change the media.brizylocal.com URL. For the self hosted version you need to replace the media.brizylocal.com with the URL of your image resizer service. Setup your own image resizer service like [this](https://github.com/EasyBrizy/Brizy-Local-Image-Resizer#image-resizer)                                                                                                                                                                                                             |
 | `api.media.imagePatterns`        | `object`   | This is an object with `full`, `original`, and `split` keys. It's used to control the final URLs for all builder resize and crop operations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `api.media.addMedia.handler`     | `function` | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. In the `resolve` function, you can pass both the `uid` and `fileName` parameters. If the `uid` is not provided, it will default to the value of `fileName`, as the editor requires a `uid` to be provided. |
@@ -612,7 +603,7 @@ Dynamic content can be configured in 2 ways
 ### Elements parameters
 
 | Name                            | Type                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|:--------------------------------|:------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :------------------------------ | :---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `elements.menu.createMenuLabel` | `string`                | Allows you to customize the placeholder text shown in the editor when no menu has been created. If left unspecified, the editor will default to displaying `'Create a menu'`.                                                                                                                                                                                                                                                                                                                    |
 | `elements.menu.onOpen`          | `function`              | This function is triggered when the placeholder labeled `createMenuLabel` is clicked for a menu that hasn't been created yet. It should contain the main logic for creating the menu, which will then be passed into the editor configuration to display the newly created menu.                                                                                                                                                                                                                 |
 | `elements.form.inputTypes`      | `Array<FormInputTypes>` | Defines the input types available in the `Form` toolbar. If no value is specified, all input types will be displayed by default.                                                                                                                                                                                                                                                                                                                                                                 |
@@ -623,6 +614,7 @@ Dynamic content can be configured in 2 ways
 | elements.posts.orderBy          | boolean                 | Takes true or false values and lets you turn on or off the `Order by` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                       |
 | elements.posts.order            | boolean                 | Takes true or false values and lets you turn on or off the `Order` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                          |
 | elements.posts.querySource      | boolean                 | Takes true or false values and lets you turn on or off the `Source` option from toolbar.                                                                                                                                                                                                                                                                                                                                                                                                         |
+
 ## Examples
 
 ---
@@ -1336,15 +1328,17 @@ const config = {
 1. In your configuration, add `api.screenshots.screenshotUrl` with the base URL for storing screenshots.
 2. Add `api.screenshots.create` and `api.screenshots.update` in the configuration to specify the handlers for managing screenshots.
 3. Each handler will receive an extra parameter, `base64`, which contains the screenshot in `base64` format. In these handlers:
-  - Save the screenshot on your server at the specified `api.screenshots.screenshotUrl` location.
-  - Return the `id` of the saved screenshot.
-  - The `update` handler will also receive an additional `id` parameter, which identifies the screenshot to be updated.
+
+- Save the screenshot on your server at the specified `api.screenshots.screenshotUrl` location.
+- Return the `id` of the saved screenshot.
+- The `update` handler will also receive an additional `id` parameter, which identifies the screenshot to be updated.
+
 4. The editor will generate the screenshot URL by concatenating `api.screenshots.screenshotUrl` with the screenshot’s `id` and appending a query parameter with the current timestamp to bypass caching.
 5. The resulting URL format will be: `${api.screenshots.screenshotUrl}${id}?t=${timestamp}`.
 
-### Example: Localization (`l10n`)  
+### Example: Localization (`l10n`)
 
-To use localization, import one of the files from [/packages/core-translations](https://github.com/EasyBrizy/Brizy-Local-Editor/tree/master/packages/core-translations) and include it in the Brizy configuration:  
+To use localization, import one of the files from [/packages/core-translations](https://github.com/EasyBrizy/Brizy-Local-Editor/tree/master/packages/core-translations) and include it in the Brizy configuration:
 
 ```ts
 import l10nUK from "/path/to/editor.uk.json";
@@ -1353,6 +1347,7 @@ const config = {
   l10n: l10nUK,
 };
 ```
+
 ### Example: Right to left (`isRTL`)
 
 ```ts
@@ -1377,26 +1372,26 @@ export enum VideoTypes {
 ```ts
 export interface Theme {
   colors: {
-    "--ui-main-color": string,                   // UI main color
-    "--active-color": string,                    // Highlight color
-    "--icons-color": string,                     // Icons color
-    "--toolbars-icons-separators": string,       // Toolbar icons separators
+    "--ui-main-color": string; // UI main color
+    "--active-color": string; // Highlight color
+    "--icons-color": string; // Icons color
+    "--toolbars-icons-separators": string; // Toolbar icons separators
 
-    "--sidebar-background": string,              // Sidebars left and right background
-    "--sidebar-header": string,                  // Sidebars left and right headers
-    "--sidebar-separators": string,              // Sidebars separators
-    "--borders": string,                         // Borders for the elements in the left sidebar
+    "--sidebar-background": string; // Sidebars left and right background
+    "--sidebar-header": string; // Sidebars left and right headers
+    "--sidebar-separators": string; // Sidebars separators
+    "--borders": string; // Borders for the elements in the left sidebar
 
-    "--inputs-bg": string,                       // All inputs background
-    "--input-placeholder-text": string,          // Placeholder default text in inputs
-    "--text-labels": string,                     // Text labels
+    "--inputs-bg": string; // All inputs background
+    "--input-placeholder-text": string; // Placeholder default text in inputs
+    "--text-labels": string; // Text labels
 
-    "--column-lvl1-border": string,              // Border for the lvl 1 column in the editor (optional)
-    "--column-lvl2-border": string,              // Border for the lvl 2 column in the editor (optional)
-    "--row-and-default-elements-border": string, // Border for the row and default elements in the editor (optional)
-    "--draggable-block-padding-bg": string,      // Block top and bottom draggable padding in editor (optional)
-    "--ui-shadows": string,                      // UI shadows for toolbars and sidebars
-  }
+    "--column-lvl1-border": string; // Border for the lvl 1 column in the editor (optional)
+    "--column-lvl2-border": string; // Border for the lvl 2 column in the editor (optional)
+    "--row-and-default-elements-border": string; // Border for the row and default elements in the editor (optional)
+    "--draggable-block-padding-bg": string; // Block top and bottom draggable padding in editor (optional)
+    "--ui-shadows": string; // UI shadows for toolbars and sidebars
+  };
 }
 ```
 
@@ -1421,6 +1416,7 @@ export type FormInputTypes =
 ```
 
 ### Using Output data from `onSave` and `publish` functions
+
 The `onSave` and `publish` functions retrieve the editor's output data. This data has the following structure:
 
 ```typescript
@@ -1499,6 +1495,7 @@ type ProjectDataOutput = {
 For more information about the `Assets` types see [here](https://github.com/EasyBrizy/Brizy-Local-Editor/blob/master/packages/core/src/types/common.ts#L3)
 
 #### Normalizing `pageData` and `projectData`
+
 To normalize and aggregate pageData and projectData, use the @brizy/merge-page-assets library. Here is the process:
 
 ```ts
@@ -1529,6 +1526,7 @@ const styleAssetList = getAggregatedAssetList(stylesAssets);
 ```
 
 #### Output: Aggregated Asset Lists
+
 The `scriptAssetList` and `styleAssetList` now contain normalized, unique, and prioritized assets ready for use.
 
 `Example`: Style AssetsList:
@@ -1612,12 +1610,13 @@ The `scriptAssetList` and `styleAssetList` now contain normalized, unique, and p
 ```
 
 #### Usage in HTML Document:
+
 Iterate over these lists to create script and style tags in the HTML document:
 
 `Example` : Generating Scripts Tags using React:
 
 ```tsx
-import { BaseAsset, AssetContent, AssetType  } from "@brizy/merge-page-assets";
+import { AssetContent, AssetType, BaseAsset } from "@brizy/merge-page-assets";
 import { DomUtils, parseDocument } from "htmlparser2";
 
 const getAssetElement = (asset: BaseAsset) => {
@@ -1663,9 +1662,9 @@ const makeScript = (data: AssetContent) => {
 
         return (
           <script key={`script-${index}`} {...attribs}>
-        {innerHTML}
-        </script>
-      );
+            {innerHTML}
+          </script>
+        );
       });
 
       return <>{scriptComponents}</>;
@@ -1678,36 +1677,38 @@ Now, you can use the `getAssetElement` function to generate the script and style
 
 ### 🎨 Customize Builder UI Themes
 
-You can customize the Brizy Builder UI by overriding default color variables via the `config.ui.colors` object. 
+You can customize the Brizy Builder UI by overriding default color variables via the `config.ui.colors` object.
 This allows you to fully theme the editor to match your branding or design system.
 
 ```js
 const config = {
   // ... other config keys
   ui: {
-    colors: {
-      "--ui-main-color": "#ffffff",                           // UI main color
-      "--active-color": "#3dbfe8",                            // Highlight color
-      "--icons-color": "#37352F",                             // Icons color
-      "--toolbars-icons-separators": "#E6E6E5",               // Toolbar icons separators
-  
-      "--sidebar-background": "#ffffff",                         // Sidebars left and right background
-      "--sidebar-header": "#f2f2f2",                          // Sidebars left and right headers
-      "--sidebar-separators": "#E6E6E5",                      // Sidebars separators
-      "--borders": "#e0e0e0",                                 // Borders for the elements in the left sidebar
-  
-      "--inputs-bg": "#f2f2f2",                               // All inputs background
-      "--input-placeholder-text": "#545454",                  // Placeholder default text in inputs
-      "--text-labels": "#3a3a3a",                             // Text labels
-  
-      "--column-lvl1-border": "#3dbfe8",                      // Border for the lvl 1 column in the editor (optional)
-      "--column-lvl2-border": "#ed2164",                      // Border for the lvl 2 column in the editor (optional)
-      "--row-and-default-elements-border": "#879294",         // Border for the row and default elements in the editor (optional)
-      "--draggable-block-padding-bg": "rgba(61,191,232,.15)", // Block top and bottom draggable padding in editor (optional)
-  
-      "--ui-shadows": "rgba(0,0,0, 0.2)"                      // UI shadows for toolbars and sidebars
-    }
-  }
+    theme: {
+      colors: {
+        "--ui-main-color": "#ffffff", // UI main color
+        "--active-color": "#3dbfe8", // Highlight color
+        "--icons-color": "#37352F", // Icons color
+        "--toolbars-icons-separators": "#E6E6E5", // Toolbar icons separators
+
+        "--sidebar-background": "#ffffff", // Sidebars left and right background
+        "--sidebar-header": "#f2f2f2", // Sidebars left and right headers
+        "--sidebar-separators": "#E6E6E5", // Sidebars separators
+        "--borders": "#e0e0e0", // Borders for the elements in the left sidebar
+
+        "--inputs-bg": "#f2f2f2", // All inputs background
+        "--input-placeholder-text": "#545454", // Placeholder default text in inputs
+        "--text-labels": "#3a3a3a", // Text labels
+
+        "--column-lvl1-border": "#3dbfe8", // Border for the lvl 1 column in the editor (optional)
+        "--column-lvl2-border": "#ed2164", // Border for the lvl 2 column in the editor (optional)
+        "--row-and-default-elements-border": "#879294", // Border for the row and default elements in the editor (optional)
+        "--draggable-block-padding-bg": "rgba(61,191,232,.15)", // Block top and bottom draggable padding in editor (optional)
+
+        "--ui-shadows": "rgba(0,0,0, 0.2)", // UI shadows for toolbars and sidebars
+      },
+    },
+  },
 };
 ```
 
@@ -1718,6 +1719,7 @@ const config = {
 #### 🖼️ Screenshots
 
 #### Default UI
+
 <img  class="brz-img--border" src="/img/theme-default-ui.jpg" />
 
 #### Customized Theme
@@ -1726,30 +1728,32 @@ const config = {
 const config = {
   // ... other config keys
   ui: {
-    colors: {
-      "--ui-main-color": "#ffffff",                           // UI main color
-      "--active-color": "#3dbfe8",                            // Highlight color
-      "--icons-color": "#37352F",                             // Icons color
-      "--toolbars-icons-separators": "#E6E6E5",               // Toolbar icons separators
-  
-      "--sidebar-background": "#ffffff",                      // Sidebars left and right background
-      "--sidebar-header": "#f2f2f2",                          // Sidebars left and right headers
-      "--sidebar-separators": "#E6E6E5",                      // Sidebars separators
-      "--borders": "#e0e0e0",                                 // Borders for the elements in the left sidebar
-  
-      "--inputs-bg": "#f2f2f2",                               // All inputs background
-      "--input-placeholder-text": "#545454",                  // Placeholder default text in inputs
-      "--text-labels": "#3a3a3a",                             // Text labels
-  
-      "--column-lvl1-border": "#3dbfe8",                      // Border for the lvl 1 column in the editor (optional)
-      "--column-lvl2-border": "#ed2164",                      // Border for the lvl 2 column in the editor (optional)
-      "--row-and-default-elements-border": "#879294",         // Border for the row and default elements in the editor (optional)
-      "--draggable-block-padding-bg": "rgba(61, 191, 232, 0.15)", // Block top and bottom draggable padding in editor (optional)
-  
-      "--ui-shadows": "rgba(0, 0, 0, 0.2)"                      // UI shadows for toolbars and sidebars
-    }
-  }
+    theme: {
+      colors: {
+        "--ui-main-color": "#ffffff", // UI main color
+        "--active-color": "#3dbfe8", // Highlight color
+        "--icons-color": "#37352F", // Icons color
+        "--toolbars-icons-separators": "#E6E6E5", // Toolbar icons separators
+
+        "--sidebar-background": "#ffffff", // Sidebars left and right background
+        "--sidebar-header": "#f2f2f2", // Sidebars left and right headers
+        "--sidebar-separators": "#E6E6E5", // Sidebars separators
+        "--borders": "#e0e0e0", // Borders for the elements in the left sidebar
+
+        "--inputs-bg": "#f2f2f2", // All inputs background
+        "--input-placeholder-text": "#545454", // Placeholder default text in inputs
+        "--text-labels": "#3a3a3a", // Text labels
+
+        "--column-lvl1-border": "#3dbfe8", // Border for the lvl 1 column in the editor (optional)
+        "--column-lvl2-border": "#ed2164", // Border for the lvl 2 column in the editor (optional)
+        "--row-and-default-elements-border": "#879294", // Border for the row and default elements in the editor (optional)
+        "--draggable-block-padding-bg": "rgba(61, 191, 232, 0.15)", // Block top and bottom draggable padding in editor (optional)
+
+        "--ui-shadows": "rgba(0, 0, 0, 0.2)", // UI shadows for toolbars and sidebars
+      },
+    },
+  },
 };
-````
+```
 
 <img class="brz-img--border" src="/img/theme-light-ui.jpg" />

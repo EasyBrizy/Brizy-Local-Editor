@@ -75,12 +75,13 @@ const config: Config = {
 
         //#region Third party
 
-        {
-          to: "/docs-third-party/brizy-widgets/introduction",
-          label: "Third Party",
-          position: "right",
-          activeBaseRegex: `/docs-third-party/`,
-        },
+        // TODO: Commented because currently not available
+        // {
+        //   to: "/docs-third-party/brizy-widgets/introduction",
+        //   label: "Third Party",
+        //   position: "right",
+        //   activeBaseRegex: `/docs-third-party/`,
+        // },
 
         //#endregion
 

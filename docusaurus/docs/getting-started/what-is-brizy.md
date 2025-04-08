@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# What is Brizy ?
+# What is Brizy
 
 Brizy is embeddable and White Label ready, so it can be seamlessly integrated in your existing products, ensuring optimal user experience. Being installed on-premise, with complete client control, our solution ensures that all GDPR, ISO, data security requirements are 100% met.
 Perfect for SaaS businesses that need a web-content builder on their own infrastructure.
