@@ -64,4 +64,5 @@ jobs:
           embed-description: |
             🚀 **New Release Alert!**
             A new version of the PRO Documentation has been released: **${{ inputs.version }}**.
+            Check it out here: https://builder-docs.brizy.io
             📦 Dockerhub Image: `br1zy/builder-docs`
