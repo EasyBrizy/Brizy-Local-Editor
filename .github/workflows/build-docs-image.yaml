@@ -15,7 +15,6 @@ on:
         default: "v1.0.0"
         type: string
 
-
 jobs:
   image-build:
     name: Build Image
@@ -62,4 +61,7 @@ jobs:
         uses: tsickert/discord-webhook@v6.0.0
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
-          content: "New version of the documentation has been released ${{ inputs.version }}"
+          embed-description: |
+            🚀 **New Release Alert!**
+            A new version of the PRO Documentation has been released: **${{ inputs.version }}**.
+            📦 Dockerhub Image: `br1zy/builder-docs`
