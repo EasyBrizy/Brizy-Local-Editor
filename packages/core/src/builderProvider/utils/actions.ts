@@ -115,7 +115,7 @@ const init = async ({ uid, data }: ActionResolve) => {
 };
 
 const save = (uid: string) => {
-  const Config = window.Brizy?.config?.getAll();
+  const Config = window.Brizy?.applyFilter?.("getConfig");
 
   if (Config && typeof Config.onUpdate === "function") {
     const mode = window.__VISUAL_CONFIG__.mode;
@@ -131,7 +131,7 @@ const save = (uid: string) => {
 };
 
 const compile = (uid: string) => {
-  const Config = window.Brizy?.config?.getAll();
+  const Config = window.Brizy?.applyFilter?.("getConfig");
 
   if (Config && typeof Config.onCompile === "function") {
     const mode = window.__VISUAL_CONFIG__.mode;

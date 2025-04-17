@@ -1,4 +1,5 @@
 import { ParsedThirdParty } from "@/builderProvider/utils/thirdParty";
+import { Config } from "@/types/types";
 
 export {};
 
@@ -12,9 +13,7 @@ declare global {
     __VISUAL_CONFIG__: __VISUAL_CONFIG__;
     __THIRD_PARTY_ASSETS__: Array<ParsedThirdParty>;
     Brizy?: {
-      config?: {
-        getAll: () => __VISUAL_CONFIG__;
-      };
+      applyFilter?: (fn: string) => __VISUAL_CONFIG__;
     };
   }
 }
