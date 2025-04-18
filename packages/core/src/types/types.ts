@@ -290,7 +290,7 @@ export interface Config {
 }
 
 export interface API {
-  save: VoidFunction;
+  save: (cb?: OnSave) => void;
   compile: (cb?: OnCompile) => void;
 }
 
