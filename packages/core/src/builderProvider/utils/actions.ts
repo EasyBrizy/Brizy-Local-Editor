@@ -4,6 +4,7 @@ import { ActionResolve, AutoSaveOutput } from "@/types/types";
 import * as Comlink from "comlink";
 import { mergeDeep } from "timm";
 import { getApi } from "../handlers/api";
+import { getContentDefaults } from "../handlers/defaults/contentDefaults";
 import { getPage } from "../handlers/defaults/page";
 import { getUi } from "../handlers/defaults/ui";
 import { getDCConfig } from "../handlers/dynamicContent";
@@ -40,7 +41,6 @@ const init = async ({ uid, data }: ActionResolve) => {
   const compiler = configData.compiler ?? defaultConfig.compiler;
 
   const platform = configData.platform ?? defaultConfig.platform;
-  const contentDefaults = configData.contentDefaults ?? {};
   const templateType = configData.templateType;
 
   window.__VISUAL_CONFIG__.mode = mode;
@@ -78,7 +78,7 @@ const init = async ({ uid, data }: ActionResolve) => {
   });
   window.__VISUAL_CONFIG__.api = getApi({ api, handlers: exposedHandlers, uid });
   window.__VISUAL_CONFIG__.l10n = l10n;
-  window.__VISUAL_CONFIG__.contentDefaults = contentDefaults;
+  window.__VISUAL_CONFIG__.contentDefaults = getContentDefaults(configData);
   window.__VISUAL_CONFIG__.platform = platform;
 
   if (templateType) {
