@@ -1,0 +1,109 @@
+.spin-wheel-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background: #f9fafb;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.spin-wheel-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.spin-wheel-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.spin-wheel {
+  position: relative;
+  width: 16rem;
+  height: 16rem;
+  margin: 0 auto;
+}
+
+.wheel {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.wheel-items {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  transform: translate(-4rem, -4rem);
+}
+
+.wheel-item {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  transform-origin: 100% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wheel-item span {
+  transform: rotate(-45deg); /* Adjust text rotation */
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.pointer {
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #ef4444;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  transform: translateX(-50%);
+}
+
+.spin-button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ef4444;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spin-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.spin-button:hover:not(:disabled) {
+  background-color: #dc2626;
+}
+
+.result {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #10b981;
+}
+.result:empty {
+  margin-top: 0;
+}
