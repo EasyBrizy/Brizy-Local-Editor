@@ -1,4 +1,5 @@
 import { BuilderModes } from "@/actions/init";
+import { UploadedFontsIntegration } from "@/types/font";
 import { PostsSources } from "@/types/posts";
 import { CollectionItems } from "./collectionItems";
 import { CollectionTypes } from "./collectionTypes";
@@ -108,6 +109,9 @@ export interface Config {
 
   integrations?: {
     form?: Form;
+    fonts?: {
+      upload?: UploadedFontsIntegration;
+    };
   };
 
   //#endregion

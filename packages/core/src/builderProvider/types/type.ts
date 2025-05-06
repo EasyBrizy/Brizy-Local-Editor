@@ -1,6 +1,7 @@
 import { LoadCollectionItemsHandler } from "@/builderProvider/handlers/api/collectionItems/loadCollectionItems";
 import { SearchCollectionItemsHandler } from "@/builderProvider/handlers/api/collectionItems/searchCollectionItems";
 import { PostHandler } from "@/builderProvider/handlers/defaults/elements/posts";
+import { DeleteFontHandler, GetFontHandler, UploadFontHandler } from "@/builderProvider/handlers/integration/font";
 import type { Response } from "@/types/common";
 import { AutoSaveOutput, BuilderOutput, RequiredOutput } from "@/types/types";
 import type { GetCollectionItemsHandler } from "../handlers/api/collectionItems/getCollectionItems";
@@ -67,4 +68,7 @@ export interface ExposedHandlers {
   publish: PublishHandler;
   onOpenMenu: (uid: string) => void;
   postsHandler: PostHandler;
+  uploadFont: UploadFontHandler;
+  getFont: GetFontHandler;
+  deleteFont: DeleteFontHandler;
 }

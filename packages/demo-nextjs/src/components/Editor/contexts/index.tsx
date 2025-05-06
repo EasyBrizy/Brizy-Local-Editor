@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { FC, createContext, useCallback, useContext, useState } from "react";
 import { mergeDeep } from "timm";
 import { ConfigContextType, EditorProviderProps } from "./types";
-import { getApi, getDynamicContent, getElements, getUI } from "./utils";
+import { getApi, getDynamicContent, getElements, getIntegrations, getUI } from "./utils";
 
 const ConfigContext = createContext<ConfigContextType>({
   config: {} as _Config,
@@ -22,6 +22,10 @@ export const ConfigProvider: FC<EditorProviderProps> = ({ children, config: base
     dynamicContent: getDynamicContent(baseConfig),
     ui: getUI(origin),
     elements: getElements(onOpenMenu),
+    integrations: getIntegrations(origin),
+    urls: {
+      editorFonts: `${origin}/api/fonts/`,
+    },
   }) as _Config;
 
   const [config, setConfig] = useState<_Config>(editorConfig);
