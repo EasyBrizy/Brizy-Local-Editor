@@ -18,8 +18,10 @@ import {
 } from "@/components/Editor/contexts/converters";
 import { ConfigWithReference } from "@/components/Editor/contexts/types";
 import { replacePlaceholders } from "@/placeholders";
+import { projectId } from "@/utils/mock";
 import { Arr, Json, Obj } from "@brizy/readers";
 import { BaseDCHandlerExtra, ConfigDCItem, DCPlaceholdersExtra } from "@builder/core/build/es/types/dynamicContent";
+import { UploadFont, UploadFontExtra, UploadedFont } from "@builder/core/build/es/types/font";
 import { LeftSidebarMoreOptionsIds, LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { AddMediaData, AddMediaExtra } from "@builder/core/build/es/types/media";
 import { PostsSources } from "@builder/core/build/es/types/posts";
@@ -37,6 +39,7 @@ import {
   StoriesWithThumbs,
 } from "@builder/core/build/es/types/templates";
 import { Dictionary } from "@builder/core/build/es/utils/types";
+import axios from "axios";
 import { isT, mPipe, pass } from "fp-utilities";
 
 const newTemplates = "https://template-mk.b-cdn.net/api";
@@ -430,5 +433,53 @@ export const getElements = (menuCb: VoidFunction) => ({
   },
   menu: {
     onOpen: menuCb,
+  },
+});
+
+export const getIntegrations = (origin: string) => ({
+  fonts: {
+    upload: {
+      get: async (res: Response<UploadedFont>, rej: Response<string>) => {
+        try {
+          const { data } = await axios.get("/api/fonts");
+          return res(data);
+        } catch (e) {
+          console.error(e);
+          rej("Failed to get fonts");
+        }
+      },
+      upload: async (res: Response<UploadFont>, rej: Response<string>, extra: UploadFontExtra) => {
+        try {
+          const formData = new FormData();
+          const { id, name, files } = extra;
+          formData.append("id", id);
+          formData.append("name", name);
+          Object.entries(files).forEach(([type, filesType]) => {
+            Object.entries(filesType).forEach(([fileType, file]) => {
+              if (file) {
+                // Flatten the key
+                const key = `${type}_${fileType}`; // e.g., "font_regular"
+                formData.append(key, file, file.name);
+              }
+            });
+          });
+          const { data } = await axios.post("/api/fonts", formData);
+
+          return res(data);
+        } catch (e) {
+          console.error(e);
+          rej("Failed to upload font");
+        }
+      },
+      delete: async (res: Response<string>, rej: Response<string>, id: string) => {
+        try {
+          await axios.delete(`/api/font/${id}`);
+          return res(id);
+        } catch (e) {
+          console.error(e);
+          rej("Failed to delete font");
+        }
+      },
+    },
   },
 });

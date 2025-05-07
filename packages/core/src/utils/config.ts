@@ -1,6 +1,7 @@
 import { destroyLoader } from "@/Loader/init";
 import { AddFileExtra } from "@/types/customFile";
 import { BaseDCHandlerExtra, DCHandlerExtra, DCPlaceholdersExtra } from "@/types/dynamicContent";
+import { UploadFontExtra } from "@/types/font";
 import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { AddMediaExtra } from "@/types/media";
 import { PostsSources } from "@/types/posts";
@@ -483,6 +484,45 @@ export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, c
     if (typeof handler === "function") {
       return new Promise((res, rej) => {
         handler(res, rej, extra);
+      });
+    }
+  },
+  getFont: (iframeUid: string) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+    const { fonts } = config.integrations ?? {};
+    const handler = fonts?.upload?.get;
+
+    if (typeof handler === "function") {
+      return new Promise((res, rej) => {
+        handler(res, rej);
+      });
+    }
+  },
+  uploadFont: (iframeUid: string, extra: UploadFontExtra) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+    const { fonts } = config.integrations ?? {};
+    const handler = fonts?.upload?.upload;
+
+    if (typeof handler === "function") {
+      return new Promise((res, rej) => {
+        handler(res, rej, extra);
+      });
+    }
+  },
+  deleteFont: (iframeUid: string, fontId: string) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+    const { fonts } = config.integrations ?? {};
+    const handler = fonts?.upload?.delete;
+
+    if (typeof handler === "function") {
+      return new Promise((res, rej) => {
+        handler(res, rej, fontId);
       });
     }
   },
