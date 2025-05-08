@@ -1,0 +1,33 @@
+{
+  "extends": [
+    "//"
+  ],
+  "tasks": {
+    "clean": {
+      "cache": false
+    },
+    "dev:esm": {
+      "persistent": true,
+      "cache": false
+    },
+    "dev:cjs": {
+      "persistent": true,
+      "cache": false
+    },
+    "dev:lib": {
+      "persistent": true,
+      "cache": false
+    },
+    "build:esm": {},
+    "build:cjs": {},
+    "build:lib": {},
+    "build:all": {
+      "dependsOn": [
+        "clean",
+        "build:esm",
+        "build:cjs",
+        "build:lib"
+      ]
+    }
+  }
+}
