@@ -1,0 +1,8 @@
+.brz-ed-media-upload-modal .brz-ui-v2-modal-content {
+  padding: 0;
+}
+
+.brz-ed-media-upload-modal .brz-media-gallery .brz-ui-layout {
+  width: 90vw;
+  height: 90vh !important;
+}

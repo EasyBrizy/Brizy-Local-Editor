@@ -29,6 +29,12 @@
         "^build"
       ]
     },
-    "check": {}
+    "check": {},
+    "@brizy/cloud-media-upload#build":{
+      "dependsOn": ["@builder/core#build"]
+    },
+    "@brizy/cloud-media-upload#tsc":{
+      "dependsOn": ["@builder/core#build"]
+    }
   }
 }
