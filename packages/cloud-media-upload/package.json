@@ -1,0 +1,65 @@
+{
+  "name": "@brizy/cloud-media-upload",
+  "version": "1.0.0",
+  "description": "Upload media in Brizy Cloud",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/lib/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "tsc --noEmit",
+
+    "dev": "turbo watch dev:esm dev:cjs dev:lib",
+    "dev:esm": "tsc -p tsconfig.esm.json --watch",
+    "dev:cjs": "tsc -p tsconfig.cjs.json --watch",
+    "dev:lib": "rspack dev",
+
+    "build": "turbo run build:all",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:lib": "rspack build",
+    "clean": "rimraf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EasyBrizy/Brizy-Local-Editor.git"
+  },
+  "keywords": [
+    "brizy",
+    "cloud",
+    "media",
+    "upload",
+    "files",
+    "image",
+    "font"
+  ],
+  "author": "brizy",
+  "license": "NEED_TO_REVIEW",
+  "bugs": {
+    "url": "https://github.com/EasyBrizy/Brizy-Local-Editor/issues"
+  },
+  "homepage": "https://github.com/EasyBrizy/Brizy-Local-Editor#readme",
+  "devDependencies": {
+    "@rspack/cli": "^1.3.8",
+    "@rspack/core": "^1.3.8",
+    "turbo": "^2.5.3",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@brizy/media-gallery": "1.1.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}

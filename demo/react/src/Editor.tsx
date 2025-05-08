@@ -1,3 +1,4 @@
+import { MediaUpload } from "@brizy/cloud-media-upload";
 import { Arr, Json, Obj } from "@brizy/readers";
 import {
   BlockWithThumbs,
@@ -14,7 +15,7 @@ import {
 } from "@builder/core/build/es/types/templates";
 import { Response } from "demo-nextjs/src/api/types";
 import { isT, mPipe, pass } from "fp-utilities";
-import React, { useReducer, useRef } from "react";
+import React, { useMemo, useReducer, useRef } from "react";
 import {
   convertLayoutPages,
   convertLayouts,
@@ -43,7 +44,8 @@ const templates = "https://e-t-cloud.b-cdn.net/1.3.0";
 const newTemplates = "https://template-mk.b-cdn.net/api";
 const templatesImageUrl = "https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/";
 
-const noop = () => {};
+const noop = () => {
+};
 
 const initialState: State = {
   output: "",
@@ -54,9 +56,15 @@ const initialState: State = {
   },
 };
 
+
 export const Editor = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const mediaGalleryRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const node = mediaGalleryRef.current as HTMLDivElement;
+  const clientID = 2968143;
+  const mediaUpload = useMemo(() => node && new MediaUpload(node, clientID, true), [node]);
 
   const config: Config = {
     ...demoConfig,
@@ -75,29 +83,7 @@ export const Editor = () => {
       },
     },
     api: {
-      media: {
-        mediaResizeUrl: "https://cloud-1de12d.b-cdn.net/media",
-        imagePatterns: {
-          full: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}&{{ oX=[oX] }}&{{ oY=[oY] }}&{{ cW=[cW] }}&{{ cH=[cH] }}/{{ [uid] }}/{{ [fileName] }}",
-          original: "{{ [baseUrl] }}/{{ [sizeType] }}/{{ [uid] }}/{{ [fileName] }}",
-          split: "{{ [baseUrl] }}/{{ iW=[iW] }}&{{ iH=[iH] }}/{{ [uid] }}/{{ [fileName] }}",
-        },
-        addMedia: {
-          handler(res, rej, extra) {
-            setTimeout(() => {
-              res({
-                uid: "1234",
-                fileName: "my-custom-image.png",
-              });
-            }, 1000);
-
-            // On Error
-            //setTimeout(() => {
-            //   rej("My custom error message");
-            // }, 1000);
-          },
-        },
-      },
+      media: mediaUpload?.mediaConfig,
 
       defaultKits: {
         async getKits(res: Response<Array<KitItem>>, rej: Response<string>) {
@@ -385,6 +371,7 @@ export const Editor = () => {
   return (
     <div className="container">
       {builderState.status === "error" ? builderState.error : <div className="container__editor" ref={containerRef} />}
+      <div className="mediaGallery" ref={mediaGalleryRef} />
 
       <DynamicContentModal opened={state.modal.opened} onAdd={handleAdd} onClose={handleClose} />
 
@@ -397,3 +384,5 @@ export const Editor = () => {
     </div>
   );
 };
+
+
