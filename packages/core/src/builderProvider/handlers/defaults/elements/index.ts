@@ -2,6 +2,12 @@ import { ExposedHandlers } from "@/builderProvider/types/type";
 import { getIn, setIn } from "timm";
 import { getPostHandler } from "./posts";
 
+const defaultElements = {
+  video: {
+    types: ["youtube", "vimeo", "custom", "url"],
+  },
+};
+
 export const getElements = (elements: Record<string, unknown>, handlers: ExposedHandlers, uid: string) => {
   const isEnabledMenu = getIn(elements, ["menu", "enable"]);
   const isEnabledPosts = getIn(elements, ["posts", "enable"]);
@@ -17,5 +23,5 @@ export const getElements = (elements: Record<string, unknown>, handlers: Exposed
     >;
   }
 
-  return elements;
+  return { ...defaultElements, ...elements };
 };
