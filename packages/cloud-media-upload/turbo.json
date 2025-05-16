@@ -1,0 +1,29 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "clean": {
+      "cache": false
+    },
+    "copy:styles": {
+      "cache": false
+    },
+    "dev:esm": {
+      "persistent": true,
+      "cache": false
+    },
+    "dev:cjs": {
+      "persistent": true,
+      "cache": false
+    },
+    "dev:types": {
+      "persistent": true,
+      "cache": false
+    },
+    "build:esm": {},
+    "build:cjs": {},
+    "build:types": {},
+    "build:all": {
+      "dependsOn": ["clean", "build:esm", "build:cjs", "build:types", "copy:styles"]
+    }
+  }
+}
