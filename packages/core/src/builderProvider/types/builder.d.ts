@@ -1,4 +1,5 @@
 import { ParsedThirdParty } from "@/builderProvider/utils/thirdParty";
+import { CompileManagerType } from "@/compileManager";
 import { Config } from "@/types/types";
 
 export {};
@@ -15,5 +16,6 @@ declare global {
     Brizy?: {
       applyFilter?: (fn: string) => __VISUAL_CONFIG__;
     };
+    compileManager?: CompileManagerType;
   }
 }

@@ -1,8 +1,11 @@
+import { Page } from "./page";
+import { Project } from "./project";
+
 export type Response<R> = (r: R) => void;
 
 //#region Assets
 
-enum AssetType {
+export enum AssetType {
   Inline = "inline",
   Code = "code",
   File = "file",
@@ -133,7 +136,7 @@ export interface PageJsonOutput {
   };
 }
 
-export type PageDataOutput = {
+export type PageDataOutput = Page & {
   [k: string]: unknown;
   compiled?: PageJsonOutput;
 };
@@ -146,8 +149,7 @@ export interface ProjectJsonOutput {
   styles: Array<Asset>;
 }
 
-export type ProjectDataOutput = {
-  [k: string]: unknown;
+export type ProjectDataOutput = Project & {
   compiled?: ProjectJsonOutput;
 };
 

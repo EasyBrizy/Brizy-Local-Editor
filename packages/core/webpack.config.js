@@ -30,7 +30,7 @@ module.exports = (env) => {
         {
           test: /\.(ts|js)?$/,
           loader: "swc-loader",
-          exclude: "/node_modules/",
+          exclude: /node_modules/,
           options: {
             module: {
               type: "commonjs",

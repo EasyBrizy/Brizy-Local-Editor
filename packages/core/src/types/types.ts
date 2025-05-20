@@ -53,13 +53,6 @@ export interface BuilderOutput {
   error?: string;
 }
 
-export interface CompileBuilderOutput {
-  mode: BuilderModes;
-  pageData: PageDataOutput;
-  projectData: ProjectDataOutput;
-  error?: string;
-}
-
 export interface AutoSaveOutput {
   pageData?: PageDataOutput;
   projectData?: ProjectDataOutput;

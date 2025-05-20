@@ -1,5 +1,7 @@
+import { BuilderModes } from "@/actions/init";
 import { getElements } from "@/builderProvider/handlers/defaults/elements";
 import { addThirdPartyAssets, prepareThirdPartyAssets, replaceThirdParty } from "@/builderProvider/utils/thirdParty";
+import { CompileManager } from "@/compileManager";
 import { ActionResolve, AutoSaveOutput } from "@/types/types";
 import * as Comlink from "comlink";
 import { mergeDeep } from "timm";
@@ -9,11 +11,13 @@ import { getPage } from "../handlers/defaults/page";
 import { getUi } from "../handlers/defaults/ui";
 import { getDCConfig } from "../handlers/dynamicContent";
 import { getIntegration } from "../handlers/integration";
+import { BuilderPublishedData } from "../types/builderOutput";
 import { ExposedHandlers } from "../types/type";
 
 const parentWrap = Comlink.wrap<ExposedHandlers>(Comlink.windowEndpoint(self.parent));
 
 const init = async ({ uid, data }: ActionResolve) => {
+  const compileManager = new CompileManager();
   const configData = JSON.parse(data);
   const exposedHandlers = Comlink.wrap<ExposedHandlers>(Comlink.windowEndpoint(self.parent));
   const defaultConfig = window.__VISUAL_CONFIG__;
@@ -43,6 +47,7 @@ const init = async ({ uid, data }: ActionResolve) => {
   const platform = configData.platform ?? defaultConfig.platform;
   const templateType = configData.templateType;
 
+  window.compileManager = compileManager;
   window.__VISUAL_CONFIG__.mode = mode;
   window.__VISUAL_CONFIG__.projectData = {
     dataVersion: 1,
@@ -69,7 +74,7 @@ const init = async ({ uid, data }: ActionResolve) => {
   window.__VISUAL_CONFIG__.compiler = compiler;
 
   window.__VISUAL_CONFIG__.pageData = getPage(pageData);
-  window.__VISUAL_CONFIG__.ui = getUi({ mode, config: configData, handlers: exposedHandlers, uid });
+  window.__VISUAL_CONFIG__.ui = getUi({ mode, config: configData, handlers: exposedHandlers, uid, compileManager });
   window.__VISUAL_CONFIG__.dynamicContent = getDCConfig(dynamicContent, exposedHandlers, uid);
   window.__VISUAL_CONFIG__.integrations = getIntegration({
     integration,
@@ -116,32 +121,36 @@ const init = async ({ uid, data }: ActionResolve) => {
 
 const save = (uid: string) => {
   const Config = window.Brizy?.applyFilter?.("getConfig");
+  const compileManager = window.compileManager;
 
-  if (Config && typeof Config.onUpdate === "function") {
-    const mode = window.__VISUAL_CONFIG__.mode;
+  if (Config && typeof Config.onUpdate === "function" && compileManager) {
+    const mode = window.__VISUAL_CONFIG__.mode as BuilderModes;
 
-    Config.onUpdate(async (_extra: Record<string, unknown>) => {
-      let extra = addThirdPartyAssets({ data: _extra });
-      const data = { mode, ...extra };
+    Config.onUpdate(async (_extra: Omit<BuilderPublishedData, "mode">) => {
+      const extra = { mode, ..._extra };
+      const data = addThirdPartyAssets({ data: extra });
+      const output = compileManager.prepareHTML(data);
 
       // @ts-expect-error: Type Styles is not assignable to type string
-      await parentWrap.save(data, uid);
+      await parentWrap.save(output, uid);
     });
   }
 };
 
 const compile = (uid: string) => {
   const Config = window.Brizy?.applyFilter?.("getConfig");
+  const compileManager = window.compileManager;
 
-  if (Config && typeof Config.onCompile === "function") {
-    const mode = window.__VISUAL_CONFIG__.mode;
+  if (Config && typeof Config.onCompile === "function" && compileManager) {
+    const mode = window.__VISUAL_CONFIG__.mode as BuilderModes;
 
-    Config.onCompile(async (_extra: Record<string, unknown>) => {
-      let extra = addThirdPartyAssets({ data: _extra });
-      const data = { mode, ...extra };
+    Config.onCompile(async (_extra: Omit<BuilderPublishedData, "mode">) => {
+      const extra = { mode, ..._extra };
+      const data = addThirdPartyAssets({ data: extra });
+      const output = compileManager.prepareHTML(data);
 
       // @ts-expect-error: Type Styles is not assignable to type string
-      await parentWrap.compile(data, uid);
+      await parentWrap.compile(output, uid);
     });
   }
 };

@@ -1,3 +1,5 @@
+import { BuilderPublish } from "@/builderProvider/types/builderPublish";
+import { CompileManagerType } from "@/compileManager";
 import {
   BaseElementTypes,
   LeftSidebar,
@@ -7,18 +9,18 @@ import {
   StoryElementTypes,
   isLeftSidebarAddElementsType,
 } from "@/types/leftSidebar";
-import { Publish } from "@/types/publish";
-import { Config } from "@/types/types";
+import { Config, Modes } from "@/types/types";
 import { getIn, setIn } from "timm";
 import { ExposedHandlers } from "../../../types/type";
 import { getOpenCMS } from "./cms";
 import { getPublish } from "./publish";
 
 interface Data {
-  mode: string;
+  mode: Modes;
   config: Record<string, unknown>;
   handlers: ExposedHandlers;
   uid: string;
+  compileManager: CompileManagerType;
 }
 
 const defaultUI = (
@@ -299,14 +301,14 @@ const defaultUI = (
 };
 
 export const getUi = (data: Data): Record<string, unknown> => {
-  const { mode, config, handlers, uid } = data;
+  const { mode, config, handlers, uid, compileManager } = data;
   const _ui = config.ui as Record<string, unknown> | undefined;
   let { ui: oldUI = {}, leftSidebar } = defaultUI(mode, _ui);
   const ui = _ui ? _ui : oldUI;
   const popupSettings = Object.assign({}, oldUI.popupSettings, ui.popupSettings);
   const enabledCMS = getIn(leftSidebar, ["cms", "enable"]);
   const enabledPublish = getIn(ui, ["publish", "enable"]);
-  let publish: Partial<Publish> = {};
+  let publish: Partial<BuilderPublish> = {};
 
   if (enabledCMS) {
     const { onOpenCMS, onCloseCMS } = handlers;
@@ -317,7 +319,7 @@ export const getUi = (data: Data): Record<string, unknown> => {
   }
 
   if (enabledPublish) {
-    publish = getPublish({ publishHandler: handlers.publish, uid });
+    publish = getPublish({ publishHandler: handlers.publish, uid, compileManager });
   }
 
   return {
