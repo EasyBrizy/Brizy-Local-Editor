@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2020",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "paths": {
+      "@types": ["./src/types.ts"]
+    }
+  }
+}
