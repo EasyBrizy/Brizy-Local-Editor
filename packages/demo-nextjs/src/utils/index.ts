@@ -4,8 +4,7 @@ import { Reference } from "@/components/Editor/contexts/types";
 import { replacePlaceholders } from "@/placeholders";
 import { makeScript, makeStyle } from "@/utils/makeAssets";
 import { projectId } from "@/utils/mock";
-import { AssetAggregator, AssetGroup, BaseAsset } from "@brizy/merge-page-assets";
-import { AssetType } from "@brizy/merge-page-assets/dist/assets/types";
+import { AssetAggregator, AssetGroup, AssetType, BaseAsset } from "@brizy/merge-page-assets";
 import { Obj } from "@brizy/readers";
 import {
   PageJsonOutput,

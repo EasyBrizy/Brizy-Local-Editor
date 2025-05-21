@@ -3,9 +3,9 @@ export { AssetGroup } from "./assets/AssetGroup";
 export { AssetLib } from "./assets/AssetLib";
 export { AssetFont } from "./assets/AssetFont";
 export { BaseAsset } from "./assets/BaseAsset";
+export { AssetType } from "./assets/types";
 
 export type {
-  AssetType,
   FontType,
   AssetCommon,
   AssetFile,

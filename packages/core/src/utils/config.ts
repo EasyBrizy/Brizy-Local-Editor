@@ -7,8 +7,8 @@ import { AddMediaExtra } from "@/types/media";
 import { PostsSources } from "@/types/posts";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
 import { BlockWithThumbs, KitItem } from "@/types/templates";
-import { AutoSaveOutput, BuilderOutput, CompileBuilderOutput, Config, OnCompile, OnSave } from "@/types/types";
-import { createOutput, createPopupSettings } from "@/utils/createOutput";
+import { AutoSaveOutput, BuilderOutput, Config, OnCompile, OnSave } from "@/types/types";
+import { createOutput } from "@/utils/createOutput";
 import { Response } from "@/utils/types";
 
 interface Params {
@@ -335,27 +335,6 @@ export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, c
       onSaveCallback(_output);
     }
   },
-  compile: (output: CompileBuilderOutput, iframeUid: string) => {
-    if (iframeUid !== uid) {
-      return;
-    }
-
-    const { pageData, projectData, error, mode } = output;
-    const popupSettings = createPopupSettings({ pageData, mode });
-    const data = {
-      pageData,
-      projectData,
-      error,
-      ...(popupSettings && { popupSettings }),
-    };
-
-    config.onSave?.(data);
-    const onCompiledCallback = compiledNodeCB.get(container);
-
-    if (typeof onCompiledCallback === "function") {
-      onCompiledCallback(data);
-    }
-  },
   onAutoSave: (output: AutoSaveOutput, iframeUid: string) => {
     if (iframeUid !== uid) {
       return;
@@ -410,6 +389,22 @@ export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, c
 
     if (typeof onClose === "function") {
       onClose();
+    }
+  },
+
+  // Compilation process
+  compile: (output: BuilderOutput, iframeUid: string) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+
+    const data = createOutput(output);
+    config.onSave?.(data);
+    const onCompiledCallback = compiledNodeCB.get(container);
+
+    if (typeof onCompiledCallback === "function") {
+      // @ts-expect-error:
+      onCompiledCallback(data);
     }
   },
   publish: (iframeUid: string, extra: BuilderOutput) => {

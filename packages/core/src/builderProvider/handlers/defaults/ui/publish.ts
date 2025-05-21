@@ -1,22 +1,34 @@
+import { BuilderPublishedData } from "@/builderProvider/types/builderOutput";
+import { BuilderPublish } from "@/builderProvider/types/builderPublish";
 import { Handler } from "@/builderProvider/types/type";
 import { addThirdPartyAssets } from "@/builderProvider/utils/thirdParty";
-import { Publish, PublishData } from "@/types/publish";
+import { CompileManagerType } from "@/compileManager";
+import { PublishData } from "@/types/publish";
+import { BuilderOutput } from "@/types/types";
 
-export type PublishHandler = (uid: string, extra?: PublishData) => Promise<PublishData>;
+export type PublishHandler = (uid: string, extra: BuilderOutput) => Promise<PublishData>;
 
 export interface PublishHandlerData {
   publishHandler: PublishHandler;
+  compileManager: CompileManagerType;
   uid: string;
 }
 
-export const getPublish = (data: PublishHandlerData): Publish => {
-  const { publishHandler, uid } = data;
+export const getPublish = (data: PublishHandlerData): BuilderPublish => {
+  const { publishHandler, uid, compileManager } = data;
 
-  const handler: Handler<PublishData, string, PublishData> = async (res, rej, _extra) => {
-    let extra = addThirdPartyAssets({ data: _extra });
+  const handler: Handler<BuilderPublishedData, string, BuilderPublishedData> = async (res, rej, _extra) => {
+    if (!_extra) {
+      rej("Error publishing");
+      return;
+    }
+
+    const data = _extra;
+    const extra = addThirdPartyAssets({ data });
     try {
-      const data = await publishHandler(uid, extra);
-      res(data);
+      const output = compileManager.prepareHTML(extra);
+      await publishHandler(uid, output);
+      res(_extra);
     } catch (e) {
       const message = e instanceof Error ? e.message : "Error publishing";
       rej(message);

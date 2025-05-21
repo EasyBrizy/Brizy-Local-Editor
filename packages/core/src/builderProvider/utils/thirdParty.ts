@@ -1,10 +1,9 @@
 // These placeholder is added inside public/index.html
-import { PublishData } from "@/types/publish";
 import { Extension } from "@/types/types";
-import { MValue } from "@/utils/types";
 import { Arr, Err, Obj, Str, pipe } from "@brizy/readers";
 import { mPipe, parseStrict } from "fp-utilities";
-import { updateIn } from "timm";
+import { getIn, setIn } from "timm";
+import { BuilderPublishedData } from "../types/builderOutput";
 
 const stylesPlaceholder = "{{ third_party_styles }}";
 const scriptsPlaceholder = "{{ third_party_scripts }}";
@@ -145,7 +144,7 @@ export function getJSONViewAssets(assets: Array<ParsedThirdParty>) {
 }
 
 interface Props {
-  data: MValue<PublishData>;
+  data: BuilderPublishedData;
 }
 
 export function addThirdPartyAssets({ data }: Props) {
@@ -157,14 +156,13 @@ export function addThirdPartyAssets({ data }: Props) {
 
   const { scripts, styles } = getJSONViewAssets(assets);
 
-  data = updateIn(data, ["pageData", "compiled", "assets", "freeStyles", "generic"], (oldStyles) => [
-    ...oldStyles,
-    ...styles,
-  ]) as MValue<PublishData>;
-  data = updateIn(data, ["pageData", "compiled", "assets", "freeScripts", "generic"], (oldScripts) => [
-    ...oldScripts,
-    ...scripts,
-  ]) as MValue<PublishData>;
+  const stylesPath = ["pageData", "compiled", "blocks", 0, "assets", "freeStyles", "generic"];
+  const scriptsPath = ["pageData", "compiled", "blocks", 0, "assets", "freeScripts", "generic"];
+  const oldStyles = (getIn(data, stylesPath) as []) ?? [];
+  const oldScripts = (getIn(data, scriptsPath) as []) ?? [];
+
+  data = setIn(data, stylesPath, [...oldStyles, ...styles]) as BuilderPublishedData;
+  data = setIn(data, scriptsPath, [...oldScripts, ...scripts]) as BuilderPublishedData;
 
   return data;
 }
