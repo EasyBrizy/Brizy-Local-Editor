@@ -7,3 +7,5 @@ import "./Counter/index.scss";
 import "./Map/index.scss";
 import "./Spin/View/export";
 import "./Spin/index.scss";
+import "./Gallery/export";
+import "./Gallery/index.scss";
