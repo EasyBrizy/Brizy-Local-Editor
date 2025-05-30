@@ -8,7 +8,7 @@ Use this package to streamline image handling and enhance the development of dyn
 
 - Zero Configuration Setup: Initialize in seconds with only a clientID.
 - Flexible Mounting: Optionally attach the modal to any HTMLElement or default to document.body.
-- Batch Operations: Upload multiple images at once, select or multi-select for deletion, and rename images inline.
+- Batch Operations: Upload multiple images at once, select or multi-select for deletion, and rename.
 - Intuitive UX: Clean, modal-driven interface matches Brizy’s look and feel.
 - Seamless Integration: Returns a handler for api.media in the Brizy editor configuration.
 - Dual Module Support: Ships in both ESM and CommonJS formats.
@@ -112,7 +112,3 @@ No additional bundler configuration needed.
 
 If you find a bug or want to suggest a feature, feel free
 to [open an issue](https://github.com/EasyBrizy/Brizy-Local-Editor) (or other repo?).
-
-## 📄 License
-
-Need to review
