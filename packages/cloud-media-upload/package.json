@@ -1,0 +1,67 @@
+{
+  "name": "@brizy/cloud-media-upload",
+  "version": "1.0.0",
+  "description": "Upload media in Brizy Cloud",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/lib/index.js"
+    },
+    "./dist/*.css": "./dist/*.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "tsc": "tsc --noEmit",
+    "dev": "npm run clean && npm run copy:styles && turbo watch dev:esm dev:cjs dev:types",
+    "dev:esm": "tsc -p tsconfig.esm.json --watch",
+    "dev:cjs": "tsc -p tsconfig.cjs.json --watch",
+    "dev:types": "tsc -p tsconfig.types.json --watch",
+    "copy:styles": "cpy src/style.css dist --flat",
+    "build": "turbo run build:all",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:types": "tsc -p tsconfig.types.json",
+    "clean": "rimraf dist",
+    "prepublishOnly": "npm run tsc && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EasyBrizy/Brizy-Local-Editor.git"
+  },
+  "keywords": [
+    "brizy",
+    "cloud",
+    "media",
+    "upload",
+    "files",
+    "image",
+    "font"
+  ],
+  "author": "brizy",
+  "license": "NEED_TO_REVIEW",
+  "bugs": {
+    "url": "https://github.com/EasyBrizy/Brizy-Local-Editor/issues"
+  },
+  "homepage": "https://github.com/EasyBrizy/Brizy-Local-Editor#readme",
+  "devDependencies": {
+    "cpy-cli": "^5.0.0",
+    "prettier": "3.5.3",
+    "rimraf": "^6.0.1",
+    "turbo": "^2.5.3",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@brizy/media-gallery": "^1.1.5",
+    "zod": "^3.24.4"
+  },
+  "peerDependencies": {
+    "@brizy/ui": "^0.9.92",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}
