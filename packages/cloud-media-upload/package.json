@@ -7,8 +7,7 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js",
-      "default": "./dist/lib/index.js"
+      "import": "./dist/esm/index.js"
     },
     "./dist/*.css": "./dist/*.css"
   },
@@ -43,7 +42,7 @@
     "font"
   ],
   "author": "brizy",
-  "license": "NEED_TO_REVIEW",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/EasyBrizy/Brizy-Local-Editor/issues"
   },
