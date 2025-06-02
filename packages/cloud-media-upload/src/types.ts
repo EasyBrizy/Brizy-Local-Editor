@@ -1,5 +1,5 @@
-import type { AddMediaExtra } from "@builder/core";
 import { Config } from "@brizy/media-gallery/lib/app";
+import type { AddMediaExtra } from "@builder/core";
 import { z } from "zod";
 import { credentialSchema } from "./utils/validation";
 
@@ -15,13 +15,13 @@ export type Response<R> = (r: R) => void;
 
 export interface HandlerArgs {
   res: Response<AddImageData>;
-  rej: Response<string>;
+  rej: Response<Error>;
   extra: AddMediaExtra;
 }
 
 export type OnInsertFiles = (
-  res: Response<any>,
-  rej: Response<string>,
+  res: Response<AddImageData>,
+  rej: Response<Error>,
   handleClose: VoidFunction,
 ) => Config["onInsertFiles"];
 

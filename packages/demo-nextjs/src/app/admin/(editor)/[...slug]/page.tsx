@@ -4,6 +4,7 @@ import { CollectionTypes } from "@/lib/db/types";
 import { getItemConfig } from "@/lib/itemConfig/getItemConfig";
 import { getMenuItems } from "@/lib/itemConfig/getMenuItems";
 import { getOrigin } from "@/utils/origin";
+import "@brizy/cloud-media-upload/dist/style.css";
 import { Modes } from "@builder/core/build/es/types/types";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
