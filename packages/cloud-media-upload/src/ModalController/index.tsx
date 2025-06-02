@@ -1,8 +1,8 @@
 import React from "react";
-import { createRoot, Root as RootType } from "react-dom/client";
-import { MEDIA_UPLOAD_ROOT_CLASSNAME } from "../constants";
+import { Root as RootType, createRoot } from "react-dom/client";
 import { ModalContainer } from "../ModalContainer";
 import { ContainerHandle, MediaContainerProps } from "../ModalContainer/types";
+import { MEDIA_UPLOAD_ROOT_CLASSNAME } from "../constants";
 
 // Defined outside the class since NewMediaUpload runs twice: first with undefined node,
 // then with the correct one—creating two root container.

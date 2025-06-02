@@ -1,6 +1,6 @@
 {
   "name": "@brizy/cloud-media-upload",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Upload media in Brizy Cloud",
   "types": "./dist/types/index.d.ts",
   "exports": {

@@ -1,7 +1,7 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useState } from "react";
-import { Modal } from "../Modal";
 import { MediaUploadContainer } from "../MediaUploadContainer";
-import { MediaContainerProps, ContainerHandle } from "./types";
+import { Modal } from "../Modal";
+import { ContainerHandle, MediaContainerProps } from "./types";
 
 export const ModalContainer = forwardRef<ContainerHandle, { rootContainer: HTMLElement }>(({ rootContainer }, ref) => {
   const [{ isOpen, mediaUploadInstance }, setState] = useState<MediaContainerProps>({ isOpen: false });

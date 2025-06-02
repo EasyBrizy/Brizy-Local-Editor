@@ -1,4 +1,10 @@
 import MediaGallery from "@brizy/media-gallery";
+import "@brizy/media-gallery/dist/index.css";
+import { Config } from "@brizy/media-gallery/lib/app";
+import type { AddMediaData, AddMediaExtra } from "@builder/core";
+import { HandlerArgs, Literal, Response } from "@types";
+import { ModalController } from "./ModalController";
+import { ApiClient, fetchCredentials } from "./api-client";
 import {
   DEV_GET_USER_CONFIG_ENDPOINT_URL,
   DEV_RESIZE_PATTERNS,
@@ -8,18 +14,11 @@ import {
   RESIZE_URL,
 } from "./constants";
 import { getAcceptableTypes, onInsertFiles } from "./utils";
-import { HandlerArgs, Literal, ProjectCredential, Response } from "@types";
-import { Config } from "@brizy/media-gallery/lib/app";
-import type { AddMediaData, AddMediaExtra } from "@builder/core";
-import "@brizy/media-gallery/dist/index.css";
-import { ModalController } from "./ModalController";
-import { ApiClient, fetchCredentials } from "./api-client";
 
 export class MediaUpload {
   private readonly clientId: Literal;
   private readonly isDev: boolean;
   private modalController: ModalController;
-  private credentials?: ProjectCredential;
 
   constructor({ node, clientId, isDev }: { clientId: Literal; node?: HTMLElement; isDev?: boolean }) {
     this.clientId = clientId;
@@ -27,30 +26,10 @@ export class MediaUpload {
     this.modalController = new ModalController(node);
   }
 
-  private async getCredentials() {
-    if (this.credentials) {
-      return this.credentials;
-    }
-
-    try {
-      this.credentials = await fetchCredentials(this.credentialEndpoint, this.clientId);
-
-      return this.credentials;
-    } catch (error) {
-      this.log(`${error}`);
-    }
-  }
-
-  private async getConfig(addMediaHandlerArgs: HandlerArgs): Promise<Config | undefined> {
+  private async getConfig(addMediaHandlerArgs: HandlerArgs): Promise<Config> {
     const { res, rej, extra } = addMediaHandlerArgs;
-    const credentials = await this.getCredentials();
 
-    if (!credentials) {
-      this.log("Failed to get credentials...");
-      rej("Failed to get credentials...");
-      return;
-    }
-
+    const credentials = await fetchCredentials(this.credentialEndpoint, this.clientId);
     const api = new ApiClient(credentials);
 
     return {
@@ -73,7 +52,7 @@ export class MediaUpload {
       //#endregion
 
       onClose: () => {
-        rej("File upload was cancelled");
+        rej(new Error("File upload was cancelled"));
         this.handleClose();
       },
       onInsertFiles: onInsertFiles(res, rej, this.handleClose),
@@ -91,18 +70,18 @@ export class MediaUpload {
     this.modalController.update({ isOpen: false });
   };
 
-  private addMediaHandler = async (res: Response<AddMediaData>, rej: Response<string>, extra: AddMediaExtra) => {
-    const config = await this.getConfig({ res, rej, extra });
-
-    if (!config) {
-      rej("[MediaUpload]: config error");
-      return;
+  private addMediaHandler = async (res: Response<AddMediaData>, rej: Response<Error>, extra: AddMediaExtra) => {
+    try {
+      const config = await this.getConfig({ res, rej, extra });
+      this.handleOpen(config);
+    } catch (err) {
+      this.log(err);
+      const error = err instanceof Error ? err : new Error(`${err}`);
+      rej(error);
     }
-
-    this.handleOpen(config);
   };
 
-  private log(msg: string): void {
+  private log(msg: unknown): void {
     if (this.isDev) {
       console.log("[MediaUpload]: ", msg);
     }

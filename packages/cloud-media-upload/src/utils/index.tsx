@@ -1,5 +1,5 @@
-import { AddImageData, Item, MediaGalleryParam, OnInsertFiles } from "@types";
 import { ApiFileTypes } from "@brizy/media-gallery/lib/pages/mediaLibrary/types/types";
+import { AddImageData, Item, MediaGalleryParam, OnInsertFiles } from "@types";
 import mimes from "./mimes.json";
 
 //#region exact like in builder
@@ -50,7 +50,7 @@ export const fromItemToImage = ({ name, fileName, extension, altTitle }: Item): 
 
 export const onInsertFiles: OnInsertFiles = (res, rej, handleClose) => (payload) => {
   if (Array.isArray(payload)) {
-    rej("Failed to upload file. Please upload a valid file.");
+    rej(new Error("Failed to upload file. Please upload a valid file."));
   } else {
     res(fromItemToImage(payload));
     handleClose();

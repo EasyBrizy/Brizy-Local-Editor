@@ -1,13 +1,13 @@
-import { Literal, ProjectCredential } from "@types";
 import type {
-  Api as MediaLibraryApi,
   Data,
+  Api as MediaLibraryApi,
   GetItemsVariables as MediaLibraryGetItemsVariables,
   RemoveApi,
   UpdateApi,
   UpdateItemVariables,
   UploadItemVariables,
 } from "@brizy/media-gallery/lib/pages/mediaLibrary/types/Api";
+import { Literal, ProjectCredential } from "@types";
 import { API_URL } from "../constants";
 import { fromValToMediaGalleryParam, getBase64, getTypeOrDocument, makeUrl } from "../utils";
 import { credentialSchema } from "../utils/validation";
@@ -69,7 +69,7 @@ class ApiClient {
         return await response.json();
       }
     } catch (e) {
-      throw new Error(`[MediaUpload] Failed to getItems]: ${e}`);
+      throw new Error(`Failed to getItems: ${e}`);
     }
   };
 
@@ -85,7 +85,7 @@ class ApiClient {
       }
       throw new Error(response.statusText);
     } catch (e) {
-      throw new Error(`[MediaUpload] Failed to remove media Gallery: ${e}`);
+      throw new Error(`Failed to remove media Gallery: ${e}`);
     }
   };
 
@@ -107,7 +107,7 @@ class ApiClient {
       }
       throw new Error(response.statusText);
     } catch (e) {
-      throw new Error(`[MediaUpload] Failed to update: ${e}`);
+      throw new Error(`Failed to update: ${e}`);
     }
   };
 
@@ -139,7 +139,7 @@ class ApiClient {
       }
       throw new Error(response.statusText);
     } catch (e) {
-      throw new Error(`[MediaUpload] Failed to upload: ${e}`);
+      throw new Error(`Failed to upload: ${e}`);
     }
   };
 }
@@ -147,7 +147,7 @@ class ApiClient {
 async function fetchCredentials(url: string, clientId: Literal): Promise<ProjectCredential> {
   const response = await fetch(`${url}?client_id=${clientId}`);
   if (!response.ok) {
-    throw new Error("Failed to get credentials...");
+    throw new Error("Failed to fetch credentials...");
   }
 
   const data = await response.json();
