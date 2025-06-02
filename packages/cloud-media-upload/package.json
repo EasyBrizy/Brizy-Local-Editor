@@ -1,6 +1,6 @@
 {
   "name": "@brizy/cloud-media-upload",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Upload media in Brizy Cloud",
   "types": "./dist/types/index.d.ts",
   "exports": {
@@ -16,12 +16,14 @@
   ],
   "scripts": {
     "tsc": "tsc --noEmit",
-    "dev": "npm run clean && npm run copy:styles && turbo watch dev:esm dev:cjs dev:types",
+    "dev": "npm run clean && npm run copy:styles && npm run dev:all",
+    "dev:all": "concurrently \"npm run dev:esm\" \"npm run dev:cjs\" \"npm run dev:types\"",
     "dev:esm": "tsc -p tsconfig.esm.json --watch",
     "dev:cjs": "tsc -p tsconfig.cjs.json --watch",
     "dev:types": "tsc -p tsconfig.types.json --watch",
     "copy:styles": "cpy src/style.css dist --flat",
-    "build": "turbo run build:all",
+    "build": "npm run clean && npm run copy:styles && npm run build:all",
+    "build:all": "concurrently \"npm run build:esm\" \"npm run build:cjs\" \"npm run build:types\"",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:types": "tsc -p tsconfig.types.json",
@@ -48,10 +50,10 @@
   },
   "homepage": "https://github.com/EasyBrizy/Brizy-Local-Editor#readme",
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "cpy-cli": "^5.0.0",
     "prettier": "3.5.3",
     "rimraf": "^6.0.1",
-    "turbo": "^2.5.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {

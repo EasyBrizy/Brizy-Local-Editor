@@ -42,14 +42,15 @@ export class MediaUpload {
   }
 
   private async getConfig(addMediaHandlerArgs: HandlerArgs): Promise<Config | undefined> {
+    const { res, rej, extra } = addMediaHandlerArgs;
     const credentials = await this.getCredentials();
 
     if (!credentials) {
       this.log("Failed to get credentials...");
+      rej("Failed to get credentials...");
       return;
     }
 
-    const { res, rej, extra } = addMediaHandlerArgs;
     const api = new ApiClient(credentials);
 
     return {
