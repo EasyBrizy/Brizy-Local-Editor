@@ -21,7 +21,10 @@ export type {
   RequiredOutput,
   Extension,
   ActionResolve,
-  Modes,
   Target,
   ShopifyTemplate,
-} from "types/types";
+  Help,
+  Menu,
+} from "./types/types";
+
+export { DCTypes, Modes } from "./types/types";

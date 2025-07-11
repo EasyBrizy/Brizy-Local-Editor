@@ -7,6 +7,7 @@ import { PageDataOutput, ProjectDataOutput, Response } from "./common";
 import { CustomFile } from "./customFile";
 import { DynamicContent } from "./dynamicContent";
 import { Form, FormInputTypes } from "./form";
+import { Help } from "./help";
 import { LeftSidebar } from "./leftSidebar";
 import { Media } from "./media";
 import { Menu } from "./menu";
@@ -15,6 +16,10 @@ import { Screenshots } from "./screenshots";
 import { DefaultKits, DefaultLayouts, DefaultPopups, DefaultStories } from "./templates";
 import { Theme } from "./theme";
 import { VideoTypes } from "./video";
+
+export type { Help };
+export type { Menu } from "./menu";
+export { DCTypes } from "./dynamicContent";
 
 export interface Output {
   pageData?: PageDataOutput;
@@ -147,6 +152,9 @@ export interface Config {
 
     // LeftSidebar
     leftSidebar?: LeftSidebar;
+
+    // Help
+    help?: Help;
 
     // Publish
     publish?: Publish;
