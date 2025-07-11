@@ -4,6 +4,7 @@ import { PlaceholderType } from "@/placeholders/types/types";
 import { DCTypes } from "@builder/core/build/es/types/dynamicContent";
 import { Menu } from "@builder/core/build/es/types/menu";
 import { Modes } from "@builder/core/build/es/types/types";
+import { Help } from "@builder/core/build/es/types/types";
 
 export const demoMenu: Menu = [
   {
@@ -111,6 +112,450 @@ export const demoMenu: Menu = [
     ],
   },
 ];
+
+const helpVideos: Help = {
+  video: [
+    {
+      id: "0c",
+      category: "Get Started",
+      items: [
+        {
+          title: "Builder Overview",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/1.+GET+STARTED/1.+Builder+Overview.mp4",
+          id: "0",
+        },
+        {
+          title: "How to Build a Page",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/1.+GET+STARTED/2.+How+to+Build+a+Page.mp4",
+          id: "1",
+        },
+        {
+          title: "Preview Publish Update",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/1.+GET+STARTED/3.+Preview+Publish+Update.mp4",
+          id: "2",
+        },
+      ],
+    },
+    {
+      id: "1c",
+      category: "The Basics",
+      items: [
+        {
+          title: "Blocks",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/1.+Blocks.mp4",
+          id: "3",
+        },
+        {
+          title: "Saved Blocks & Layouts",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/2.+Saved+Blocks+&+Layouts.mp4",
+          id: "4",
+        },
+        {
+          title: "Premade Layouts",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/3.+Premade+Layouts.mp4",
+          id: "5",
+        },
+        {
+          title: "The Elements",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/4.+The+Elements.mp4",
+          id: "6",
+        },
+        {
+          title: "Reorder Blocks",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/5.+Reorder+Blocks.mp4",
+          id: "7",
+        },
+        {
+          title: "Global Styling",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/6.+Global+Styling.mp4",
+          id: "8",
+        },
+        {
+          title: "Links",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/7.+Links.mp4",
+          id: "9",
+        },
+        {
+          title: "Fonts",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/8.+Fonts.mp4",
+          id: "10",
+        },
+        {
+          title: "Paddings & Margins",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/9.+Padding+&+Margins.mp4",
+          id: "11",
+        },
+        {
+          title: "Responsive Design",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/10.+Responsive+Design.mp4",
+          id: "12",
+        },
+        {
+          title: "Headers & Footers",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/11.+Headers+&+Footers.mp4",
+          id: "13",
+        },
+        {
+          title: "Menus & Navigation",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/12.+Menus+&+Navigation.mp4",
+          id: "14",
+        },
+        {
+          title: "Global Blocks",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/13.+Global+Blocks.mp4",
+          id: "15",
+        },
+        {
+          title: "Animations",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/14.+Animations.mp4",
+          id: "16",
+        },
+        {
+          title: "Multilingual",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/2.+THE+BASICS/15.+Multilingual.mp4",
+          id: "17",
+        },
+      ],
+    },
+    {
+      id: "2c",
+      category: "Dynamic Content",
+      items: [
+        {
+          title: "Blogging",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/3.+DYNAMIC+CONTENT/1.+Blogging.mp4",
+          id: "18",
+        },
+        {
+          title: "Dynamic Elements",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/3.+DYNAMIC+CONTENT/2.+Dynamic+Elements.mp4",
+          id: "19",
+        },
+        {
+          title: "Dynamic Templates",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/3.+DYNAMIC+CONTENT/3.+Dynamic+Templates.mp4",
+          id: "20",
+        },
+        {
+          title: "Advanced Custom Fields & Assets",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/3.+DYNAMIC+CONTENT/4.+Advanced+Custom+Fields+&+Assets.mp4",
+          id: "21",
+        },
+      ],
+    },
+    {
+      id: "3c",
+      category: "Users & Membership",
+      items: [
+        {
+          title: "Users & Roles",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/4.+USERS+&+MEMBERSHIP/1.+Users+&+Roles.mp4",
+          id: "22",
+        },
+        {
+          title: "Membership Blocks",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/4.+USERS+&+MEMBERSHIP/2.+Membership+Blocks.mp4",
+          id: "23",
+        },
+      ],
+    },
+    {
+      id: "4c",
+      category: "Marketing Tools",
+      items: [
+        {
+          title: "Popup Builder",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/5.+MARKETING+TOOLS/1.+Popup+Builder.mp4",
+          id: "24",
+        },
+        {
+          title: "Global Popups & Triggers",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/5.+MARKETING+TOOLS/2.+Global+Popups+&+Triggers.mp4",
+          id: "25",
+        },
+        {
+          title: "Contact Form & Integrations",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/5.+MARKETING+TOOLS/3.+Contact+Form+&+Integrations.mp4",
+          id: "26",
+        },
+        {
+          title: "Web Stories",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/5.+MARKETING+TOOLS/4.+Web+Stories.mp4",
+          id: "27",
+        },
+      ],
+    },
+    {
+      id: "5c",
+      category: "Global Settings",
+      items: [
+        {
+          title: "SEO",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/6.+GLOBAL+SETTINGS/1.+SEO.mp4",
+          id: "28",
+        },
+        {
+          title: "Social Sharing",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/6.+GLOBAL+SETTINGS/2.+Social+Sharing.mp4",
+          id: "29",
+        },
+        {
+          title: "Custom CSS",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/6.+GLOBAL+SETTINGS/3.+Custom+CSS.mp4",
+          id: "30",
+        },
+        {
+          title: "Code Inject",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/6.+GLOBAL+SETTINGS/4.+Code+Inject.mp4",
+          id: "31",
+        },
+        {
+          title: "Redirects",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/6.+GLOBAL+SETTINGS/5.+Redirects.mp4",
+          id: "32",
+        },
+        {
+          title: "System Pages",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/6.+GLOBAL+SETTINGS/6.+System+Pages.mp4",
+          id: "33",
+        },
+      ],
+    },
+    {
+      id: "6c",
+      category: "Cool Features",
+      items: [
+        {
+          title: "Shortcuts",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/7.+COOL+FEATURES/1.+Shortcuts.mp4",
+          id: "34",
+        },
+        {
+          title: "Webhooks",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/7.+COOL+FEATURES/2.+Webhooks.mp4",
+          id: "35",
+        },
+        {
+          title: "Export & Import",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/7.+COOL+FEATURES/3.+Export+&+Import.mp4",
+          id: "36",
+        },
+        {
+          title: "Collaborate",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/7.+COOL+FEATURES/4.+Collaborate.mp4",
+          id: "37",
+        },
+      ],
+    },
+    {
+      id: "7c",
+      category: "The Elements",
+      items: [
+        {
+          title: "Rows & Columns",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/1.+Rows+&+Columns.mp4",
+          id: "38",
+        },
+        {
+          title: "Text",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/2.+Text.mp4",
+          id: "39",
+        },
+        {
+          title: "Button",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/3.+Button.mp4",
+          id: "40",
+        },
+        {
+          title: "Icon",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/4.+Icon.mp4",
+          id: "41",
+        },
+        {
+          title: "Image",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/5.+Image.mp4",
+          id: "42",
+        },
+        {
+          title: "Audio",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/6.+Audio.mp4",
+          id: "43",
+        },
+        {
+          title: "Video",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/7.+Video.mp4",
+          id: "44",
+        },
+        {
+          title: "Spacer",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/8.+Spacer.mp4",
+          id: "45",
+        },
+        {
+          title: "Line",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/9.+Line.mp4",
+          id: "46",
+        },
+        {
+          title: "Map",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/10.+Map.mp4",
+          id: "47",
+        },
+        {
+          title: "Embed",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/11.+Embed.mp4",
+          id: "48",
+        },
+        {
+          title: "Icon Box",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/12.+Icon+Box.mp4",
+          id: "49",
+        },
+        {
+          title: "Counter",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/13.+Counter.mp4",
+          id: "50",
+        },
+        {
+          title: "Countdown",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/14.+Countdown.mp4",
+          id: "51",
+        },
+        {
+          title: "Tabs",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/15.+Tabs.mp4",
+          id: "52",
+        },
+        {
+          title: "Progress",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/16.+Progress.mp4",
+          id: "53",
+        },
+        {
+          title: "Accordion",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/17.+Accordion.mp4",
+          id: "54",
+        },
+        {
+          title: "Menu",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/18.+Menu.mp4",
+          id: "55",
+        },
+        {
+          title: "Gallery",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/19.+Gallery.mp4",
+          id: "56",
+        },
+        {
+          title: "Carousel",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/20.+Carousel.mp4",
+          id: "57",
+        },
+        {
+          title: "Rating",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/21.+Rating.mp4",
+          id: "58",
+        },
+        {
+          title: "Playlist",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/22.+Playlist.mp4",
+          id: "59",
+        },
+        {
+          title: "Table",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/23.+Table.mp4",
+          id: "60",
+        },
+        {
+          title: "Timeline",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/24.+Timeline.mp4",
+          id: "61",
+        },
+        {
+          title: "Switcher",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/25.+Switcher.mp4",
+          id: "62",
+        },
+        {
+          title: "Lottie",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/26.+Lottie.mp4",
+          id: "63",
+        },
+        {
+          title: "Login/register",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/27.+Login+register.mp4",
+          id: "64",
+        },
+        {
+          title: "Translation",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/28.+Translation.mp4",
+          id: "65",
+        },
+        {
+          title: "Alert",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/29.+Alert.mp4",
+          id: "66",
+        },
+        {
+          title: "Facebook",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/30.+Facebook.mp4",
+          id: "67",
+        },
+        {
+          title: "Twitter",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/31.+Twitter.mp4",
+          id: "68",
+        },
+        {
+          title: "Calendly",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/32.+Calendly.mp4",
+          id: "69",
+        },
+        {
+          title: "Comments",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/33.+Comments.mp4",
+          id: "70",
+        },
+        {
+          title: "Posts",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/34.+Posts.mp4",
+          id: "71",
+        },
+        {
+          title: "Assets",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/35.+Assets.mp4",
+          id: "72",
+        },
+        {
+          title: "User Elements",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/36.+User+Elements.mp4",
+          id: "73",
+        },
+        {
+          title: "Breadcrumbs",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/Breadcrumbs.mp4",
+          id: "74",
+        },
+        {
+          title: "Post Navigation",
+          url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/8.+THE+ELEMENTS/Post+Navigation.mp4",
+          id: "75",
+        },
+      ],
+    },
+  ],
+  header: {
+    src: "https://b-cloud.b-cdn.net/WordPress+Editor+Help+Videos/Getting-started-video-thumb.jpg",
+    url: "https://b-cloud.b-cdn.net/Cloud+Editor+Help+Videos/1.+GET+STARTED/1.+Builder+Overview.mp4",
+  },
+  idHelpVideosIcons: {
+    addElementsHelpVideo: "6",
+    blocksLayoutsHelpVideo: "4",
+    fontsHelpVideo: "11",
+    formHelpVideo: "26",
+  },
+  showIcon: true,
+};
 
 export const demoConfig: Config = {
   mode: Modes.page,
@@ -883,5 +1328,8 @@ export const demoConfig: Config = {
       ],
       source: EntityType.BLOG,
     },
+  },
+  ui: {
+    help: helpVideos,
   },
 };
