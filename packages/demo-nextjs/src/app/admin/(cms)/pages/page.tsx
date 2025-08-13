@@ -17,8 +17,8 @@ const Pages: FC = () => {
     setLoading(true);
 
     try {
-      const sessionId = await createAiSession();
-      const aiUrl = createAIRedirectUrl(sessionId, "http://localhost:3000");
+      const session = await createAiSession();
+      const aiUrl = createAIRedirectUrl(session.aiUrl, "http://localhost:3000");
       router.push(aiUrl);
     } catch (error) {
       console.error("Failed to create session", error);

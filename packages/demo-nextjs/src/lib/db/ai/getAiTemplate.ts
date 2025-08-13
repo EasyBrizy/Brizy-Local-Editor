@@ -8,6 +8,7 @@ export async function getAiTemplate(sessionId: string): Promise<{
   const data = await fetch(`${apiUrl}/generated-template/${sessionId}`, {
     headers: {
       "Content-Type": "application/json",
+      "X-API-Key": "12345",
     },
     method: "GET",
   });
