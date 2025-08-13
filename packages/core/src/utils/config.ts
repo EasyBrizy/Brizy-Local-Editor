@@ -362,6 +362,20 @@ export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, c
       });
     }
   },
+  getFormFields2: (iframeUid: string) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+    const { integrations = {} } = config;
+    const { form = {} } = integrations;
+    const handler = form.fields2?.handler;
+
+    if (typeof handler === "function") {
+      return new Promise((res, rej) => {
+        handler(res, rej);
+      });
+    }
+  },
   onOpenCMS: async (cb: () => Promise<void>, iframeUid: string) => {
     if (iframeUid !== uid) {
       return;

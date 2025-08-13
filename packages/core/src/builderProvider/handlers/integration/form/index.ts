@@ -19,19 +19,32 @@ const addFormFieldHandler = (formHandler: FormFieldsHandler, uid: string) => {
 interface Form {
   form: Record<string, unknown>;
   formHandler: FormFieldsHandler;
+  formHandler2: FormFieldsHandler;
   uid: string;
 }
 
 export const getForm = (data: Form) => {
-  const { form, formHandler, uid } = data;
-  const integrationFormFields = (form.fields ?? {}) as Record<string, unknown>;
+  const { form: _form, formHandler, formHandler2, uid } = data;
+  const integrationFormFields = (_form.fields ?? {}) as Record<string, unknown>;
+  const integrationFormFields2 = (_form.fields2 ?? {}) as Record<string, unknown>;
+  let form = _form;
 
   if ("enable" in integrationFormFields && integrationFormFields.enable) {
-    return {
+    form = {
       ...form,
       fields: {
         label: integrationFormFields.label,
         handler: addFormFieldHandler(formHandler, uid),
+      },
+    };
+  }
+
+  if ("enable" in integrationFormFields2 && integrationFormFields2.enable) {
+    form = {
+      ...form,
+      fields2: {
+        label: integrationFormFields2.label,
+        handler: addFormFieldHandler(formHandler2, uid),
       },
     };
   }

@@ -69,6 +69,10 @@ type config = {
         label?: string;
         handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
       };
+      fields2?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
     };
   };
 
@@ -187,6 +191,10 @@ type config = {
         siteKey: string;
       };
       fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
+      fields2?: {
         label?: string;
         handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
       };
@@ -314,6 +322,10 @@ type config = {
         siteKey: string;
       };
       fields?: {
+        label?: string;
+        handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+      };
+      fields2?: {
         label?: string;
         handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
       };
@@ -659,6 +671,8 @@ Config can be passed as an object when you initialize the editor from the script
 | integrations.form.recaptcha.siteKey | string   | ReCaptcha Site Key                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | integrations.form.fields.label      | string   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | integrations.form.fields.handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
+| integrations.form.fields2.label      | string   | Defines the text displayed in the editor UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| integrations.form.fields2.handler    | function | Is a function with a Promise-like signature. This function lets you use your own logic to retrieve the desired value. Once the value is available, you must call the resolve(value) function to pass it to the editor. In case you want to cancel the operation, call the reject() function. A resolve or reject call is mandatory. If you miss this step, the editor will remain in waiting mode. Error management on the host application must call the reject function to unblock the editor. |
 
 ### DynamicContent parameters
 
