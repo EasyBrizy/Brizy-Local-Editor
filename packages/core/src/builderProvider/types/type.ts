@@ -61,6 +61,7 @@ export interface ExposedHandlers {
   onLoad: (uid: string) => void;
   onAutoSave: (output: AutoSaveOutput, uid: string) => void;
   getFormFields: FormFieldsHandler;
+  getFormFields2: FormFieldsHandler;
   save: (output: BuilderOutput) => void;
   compile: (output: RequiredOutput, uid: string) => void;
   onOpenCMS: OpenCMSHandler;

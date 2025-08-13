@@ -14,6 +14,10 @@ export interface Form {
     label?: string;
     handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
   };
+  fields2?: {
+    label?: string;
+    handler: (res: Response<Array<FormFieldsOption>>, rej: Response<string>) => void;
+  };
 }
 
 export type FormInputTypes =

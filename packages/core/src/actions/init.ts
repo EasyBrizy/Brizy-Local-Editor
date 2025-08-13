@@ -14,20 +14,26 @@ type BuilderIntegrationConfig = IntegrationConfig & {
     fields?: {
       enable?: boolean;
     };
+    fields2?: {
+      enable?: boolean;
+    };
   };
 };
 
 const createIntegration = (config: Config): BuilderIntegrationConfig => {
-  const { integrations = {} } = config;
-  const integrationForm = integrations.form ?? {};
-
-  let _integration = integrations;
+  const { integrations: _integrations = {} } = config;
+  const integrationForm = _integrations.form ?? {};
+  let integrations = _integrations;
 
   if (integrationForm.fields?.handler) {
-    _integration = mergeIn(integrations, ["form", "fields"], { enable: true }) as BuilderIntegrationConfig;
+    integrations = mergeIn(integrations, ["form", "fields"], { enable: true }) as BuilderIntegrationConfig;
   }
 
-  return _integration;
+  if (integrationForm.fields2?.handler) {
+    integrations = mergeIn(integrations, ["form", "fields2"], { enable: true }) as BuilderIntegrationConfig;
+  }
+
+  return integrations;
 };
 
 //#endregion
