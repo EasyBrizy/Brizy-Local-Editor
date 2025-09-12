@@ -1,6 +1,6 @@
 {
   "name": "@brizy/merge-page-assets",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Merge page assets compiled by Brizy compiler",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -18,7 +18,8 @@
     "prepublishOnly": "npm run clean && npm run check && npm run build"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "keywords": [
     "brizy",
