@@ -77,7 +77,46 @@ Brizy.registerComponent({
               },
             ],
           },
+          {
+            id: "advancedSettings", // Sidebar trigger
+            type: "advancedSettings",
+            title: "Settings",
+          },
         ],
+        sidebar: [
+          {
+            id: "sidebarTabs",
+            type: "sidebarTabs",
+            tabs: [
+              {
+                id: "styles",
+                title: "Styling",
+                label: "Styling",
+                options: [
+                  {
+                    id: "settingsTabs",
+                    type: "tabs",
+                    config: { align: "start" },
+                    tabs: [
+                      {
+                        id: "settingsStyling",
+                        label: "Basic",
+                        options: [
+                          {
+                            id: "hoverTransition",
+                            type: "slider",
+                            label: "Hover Transition",
+                            position: 100
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
     ];
   },
