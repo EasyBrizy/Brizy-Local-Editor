@@ -1,10 +1,11 @@
 ### This script works only with partial popup
 
 ```html
+
 <script>
   const popupId = 1; // id from DB
 
-  (function (window, doc) {
+  (function(window, doc) {
     const popupUrl = `${apiURL}/${popupId}`; // API url to get popup data;
 
     async function _appendScript({ doc, node }) {
@@ -37,6 +38,9 @@
       if (node instanceof HTMLMetaElement || node.rel === "dns-prefetch") {
         onLoad();
       } else {
+        if (node instanceof HTMLLinkElement) {
+          node.rel = "stylesheet";
+        }
         // attach the onload and onerror event to the node
         node.onload = () => onLoad();
         node.onerror = () => onError();
@@ -59,13 +63,13 @@
     (async () => {
       try {
         // API request returns object with html, styles and scripts
-        const { html: _html, styles: _styles, scripts: _scripts } = await fetch(popupUrl, { method: "GET" }).json();
+        const data = await fetch(popupUrl, { method: "GET" });
+
+        const { root: _html, styles, scripts } = await data.json();
 
         const body = doc.querySelector("body");
 
         const parser = new DOMParser();
-        const styles = JSON.parse(_styles);
-        const scripts = JSON.parse(_scripts);
 
         // convert the html, styles & scripts string to a DOM node
         const popupDoc = parser.parseFromString(_html, "text/html");
@@ -106,18 +110,14 @@
         }
 
         // wait for all scripts to be loaded
-        appendScripts(scriptsNodes)
-          .then(() => {
-            // init the popup
-            window.Brz.emit("init.dom", window.jQuery(popupHTML));
-          })
-          .catch((e) => {
-            console.error("Error loading scripts", e);
-          });
+        appendScripts(scriptsNodes).catch((e) => {
+          console.error("Error loading scripts", e);
+        });
       } catch (e) {
         console.error("Error loading popup", e);
       }
     })();
   })(window, document);
+
 </script>
 ```
