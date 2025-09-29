@@ -21,11 +21,11 @@ https://user-images.githubusercontent.com/5760683/206679891-8209b498-5905-42db-8
 Builder seamlessly integrates with your existing site or app, enabling you to visually create and modify code using your current components or our intuitive drag-and-drop editor.
 You can then export the code or directly publish updates.
 
-Read about [how Brizy works](https://builder-docs.brizy.io/docs/getting-started/what-is-brizy)
+Read about [how Brizy works](https://builder-docs.brizy.io)
 
 ## Documentation
 
-The official Brizy documentation can be found on our [documentation website](https://builder-docs.brizy.io/docs/developer-docs/the-docs-website)
+The official Brizy documentation can be found on our [documentation website](https://builder-docs.brizy.io)
 
 The release notes can be found [here](https://github.com/EasyBrizy/Brizy-Local-Editor/releases).
 
@@ -49,7 +49,7 @@ You can try Brizy without installing it. Simply use one of the demos to deploy i
 
 You can register your own arbitrary custom React components for use as building blocks within Brizy.
 
-[Learn more about code components.](https://builder-docs.brizy.io/docs/development/creating-your-first-addon)
+[Learn more about code components.](https://builder-docs.brizy.io/building-widgets/introduction)
 
 ## Support
 If you have problems or questions go to our forum, we will then try to help you asap:

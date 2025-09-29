@@ -22,7 +22,7 @@ import {
   StoriesMetaHandler,
   StoriesPagesHandler,
 } from "../handlers/api/templates";
-import { OpenCMSHandler } from "../handlers/defaults/ui/cms";
+import { CloseHandler, OpenHandler } from "../handlers/defaults/ui/leftSidebarCustomOption";
 import { PublishHandler } from "../handlers/defaults/ui/publish";
 import { DCHandler } from "../handlers/dynamicContent/handler";
 import { ImageDCHandler } from "../handlers/dynamicContent/image";
@@ -64,8 +64,11 @@ export interface ExposedHandlers {
   getFormFields2: FormFieldsHandler;
   save: (output: BuilderOutput) => void;
   compile: (output: RequiredOutput, uid: string) => void;
-  onOpenCMS: OpenCMSHandler;
-  onCloseCMS: (uid: string) => void;
+
+  // LeftSidebar CustomOption
+  onLeftSidebarOpenHandler: OpenHandler;
+  onLeftSidebarCloseHandler: CloseHandler;
+
   publish: PublishHandler;
   onOpenMenu: (uid: string) => void;
   postsHandler: PostHandler;

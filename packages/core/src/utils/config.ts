@@ -2,7 +2,6 @@ import { destroyLoader } from "@/Loader/init";
 import { AddFileExtra } from "@/types/customFile";
 import { BaseDCHandlerExtra, DCHandlerExtra, DCPlaceholdersExtra } from "@/types/dynamicContent";
 import { UploadFontExtra } from "@/types/font";
-import { LeftSidebarOptionsIds } from "@/types/leftSidebar";
 import { AddMediaExtra } from "@/types/media";
 import { PostsSources } from "@/types/posts";
 import { ScreenshotExtra, ScreenshotRes } from "@/types/screenshots";
@@ -376,34 +375,38 @@ export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, c
       });
     }
   },
-  onOpenCMS: async (cb: () => Promise<void>, iframeUid: string) => {
+  onLeftSidebarOpenHandler: async (
+    data: { id: string; type: "topTabsOrder" | "bottomTabsOrder"; cb: () => Promise<void> },
+    iframeUid: string,
+  ) => {
     if (iframeUid !== uid) {
       return;
     }
+
+    const { id, type } = data;
     const { leftSidebar = {} } = config.ui ?? {};
-    const cms = leftSidebar[LeftSidebarOptionsIds.cms];
-    const onOpen = cms?.onOpen;
+    const options = leftSidebar[type] || [];
 
-    if (typeof onOpen === "function") {
-      const onClose = async () => {
-        await cb();
-      };
-
-      onOpen(onClose);
-    }
+    options.forEach(async (option) => {
+      if (option.id === id && "onOpen" in option) {
+        option.onOpen?.();
+      }
+    });
   },
-  onCloseCMS: (iframeUid: string) => {
+  onLeftSidebarCloseHandler: (data: { id: string; type: "topTabsOrder" | "bottomTabsOrder" }, iframeUid: string) => {
     if (iframeUid !== uid) {
       return;
     }
+
+    const { type, id } = data;
     const { leftSidebar = {} } = config.ui ?? {};
+    const options = leftSidebar[type] || [];
 
-    const cms = leftSidebar[LeftSidebarOptionsIds.cms];
-    const onClose = cms?.onClose;
-
-    if (typeof onClose === "function") {
-      onClose();
-    }
+    options.forEach((option) => {
+      if (option.id === id && "onClose" in option) {
+        option.onClose?.();
+      }
+    });
   },
 
   // Compilation process

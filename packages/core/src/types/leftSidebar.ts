@@ -72,7 +72,7 @@ export enum LeftSidebarOptionsIds {
   globalStyle = "globalStyle",
   deviceMode = "deviceMode",
   more = "more",
-  cms = "cms",
+  custom = "custom",
 }
 
 export interface LeftSidebarOptionBase {
@@ -83,7 +83,6 @@ export interface LeftSidebarOptionBase {
 
 interface LeftSidebarCommonOption extends LeftSidebarOptionBase {
   type:
-    | LeftSidebarOptionsIds.cms
     | LeftSidebarOptionsIds.reorderBlock
     | LeftSidebarOptionsIds.globalStyle
     | LeftSidebarOptionsIds.deviceMode
@@ -98,7 +97,15 @@ export interface LeftSidebarAddElementsType extends LeftSidebarOptionBase {
   }[];
 }
 
-export type LeftSidebarOption = LeftSidebarCommonOption | LeftSidebarAddElementsType;
+export interface LeftSidebarCustomType extends LeftSidebarOptionBase {
+  type: LeftSidebarOptionsIds.custom;
+  href?: string;
+  onOpen?: () => void;
+  onClose?: VoidFunction;
+  icon?: string;
+}
+
+export type LeftSidebarOption = LeftSidebarCommonOption | LeftSidebarAddElementsType | LeftSidebarCustomType;
 
 export enum LeftSidebarMoreOptionsIds {
   link = "link",
@@ -120,12 +127,6 @@ export interface LeftSidebar {
 
   [LeftSidebarOptionsIds.more]?: {
     options?: Array<LeftSidebarMoreOptions>;
-  };
-
-  [LeftSidebarOptionsIds.cms]?: {
-    onOpen: (onClose: VoidFunction) => void;
-    onClose: VoidFunction;
-    icon?: string;
   };
 }
 

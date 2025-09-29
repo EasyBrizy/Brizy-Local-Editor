@@ -361,8 +361,8 @@ export const getUI = (origin: string) => ({
   leftSidebar: {
     topTabsOrder: [
       {
-        id: LeftSidebarOptionsIds.cms,
-        type: LeftSidebarOptionsIds.cms,
+        id: LeftSidebarOptionsIds.custom,
+        type: LeftSidebarOptionsIds.custom,
       },
       {
         id: LeftSidebarOptionsIds.addElements,
