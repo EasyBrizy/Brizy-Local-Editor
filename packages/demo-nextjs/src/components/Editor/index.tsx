@@ -50,12 +50,16 @@ export const Editor = () => {
     },
     ui: {
       leftSidebar: {
-        [LeftSidebarOptionsIds.cms]: {
-          onClose() {},
-          onOpen() {
-            router.push("/admin");
+        topTabsOrder: [
+          {
+            id: "cms",
+            type: LeftSidebarOptionsIds.custom,
+            onClose() {},
+            onOpen() {
+              router.push("/admin");
+            },
           },
-        },
+        ],
       },
       publish: {
         async handler(res: Response<PublishData>, rej: Response<string>, data: Output) {

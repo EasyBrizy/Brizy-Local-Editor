@@ -12,7 +12,7 @@ import {
 import { Config, Modes } from "@/types/types";
 import { getIn, setIn } from "timm";
 import { ExposedHandlers } from "../../../types/type";
-import { getOpenCMS } from "./cms";
+import { getCloseCB, getOpenCB } from "./leftSidebarCustomOption";
 import { getPublish } from "./publish";
 
 interface Data {
@@ -306,17 +306,72 @@ export const getUi = (data: Data): Record<string, unknown> => {
   let { ui: oldUI = {}, leftSidebar } = defaultUI(mode, _ui);
   const ui = _ui ? _ui : oldUI;
   const popupSettings = Object.assign({}, oldUI.popupSettings, ui.popupSettings);
-  const enabledCMS = getIn(leftSidebar, ["cms", "enable"]);
   const enabledPublish = getIn(ui, ["publish", "enable"]);
   let publish: Partial<BuilderPublish> = {};
 
-  if (enabledCMS) {
-    const { onOpenCMS, onCloseCMS } = handlers;
-    leftSidebar = setIn(leftSidebar, ["cms"], {
-      onOpen: getOpenCMS(onOpenCMS, uid),
-      onClose: () => onCloseCMS(uid),
-    }) as Record<string, unknown>;
-  }
+  leftSidebar.topTabsOrder?.forEach((tab, index) => {
+    if (tab.type === LeftSidebarOptionsIds.custom) {
+      const { onLeftSidebarOpenHandler: onOpenHandler, onLeftSidebarCloseHandler: onCloseHandler } = handlers;
+
+      if ("onOpenEnable" in tab && tab.onOpenEnable) {
+        const onOpen = getOpenCB(
+          {
+            id: tab.id,
+            type: "topTabsOrder",
+            handler: onOpenHandler,
+          },
+          uid,
+        );
+
+        leftSidebar = setIn(leftSidebar, ["topTabsOrder", index, "onOpen"], onOpen) as LeftSidebar;
+      }
+
+      if ("onCloseEnable" in tab && tab.onCloseEnable) {
+        const onClose = getCloseCB(
+          {
+            id: tab.id,
+            type: "topTabsOrder",
+            handler: onCloseHandler,
+          },
+          uid,
+        );
+
+        leftSidebar = setIn(leftSidebar, ["topTabsOrder", index, "onClose"], onClose) as LeftSidebar;
+      }
+    }
+  });
+
+  leftSidebar.bottomTabsOrder?.forEach((tab, index) => {
+    if (tab.type === LeftSidebarOptionsIds.custom) {
+      const { onLeftSidebarOpenHandler: onOpenHandler, onLeftSidebarCloseHandler: onCloseHandler } = handlers;
+
+      if ("onOpenEnable" in tab && tab.onOpenEnable) {
+        const onOpen = getOpenCB(
+          {
+            id: tab.id,
+            type: "bottomTabsOrder",
+            handler: onOpenHandler,
+          },
+          uid,
+        );
+
+        leftSidebar = setIn(leftSidebar, ["bottomTabsOrder", index, "onOpen"], onOpen) as LeftSidebar;
+      }
+
+      if ("onCloseEnable" in tab && tab.onCloseEnable) {
+        const onClose = getCloseCB(
+          {
+            id: tab.id,
+            type: "bottomTabsOrder",
+            handler: onCloseHandler,
+          },
+          uid,
+        );
+
+        leftSidebar = setIn(leftSidebar, ["bottomTabsOrder", index, "onClose"], onClose) as LeftSidebar;
+      }
+    }
+  });
 
   if (enabledPublish) {
     publish = getPublish({ publishHandler: handlers.publish, uid, compileManager });

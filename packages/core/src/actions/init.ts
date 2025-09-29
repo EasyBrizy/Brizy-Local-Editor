@@ -210,11 +210,6 @@ const createApi = (config: Config): BuilderAPI => {
 type UI = Config["ui"];
 
 type BuilderUI = UI & {
-  leftSidebar?: {
-    [LeftSidebarOptionsIds.cms]?: {
-      enable?: boolean;
-    };
-  };
   publish?: {
     enable?: boolean;
   };
@@ -223,14 +218,31 @@ type BuilderUI = UI & {
 export const createUi = (config: Config): BuilderUI => {
   let ui = config.ui ?? {};
   const { leftSidebar = {}, publish } = ui;
-  const cms = leftSidebar[LeftSidebarOptionsIds.cms];
 
-  if (typeof cms?.onOpen === "function") {
-    ui = setIn(ui, ["leftSidebar", "cms"], { enable: true }) as BuilderUI;
-  }
+  leftSidebar.topTabsOrder?.forEach((tab, index) => {
+    if (tab.type === LeftSidebarOptionsIds.custom) {
+      if (typeof tab.onOpen === "function") {
+        ui = setIn(ui, ["leftSidebar", "topTabsOrder", index, "onOpenEnable"], true) as BuilderUI;
+      }
+      if (typeof tab.onClose === "function") {
+        ui = setIn(ui, ["leftSidebar", "topTabsOrder", index, "onCloseEnable"], true) as BuilderUI;
+      }
+    }
+  });
+
+  leftSidebar.bottomTabsOrder?.forEach((tab, index) => {
+    if (tab.type === LeftSidebarOptionsIds.custom) {
+      if (typeof tab.onOpen === "function") {
+        ui = setIn(ui, ["leftSidebar", "bottomTabsOrder", index, "onOpenEnable"], true) as BuilderUI;
+      }
+      if (typeof tab.onClose === "function") {
+        ui = setIn(ui, ["leftSidebar", "bottomTabsOrder", index, "onCloseEnable"], true) as BuilderUI;
+      }
+    }
+  });
 
   if (typeof publish?.handler === "function") {
-    ui = setIn(ui, ["publish"], { enable: true }) as BuilderUI;
+    ui = setIn(ui, ["publish", "enable"], true) as BuilderUI;
   }
 
   return ui;
