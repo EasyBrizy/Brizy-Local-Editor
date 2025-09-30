@@ -41,6 +41,19 @@ const SidebarMenuMain = () => {
 
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
+          <span className="menu-heading uppercase text-2sm font-semibold text-gray-500">AI</span>
+        </div>
+      </div>
+
+      <SidebarMenuItem
+        icon="book"
+        to="/admin/ai-templates"
+        title="Templates"
+        active={pathname === "/admin/ai-templates"}
+      />
+
+      <div className="menu-item">
+        <div className="menu-content pt-8 pb-2">
           <span className="menu-heading uppercase text-2sm font-semibold text-gray-500">Utilities</span>
         </div>
       </div>

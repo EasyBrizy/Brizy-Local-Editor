@@ -3,6 +3,7 @@ interface Config {
   dbName: string;
   editorUrl: string;
   editorToken: string;
+  apiAiUrl: string;
 }
 
 export const getConfig = (): Config => {
@@ -11,5 +12,6 @@ export const getConfig = (): Config => {
     dbName: process.env["MONGODB_DATABASE_NAME"] ?? "",
     editorUrl: process.env["NEXT_PUBLIC_EDITOR_URL"] ?? "http://localhost:8001/index.js",
     editorToken: process.env["NEXT_PUBLIC_EDITOR_TOKEN"] ?? "demo",
+    apiAiUrl: process.env["API_AI_URL"] ?? "http://localhost/api",
   };
 };
