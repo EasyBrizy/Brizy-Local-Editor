@@ -4,6 +4,7 @@ import { Arr, Err, Obj, Str, pipe } from "@brizy/readers";
 import { mPipe, parseStrict } from "fp-utilities";
 import { getIn, setIn } from "timm";
 import { BuilderPublishedData } from "../types/builderOutput";
+import { toHashCode } from "./toHashCode";
 
 const stylesPlaceholder = "{{ third_party_styles }}";
 const scriptsPlaceholder = "{{ third_party_scripts }}";
@@ -92,6 +93,10 @@ const readPluginConfig = parseStrict<Record<string, unknown>, PluginConfig>({
 
 export const getPluginConfig = mPipe(Obj.read, readPluginConfig);
 
+function isAbsoluteUrl(url: string): boolean {
+  return /^https?:\/\//.test(url);
+}
+
 export async function prepareThirdPartyAssets(extensions: Array<Extension>): Promise<Array<ParsedThirdParty>> {
   let assets: ParsedThirdParty[] = [];
 
@@ -108,10 +113,18 @@ export async function prepareThirdPartyAssets(extensions: Array<Extension>): Pro
         return [];
       }
 
-      const editorScripts = pluginConfig.editorScripts.map((s) => `${url}/${s}`);
-      const editorStyles = pluginConfig.editorStyles.map((s) => `${url}/${s}`);
-      const viewScripts = pluginConfig.viewScripts.map((s) => `${url}/${s}`);
-      const viewStyles = pluginConfig.viewStyles.map((s) => `${url}/${s}`);
+      const editorScripts = pluginConfig.editorScripts.map((s) => {
+        return isAbsoluteUrl(s) ? s : `${url}/${s}`;
+      });
+      const editorStyles = pluginConfig.editorStyles.map((s) => {
+        return isAbsoluteUrl(s) ? s : `${url}/${s}`;
+      });
+      const viewScripts = pluginConfig.viewScripts.map((s) => {
+        return isAbsoluteUrl(s) ? s : `${url}/${s}`;
+      });
+      const viewStyles = pluginConfig.viewStyles.map((s) => {
+        return isAbsoluteUrl(s) ? s : `${url}/${s}`;
+      });
 
       assets.push({
         name: pluginConfig.name,
@@ -167,11 +180,11 @@ export function addThirdPartyAssets({ data }: Props) {
   return data;
 }
 
-function jsonScriptTemplate(url: string) {
+function jsonScriptTemplate(url: string, index: number) {
   return {
-    name: "thirdPartyScript",
+    name: `thirdPartyScript-${toHashCode(url)}`,
     pro: false,
-    score: 60,
+    score: 60 + index,
     content: {
       type: "file",
       url,
@@ -182,11 +195,11 @@ function jsonScriptTemplate(url: string) {
   };
 }
 
-function jsonStyleTemplate(url: string) {
+function jsonStyleTemplate(url: string, index: number) {
   return {
-    name: "thirdPartyStyle",
+    name: `thirdPartyStyle-${toHashCode(url)}`,
     pro: false,
-    score: 60,
+    score: 60 + index,
     content: {
       type: "file",
       url,
