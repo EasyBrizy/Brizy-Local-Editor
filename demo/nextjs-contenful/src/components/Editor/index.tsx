@@ -88,13 +88,17 @@ export const Editor = (props: Props) => {
       leftSidebar: {
         topTabsOrder: [
           {
-            id: LeftSidebarOptionsIds.cms,
-            type: LeftSidebarOptionsIds.cms,
+            id: "cms",
+            type: LeftSidebarOptionsIds.custom,
+            onClose() {},
+            onOpen() {
+              router.push("/admin");
+            },
           },
           {
             id: LeftSidebarOptionsIds.addElements,
             type: LeftSidebarOptionsIds.addElements,
-            elements: []
+            elements: [],
           },
           {
             id: LeftSidebarOptionsIds.reorderBlock,
@@ -105,12 +109,6 @@ export const Editor = (props: Props) => {
             type: LeftSidebarOptionsIds.globalStyle,
           },
         ],
-        [LeftSidebarOptionsIds.cms]: {
-          onClose() {},
-          onOpen() {
-            router.push("/admin");
-          },
-        },
         [LeftSidebarOptionsIds.more]: {
           options: [
             {
