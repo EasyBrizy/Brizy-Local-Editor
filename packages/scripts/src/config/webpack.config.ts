@@ -201,6 +201,7 @@ const baseFactory = (env: "production" | "development"): Configuration => {
       react: "React",
       "react-dom": "ReactDOM",
       "react-dom/server": "ReactDOM",
+      "react-dom/client": "ReactDOM",
     },
   };
 };
