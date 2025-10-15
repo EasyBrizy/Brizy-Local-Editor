@@ -3,7 +3,7 @@ import { BuilderOutput, HtmlOutputType, Modes, Output } from "../types/types";
 
 const createDoc = (data: { html: string; styles?: string; scripts?: string }): string => {
   const { html, styles = "", scripts = "" } = data;
-  return `<!DOCTYPE html><html><head>${styles}</head><body>${html}${scripts}</body></html>`;
+  return `<!DOCTYPE html><html><head>${styles}</head><body class="brz">${html}${scripts}</body></html>`;
 };
 
 const createPopupSettings = ({
