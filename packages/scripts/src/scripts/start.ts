@@ -38,7 +38,7 @@ function devServer(_: Args) {
         devMiddleware: {
           writeToDisk: true,
         },
-        allowedHosts: "auto",
+        allowedHosts: "all",
         webSocketServer: false,
       };
       const devServer = new WebpackDevServer(serverConfig, compiler);
