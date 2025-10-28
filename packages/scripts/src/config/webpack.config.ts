@@ -112,6 +112,7 @@ const baseFactory = (env: "production" | "development"): Configuration => {
               loader: require.resolve("sass-loader"),
               options: {
                 sourceMap: !isProduction,
+                api: "modern-compiler",
               },
             },
           ],
