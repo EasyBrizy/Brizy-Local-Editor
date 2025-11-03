@@ -5,6 +5,7 @@ import { getCollectionItemsHandler, loadCollectionItemsHandler, searchCollection
 import { getLoadCollectionTypesHandler } from "./collectionTypes";
 import { getCustomFileHandler } from "./customFile";
 import { getMediaHandler } from "./media";
+import { getImageGalleryHandler } from "./media/imageGallery";
 import { getCreateScreenshots, getUpdateScreenshots } from "./screenshots";
 import {
   getKits,
@@ -55,6 +56,7 @@ export const getApi = (data: Data) => {
     createScreenshot,
     updateScreenshot,
     addMedia,
+    addMediaGallery,
     addFile,
     loadCollectionTypes,
     getCollectionItems,
@@ -118,6 +120,7 @@ export const getApi = (data: Data) => {
     media: {
       ...media,
       addMedia: getMediaHandler(addMedia, uid),
+      addMediaGallery: getImageGalleryHandler(addMediaGallery, uid),
     },
     customFile: {
       ...customFile,

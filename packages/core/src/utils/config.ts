@@ -21,6 +21,20 @@ interface Params {
 }
 
 export const getHandlers = ({ config, iframe, container, spinner, savedNodeCB, compiledNodeCB, uid }: Params) => ({
+  addMediaGallery: (iframeUid: string, extra: AddMediaExtra) => {
+    if (iframeUid !== uid) {
+      return;
+    }
+    const { api = {} } = config;
+    const { media = {} } = api;
+    const handler = media.addMediaGallery?.handler;
+    if (typeof handler === "function") {
+      iframe.blur();
+      return new Promise((res, rej) => {
+        handler(res, rej, extra);
+      });
+    }
+  },
   addMedia: (iframeUid: string, extra: AddMediaExtra) => {
     if (iframeUid !== uid) {
       return;

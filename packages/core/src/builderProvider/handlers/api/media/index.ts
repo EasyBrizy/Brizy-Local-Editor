@@ -1,23 +1,17 @@
 import { AddMediaData, AddMediaExtra } from "@/types/media";
 import { Handler } from "../../../types/type";
+import { normalizeMediaData } from "./utils";
 
 export type AddMediaHandler = (uid: string, extra?: AddMediaExtra) => Promise<AddMediaData>;
 
 export const getMediaHandler = (mediaHandler: AddMediaHandler, uid: string) => {
   const handler: Handler<AddMediaData, string, AddMediaExtra> = async (res, rej, extra) => {
     try {
-      const { uid: imageUid, fileName } = await mediaHandler(uid, extra);
+      const data = await mediaHandler(uid, extra);
+      const normalizedData = normalizeMediaData(data);
 
-      if (imageUid && fileName) {
-        return res({ uid: imageUid, fileName });
-      }
-
-      if (fileName) {
-        return res({ uid: fileName });
-      }
-
-      if (imageUid) {
-        return res({ uid: imageUid });
+      if (normalizedData) {
+        return res(normalizedData);
       }
 
       rej("Error adding media");
