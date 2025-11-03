@@ -20,4 +20,8 @@ export interface Media {
   addMedia?: {
     handler: (res: Response<AddMediaData>, rej: Response<string>, extra: AddMediaExtra) => void;
   };
+
+  addMediaGallery?: {
+    handler: (res: Response<Array<AddMediaData>>, rej: Response<string>, extra: AddMediaExtra) => void;
+  };
 }

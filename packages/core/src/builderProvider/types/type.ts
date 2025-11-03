@@ -8,6 +8,7 @@ import type { GetCollectionItemsHandler } from "../handlers/api/collectionItems/
 import { LoadCollectionTypesHandler } from "../handlers/api/collectionTypes";
 import type { AddCustomFileHandler } from "../handlers/api/customFile";
 import type { AddMediaHandler } from "../handlers/api/media";
+import { ImageGalleryHandler } from "../handlers/api/media/imageGallery";
 import { CreateScreenshotsHandler, UpdateScreenshotsHandler } from "../handlers/api/screenshots";
 import {
   KitsDataHandler,
@@ -35,6 +36,7 @@ export type Handler<T, R, E> = (res: Response<T>, rej: Response<R>, extra?: E) =
 
 export interface ExposedHandlers {
   addMedia: AddMediaHandler;
+  addMediaGallery: ImageGalleryHandler;
   addFile: AddCustomFileHandler;
   getKits: KitsHandler;
   getKitsMeta: KitsMetaHandler;
