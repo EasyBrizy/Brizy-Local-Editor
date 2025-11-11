@@ -87,3 +87,29 @@ jobs:
         run: |
           git tag v${{ inputs.version }}-${{ inputs.mode }}
           git push origin --tags
+  notify:
+    name: Notify
+    runs-on: ubuntu-latest
+    needs: [tests, deploy]
+    if: always()
+
+    steps:
+      - name: Notify on success
+        if: ${{ needs.tests.result == 'success' && needs.deploy.result == 'success' }}
+        uses: tsickert/discord-webhook@v6.0.0
+        with:
+          webhook-url: ${{ secrets.WEBHOOK_URL }}
+          embed-description: |
+            🚀 **New Release Alert!**
+            A new version of the Brizy Local has been released: **${{inputs.version}}**.
+            CDN URL: ${{inputs.public_host}}/${{inputs.mode}}/${{inputs.version}}
+
+      - name: Notify on failure
+        if: ${{ needs.tests.result == 'failure' || needs.deploy.result == 'failure' }}
+        uses: tsickert/discord-webhook@v6.0.0
+        with:
+          webhook-url: ${{ secrets.WEBHOOK_URL }}
+          embed-description: |
+            🚀 **New Release Alert!**
+            Failed to build or test the Brizy Local.
+            Check the git logs for more details.
