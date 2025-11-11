@@ -38,6 +38,7 @@ export const Core: Init = (token, config, cb) => {
   iframe.width = "100%";
   iframe.height = "100%";
   iframe.frameBorder = "0";
+  iframe.setAttribute("allow", "local-network-access");
 
   iframe.addEventListener("load", async () => {
     const iframeWindow = iframe.contentWindow;
