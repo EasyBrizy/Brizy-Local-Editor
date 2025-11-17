@@ -26,10 +26,6 @@ export class Extractor {
   private registry: RegistryInterface | null = null
 
   constructor(registry?: RegistryInterface) {
-    // there were cases were the page had mode that 2Mb of html and
-    // this is making sure the preg_match_all wil work
-    process.env.PCRE_BACKTRACK_LIMIT = "900000000"
-
     if (registry) {
       this.registry = registry
     }
@@ -114,7 +110,7 @@ export class Extractor {
       if (pos !== -1) {
         const replacement = useRegistry
           ? contentPlaceholder.getUid()
-          : callback?.(contentPlaceholder) ?? ""
+          : (callback?.(contentPlaceholder) ?? "")
         content =
           content.slice(0, pos) + replacement + content.slice(pos + length)
       }
