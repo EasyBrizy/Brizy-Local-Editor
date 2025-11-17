@@ -1,6 +1,6 @@
 {
   "name": "@brizy/content-placeholder",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "Brizy content placeholders used to put dynamic data in compiled page (PREVIEW)",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
