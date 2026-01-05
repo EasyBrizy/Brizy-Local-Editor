@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2018",
-    "lib": [
-      "es2020"
-    ],
+    "lib": ["es2020"],
     "skipLibCheck": true,
     "module": "NodeNext",
     "moduleResolution": "nodenext",
@@ -12,16 +10,12 @@
     "outDir": "./dist/esm",
     "removeComments": true,
     "noImplicitAny": false,
+
+    "declaration": true,
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/tests",
-    "src/examples",
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "src/tests", "src/examples"],
   "ts-node": {
-    "esm": true
-  }
+    "esm": true,
+  },
 }
