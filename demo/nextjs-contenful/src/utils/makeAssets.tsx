@@ -1,4 +1,4 @@
-import { AssetContent, AssetType } from "@brizy/merge-page-assets/dist/assets/types";
+import { AssetContent, AssetType } from "@brizy/merge-page-assets";
 import { DomUtils, parseDocument } from "htmlparser2";
 
 export const makeStyle = (data: AssetContent) => {
