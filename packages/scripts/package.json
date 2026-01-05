@@ -29,7 +29,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/minimist": "^1.2.5",
     "@types/react-dev-utils": "^9.0.15",
-    "rimraf": "^5.0.7"
+    "rimraf": "^6.1.2"
   },
   "dependencies": {
     "@svgr/webpack": "^8.1.0",

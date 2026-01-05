@@ -45,6 +45,6 @@
     "esbuild-plugin-alias-path": "^2.0.2",
     "minimist": "^1.2.8",
     "react-scripts": "5.0.1",
-    "rimraf": "^5.0.5"
+    "rimraf": "^6.1.2"
   }
 }
