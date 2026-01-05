@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc",
+    "build:esm": "tsc --sourceMap false --declarationMap false",
     "build:cjs": "npx swc ./src -d ./dist/cjs/",
     "lint": "eslint ./src",
     "tsc": "tsc --noEmit",

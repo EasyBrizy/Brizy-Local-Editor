@@ -192,21 +192,16 @@ class SwapperComponent {
 
 if (typeof window !== "undefined") {
   window.addEventListener("resize", function () {
-    let timer;
-    throttle(
-      timer,
-      () => {
-        // Locate and update Offcanvas instances on window resize
-        const elements = document.querySelectorAll(defaultSwapperQueires.instanseQuery);
-        elements.forEach((el) => {
-          const place = SwapperComponent.getInstance(el as HTMLElement);
-          if (place) {
-            place.update();
-          }
-        });
-      },
-      200,
-    );
+    throttle(() => {
+      // Locate and update Offcanvas instances on window resize
+      const elements = document.querySelectorAll(defaultSwapperQueires.instanseQuery);
+      elements.forEach((el) => {
+        const place = SwapperComponent.getInstance(el as HTMLElement);
+        if (place) {
+          place.update();
+        }
+      });
+    }, 200);
   });
 }
 

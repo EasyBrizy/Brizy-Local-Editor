@@ -351,23 +351,18 @@ class DrawerComponent {
   public static initGlobalHandlers(): void {
     // Window Resize Handling
     window.addEventListener("resize", function () {
-      let timer: number | undefined;
-      throttle(
-        timer,
-        () => {
-          // Locate and update Drawer instances on window resize
-          const elements = document.body.querySelectorAll('[data-kt-drawer="true"]');
-          elements.forEach((el) => {
-            const item = el as HTMLElement;
-            const instance = DrawerComponent.getInstance(item.id);
-            if (instance) {
-              instance.element = item;
-              instance.update();
-            }
-          });
-        },
-        200,
-      );
+      throttle(() => {
+        // Locate and update Drawer instances on window resize
+        const elements = document.body.querySelectorAll('[data-kt-drawer="true"]');
+        elements.forEach((el) => {
+          const item = el as HTMLElement;
+          const instance = DrawerComponent.getInstance(item.id);
+          if (instance) {
+            instance.element = item;
+            instance.update();
+          }
+        });
+      }, 200);
     });
   }
 
