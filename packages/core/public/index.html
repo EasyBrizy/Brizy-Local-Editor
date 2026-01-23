@@ -4,7 +4,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="<%= host %>/dist/free/editor/css/editor.min.css" rel="stylesheet" />
+    <link href="<%= host %>/dist/free/editor/css/main.base.min.css" rel="stylesheet" />
+    <link href="<%= host %>/dist/free/editor/css/main.editor.min.css" rel="stylesheet" />
 
     <script>
       window.__origin__ = "<%= host %>";
@@ -22,8 +23,10 @@
         srcdoc="
           <html>
           <head>
-              <link href='<%= host %>/dist/free/editor/css/editor.min.css' rel='stylesheet'>
-              <link href='<%= host %>/dist/pro/css/editor.pro.min.css' rel='stylesheet'>
+              <link href='<%= host %>/dist/free/editor/css/main.base.min.css' rel='stylesheet'>
+              <link href='<%= host %>/dist/free/editor/css/main.editor.min.css' rel='stylesheet'>
+              <link href='<%= host %>/dist/pro/css/main.base.pro.min.css' rel='stylesheet'>
+              <link href='<%= host %>/dist/pro/css/main.editor.pro.min.css' rel='stylesheet'> 
               <script>
                   window.__VISUAL_CONFIG__ = window.parent.__VISUAL_CONFIG__;
               </script>
