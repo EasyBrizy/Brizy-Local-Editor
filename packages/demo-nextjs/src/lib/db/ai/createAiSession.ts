@@ -4,7 +4,7 @@ let sessionId = "";
 
 export async function createAiSession(): Promise<{ sessionId: string; aiUrl: string }> {
   const apiUrl = getConfig().apiAiUrl;
-  const rs = await fetch(`${apiUrl}/create-session`, {
+  const rs = await fetch(`${apiUrl}/sessions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
