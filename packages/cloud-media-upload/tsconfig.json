@@ -11,5 +11,6 @@
     "paths": {
       "@types": ["./src/types.ts"]
     }
-  }
+  },
+  "exclude": ["dist", "node_modules"]
 }
