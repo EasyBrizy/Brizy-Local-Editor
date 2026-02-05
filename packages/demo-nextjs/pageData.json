@@ -1,0 +1,450 @@
+[
+  {
+    "blockId": "Kit2Blank000Light",
+    "type": "Section",
+    "value": {
+      "items": [
+        {
+          "type": "SectionItem",
+          "value": {
+            "bgColorHex": "#f4f9fc",
+            "bgColorOpacity": 0.95,
+            "bgColorPalette": "",
+            "bgColorType": "gradient",
+            "bgImageExtension": "jpg",
+            "bgImageFileName": "placeholder-bg1.jpg",
+            "bgImageHeight": 1274,
+            "bgImageSrc": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2100&q=80",
+            "bgImageWidth": 1894,
+            "bgSizeType": "original",
+            "borderBottomLeftRadius": 0,
+            "borderBottomRightRadius": 0,
+            "borderRadius": 0,
+            "borderTopLeftRadius": 0,
+            "borderTopRightRadius": 0,
+            "gradientActivePointer": "finishPointer",
+            "gradientColorHex": "#e8f1f4",
+            "gradientColorOpacity": 0.94,
+            "gradientColorPalette": "",
+            "gradientFinishPointer": 45,
+            "gradientLinearDegree": 180,
+            "gradientStartPointer": 0,
+            "items": [
+              {
+                "type": "Wrapper",
+                "value": {
+                  "items": [
+                    {
+                      "type": "RichText",
+                      "value": {
+                        "_version": 2,
+                        "text": "<h1 class=\"brz-tp-lg-heading1 brz-text-lg-center\" data-generated-css=\"brz-css-dkz5f\" data-uniq-id=\"xwz5x\"><span class=\"brz-cp-color1\">We get it done. Call us </span><strong class=\"brz-cp-color3 brz-bold-800 brz-tp-lg-empty brz-fs-lg-64 brz-fss-lg-px brz-fw-lg-800 brz-ls-lg-m_0_3 brz-lh-lg-1_1 brz-ff-poppins brz-ft-google brz-fs-xs-40 brz-fss-xs-px brz-fw-xs-700 brz-ls-xs-m_0_2 brz-lh-xs-1_15 brz-text-xs-center brz-tp-xs-empty brz-fs-sm-48 brz-fss-sm-px brz-fw-sm-700 brz-ls-sm-m_0_3 brz-lh-sm-1_1 brz-text-sm-center brz-fss-sm-px brz-fw-sm-700 brz-ls-sm-m_0_3 brz-lh-sm-1_1 brz-text-sm-center brz-tp-sm-empty\" style=\"background: linear-gradient(90deg, rgba(0, 182, 217, 1) 0%, rgba(42, 165, 255, 1) 100%);-webkit-background-clip: text;background-clip: text;color: transparent;\">24/7</strong><span class=\"brz-cp-color1\"> at:</span></h1>",
+                        "_id": "ai253f2c11c039494bb23a1541edb161fc"
+                      }
+                    }
+                  ],
+                  "_id": "ai0c03eef69817432c9fd4aed04357331b"
+                }
+              },
+              {
+                "type": "Wrapper",
+                "value": {
+                  "items": [
+                    {
+                      "type": "RichText",
+                      "value": {
+                        "_version": 2,
+                        "text": "<h1 class=\"brz-text-lg-center brz-tp-lg-empty brz-fs-lg-52 brz-fss-lg-px brz-fw-lg-300 brz-ls-lg-4 brz-lh-lg-1_05 brz-ff-poppins brz-ft-google brz-fs-sm-44 brz-fss-sm-px brz-fw-sm-300 brz-ls-sm-3 brz-lh-sm-1_05 brz-text-sm-center brz-tp-sm-empty brz-fs-xs-36 brz-fss-xs-px brz-fw-xs-300 brz-ls-xs-2_5 brz-lh-xs-1_05 brz-text-xs-center brz-tp-xs-empty\" data-generated-css=\"brz-css-dx37u\" data-uniq-id=\"zq94h\"><span class=\"brz-cp-color7\">0800 45 67 89</span></h1>",
+                        "_id": "aiac972169184248b6baec3287b5d5460c"
+                      }
+                    }
+                  ],
+                  "margin": 0,
+                  "marginBottom": 48,
+                  "marginBottomSuffix": "px",
+                  "marginLeft": 0,
+                  "marginLeftSuffix": "px",
+                  "marginRight": 0,
+                  "marginRightSuffix": "px",
+                  "marginSuffix": "px",
+                  "marginTop": 22,
+                  "marginTopSuffix": "px",
+                  "marginType": "ungrouped",
+                  "_id": "ai105d1540f8ff4fb5a0e756769507e1e8"
+                }
+              },
+              {
+                "type": "Row",
+                "value": {
+                  "items": [
+                    {
+                      "type": "Column",
+                      "value": {
+                        "items": [
+                          {
+                            "type": "Cloneable",
+                            "value": {
+                              "items": [
+                                {
+                                  "type": "Icon",
+                                  "value": {
+                                    "borderRadius": 50,
+                                    "customSize": 48,
+                                    "name": "hat-hard",
+                                    "size": "custom",
+                                    "type": "solid",
+                                    "_id": "ai247ac9e6aca14d659305281f8691cbf1"
+                                  }
+                                }
+                              ],
+                              "margin": 0,
+                              "marginBottom": 16,
+                              "marginBottomSuffix": "px",
+                              "marginSuffix": "px",
+                              "marginTop": 0,
+                              "marginTopSuffix": "px",
+                              "mobileMargin": 0,
+                              "mobileMarginBottom": 10,
+                              "mobileMarginTop": 0,
+                              "tabletMargin": 0,
+                              "tabletMarginBottom": 10,
+                              "tabletMarginTop": 0,
+                              "_id": "ai67671b5082be438b8131f6f9e3756409"
+                            }
+                          },
+                          {
+                            "type": "Wrapper",
+                            "value": {
+                              "items": [
+                                {
+                                  "type": "RichText",
+                                  "value": {
+                                    "_version": 2,
+                                    "text": "<p class=\"brz-text-lg-center brz-tp-lg-subtitle brz-fs-lg-18 brz-fss-lg-px brz-fw-lg-500 brz-ls-lg-0 brz-lh-lg-1_45 brz-ff-poppins brz-ft-google brz-fs-sm-17 brz-fss-sm-px brz-fw-sm-500 brz-ls-sm-0 brz-lh-sm-1_45 brz-tp-sm-subtitle brz-text-sm-center brz-fs-xs-16 brz-fss-xs-px brz-fw-xs-500 brz-ls-xs-0 brz-lh-xs-1_4 brz-tp-xs-subtitle\" data-generated-css=\"brz-css-luqy3\" data-uniq-id=\"l6y6w\"><span class=\"brz-cp-color4\">Construction Work</span></p>",
+                                    "_id": "ai1329df18fb6c495294ab8353d239a8c7"
+                                  }
+                                }
+                              ],
+                              "_id": "ai8ce01b0b1a1247479e54bf3d6201e9fa"
+                            }
+                          }
+                        ],
+                        "mobilePadding": 15,
+                        "mobilePaddingBottom": 15,
+                        "mobilePaddingLeft": 15,
+                        "mobilePaddingRight": 15,
+                        "mobilePaddingTop": 15,
+                        "mobilePaddingType": "grouped",
+                        "tabletPadding": 15,
+                        "tabletPaddingBottom": 15,
+                        "tabletPaddingLeft": 15,
+                        "tabletPaddingRight": 15,
+                        "tabletPaddingTop": 15,
+                        "tabletPaddingType": "grouped",
+                        "width": 25,
+                        "_id": "ai43fe40910f1c47959c2f573bcc868f8a"
+                      }
+                    },
+                    {
+                      "type": "Column",
+                      "value": {
+                        "items": [
+                          {
+                            "type": "Cloneable",
+                            "value": {
+                              "items": [
+                                {
+                                  "type": "Icon",
+                                  "value": {
+                                    "borderRadius": 50,
+                                    "customSize": 48,
+                                    "name": "table-rows",
+                                    "size": "custom",
+                                    "type": "solid",
+                                    "_id": "ai6043b41c79b5467d913a813e7065c022"
+                                  }
+                                }
+                              ],
+                              "margin": 0,
+                              "marginBottom": 16,
+                              "marginBottomSuffix": "px",
+                              "marginSuffix": "px",
+                              "marginTop": 0,
+                              "marginTopSuffix": "px",
+                              "mobileMargin": 0,
+                              "mobileMarginBottom": 10,
+                              "mobileMarginTop": 0,
+                              "tabletMargin": 0,
+                              "tabletMarginBottom": 10,
+                              "tabletMarginTop": 0,
+                              "_id": "ai7d19b5123600446389c6be2aeb1f4474"
+                            }
+                          },
+                          {
+                            "type": "Wrapper",
+                            "value": {
+                              "items": [
+                                {
+                                  "type": "RichText",
+                                  "value": {
+                                    "_version": 2,
+                                    "text": "<p class=\"brz-text-lg-center brz-tp-lg-subtitle brz-fs-lg-18 brz-fss-lg-px brz-fw-lg-500 brz-ls-lg-0 brz-lh-lg-1_45 brz-ff-poppins brz-ft-google brz-fs-sm-17 brz-fss-sm-px brz-fw-sm-500 brz-ls-sm-0 brz-lh-sm-1_45 brz-tp-sm-subtitle brz-text-sm-center brz-fs-xs-16 brz-fss-xs-px brz-fw-xs-500 brz-ls-xs-0 brz-lh-xs-1_4 brz-tp-xs-subtitle\" data-generated-css=\"brz-css-hxg0y\" data-uniq-id=\"d1v0h\"><span class=\"brz-cp-color4\">Floor Planning</span></p>",
+                                    "_id": "aif69e91ad6d4b4a9fb57566e8d56783b4"
+                                  }
+                                }
+                              ],
+                              "_id": "ai89218e892ce34d67a7258502cda1a069"
+                            }
+                          }
+                        ],
+                        "mobilePadding": 15,
+                        "mobilePaddingBottom": 15,
+                        "mobilePaddingLeft": 15,
+                        "mobilePaddingRight": 15,
+                        "mobilePaddingTop": 15,
+                        "mobilePaddingType": "grouped",
+                        "tabletPadding": 15,
+                        "tabletPaddingBottom": 15,
+                        "tabletPaddingLeft": 15,
+                        "tabletPaddingRight": 15,
+                        "tabletPaddingTop": 15,
+                        "tabletPaddingType": "grouped",
+                        "width": 25,
+                        "_id": "ai9ed752db49894ce08943558ed83fdc2f"
+                      }
+                    },
+                    {
+                      "type": "Column",
+                      "value": {
+                        "items": [
+                          {
+                            "type": "Cloneable",
+                            "value": {
+                              "items": [
+                                {
+                                  "type": "Icon",
+                                  "value": {
+                                    "borderRadius": 50,
+                                    "customSize": 48,
+                                    "name": "tree",
+                                    "size": "custom",
+                                    "type": "solid",
+                                    "_id": "ai4b2bf455f02841fe971bd67266cfea63"
+                                  }
+                                }
+                              ],
+                              "margin": 0,
+                              "marginBottom": 16,
+                              "marginBottomSuffix": "px",
+                              "marginSuffix": "px",
+                              "marginTop": 0,
+                              "marginTopSuffix": "px",
+                              "mobileMargin": 0,
+                              "mobileMarginBottom": 10,
+                              "mobileMarginTop": 0,
+                              "tabletMargin": 0,
+                              "tabletMarginBottom": 10,
+                              "tabletMarginTop": 0,
+                              "_id": "ai113ed8c9f12c4fac8837b7f1a0b0e9e6"
+                            }
+                          },
+                          {
+                            "type": "Wrapper",
+                            "value": {
+                              "items": [
+                                {
+                                  "type": "RichText",
+                                  "value": {
+                                    "_version": 2,
+                                    "text": "<p class=\"brz-text-lg-center brz-tp-lg-subtitle brz-fs-lg-18 brz-fss-lg-px brz-fw-lg-500 brz-ls-lg-0 brz-lh-lg-1_45 brz-ff-poppins brz-ft-google brz-fs-sm-17 brz-fss-sm-px brz-fw-sm-500 brz-ls-sm-0 brz-lh-sm-1_45 brz-tp-sm-subtitle brz-text-sm-center brz-fs-xs-16 brz-fss-xs-px brz-fw-xs-500 brz-ls-xs-0 brz-lh-xs-1_4 brz-tp-xs-subtitle\" data-generated-css=\"brz-css-pqz9g\" data-uniq-id=\"hj99s\"><span class=\"brz-cp-color4\">Landscaping</span></p>",
+                                    "_id": "aif4af376fa42d4401b0107be5aa87e38b"
+                                  }
+                                }
+                              ],
+                              "_id": "ai08cd701851f94894bc1154dc9cd42648"
+                            }
+                          }
+                        ],
+                        "mobilePadding": 15,
+                        "mobilePaddingBottom": 15,
+                        "mobilePaddingLeft": 15,
+                        "mobilePaddingRight": 15,
+                        "mobilePaddingTop": 15,
+                        "mobilePaddingType": "grouped",
+                        "tabletPadding": 15,
+                        "tabletPaddingBottom": 15,
+                        "tabletPaddingLeft": 15,
+                        "tabletPaddingRight": 15,
+                        "tabletPaddingTop": 15,
+                        "tabletPaddingType": "grouped",
+                        "width": 25,
+                        "_id": "ai5976c93e09a84291a3cdcac9da7cb8e3"
+                      }
+                    },
+                    {
+                      "type": "Column",
+                      "value": {
+                        "items": [
+                          {
+                            "type": "Cloneable",
+                            "value": {
+                              "items": [
+                                {
+                                  "type": "Icon",
+                                  "value": {
+                                    "borderRadius": 50,
+                                    "customSize": 48,
+                                    "name": "bell-concierge",
+                                    "size": "custom",
+                                    "type": "solid",
+                                    "_id": "ai083985ded9d14f169ed3bc81df9afecb"
+                                  }
+                                }
+                              ],
+                              "margin": 0,
+                              "marginBottom": 16,
+                              "marginBottomSuffix": "px",
+                              "marginSuffix": "px",
+                              "marginTop": 0,
+                              "marginTopSuffix": "px",
+                              "mobileMargin": 0,
+                              "mobileMarginBottom": 10,
+                              "mobileMarginTop": 0,
+                              "tabletMargin": 0,
+                              "tabletMarginBottom": 10,
+                              "tabletMarginTop": 0,
+                              "_id": "ai366f60f4366e46f0ac0dead25614d0fb"
+                            }
+                          },
+                          {
+                            "type": "Wrapper",
+                            "value": {
+                              "items": [
+                                {
+                                  "type": "RichText",
+                                  "value": {
+                                    "_version": 2,
+                                    "text": "<p class=\"brz-text-lg-center brz-tp-lg-subtitle brz-fs-lg-18 brz-fss-lg-px brz-fw-lg-500 brz-ls-lg-0 brz-lh-lg-1_45 brz-ff-poppins brz-ft-google brz-fs-sm-17 brz-fss-sm-px brz-fw-sm-500 brz-ls-sm-0 brz-lh-sm-1_45 brz-tp-sm-subtitle brz-text-sm-center brz-fs-xs-16 brz-fss-xs-px brz-fw-xs-500 brz-ls-xs-0 brz-lh-xs-1_4 brz-tp-xs-subtitle\" data-generated-css=\"brz-css-v6w6l\" data-uniq-id=\"k645v\"><span class=\"brz-cp-color4\">Concierge</span></p>",
+                                    "_id": "ai9e91fbadecfe46ad89f366adf2325dff"
+                                  }
+                                }
+                              ],
+                              "_id": "ai6f0e48fb86e243bb9143f1e236a1ca91"
+                            }
+                          }
+                        ],
+                        "mobilePadding": 15,
+                        "mobilePaddingBottom": 15,
+                        "mobilePaddingLeft": 15,
+                        "mobilePaddingRight": 15,
+                        "mobilePaddingTop": 15,
+                        "mobilePaddingType": "grouped",
+                        "tabletPadding": 15,
+                        "tabletPaddingBottom": 15,
+                        "tabletPaddingLeft": 15,
+                        "tabletPaddingRight": 15,
+                        "tabletPaddingTop": 15,
+                        "tabletPaddingType": "grouped",
+                        "width": 25,
+                        "_id": "ai7e504ae72dd24c75b674415e8ef3b158"
+                      }
+                    }
+                  ],
+                  "padding": 0,
+                  "paddingBottom": 0,
+                  "paddingBottomSuffix": "px",
+                  "paddingLeft": 0,
+                  "paddingLeftSuffix": "px",
+                  "paddingRight": 0,
+                  "paddingRightSuffix": "px",
+                  "paddingSuffix": "px",
+                  "paddingTop": 0,
+                  "paddingTopSuffix": "px",
+                  "paddingType": "grouped",
+                  "tabletPadding": 0,
+                  "tabletPaddingBottom": 0,
+                  "tabletPaddingLeft": 0,
+                  "tabletPaddingRight": 0,
+                  "tabletPaddingTop": 0,
+                  "tabletPaddingType": "grouped",
+                  "_id": "ai0f472cd99d954d5d91f17e0d3052154f"
+                }
+              },
+              {
+                "type": "Wrapper",
+                "value": {
+                  "items": [
+                    {
+                      "type": "RichText",
+                      "value": {
+                        "_version": 2,
+                        "text": "<p class=\"brz-tp-lg-paragraph brz-text-lg-center\" data-generated-css=\"brz-css-azv3a\" data-uniq-id=\"z2x8r\"><span class=\"brz-cp-color3\">If you are in the market for a computer, there are a number of factors to consider. Will it be used for your home.</span></p>",
+                        "_id": "aief7a2e646ae54888adf3a25d4aef1fac"
+                      }
+                    }
+                  ],
+                  "padding": 0,
+                  "paddingLeft": 260,
+                  "paddingLeftSuffix": "px",
+                  "paddingRight": 260,
+                  "paddingRightSuffix": "px",
+                  "paddingSuffix": "px",
+                  "paddingType": "ungrouped",
+                  "_id": "ai96f28c029ede4ae4bd481542051443a2"
+                }
+              }
+            ],
+            "mobilePadding": 25,
+            "mobilePaddingBottom": 15,
+            "mobilePaddingLeft": 25,
+            "mobilePaddingRight": 25,
+            "mobilePaddingTop": 15,
+            "mobilePaddingType": "grouped",
+            "padding": 45,
+            "paddingBottom": 30,
+            "paddingBottomSuffix": "px",
+            "paddingLeft": 45,
+            "paddingLeftSuffix": "px",
+            "paddingRight": 45,
+            "paddingRightSuffix": "px",
+            "paddingSuffix": "px",
+            "paddingTop": 72,
+            "paddingTopSuffix": "px",
+            "paddingType": "ungrouped",
+            "tabletPadding": 25,
+            "tabletPaddingBottom": 15,
+            "tabletPaddingLeft": 15,
+            "tabletPaddingRight": 15,
+            "tabletPaddingTop": 15,
+            "tabletPaddingType": "grouped",
+            "_id": "ai048197743f0f4add9620b10b099ec68c"
+          }
+        }
+      ],
+      "margin": 0,
+      "marginBottom": 0,
+      "marginBottomSuffix": "px",
+      "marginLeft": 0,
+      "marginLeftSuffix": "px",
+      "marginRight": 0,
+      "marginRightSuffix": "px",
+      "marginSuffix": "px",
+      "marginTop": 0,
+      "marginTopSuffix": "px",
+      "marginType": "grouped",
+      "mobileMargin": 0,
+      "mobileMarginBottom": 0,
+      "mobileMarginLeft": 0,
+      "mobileMarginRight": 0,
+      "mobileMarginTop": 0,
+      "mobileMarginType": "grouped",
+      "tabletMargin": 0,
+      "tabletMarginBottom": 0,
+      "tabletMarginLeft": 0,
+      "tabletMarginRight": 0,
+      "tabletMarginTop": 0,
+      "tabletMarginType": "grouped",
+      "_id": "aiac797b8e35e0417d8eef98368edb61b1"
+    }
+  }
+]

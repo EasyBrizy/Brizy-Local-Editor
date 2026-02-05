@@ -1,0 +1,59 @@
+services:
+  demo-nextjs:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+      platforms:
+        - linux/amd64
+    container_name: brizy-demo-nextjs
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - demo-node-modules:/app/node_modules
+      - demo-package-node-modules:/app/packages/demo-nextjs/node_modules
+      - demo-next:/app/packages/demo-nextjs/.next
+      - ./packages/demo-nextjs/pageData.json:/app/packages/demo-nextjs/pageData.json
+      - ./packages/demo-nextjs/projectData.json:/app/packages/demo-nextjs/projectData.json
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_EDITOR_URL=https://cdn.brizylocal.com/pages/3.1.32/index.js
+      - NEXT_PUBLIC_EDITOR_TOKEN=demo
+      - NEXT_PUBLIC_EDITOR_ICON_URL=https://cdn.brizylocal.com/pages/3.1.32/dist/free/editor/icons
+      - MONGODB_URI=mongodb+srv://brizy_nextjs:nextjs_brizy_test@brizy.bhrbdoy.mongodb.net/?retryWrites=true&w=majority&appName=brizy
+      - MONGODB_DATABASE_NAME=brizy
+      - NEXT_PUBLIC_APP_PURCHASE_URL=https://brizy.io
+      - NEXT_PUBLIC_APP_PREVIEW_DOCS_URL=https://brizy.io
+      - NEXT_PUBLIC_VITE_APP_BASE_LAYOUT_CONFIG_KEY=metronic-react-demo1-8150
+      - SHOPIFY_STORE_URL=https://abracadabra20.myshopify.com
+      - SHOPIFY_ACCESS_TOKEN=3b47750ab922efb31d3e7d268ed3ea93
+    command: >
+      sh -c "
+        echo '📦 Checking dependencies...' &&
+        if [ ! -d 'node_modules' ] || [ ! -d 'packages/demo-nextjs/node_modules' ]; then
+          echo '📦 Installing dependencies...' &&
+          npm install
+        fi &&
+        cd packages/demo-nextjs &&
+        echo '⚡ Starting Demo-Nextjs package (port 3000)...' &&
+        npm run dev
+      "
+    networks:
+      - brizy-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+volumes:
+  demo-node-modules:
+  demo-package-node-modules:
+  demo-next:
+
+networks:
+  brizy-network:
+    driver: bridge
