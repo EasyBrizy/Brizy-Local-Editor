@@ -51,14 +51,12 @@ export class AssetAggregator {
 
   private getAggregatedAssets(groups: AssetGroup[]): BaseAsset[] {
     let assets: BaseAsset[] = [];
-    let mainAsset: BaseAsset | null = null;
-
     groups.forEach((group) => {
-      // Set main asset and override if there are pro main assets
-      if (!mainAsset || group.getMain()?.isPro()) {
-        mainAsset = group.getMain();
-      }
+      const mainAsset = group.getMain();
 
+      if (mainAsset) {
+        assets.push(mainAsset);
+      }
       // Add generic assets
       assets.push(...group.getGeneric());
 
@@ -85,11 +83,6 @@ export class AssetAggregator {
       // Filter out null values
       assets = assets.filter((a) => a !== null);
     });
-
-    // Include main asset if available
-    if (mainAsset) {
-      assets.push(mainAsset);
-    }
 
     return assets;
   }
