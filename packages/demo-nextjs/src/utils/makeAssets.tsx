@@ -13,10 +13,20 @@ export const makeStyle = (data: AssetContent) => {
     }
     case AssetType.File: {
       const { url, attr } = data;
-      const { class: _class, ..._attr } = attr ?? {};
-      const className = _class ? `${_class}` : undefined;
 
-      return <link {..._attr} href={url} className={className} />;
+      const attrString = Object.entries(attr ?? {})
+        .map(([key, value]) => `${key}="${value}"`)
+        .join(" ");
+
+      return (
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `</style>
+          <link ${attrString} href="${url}" />
+          <style>`,
+          }}
+        ></style>
+      );
     }
     case AssetType.Code: {
       const { content } = data;
