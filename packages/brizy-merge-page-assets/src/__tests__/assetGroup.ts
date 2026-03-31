@@ -5,7 +5,7 @@ import { BaseAsset } from "../assets/BaseAsset";
 import page from "./data/page.json";
 
 test("Test AssetGroup instanceFromJsonData", () => {
-  const data = page.blocks.freeStyles;
+  const data = page[0].blocks.freeStyles;
   const asset = AssetGroup.instanceFromJsonData(data);
   const { libsSelectors, pageFonts, pageStyles } = data;
 

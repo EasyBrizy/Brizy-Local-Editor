@@ -1,16 +1,24 @@
 import { AssetAggregator } from "../AssetAggregator";
 import { AssetGroup } from "../assets/AssetGroup";
-import page from "./data/page.json";
+import pages from "./data/page.json";
 
 describe("Testing AssetAggregator", () => {
   test("Testing if score of assets is sorted ascending", () => {
-    const assets = [];
-    const { freeScripts, proScripts } = page.blocks;
+    const assets: AssetGroup[] = [];
 
-    const freeGroup = AssetGroup.instanceFromJsonData(freeScripts);
-    const proGroup = AssetGroup.instanceFromJsonData(proScripts);
+    for (const page of pages) {
+      const { freeScripts, proScripts } = page.blocks;
 
-    assets.push(freeGroup, proGroup);
+      const freeGroup = freeScripts && AssetGroup.instanceFromJsonData(freeScripts);
+      const proGroup = proScripts && AssetGroup.instanceFromJsonData(proScripts);
+
+      if (freeGroup) {
+        assets.push(freeGroup);
+      }
+      if (proGroup) {
+        assets.push(proGroup);
+      }
+    }
 
     const aggregator = new AssetAggregator(assets);
     const assetList = aggregator.getAssetList();
@@ -25,30 +33,51 @@ describe("Testing AssetAggregator", () => {
   });
 
   test("Testing if assets are not duplicated", () => {
-    const assets = [];
-    const { freeScripts, proScripts, freeStyles, proStyles } = page.blocks;
+    const assets: AssetGroup[] = [];
 
-    const freeScriptsGroup = AssetGroup.instanceFromJsonData(freeScripts);
-    const proScriptsGroup = AssetGroup.instanceFromJsonData(proScripts);
-    const freeStylesGroup = AssetGroup.instanceFromJsonData(freeStyles);
-    const proStylesGroup = AssetGroup.instanceFromJsonData(proStyles);
+    for (const page of pages) {
+      const { freeScripts, proScripts, freeStyles, proStyles } = page.blocks;
+      const freeScriptsGroup = freeScripts && AssetGroup.instanceFromJsonData(freeScripts);
+      const proScriptsGroup = proScripts && AssetGroup.instanceFromJsonData(proScripts);
+      const freeStylesGroup = freeStyles && AssetGroup.instanceFromJsonData(freeStyles);
+      const proStylesGroup = proStyles && AssetGroup.instanceFromJsonData(proStyles);
+      if (freeScriptsGroup) {
+        assets.push(freeScriptsGroup);
 
-    assets.push(
-      freeScriptsGroup,
-      proScriptsGroup,
-      freeStylesGroup,
-      proStylesGroup,
-      freeScriptsGroup,
-      freeScriptsGroup,
-      proScriptsGroup,
-    );
+        // Duplicate some assets
+        assets.push(freeScriptsGroup);
+      }
+      if (proScriptsGroup) {
+        assets.push(proScriptsGroup);
+      }
+      if (freeStylesGroup) {
+        assets.push(freeStylesGroup);
+      }
+      if (proStylesGroup) {
+        assets.push(proStylesGroup);
 
+        // Duplicate some assets
+        assets.push(proStylesGroup);
+      }
+    }
     const scriptAggregator = new AssetAggregator(assets);
     const assetList = scriptAggregator.getAssetList();
 
-    const assetIds = assetList.map((asset) => asset.getName());
-    const uniqueIds = [...new Set(assetIds)];
+    // Deduplication is based on the full asset identity (name + type + content + url + attrs),
+    // not name alone — e.g. "main.base.min.css" and "main.base.pro.min.css" share the name "main"
+    // but are distinct assets. Build a composite key that mirrors the isIdenticalAsset logic.
+    const assetKeys = assetList.map((asset) => {
+      const attrs = asset.getAttrs();
+      const attrsKey = Object.keys(attrs)
+        .sort()
+        .map((k) => `${k}=${attrs[k]}`)
+        .join(",");
 
-    expect(assetIds).toEqual(uniqueIds);
+      return `${asset.getName()}|${asset.getType()}|${asset.getContent()}|${asset.getUrl()}|${attrsKey}`;
+    });
+
+    const uniqueKeys = [...new Set(assetKeys)];
+
+    expect(assetKeys).toEqual(uniqueKeys);
   });
 });

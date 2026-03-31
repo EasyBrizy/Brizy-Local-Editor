@@ -24,7 +24,7 @@ export class AssetGroup {
     this.pageStyles = pageStyles;
   }
 
-  static instanceFromJsonData(data: Record<string, unknown>) {
+  static instanceFromJsonData(data: Record<string, unknown>): AssetGroup {
     const mainData = readAsset(data.main);
     const genericData = readAssetsArray(data.generic, readAsset);
     const libsMapData = readAssetsArray(data.libsMap, readLibAsset);

@@ -1,6 +1,6 @@
 {
   "name": "@brizy/merge-page-assets",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Merge page assets compiled by Brizy compiler",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -31,13 +31,14 @@
     "npm": ">=9"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
+    "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.20.0",
     "@typescript-eslint/parser": "^8.20.0",
     "eslint": "^8.47.0",
+    "jest": "^30.2.0",
     "rimraf": "^6.1.2",
     "swc-loader": "^0.2.6",
-    "ts-jest": "^29.2.5",
+    "ts-jest": "^29.4.6",
     "typescript": "^5.8.3",
     "webpack": "^5.99.8",
     "webpack-cli": "^6.0.1"
