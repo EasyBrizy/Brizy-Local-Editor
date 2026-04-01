@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_brizy_builder_free=self.webpackChunk_brizy_builder_free||[]).push([["7346"],{5625(e,r,l){l.d(r,{fn:()=>i});var t=l(9322);let i=e=>{let r=e.get(0);if(!r)return;let{initEkklesiaPopups:l}=(0,t.l)();"function"==typeof l&&l(r.querySelectorAll(".brz-articleList"))}},9322(e,r,l){l.d(r,{l:()=>t});let t=()=>window.BrizyLibs||{}}}]);
