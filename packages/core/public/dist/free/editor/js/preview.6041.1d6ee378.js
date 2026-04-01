@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_brizy_builder=self.webpackChunk_brizy_builder||[]).push([["6041"],{512(e,r,l){l.d(r,{fn:()=>t});let t=e=>{let r=e.get(0);r&&r.querySelectorAll(".brz-groupLayout").forEach(e=>{e.querySelectorAll("select").forEach(r=>{r.addEventListener("change",()=>{var r;null==(r=e.querySelector("#brz-groupLayout__filters--form"))||r.submit()})})})}}}]);
