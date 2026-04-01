@@ -24,7 +24,7 @@
     "build"
   ],
   "dependencies": {
-    "@brizy/merge-page-assets": "^1.0.0",
+    "@brizy/merge-page-assets": "^1.2.0",
     "@brizy/readers": "^1.0.3",
     "comlink": "^4.4.1",
     "es-toolkit": "^1.37.2",
