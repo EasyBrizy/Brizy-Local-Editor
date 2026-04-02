@@ -1,0 +1,62 @@
+services:
+  demo-nextjs:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+      platforms:
+        - linux/amd64
+    container_name: brizy-demo-nextjs
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - demo-node-modules:/app/node_modules
+      - demo-package-node-modules:/app/packages/demo-nextjs/node_modules
+      - demo-next:/app/packages/demo-nextjs/.next
+      - ./packages/demo-nextjs/pageData.json:/app/packages/demo-nextjs/pageData.json
+      - ./packages/demo-nextjs/projectData.json:/app/packages/demo-nextjs/projectData.json
+    working_dir: /app
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_EDITOR_URL=https://cdn.brizylocal.com/pages/3.1.32/index.js
+      - NEXT_PUBLIC_EDITOR_TOKEN=demo
+      - NEXT_PUBLIC_EDITOR_ICON_URL=https://cdn.brizylocal.com/pages/3.1.32/dist/free/editor/icons
+      - MONGODB_URI=mongodb+srv://brizy_nextjs:nextjs_brizy_test@brizy.bhrbdoy.mongodb.net/?retryWrites=true&w=majority&appName=brizy
+      - MONGODB_DATABASE_NAME=brizy
+      - NEXT_PUBLIC_APP_PURCHASE_URL=https://brizy.io
+      - NEXT_PUBLIC_APP_PREVIEW_DOCS_URL=https://brizy.io
+      - NEXT_PUBLIC_VITE_APP_BASE_LAYOUT_CONFIG_KEY=metronic-react-demo1-8150
+      - SHOPIFY_STORE_URL=https://abracadabra20.myshopify.com
+      - SHOPIFY_ACCESS_TOKEN=3b47750ab922efb31d3e7d268ed3ea93
+    command: >
+      sh -c "
+        echo '📦 Checking dependencies...' &&
+        if [ ! -d 'node_modules' ] || [ ! -d 'packages/demo-nextjs/node_modules' ]; then
+          echo '📦 Installing dependencies...' &&
+          npm install
+        fi &&
+        echo '📝 Writing .env from environment...' &&
+        ( cd packages/demo-nextjs && printf 'MONGODB_URI=%s\nMONGODB_DATABASE_NAME=%s\nNEXT_PUBLIC_EDITOR_URL=%s\nNEXT_PUBLIC_EDITOR_TOKEN=%s\nNEXT_PUBLIC_EDITOR_ICON_URL=%s\nNEXT_PUBLIC_APP_PURCHASE_URL=%s\nNEXT_PUBLIC_APP_PREVIEW_DOCS_URL=%s\nNEXT_PUBLIC_VITE_APP_BASE_LAYOUT_CONFIG_KEY=%s\nSHOPIFY_STORE_URL=%s\nSHOPIFY_ACCESS_TOKEN=%s\n' \"$$MONGODB_URI\" \"$$MONGODB_DATABASE_NAME\" \"$$NEXT_PUBLIC_EDITOR_URL\" \"$$NEXT_PUBLIC_EDITOR_TOKEN\" \"$$NEXT_PUBLIC_EDITOR_ICON_URL\" \"$$NEXT_PUBLIC_APP_PURCHASE_URL\" \"$$NEXT_PUBLIC_APP_PREVIEW_DOCS_URL\" \"$$NEXT_PUBLIC_VITE_APP_BASE_LAYOUT_CONFIG_KEY\" \"$$SHOPIFY_STORE_URL\" \"$$SHOPIFY_ACCESS_TOKEN\" > .env ) &&
+        echo '🔨 Building Demo-Nextjs...' &&
+        npm run build:demonextjs &&
+        echo '⚡ Starting Demo-Nextjs (port 3000)...' &&
+        npm run start:demonextjs
+      "
+    networks:
+      - brizy-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 300s
+
+volumes:
+  demo-node-modules:
+  demo-package-node-modules:
+  demo-next:
+
+networks:
+  brizy-network:
+    driver: bridge
