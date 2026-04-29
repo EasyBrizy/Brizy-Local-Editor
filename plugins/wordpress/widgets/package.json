@@ -10,10 +10,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@brizy/core": "^1.0.9"
+    "@brizy/core": "^1.0.18"
   },
   "devDependencies": {
-    "@brizy/scripts": "^1.1.2",
+    "@brizy/scripts": "^1.1.5",
     "@types/react": "^18.3.3",
     "prettier": "^3.3.1",
     "typescript": "^5.4.5"
