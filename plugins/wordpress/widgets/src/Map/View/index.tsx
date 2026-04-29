@@ -8,10 +8,7 @@ export const View = (props: Props): ReactElement => {
   const iframeSrc = `${URL}?key=${KEY}&q=${address}&zoom=${zoom}`;
 
   return (
-    <div
-      className="mapThirdComponent"
-      style={{ width: `${width}${widthSuffix}` }}
-    >
+    <div className="mapThirdComponent" style={{ width: `${width}${widthSuffix}` }}>
       <iframe src={iframeSrc} title="map" />
     </div>
   );

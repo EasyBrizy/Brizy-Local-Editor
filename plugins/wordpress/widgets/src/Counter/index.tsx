@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Brizy } from "@brizy/core";
+import { useState } from "react";
 import "./index.scss";
 
 export const Counter = () => {
@@ -7,17 +7,11 @@ export const Counter = () => {
 
   return (
     <div className="custom-counter">
-      <button
-        className="custom-counter__increment"
-        onClick={() => setCount(count + 1)}
-      >
+      <button className="custom-counter__increment" onClick={() => setCount(count + 1)}>
         +
       </button>
       <div className="custom-counter__count">{count}</div>
-      <button
-        className="custom-counter__decrement"
-        onClick={() => setCount(count - 1)}
-      >
+      <button className="custom-counter__decrement" onClick={() => setCount(count - 1)}>
         -
       </button>
     </div>
