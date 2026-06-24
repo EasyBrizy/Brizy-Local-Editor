@@ -12,8 +12,11 @@ import {
   Popup,
   StoriesWithThumbs,
 } from "@builder/core/build/es/types/templates";
-import { Response } from "demo-nextjs/src/api/types";
+import { Response } from "@builder/core/build/es/types/common";
+import { Output } from "@builder/core/build/es/types/types";
+import { PublishData } from "@builder/core/build/es/types/publish";
 import { isT, mPipe, pass } from "fp-utilities";
+import { STORAGE_KEY_PREFIX, PublishedOutput } from "./utils/buildPreview";
 import React, { useReducer, useRef } from "react";
 import {
   convertLayoutPages,
@@ -54,7 +57,11 @@ const initialState: State = {
   },
 };
 
-export const Editor = () => {
+interface Props {
+  uid: string;
+}
+
+export const Editor = ({ uid }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -359,6 +366,23 @@ export const Editor = () => {
         type: "update",
         data: JSON.stringify(data),
       });
+    },
+    pagePreview: `${window.location.origin}/preview?uid=${uid}`,
+    ui: {
+      publish: {
+        handler(res: Response<PublishData>, rej: Response<string>, data: Output) {
+          try {
+            localStorage.setItem(
+              `${STORAGE_KEY_PREFIX}${uid}`,
+              JSON.stringify(data as PublishedOutput)
+            );
+            window.open(`/preview?uid=${uid}`, "_blank");
+            res(data);
+          } catch (e) {
+            rej(String(e));
+          }
+        },
+      },
     },
   };
 
