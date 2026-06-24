@@ -17,7 +17,7 @@ import { Output } from "@builder/core/build/es/types/types";
 import { PublishData } from "@builder/core/build/es/types/publish";
 import { isT, mPipe, pass } from "fp-utilities";
 import { STORAGE_KEY_PREFIX, PublishedOutput } from "./utils/buildPreview";
-import React, { useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import {
   convertLayoutPages,
   convertLayouts,
@@ -48,6 +48,14 @@ const templatesImageUrl = "https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/
 
 const noop = () => {};
 
+// Host that serves the editor runtime + its icon/font assets. The preview page
+// is served from here so the published page renders same-origin with those
+// assets (otherwise external SVG `<use>` icon refs are blocked by the browser).
+const PREVIEW_HOST = "http://localhost:8001";
+const PREVIEW_URL = (uid: string) => `${PREVIEW_HOST}/preview.html?uid=${uid}`;
+const PREVIEW_READY = "brizy-preview:ready";
+const PREVIEW_DATA = "brizy-preview:data";
+
 const initialState: State = {
   output: "",
   modal: {
@@ -64,6 +72,35 @@ interface Props {
 export const Editor = ({ uid }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // The preview window (served from PREVIEW_HOST) can't read this origin's
+  // localStorage, so when it signals it's ready we post the stored published
+  // output back to it.
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      const data = event.data;
+      if (!data || data.type !== PREVIEW_READY || typeof data.uid !== "string") return;
+      if (event.origin !== PREVIEW_HOST) return;
+
+      const raw = localStorage.getItem(`${STORAGE_KEY_PREFIX}${data.uid}`);
+      let payload: PublishedOutput | null = null;
+      if (raw) {
+        try {
+          payload = JSON.parse(raw) as PublishedOutput;
+        } catch {
+          payload = null;
+        }
+      }
+
+      (event.source as Window | null)?.postMessage(
+        { type: PREVIEW_DATA, uid: data.uid, payload },
+        event.origin,
+      );
+    };
+
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
 
   const config: Config = {
     ...demoConfig,
@@ -367,7 +404,7 @@ export const Editor = ({ uid }: Props) => {
         data: JSON.stringify(data),
       });
     },
-    pagePreview: `${window.location.origin}/preview?uid=${uid}`,
+    pagePreview: PREVIEW_URL(uid),
     ui: {
       publish: {
         handler(res: Response<PublishData>, rej: Response<string>, data: Output) {
@@ -394,7 +431,7 @@ export const Editor = ({ uid }: Props) => {
             };
 
             localStorage.setItem(storageKey, JSON.stringify(mergedData));
-            window.open(`/preview?uid=${uid}`, "_blank");
+            window.open(PREVIEW_URL(uid), "_blank");
             res(data);
           } catch (e) {
             rej(String(e));
