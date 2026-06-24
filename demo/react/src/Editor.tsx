@@ -372,10 +372,28 @@ export const Editor = ({ uid }: Props) => {
       publish: {
         handler(res: Response<PublishData>, rej: Response<string>, data: Output) {
           try {
-            localStorage.setItem(
-              `${STORAGE_KEY_PREFIX}${uid}`,
-              JSON.stringify(data as PublishedOutput)
-            );
+            const storageKey = `${STORAGE_KEY_PREFIX}${uid}`;
+            const newData = data as PublishedOutput;
+
+            // The editor may emit an Output where one of `projectData` / `pageData`
+            // is missing. Merge with the previously stored value so we don't drop
+            // the field that wasn't included in this publish.
+            let prevData: PublishedOutput = {};
+            try {
+              const raw = localStorage.getItem(storageKey);
+              if (raw) {
+                prevData = JSON.parse(raw) as PublishedOutput;
+              }
+            } catch {
+              prevData = {};
+            }
+
+            const mergedData: PublishedOutput = {
+              projectData: newData.projectData ?? prevData.projectData,
+              pageData: newData.pageData ?? prevData.pageData,
+            };
+
+            localStorage.setItem(storageKey, JSON.stringify(mergedData));
             window.open(`/preview?uid=${uid}`, "_blank");
             res(data);
           } catch (e) {

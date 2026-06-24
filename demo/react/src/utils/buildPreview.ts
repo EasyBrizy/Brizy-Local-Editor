@@ -107,6 +107,11 @@ export function buildPreviewDocument(output: PublishedOutput): string | null {
   const styleTags = styleAssets.map((a) => assetToTag(a, "css")).join("\n");
   const scriptTags = scriptAssets.map((a) => assetToTag(a, "js")).join("\n");
 
+  // Hide the `alt` text that browsers render when an image fails to load.
+  // Making the text transparent / zero-size keeps loaded images untouched
+  // while suppressing the fallback text for broken ones.
+  const hideAltTextStyle = `<style>img{color:transparent;font-size:0;}</style>`;
+
   // <base> resolves relative asset URLs (icons, fonts) against the CDN
   return `<!doctype html>
 <html lang="en">
@@ -116,6 +121,7 @@ export function buildPreviewDocument(output: PublishedOutput): string | null {
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Preview</title>
 <style>html,body{margin:0;padding:0;}</style>
+${hideAltTextStyle}
 ${styleTags}
 </head>
 <body>
