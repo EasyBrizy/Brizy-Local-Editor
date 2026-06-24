@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { buildPreviewDocument, STORAGE_KEY_PREFIX, PublishedOutput } from "./utils/buildPreview";
 
 const centeredStyle: React.CSSProperties = {
@@ -16,16 +16,31 @@ const centeredStyle: React.CSSProperties = {
 
 export function Preview() {
   const uid = new URLSearchParams(window.location.search).get("uid");
+  const [previewHtml, setPreviewHtml] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const previewHtml = useMemo(() => {
-    if (!uid) return null;
-    const raw = localStorage.getItem(`${STORAGE_KEY_PREFIX}${uid}`);
-    if (!raw) return null;
-    try {
-      return buildPreviewDocument(JSON.parse(raw) as PublishedOutput);
-    } catch {
-      return null;
-    }
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setPreviewHtml(null);
+
+    (async () => {
+      if (!uid) return;
+      const raw = localStorage.getItem(`${STORAGE_KEY_PREFIX}${uid}`);
+      if (!raw) return;
+      try {
+        const html = await buildPreviewDocument(JSON.parse(raw) as PublishedOutput);
+        if (!cancelled) setPreviewHtml(html);
+      } catch {
+        /* leave previewHtml null to show the empty state */
+      }
+    })().finally(() => {
+      if (!cancelled) setLoading(false);
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [uid]);
 
   if (!uid) {
@@ -33,6 +48,14 @@ export function Preview() {
       <div style={centeredStyle}>
         <h2>Missing uid parameter</h2>
         <p>Open the editor and click <strong>Publish</strong> to generate a preview.</p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div style={centeredStyle}>
+        <h2>Loading preview…</h2>
       </div>
     );
   }

@@ -88,7 +88,59 @@ function scriptGroupAssets(group?: ScriptGroup): Asset[] {
   ];
 }
 
-export function buildPreviewDocument(output: PublishedOutput): string | null {
+// External SVG `<use xlink:href="http://…/foo.svg">` references are blocked by
+// the browser's same-origin policy when the page is rendered through an
+// `srcDoc` iframe (origin `about:srcdoc`). Browsers also refuse cross-origin
+// external `<use>` regardless of CORS headers. To make the icons render we
+// fetch each referenced SVG and inline it as a hidden `<symbol>` sprite,
+// rewriting the `<use>` references to local `#fragment` ids.
+async function inlineExternalSvgUses(html: string): Promise<string> {
+  // Matches xlink:href / href pointing at an absolute .svg URL, optional #frag.
+  const refRe = /(xlink:href|href)="(https?:\/\/[^"#]+\.svg)(#[^"]*)?"/g;
+
+  const urls: string[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = refRe.exec(html)) !== null) {
+    if (urls.indexOf(m[2]) === -1) urls.push(m[2]);
+  }
+  refRe.lastIndex = 0;
+  if (urls.length === 0) return html;
+
+  const idByUrl = new Map<string, string>();
+  const symbols: string[] = [];
+
+  await Promise.all(
+    urls.map(async (url, i) => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const text = await res.text();
+        const id = `brz-inline-icon-${i}`;
+        // Each glyph file is a full `<svg …>inner</svg>` with no internal id;
+        // turn its root into a <symbol> carrying over viewBox so <use> works.
+        const viewBox = /viewBox="([^"]*)"/.exec(text)?.[1] ?? "0 0 24 24";
+        const inner = /<svg[^>]*>([\s\S]*?)<\/svg>/i.exec(text)?.[1];
+        if (inner == null) return;
+        idByUrl.set(url, id);
+        symbols.push(`<symbol id="${id}" viewBox="${viewBox}">${inner}</symbol>`);
+      } catch {
+        /* leave the original reference untouched on failure */
+      }
+    }),
+  );
+
+  if (symbols.length === 0) return html;
+
+  const sprite = `<svg xmlns="http://www.w3.org/2000/svg" style="display:none">${symbols.join("")}</svg>`;
+  const rewritten = html.replace(refRe, (full, attr: string, url: string) => {
+    const id = idByUrl.get(url);
+    return id ? `${attr}="#${id}"` : full;
+  });
+
+  return sprite + rewritten;
+}
+
+export async function buildPreviewDocument(output: PublishedOutput): Promise<string | null> {
   const page = output.pageData?.compiled;
   if (!page?.html) return null;
 
@@ -104,6 +156,7 @@ export function buildPreviewDocument(output: PublishedOutput): string | null {
     ...scriptGroupAssets(page.assets?.proScripts),
   ];
 
+  const bodyHtml = await inlineExternalSvgUses(page.html);
   const styleTags = styleAssets.map((a) => assetToTag(a, "css")).join("\n");
   const scriptTags = scriptAssets.map((a) => assetToTag(a, "js")).join("\n");
 
@@ -125,7 +178,7 @@ ${hideAltTextStyle}
 ${styleTags}
 </head>
 <body>
-${page.html}
+${bodyHtml}
 ${scriptTags}
 </body>
 </html>`;
