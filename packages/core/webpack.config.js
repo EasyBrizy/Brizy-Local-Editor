@@ -69,6 +69,13 @@ module.exports = (env) => {
             from: path.resolve(__dirname, "public/dist"),
             to: path.resolve(__dirname, "build/dist"),
           },
+          {
+            // Standalone preview page, served same-origin with the editor's
+            // icon/font assets so external SVG `<use>` references aren't blocked.
+            info: { minimized: true },
+            from: path.resolve(__dirname, "public/preview.html"),
+            to: path.resolve(__dirname, "build/preview.html"),
+          },
         ],
         options: {
           concurrency: 100,

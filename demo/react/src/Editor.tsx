@@ -12,8 +12,11 @@ import {
   Popup,
   StoriesWithThumbs,
 } from "@builder/core/build/es/types/templates";
-import { Response } from "demo-nextjs/src/api/types";
+import { Response } from "@builder/core/build/es/types/common";
+import { Output } from "@builder/core/build/es/types/types";
+import { PublishData } from "@builder/core/build/es/types/publish";
 import { isT, mPipe, pass } from "fp-utilities";
+import { STORAGE_KEY_PREFIX, PublishedOutput } from "./utils/buildPreview";
 import React, { useReducer, useRef } from "react";
 import {
   convertLayoutPages,
@@ -54,7 +57,11 @@ const initialState: State = {
   },
 };
 
-export const Editor = () => {
+interface Props {
+  uid: string;
+}
+
+export const Editor = ({ uid }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -359,6 +366,45 @@ export const Editor = () => {
         type: "update",
         data: JSON.stringify(data),
       });
+    },
+    // Where the editor's Preview button opens. Same-origin `/preview` route
+    // (see Preview.tsx) reads the published data below from localStorage and
+    // renders it — icons resolve same-origin, no postMessage needed.
+    pagePreview: `${window.location.origin}/preview?uid=${uid}`,
+    ui: {
+      publish: {
+        handler(res: Response<PublishData>, rej: Response<string>, data: Output) {
+          // Publish only persists the output; the preview tab is opened later by
+          // the editor's Preview button (pagePreview above).
+          try {
+            const storageKey = `${STORAGE_KEY_PREFIX}${uid}`;
+            const newData = data as PublishedOutput;
+
+            // The editor may emit an Output where one of `projectData` / `pageData`
+            // is missing. Merge with the previously stored value so we don't drop
+            // the field that wasn't included in this publish.
+            let prevData: PublishedOutput = {};
+            try {
+              const raw = localStorage.getItem(storageKey);
+              if (raw) {
+                prevData = JSON.parse(raw) as PublishedOutput;
+              }
+            } catch {
+              prevData = {};
+            }
+
+            const mergedData: PublishedOutput = {
+              projectData: newData.projectData ?? prevData.projectData,
+              pageData: newData.pageData ?? prevData.pageData,
+            };
+
+            localStorage.setItem(storageKey, JSON.stringify(mergedData));
+            res(data);
+          } catch (e) {
+            rej(String(e));
+          }
+        },
+      },
     },
   };
 

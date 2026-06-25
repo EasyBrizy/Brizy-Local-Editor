@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Preview</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .brz-preview-status {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        font-family: system-ui, sans-serif;
+        color: #444;
+        padding: 40px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="brz-preview-status">
+      <h2>Loading preview…</h2>
+    </div>
+
+    <script>
+      (function () {
+        // This page is served from the same origin as the editor's icon/font
+        // assets (PUBLIC_HOST, e.g. http://localhost:8001). Rendering the
+        // published page here — instead of through an `srcDoc` iframe on the
+        // demo origin — keeps external SVG `<use>` icon references same-origin,
+        // so the browser no longer blocks them.
+        //
+        // The published page data lives in the editor window's localStorage,
+        // which we cannot read across origins, so the editor (our opener) hands
+        // it to us over postMessage once we signal that we're ready.
+
+        // Must match the CDN version the demo loads its runtime assets from.
+        var ASSET_BASE = "https://cdn.brizylocal.com/pages/3.1.10/";
+        var READY = "brizy-preview:ready";
+        var DATA = "brizy-preview:data";
+
+        var uid = new URLSearchParams(window.location.search).get("uid");
+
+        function showStatus(title, detail) {
+          var html =
+            '<div class="brz-preview-status"><h2>' + escapeHtml(title) + "</h2>";
+          if (detail) html += "<p>" + escapeHtml(detail) + "</p>";
+          html += "</div>";
+          document.body.innerHTML = html;
+        }
+
+        function escapeHtml(s) {
+          return String(s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
+
+        function attrString(attr) {
+          if (!attr) return "";
+          return Object.keys(attr)
+            .map(function (k) {
+              return " " + k + '="' + String(attr[k]).replace(/"/g, "&quot;") + '"';
+            })
+            .join("");
+        }
+
+        function assetToTag(asset, kind) {
+          if (!asset) return "";
+          var c = asset.content;
+          if (!c) return "";
+          if (c.type === "code") return c.content;
+          if (c.type === "file") {
+            return kind === "css"
+              ? '<link rel="stylesheet" href="' + c.url + '"' + attrString(c.attr) + " />"
+              : '<script src="' + c.url + '"' + attrString(c.attr) + "><\/script>";
+          }
+          // inline
+          return kind === "css"
+            ? "<style" + attrString(c.attr) + ">" + c.content + "</style>"
+            : "<script" + attrString(c.attr) + ">" + c.content + "<\/script>";
+        }
+
+        function styleGroupAssets(group) {
+          if (!group) return [];
+          return []
+            .concat(group.libsMap || [])
+            .concat(group.main ? [group.main] : [])
+            .concat(group.generic || [])
+            .concat(group.pageStyles || [])
+            .concat(group.pageFonts || []);
+        }
+
+        function scriptGroupAssets(group) {
+          if (!group) return [];
+          return []
+            .concat(group.libsMap || [])
+            .concat(group.main ? [group.main] : [])
+            .concat(group.generic || []);
+        }
+
+        function buildPreviewDocument(output) {
+          var page = output && output.pageData && output.pageData.compiled;
+          if (!page || !page.html) return null;
+
+          var project = output.projectData && output.projectData.compiled;
+          var assets = page.assets || {};
+
+          var styleAssets = []
+            .concat(styleGroupAssets(assets.freeStyles))
+            .concat(styleGroupAssets(assets.proStyles))
+            .concat((project && project.styles) || []);
+          var scriptAssets = []
+            .concat(scriptGroupAssets(assets.freeScripts))
+            .concat(scriptGroupAssets(assets.proScripts));
+
+          var styleTags = styleAssets
+            .map(function (a) {
+              return assetToTag(a, "css");
+            })
+            .join("\n");
+          var scriptTags = scriptAssets
+            .map(function (a) {
+              return assetToTag(a, "js");
+            })
+            .join("\n");
+
+          // Hide the `alt` text browsers render for images that fail to load.
+          var hideAltTextStyle = "<style>img{color:transparent;font-size:0;}</style>";
+
+          return (
+            "<!doctype html>\n" +
+            '<html lang="en">\n' +
+            "<head>\n" +
+            '<base href="' +
+            ASSET_BASE +
+            '" />\n' +
+            '<meta charset="utf-8" />\n' +
+            '<meta name="viewport" content="width=device-width, initial-scale=1" />\n' +
+            "<title>Preview</title>\n" +
+            "<style>html,body{margin:0;padding:0;}</style>\n" +
+            hideAltTextStyle +
+            "\n" +
+            styleTags +
+            "\n</head>\n<body>\n" +
+            page.html +
+            "\n" +
+            scriptTags +
+            "\n</body>\n</html>"
+          );
+        }
+
+        function render(output) {
+          var html;
+          try {
+            html = buildPreviewDocument(output);
+          } catch (e) {
+            html = null;
+          }
+          if (!html) {
+            showStatus("Nothing to preview", "The published data is empty or invalid.");
+            return;
+          }
+          // Replace this document with the assembled page. Because we stay on
+          // this origin, the page's `<use>` icon references resolve same-origin.
+          document.open();
+          document.write(html);
+          document.close();
+        }
+
+        if (!uid) {
+          showStatus(
+            "Missing uid parameter",
+            "Open the editor and click Publish to generate a preview.",
+          );
+          return;
+        }
+
+        if (!window.opener) {
+          showStatus(
+            "Open from the editor",
+            "This preview must be opened from the editor's Publish action.",
+          );
+          return;
+        }
+
+        var done = false;
+
+        window.addEventListener("message", function (event) {
+          if (event.source !== window.opener) return;
+          var data = event.data;
+          if (!data || data.type !== DATA || data.uid !== uid) return;
+          if (done) return;
+          done = true;
+          render(data.payload);
+        });
+
+        // Tell the editor we're ready to receive the published output. We don't
+        // know the editor's exact origin here, so target "*"; the reply is
+        // validated by source + message type + uid above.
+        window.opener.postMessage({ type: READY, uid: uid }, "*");
+
+        // Fallback if the editor never answers (e.g. opened directly).
+        setTimeout(function () {
+          if (!done) {
+            showStatus(
+              "No data received",
+              "The editor did not send the published page for session " + uid + ".",
+            );
+          }
+        }, 8000);
+      })();
+    </script>
+  </body>
+</html>

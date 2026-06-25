@@ -6,6 +6,8 @@
   "module": "build/es/index.js",
   "types": "build/es/index.d.ts",
   "scripts": {
+    "prestart": "node scripts/copy-demo-icons.js",
+    "copy-demo-icons": "node scripts/copy-demo-icons.js",
     "start": "concurrently --kill-others \"npm run build:es -- --watch\" \"npm run build:lib -- --watch\" \"npm run server\"",
     "build": "npm run clean && npm run build:es && npm run build:lib",
     "build:prod": "npm run clean && NODE_ENV=production npm run build:es && NODE_ENV=production npm run build:lib --",

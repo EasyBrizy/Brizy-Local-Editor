@@ -25,4 +25,7 @@ yarn-error.log*
 # Third Party
 public/thirdParty
 
+# Editor icon assets copied from packages/core on `npm start` (prestart)
+public/dist
+
 .env
