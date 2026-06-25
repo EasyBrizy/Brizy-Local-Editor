@@ -47,6 +47,24 @@ export type PublishedOutput = {
 // Must match the CDN version loaded in public/index.html
 const ASSET_BASE = "https://cdn.brizylocal.com/pages/3.1.10/";
 
+// The editor bakes absolute icon/font URLs into the published HTML pointing at
+// PUBLIC_HOST (e.g. http://localhost:8001/dist/free/editor/icons/...). Browsers
+// block external SVG `<use>` references cross-origin, so for the preview to show
+// icons the document must be same-origin with those URLs. We serve a copy of the
+// icons from this app's own `public/dist/free/editor/icons`, so we rewrite the
+// baked origin to our own — leaving every other asset URL (scripts, CDN) intact.
+const ICON_PATH = "/dist/free/editor/icons";
+
+function rewriteIconOrigin(html: string): string {
+  if (typeof window === "undefined") return html;
+  const origin = window.location.origin;
+  // Replace any absolute origin sitting in front of the icons path with ours.
+  return html.replace(
+    /https?:\/\/[^"'() ]*?\/dist\/free\/editor\/icons/g,
+    `${origin}${ICON_PATH}`,
+  );
+}
+
 function attrString(attr?: Record<string, string>): string {
   if (!attr) return "";
   return Object.entries(attr)
@@ -113,7 +131,7 @@ export function buildPreviewDocument(output: PublishedOutput): string | null {
   const hideAltTextStyle = `<style>img{color:transparent;font-size:0;}</style>`;
 
   // <base> resolves relative asset URLs (icons, fonts) against the CDN
-  return `<!doctype html>
+  return rewriteIconOrigin(`<!doctype html>
 <html lang="en">
 <head>
 <base href="${ASSET_BASE}" />
@@ -128,7 +146,7 @@ ${styleTags}
 ${page.html}
 ${scriptTags}
 </body>
-</html>`;
+</html>`);
 }
 
 export const STORAGE_KEY_PREFIX = "brizy-page-";

@@ -1,57 +1,70 @@
-import React, { useMemo } from "react";
 import { buildPreviewDocument, STORAGE_KEY_PREFIX, PublishedOutput } from "./utils/buildPreview";
 
-const centeredStyle: React.CSSProperties = {
-  minHeight: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 12,
-  fontFamily: "system-ui, sans-serif",
-  color: "#444",
-  padding: 40,
-  textAlign: "center",
-};
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
 
-export function Preview() {
+function statusDocument(title: string, detail: string): string {
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Preview</title>
+<style>
+  body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-family: system-ui, sans-serif;
+    color: #444;
+    padding: 40px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+</style>
+</head>
+<body>
+<h2>${escapeHtml(title)}</h2>
+<p>${escapeHtml(detail)}</p>
+</body>
+</html>`;
+}
+
+// Renders the published page as the top-level document (no iframe). Because this
+// is the same origin that serves the copied icons, the page's `<use>` icon refs
+// resolve and its scripts run natively.
+export function renderPreview(): void {
   const uid = new URLSearchParams(window.location.search).get("uid");
 
-  const previewHtml = useMemo(() => {
-    if (!uid) return null;
-    const raw = localStorage.getItem(`${STORAGE_KEY_PREFIX}${uid}`);
-    if (!raw) return null;
-    try {
-      return buildPreviewDocument(JSON.parse(raw) as PublishedOutput);
-    } catch {
-      return null;
-    }
-  }, [uid]);
+  let html: string | null = null;
 
   if (!uid) {
-    return (
-      <div style={centeredStyle}>
-        <h2>Missing uid parameter</h2>
-        <p>Open the editor and click <strong>Publish</strong> to generate a preview.</p>
-      </div>
+    html = statusDocument(
+      "Missing uid parameter",
+      "Open the editor and click Publish to generate a preview.",
     );
+  } else {
+    const raw = localStorage.getItem(`${STORAGE_KEY_PREFIX}${uid}`);
+    if (raw) {
+      try {
+        html = buildPreviewDocument(JSON.parse(raw) as PublishedOutput);
+      } catch {
+        html = null;
+      }
+    }
+    if (!html) {
+      html = statusDocument(
+        "Nothing published yet",
+        `Session ${uid} has no published data in this browser. Open the editor and click Publish.`,
+      );
+    }
   }
 
-  if (!previewHtml) {
-    return (
-      <div style={centeredStyle}>
-        <h2>Nothing published yet</h2>
-        <p>Session <code>{uid}</code> has no published data in this browser.</p>
-        <p>Open the editor and click <strong>Publish</strong>.</p>
-      </div>
-    );
-  }
-
-  return (
-    <iframe
-      srcDoc={previewHtml}
-      style={{ border: "none", width: "100%", height: "100vh", display: "block" }}
-      title="Page preview"
-    />
-  );
+  document.open();
+  document.write(html);
+  document.close();
 }
