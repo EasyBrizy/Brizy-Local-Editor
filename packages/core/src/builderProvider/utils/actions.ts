@@ -1,6 +1,11 @@
 import { BuilderModes } from "@/actions/init";
 import { getElements } from "@/builderProvider/handlers/defaults/elements";
-import { addThirdPartyAssets, prepareThirdPartyAssets, replaceThirdParty } from "@/builderProvider/utils/thirdParty";
+import {
+  addThirdPartyAssets,
+  addThirdPartyStylesToHost,
+  prepareThirdPartyAssets,
+  replaceThirdParty,
+} from "@/builderProvider/utils/thirdParty";
 import { CompileManager } from "@/compileManager";
 import { ActionResolve, AutoSaveOutput } from "@/types/types";
 import * as Comlink from "comlink";
@@ -109,6 +114,8 @@ const init = async ({ uid, data }: ActionResolve) => {
   window.__VISUAL_CONFIG__.thirdPartyUrls = thirdPartyAssets.map(({ editorScripts }) => ({
     scriptUrl: editorScripts,
   }));
+
+  addThirdPartyStylesToHost(thirdPartyAssets);
 
   if (iframe && root) {
     root.innerHTML = replaceThirdParty({

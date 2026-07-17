@@ -55,6 +55,24 @@ export function replaceThirdParty(data: Data): string {
   return _doc;
 }
 
+function addStyleToHost(styleUrl: string): void {
+  if (document.head.querySelector(`link[href="${styleUrl}"]`)) {
+    return;
+  }
+
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.type = "text/css";
+  link.href = styleUrl;
+  document.head.appendChild(link);
+}
+
+export function addThirdPartyStylesToHost(thirdPartyAssets: ParsedThirdParty[]): void {
+  thirdPartyAssets.forEach(({ editorStyles }) => {
+    editorStyles.forEach(addStyleToHost);
+  });
+}
+
 interface PluginConfig {
   name: string;
   title: string;
