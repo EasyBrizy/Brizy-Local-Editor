@@ -14,7 +14,7 @@ import {
 } from "@builder/core/build/es/types/templates";
 import { Response } from "demo-nextjs/src/api/types";
 import { isT, mPipe, pass } from "fp-utilities";
-import React, { useReducer, useRef } from "react";
+import React, { useCallback, useEffect, useReducer, useRef } from "react";
 import {
   convertLayoutPages,
   convertLayouts,
@@ -355,6 +355,7 @@ export const Editor = () => {
       },
     },
     onSave: (data) => {
+      console.log("Compiled HTML:", data.pageData?.compiled?.html)
       dispatch({
         type: "update",
         data: JSON.stringify(data),
@@ -363,6 +364,17 @@ export const Editor = () => {
   };
 
   const [builderState, builderInstance] = useEditor(token, config);
+
+  const handleCompile = useCallback(() => {
+    console.log("Compile");
+    builderInstance?.compile();
+  }, [builderInstance]);
+
+  useEffect(() => {
+    if (builderState.status === "ready") {
+      handleCompile();
+    }
+  }, [builderState, handleCompile]);
 
   const handleUpdate = () => {
     builderInstance?.save();

@@ -28,6 +28,7 @@ export interface Config extends _Config {
 
 export type Instance = {
   save: VoidFunction;
+  compile: VoidFunction;
 };
 
 export type BuilderGlobal = Builder;
