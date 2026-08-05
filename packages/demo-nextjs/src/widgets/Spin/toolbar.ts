@@ -22,19 +22,47 @@ export const getToolbar: GetToolbar = ({ t }) => {
               id: "spinItems",
               type: "addable",
               config: {
-                title: "Spin",
+                title: "Prizes",
                 showCount: true,
+              },
+              default: {
+                value: [
+                  {
+                    id: "prize1",
+                    title: "Prize 1",
+                    defaults: {
+                      score: { value: 10 },
+                      title: { value: "%" },
+                    },
+                  },
+                  {
+                    id: "prize2",
+                    title: "Prize 2",
+                    defaults: { score: { value: 25 } },
+                  },
+                  {
+                    // No defaults — falls back to the shape defaults below
+                    id: "prize3",
+                    title: "Prize 3",
+                  },
+                ],
               },
               shape: [
                 {
                   id: "score",
-                  label: t("Score"),
+                  label: t("Amount"),
                   type: "number",
+                  default: {
+                    value: 5,
+                  },
                 },
                 {
                   id: "title",
-                  label: t("Title"),
+                  label: t("Suffix"),
                   type: "inputText",
+                  default: {
+                    value: "%",
+                  },
                 },
               ],
             },
