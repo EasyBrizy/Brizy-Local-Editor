@@ -1,3 +1,4 @@
+import { AssetGroup } from "@brizy/merge-page-assets";
 import { Arr, Json, Obj } from "@brizy/readers";
 import {
   BlockWithThumbs,
@@ -14,7 +15,7 @@ import {
 } from "@builder/core/build/es/types/templates";
 import { Response } from "demo-nextjs/src/api/types";
 import { isT, mPipe, pass } from "fp-utilities";
-import React, { useCallback, useEffect, useReducer, useRef } from "react";
+import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import {
   convertLayoutPages,
   convertLayouts,
@@ -45,6 +46,59 @@ const templatesImageUrl = "https://cloud-1de12d.b-cdn.net/media/iW=1024&iH=1024/
 
 const noop = () => {};
 
+// --- moe-198 repro instrumentation -------------------------------------
+const ASSET_GROUPS = ["freeStyles", "freeScripts", "proStyles", "proScripts"] as const;
+
+type AssetGroups = Partial<Record<(typeof ASSET_GROUPS)[number], Record<string, unknown>>>;
+
+const isValidMain = (main: unknown): boolean => {
+  if (typeof main !== "object" || main === null) return false;
+  const m = main as Record<string, unknown>;
+  return (
+    typeof m.name === "string" &&
+    typeof m.score === "number" &&
+    typeof m.pro === "boolean" &&
+    typeof m.content === "object" &&
+    m.content !== null
+  );
+};
+
+const checkPayload = (source: string, data: unknown): void => {
+  const compiled = (data as { pageData?: { compiled?: { html?: string; assets?: AssetGroups } } })
+    ?.pageData?.compiled;
+  const assets = compiled?.assets;
+
+  console.log(`[moe-198] ${source} html length`, compiled?.html?.length);
+  console.log(`[moe-198] ${source} freeStyles.main`, assets?.freeStyles?.main);
+  console.log(`[moe-198] ${source} freeScripts.main`, assets?.freeScripts?.main);
+
+  const invalid = ASSET_GROUPS.filter(
+    (group) => assets?.[group] && !isValidMain(assets[group]?.main),
+  );
+
+  if (invalid.length > 0) {
+    console.error(`[moe-198] ${source} INVALID main in: ${invalid.join(", ")}`);
+  }
+
+  try {
+    for (const group of ASSET_GROUPS) {
+      const value = assets?.[group];
+      if (value) {
+        AssetGroup.instanceFromJsonData(value);
+      }
+    }
+    console.log(`[moe-198] ${source} asset parse OK`);
+  } catch (e) {
+    console.error(
+      `[moe-198] ${source} Asset parse failed (MoE path):`,
+      e,
+      JSON.stringify(assets, null, 2),
+    );
+  }
+};
+
+// -----------------------------------------------------------------------
+
 const initialState: State = {
   output: "",
   modal: {
@@ -55,6 +109,16 @@ const initialState: State = {
 };
 
 export const Editor = () => {
+  const [remountKey, setRemountKey] = useState(0);
+
+  return <EditorInstance key={remountKey} onRemount={() => setRemountKey((key) => key + 1)} />;
+};
+
+interface EditorInstanceProps {
+  onRemount: VoidFunction;
+}
+
+const EditorInstance = ({ onRemount }: EditorInstanceProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -355,7 +419,8 @@ export const Editor = () => {
       },
     },
     onSave: (data) => {
-      console.log("Compiled HTML:", data.pageData?.compiled?.html)
+      checkPayload("onSave", data);
+
       dispatch({
         type: "update",
         data: JSON.stringify(data),
@@ -403,6 +468,12 @@ export const Editor = () => {
       <div className="container__output">
         <button className="btn" onClick={handleUpdate}>
           Update
+        </button>
+        <button className="btn" onClick={handleCompile}>
+          Compile
+        </button>
+        <button className="btn" onClick={onRemount}>
+          Remount
         </button>
         <textarea className="output" defaultValue={state.output} />
       </div>
