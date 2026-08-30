@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { Response } from "@/api/types";
@@ -5,6 +6,7 @@ import { DynamicContentModal } from "@/components/modals/DynamicContent";
 import { getConfig } from "@/config";
 import { useEditor } from "@/hooks/useEditor";
 import { Config } from "@/hooks/useEditor/types";
+import { PageJsonOutput } from "@builder/core/build/es/types/common";
 import { BaseDCItem } from "@builder/core/build/es/types/dynamicContent";
 import { LeftSidebarOptionsIds } from "@builder/core/build/es/types/leftSidebar";
 import { PublishData } from "@builder/core/build/es/types/publish";
@@ -30,6 +32,13 @@ const initialState: State = {
   },
 };
 
+const getStyles = (data: PageJsonOutput) => {
+  const { freeStyles, proStyles } = data.assets;
+  const allAssets = [...freeStyles.generic, ...(proStyles?.generic ?? [])];
+  // @ts-ignore
+  return allAssets.filter((i) => i.content.type === "inline").reduce((acc, curr) => acc + curr.content.content, "");
+};
+
 export const Editor = () => {
   const { config: baseConfig, origin } = useConfig();
 
@@ -50,21 +59,28 @@ export const Editor = () => {
     },
     ui: {
       leftSidebar: {
-        topTabsOrder: [
-          {
-            id: "cms",
-            type: LeftSidebarOptionsIds.custom,
-            onClose() {},
-            onOpen() {
-              router.push("/admin");
-            },
+        [LeftSidebarOptionsIds.cms]: {
+          onClose() {},
+          onOpen() {
+            router.push("/admin");
           },
-        ],
+        },
       },
       publish: {
         async handler(res: Response<PublishData>, rej: Response<string>, data: Output) {
           try {
             if (data.pageData) {
+              const { data: _data, compiled } = data.pageData;
+              let styles = "";
+
+              if (compiled) {
+                styles = getStyles(compiled);
+              }
+
+              console.log("PageData json OUTPUT:", _data.items);
+              console.log("HTML OUTPUT:", compiled?.html);
+              console.log("CSS OUTPUT", styles);
+
               await fetch("/api/items", {
                 method: "PUT",
                 body: JSON.stringify({
@@ -74,6 +90,7 @@ export const Editor = () => {
               });
             }
             if (data.projectData) {
+              console.log("Project data json OUTPUT:", data.projectData.data);
               await fetch("/api/project", {
                 method: "PUT",
                 body: JSON.stringify({

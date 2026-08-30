@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "turbo run dev:widgets dev:nextjs",
     "dev:nextjs": "next dev",
-    "dev:widgets": "brizy-scripts start --webpack-build-dir=public/widgets --webpack-src-dir=src/widgets --no-server",
+    "dev:widgets": "node ../../node_modules/@brizy/scripts/build/bin/brizy-scripts.js start --webpack-build-dir=public/widgets --webpack-src-dir=src/widgets --no-server",
     "build": "next build",
-    "build:widgets": "brizy-scripts build --webpack-build-dir=public/widgets --webpack-src-dir=src/widgets",
+    "build:widgets": "node ../../node_modules/@brizy/scripts/build/bin/brizy-scripts.js build --webpack-build-dir=public/widgets --webpack-src-dir=src/widgets",
     "start": "next start",
     "lint": "next lint",
     "tsc": "tsc --noEmit"
