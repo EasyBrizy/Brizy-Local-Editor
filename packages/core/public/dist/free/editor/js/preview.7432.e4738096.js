@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_brizy_builder_free=self.webpackChunk_brizy_builder_free||[]).push([["7432"],{203(e,r,l){l.d(r,{fn:()=>t});var i=l(9322);let t=e=>{let{initEkklesiaPopups:r}=(0,i.l)();"function"==typeof r&&r(e.querySelectorAll(".brz-sermonFeatured"))}},9322(e,r,l){l.d(r,{l:()=>i});let i=()=>window.BrizyLibs||{}}}]);

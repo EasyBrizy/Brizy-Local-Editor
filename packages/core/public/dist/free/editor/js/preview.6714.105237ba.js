@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_brizy_builder_free=self.webpackChunk_brizy_builder_free||[]).push([["6714"],{4321(e,r,t){t.d(r,{fn:()=>i});let i=e=>{e.querySelectorAll(".brz-groupDetail").forEach(e=>{e.addEventListener("click",e=>{let r=e.target;r instanceof HTMLElement&&r.classList.contains("brz-ministryBrands__item--meta--links--previous")&&history.back()})})}}}]);
