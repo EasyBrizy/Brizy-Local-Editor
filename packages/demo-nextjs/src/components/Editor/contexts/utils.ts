@@ -468,4 +468,5 @@ export const getIntegrations = (origin: string) => ({
       },
     },
   },
+  googleMapApiKey:'AIzaSyAZjdgdDG0O9YsdQ1uvNGZOuk-kpKRD0uw'
 });
