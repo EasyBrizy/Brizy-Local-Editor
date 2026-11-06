@@ -110,6 +110,9 @@ export interface Config {
     fonts?: {
       upload?: UploadedFontsIntegration;
     };
+    // Google Maps Embed API key used by the Map element and map backgrounds.
+    // Passed to the editor as __VISUAL_CONFIG__.integrations.googleMapApiKey.
+    googleMapApiKey?: string;
   };
 
   //#endregion
